@@ -1,0 +1,152 @@
+@charset "utf-8";
+
+body {
+  background-color: #fff; user-select: none; -webkit-user-select: none;
+}
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+}
+input, textarea {
+  outline: none; -webkit-appearance: none;
+}
+input::placeholder, textarea::placeholder {
+  color: #a6a6a6;
+}
+input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+#container div.banners {
+  margin: 0 8px 8px 8px; background-color: #094992; border-radius: 12px;
+}
+
+#container div.banners img {
+  display: block; margin: 0 auto; max-height: 105px; max-width: 100%; border-radius: 12px;
+}
+
+#container form.search {
+  position: relative; padding: 0 8px 8px 8px; width: 100%; box-sizing: border-box; background-color: #fff;
+}
+#container form.search input.keyword {
+  padding: 12px 48px 12px 16px; width: 100%; height: 48px; line-height: 24px; box-sizing: border-box; border: 0; border-radius: 12px; color: #292929; font-size: 16px; background-color: #f2f2f2;
+}
+#container form.search input.submit {
+  position: absolute; right: 8px; top: 0; width: 48px; height: 48px; border: 0; color: transparent; font-size: 0; background: transparent url('/images/new/aside.search.background.png') no-repeat center center; background-size: 40px 40px;
+}
+
+#container div.section {
+  margin: 0 8px 8px 8px; padding: 24px 0 12px 0; border: 1px solid #ededed; border-radius: 12px; box-sizing: border-box;
+}
+#container div.section h2 {
+  display: inline-block; margin: 0 16px 12px 16px; line-height: 27px; color: #292929; font-size: 18px; font-weight: bold;
+}
+#container div.section div.empty {
+  padding: 0 0 12px 16px;
+}
+#container div.section div.empty p {
+  line-height: 20px; color: #a6a6a6; font-size: 14px;
+}
+#container div.section div.loading {
+  height: 288px; background: transparent url('/images/loading.svg') no-repeat center center; background-size: 36px 36px;
+}
+
+#container div.section div.mypoint {
+  float: right; display: inline-block; font-size: 0;
+}
+#container div.section div.mypoint span,
+#container div.section div.mypoint a.history {
+  display: inline-block; line-height: 30px; color: #444444; font-size: 14px;
+}
+#container div.section div.mypoint span.value {
+  margin-left: 4px; font-weight: bold;
+}
+#container div.section div.mypoint a.history {
+  padding: 0 24px 0 8px; color: #c62917; background: transparent url('/images/container.section.more.png') no-repeat right 16px center; background-size: 4px 8px;
+}
+
+#container div.section div.mylectures a.lecture {
+  position: relative; display: block; margin: 0 8px; border-bottom: 1px solid #f2f2f2;
+}
+#container div.section div.mylectures a.lecture:last-of-type {
+  border-bottom: 0;
+}
+#container div.section div.mylectures a.lecture h3 {
+  padding: 12px 0; margin: 0 72px 0 8px; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#container div.section div.mylectures a.lecture h3 span {
+  line-height: 24px; vertical-align: top;
+}
+#container div.section div.mylectures a.lecture h3 span.name {
+  color: #292929; font-size: 16px;
+}
+#container div.section div.mylectures a.lecture h3 span.professor {
+  margin-left: 8px; color: #a6a6a6; font-size: 12px;
+}
+#container div.section div.mylectures a.lecture span.button {
+  position: absolute; right: 8px; top: 12px; display: inline-block; padding: 0 8px; line-height: 24px; border-radius: 12px; font-size: 12px;
+}
+#container div.section div.mylectures a.lecture span.button.write {
+  color: #fff; background-color: #c62917;
+}
+#container div.section div.mylectures a.lecture span.button.completed {
+  color: #a6a6a6; background-color: #f2f2f2;
+}
+
+#container div.section div.campus {
+  float: right; display: inline-block; margin-right: 12px; font-size: 0;
+}
+#container div.section div.campus a {
+  display: inline-block; padding: 5px 4px; cursor: pointer;
+}
+#container div.section div.campus a span {
+  display: inline-block; border-bottom: 1px solid transparent; line-height: 19px; color: #a6a6a6; font-size: 14px;
+}
+#container div.section div.campus a.active span {
+  border-bottom-color: #c62917; color: #c62917; font-weight: bold;
+}
+
+#container div.section div.articles a.article {
+  position: relative; display: block; margin: 0 8px; padding: 12px 8px; border-bottom: 1px solid #ededed;
+}
+#container div.section div.articles a.article div.confirm {
+  position: absolute; left: 0; top: 0; z-index: 1; padding-top: 76px; width: 100%; height: 100%; box-sizing: border-box;
+}
+#container div.section div.articles a.article div.confirm p {
+  padding: 4px 8px; height: 100%; box-sizing: border-box; line-height: 20px; color: #444444; font-size: 14px; background-color: rgba(255, 255, 255, 0.8);
+}
+#container div.section div.articles a.article h3 {
+  margin-bottom: 4px; line-height: 24px; color: #292929; font-size: 16px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#container div.section div.articles a.article p.rate {
+  margin-bottom: 4px;
+}
+#container div.section div.articles a.article p.rate span.star {
+  display: block; width: 60px; height: 12px; background: transparent url('/images/app.subject.rating.details.star.off.png') no-repeat left top; background-size: 60px 12px;
+}
+#container div.section div.articles a.article p.rate span.star span.on {
+  float: left; display: block; height: 12px; background: transparent url('/images/app.subject.rating.details.star.on.png') no-repeat left top; background-size: 60px 12px;
+}
+#container div.section div.articles a.article p.info {
+  margin-bottom: 4px; line-height: 20px; font-size: 0;
+}
+#container div.section div.articles a.article p.info span {
+  display: inline-block; margin-right: 8px; font-size: 12px; vertical-align: top;
+}
+#container div.section div.articles a.article p.info span.semester {
+  color: #a6a6a6;
+}
+#container div.section div.articles a.article p.info span.posvote {
+  padding-left: 14px; color: #c62917; background-image: url('/images/container.lecture.posvote.png'); background-repeat: no-repeat; background-position: left center; background-size: 11px 11px;
+}
+#container div.section div.articles a.article p.text {
+  line-height: 20px; color: #292929; font-size: 14px; word-wrap: break-word;
+}
+#container div.section div.articles a.article.notconfirmed p.text {
+  filter: blur(3px); -webkit-filter: blur(3px);
+}
+
+@media only screen and (max-width: 640px) {
+  body.appwebview #container form.search {
+    position: fixed; z-index: 300; left: 0; top: 0;
+  }
+}

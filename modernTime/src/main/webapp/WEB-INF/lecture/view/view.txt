@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>광운대 에브리타임</title>
+  <meta charset="utf-8">
+  <meta name="referrer" content="origin">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta property="fb:app_id" content="258676027581965">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://everytime.kr/images/og_image.png">
+  <meta property="og:url" content="https://kw.everytime.kr/lecture/view/2376703">
+  <meta property="og:site_name" content="광운대 에브리타임">
+  <meta property="og:title" content="광운대 에브리타임">
+  <meta property="og:description" content="광운대 재학생 커뮤니티. 시간표 작성, 강의평가, 자유게시판, 비밀게시판 등 제공.">
+  <meta name="description" content="광운대 재학생 커뮤니티. 시간표 작성, 강의평가, 자유게시판, 비밀게시판 등 제공.">
+  <meta name="keywords" content="에브리타임, 에타, everytime, 시간표, 수강신청, 강의평가, 학점계산기, 학식, 오늘의학식, 책방, 중고책, 대학생, 대학교, 대학, 대학생 시간표, 대학교 시간표, 대학생 커뮤니티, 대학교 커뮤니티, 시간표 앱, 시간표 어플">
+  <meta name="naver-site-verification" content="7366738375e320e44bd1c743b364db13086a7b0e">
+  <meta name="robots" content="noindex">
+  <link type="text/css" href="/css/common.css" rel="stylesheet">
+  <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.lectureview.css" rel="stylesheet">
+  <link href="/favicon.ico" rel="shortcut icon">
+  <!--[if lt IE 9]>
+  <script src="/js/extensions.html5shiv.js"></script>
+  <script src="/js/extensions.respond.min.js"></script>
+  <script src="/js/extensions.excanvas.min.js"></script>
+  <![endif]-->
+  <!--[if lt IE 8]>
+  <script src="/js/extensions.json3.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/timetable.subjectcolumninfo.js"></script>
+  <script type="text/javascript" src="/js/lecture.view.js"></script>
+</head>
+<body>
+
+<nav>
+    <div class="wrap">
+      <div id="logo">
+        <a href="/"><img src="/images/new/nav.logo.png"></a>
+        <p><span class="name multiple">에브리타임</span><span class="subname">광운대</span></p>
+      </div>
+      <div id="account">
+        <a href="/message" title="쪽지함" class="icon message">쪽지함</a></li>
+        <a href="/my" title="내 정보" class="icon my">내 정보</a>
+        <input type="hidden" id="userUserid" value="slayers504">
+        <input type="hidden" id="userSchool" value="7">
+        <input type="hidden" id="userCampus" value="11">
+      </div>
+      <ul id="menu">
+        <li><a href="/">게시판</a></li>
+        <li><a href="/timetable">시간표</a></li>
+        <li class="active"><a href="/lecture">강의평가</a></li>
+        <li><a href="/calculator">학점계산기</a></li>
+        <li><a href="/friend">친구</a></li>
+        <li><a href="https://bookstore.everytime.kr/">책방</a></li>
+        <li><a href="https://www.campuspick.com/">캠퍼스픽</a></li>
+      </ul>
+    </div>
+  </nav>
+<div id="container" class="lectureview">
+    <input type="hidden" name="school_id" value="7">
+    <input type="hidden" name="lecture_id" value="2376703">
+    <input type="hidden" name="subject_id" value="0">
+    <input type="hidden" name="auth_to_write" value="1">
+    <aside class="none">
+      <div class="title">
+        <a class="hamburger"></a>
+        <h1>강의평가</h1>
+      </div>
+    </aside>
+    <div class="tab">
+      <a data-target="head" class="active"><span>개요</span></a>
+      <a data-target="book"><span>교재 정보</span></a>
+      <a data-target="article"><span>강의평</span></a>
+      <a data-target="exam"><span>시험 정보</span></a>
+    </div>
+    <div class="side head">
+      <div class="loading"></div>
+    </div>
+    <div class="side book">
+      <h2>교재 정보</h2>
+    </div>
+    <div class="side article">
+      <h2>강의평</h2>
+    </div>
+    <form class="write article">
+      <div class="wrap">
+        <h2>새 강의평 쓰기</h2>
+        <a class="close">닫기</a>
+        <hr>
+        <h3>성적 반영</h3>
+        <dl>
+          <dt>과제</dt>
+          <dd>
+            <a data-name="assessment_homework" data-value="2">많음</a>
+            <a data-name="assessment_homework" data-value="1" class="active">보통</a>
+            <a data-name="assessment_homework" data-value="0">없음</a>
+          </dd>
+          <dt>조모임</dt>
+          <dd>
+            <a data-name="assessment_team" data-value="2">많음</a>
+            <a data-name="assessment_team" data-value="1" class="active">보통</a>
+            <a data-name="assessment_team" data-value="0">없음</a>
+          </dd>
+          <dt>성적</dt>
+          <dd>
+            <a data-name="assessment_grade" data-value="3" class="active">너그러움</a>
+            <a data-name="assessment_grade" data-value="2">보통</a>
+            <a data-name="assessment_grade" data-value="1">깐깐함</a>
+          </dd>
+          <dt>출결</dt>
+          <dd>
+            <a data-name="assessment_attendance" data-value="4">혼용</a>
+            <a data-name="assessment_attendance" data-value="3" class="active">직접호명</a>
+            <a data-name="assessment_attendance" data-value="2">지정좌석</a>
+            <a data-name="assessment_attendance" data-value="1">전자출결</a>
+            <a data-name="assessment_attendance" data-value="0">반영안함</a>
+          </dd>
+          <dt>시험 횟수</dt>
+          <dd>
+            <a data-name="exam_times" data-value="4">네번이상</a>
+            <a data-name="exam_times" data-value="3">세번</a>
+            <a data-name="exam_times" data-value="2" class="active">두번</a>
+            <a data-name="exam_times" data-value="1">한번</a>
+            <a data-name="exam_times" data-value="0">없음</a>
+          </dd>
+        </dl>
+        <hr>
+        <h3>총평</h3>
+        <dl>
+          <dt>총점</dt>
+          <dd>
+            <a data-name="rate" data-value="1">1점</a>
+            <a data-name="rate" data-value="2">2점</a>
+            <a data-name="rate" data-value="3" class="active">3점</a>
+            <a data-name="rate" data-value="4">4점</a>
+            <a data-name="rate" data-value="5">5점</a>
+          </dd>
+          <dt>수강학기</dt>
+          <dd><select name="semesters"><option value="">수강학기 선택</option></select></dd>
+        </dl>
+        <hr>
+        <textarea name="text" class="text" placeholder="이 강의에 대한 총평을 작성해주세요.
+(등록 후에는 수정 및 삭제가 불가능하므로 신중히 적어주세요.)"></textarea>
+        <input type="submit" value="작성하기 (+10P)" class="submit">
+      </div>
+    </form>
+    <div class="side exam">
+      <h2>시험 정보</h2>
+    </div>
+    <form class="write exam">
+      <div class="wrap">
+        <h2>시험 정보 공유</h2>
+        <a class="close">닫기</a>
+        <hr>
+        <h3>응시한 시험</h3>
+        <dl>
+          <dt>수강학기</dt>
+          <dd><select name="semesters"><option value="">수강학기 선택</option></select></dd>
+          <dt>종류</dt>
+          <dd><select name="nth"><option value="중간고사">중간고사</option><option value="기말고사">기말고사</option><option value="1차">1차</option><option value="2차">2차</option><option value="3차">3차</option><option value="4차">4차</option><option value="기타">기타</option></select></dd>
+        </dl>
+        <hr>
+        <h3>시험 전략</h3>
+        <textarea name="knowhow" class="text" placeholder="시험에 대한 전략, 공부 방법, 노하우를 자유롭게 적어주세요."></textarea>
+        <h3>문제 유형</h3>
+        <dl>
+          <dt>(복수선택)</dt>
+          <dd>
+            <a data-name="type" data-type="multiple">객관식</a>
+            <a data-name="type" data-type="multiple">주관식</a>
+            <a data-name="type" data-type="multiple">T/F형</a>
+            <a data-name="type" data-type="multiple">약술형</a>
+            <a data-name="type" data-type="multiple">논술형</a>
+            <a data-name="type" data-type="multiple">구술</a>
+            <a data-name="type" data-type="multiple">기타</a>
+          </dd>
+        </dl>
+        <hr>
+        <h3>문제 예시</h3>
+        <p class="description">예) 게임이론의 정의와 두 가지 이상의 사례를 작성하시오.</p>
+        <ol class="questions">
+          <li><input type="text" name="question" class="text"></li>
+          <li><input type="text" name="question" class="text"></li>
+          <li class="new"><a>+ 더 입력하기</a></li>
+        </ol>
+        <hr>
+        <input type="submit" value="공유하기 (+20P)" class="submit">
+      </div>
+    </form>
+    <hr>
+  </div>
+<div id="bottom">
+    <ul class="links">
+      <li><a href="/page/serviceagreement">이용약관</a></li>
+      <li class="privacy"><a href="/page/privacy">개인정보처리방침</a></li>
+      <li><a href="/page/rules">커뮤니티이용규칙</a></li>
+      <li><a href="/notice">공지사항</a></li>
+      <li><a href="/page/faq">문의하기</a></li>
+      <li class="copyright"><a href="/">&copy; 에브리타임</a></li>
+    </ul>
+  </div>
+  <script type="text/javascript">
+    var _serverTime = 1659350232810;
+    var _clientTime = new Date().getTime();
+    var _diffTime = _clientTime - _serverTime;
+    var _apiServerUrl = 'https://api.everytime.kr';
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-22022140-4');
+  </script>
+</body>
+</html>
