@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  common  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#container > form.search > input {
+	padding: 10px; width: 100%; height: 40px; line-height: 20px; box-sizing: border-box; border: 2px solid #d6d6d6;
+	color: #292929; font-size: 14px; background: transparent url('/images/new/aside.search.background.png') no-repeat right center; background-size: 40px 40px;
+}
+#container > form.search > input:focus {
+	outline: none; background-color: #fff;
+}
+#container div.friendrequestlist {
+	display: none;
+}
+#container > div.friendrequestlist,
+#container > div.friendlist {
+	margin-top: 5px; border: 1px solid #e3e3e3; background-color: #fff;
+}
+#container > div.friendrequestlist > a.friend,
+#container > div.friendlist > a.friend {
+	display: block; border-top: 1px solid #e3e3e3;
+}
+#container > div.friendrequestlist > a.friend > hr,
+#container > div.friendlist > a.friend > hr {
+	clear: both; height: 0; border: 0;
+}
+#container > div.friendrequestlist > a.friend > h3 {
+	float: left; padding: 15px; height: 30px; line-height: 30px; color: #737373; font-size: 14px; font-weight: normal;
+}
+#container > div.friendrequestlist > a.friend > h3 > em {
+	color: #292929; font-size: 14px; font-weight: bold;
+}
+#container > div.friendlist > a.friend > h3 {
+	padding: 0 15px; height: 50px; line-height: 50px; color: #292929; font-size: 15px; font-weight: normal;
+}
+#container > div.friendrequestlist > a.friend > ul.buttons {
+	float: right; padding: 15px;
+}
+#container > div.friendrequestlist > a.friend > ul.buttons > li {
+	float: left; margin-left: 5px; padding: 0 10px; height: 30px; line-height: 30px; border: 1px solid #d6d6d6; box-sizing: border-box;
+	color: #737373; font-size: 14px; font-weight: bold;
+}
+#container > div.friendrequestlist > a.friend > ul.buttons > li.highlight {
+	border: 0; color: #fff; background-color: #c62917;
+}
+#container > div.friendlist > div.dialog {
+	padding: 80px 0; border-top: 1px solid #e3e3e3;
+	color: #737373; font-size: 15px; text-align: center;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  pc only  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (min-width: 641px) {
+	#container > div.friendrequestlist,
+	#container > div.friendlist {
+		border-width: 0 1px 1px 1px;
+	}
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * *  /  mobile only  /  * * * * * * * * * * * * * * * * * * * * * * * * */
+
+@media only screen and (max-width: 640px) {
+	#container > form.search {
+		margin: 5px 5px 0 5px;
+	}
+	#container > div.friendrequestlist,
+	#container > div.friendlist {
+		border-width: 0 0 1px 0;
+	}
+}
