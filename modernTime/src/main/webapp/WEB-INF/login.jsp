@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <html lang="ko">
 <head>
 <title>광운대 에브리타임</title>
@@ -84,7 +86,7 @@
 	</address>
 
 	<script type="text/javascript">
-		var _serverTime = 1659345205951;
+		var _serverTime = 1659426247273;
 		var _clientTime = new Date().getTime();
 		var _diffTime = _clientTime - _serverTime;
 		var _apiServerUrl = 'https://api.everytime.kr';
