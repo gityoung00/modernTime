@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <!DOCTYPE html>
 <html lang="ko">
   <head>
     <script src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4" async></script>
