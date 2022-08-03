@@ -31,7 +31,7 @@
 
 
 <form id="container" method="post" action="/register/agreement">
-    <h2>에브리타임 회원가입ddd</h2>
+    <h2>에브리타임 회원가입</h2>
     <p class="description">에브리타임 계정으로 <strong>캠퍼스픽, 에브리타임</strong> 등<br>다양한 대학생 서비스를 모두 이용하실 수 있습니다.</p>
     <h2>학교 선택</h2>
     <div class="input">
@@ -70,12 +70,6 @@
         <option value="1993">1993학번</option>
       </select>
     </div>
-    <div class="input">
-      <div class="label"><label>학교</label></div>
-      <input type="text" name="campus_name" maxlength="20" placeholder="학교 이름을 검색하세요." autocomplete="off" class="search">
-      <input type="hidden" name="campus_id">
-    </div>
-    <ol class="campuses"></ol>
     <input type="submit" value="다음">
   </form>
 
