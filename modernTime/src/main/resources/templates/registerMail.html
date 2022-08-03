@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h2>이메일 인증을 위해 아래의 버튼을 클릭하세요</h2>
+<a type="button" th:href="@{http://localhost/register/identify/email/check_token(token = ${token})}">이메일 인증</a>
+
+</body>
+</html>

@@ -31,13 +31,12 @@
 
 
 <form id="container" method="post" action="/register/identify/email">
-    <h2>이메일 인증</h2>
+    <h2>회원가입</h2>
     <p class="description">모던타임 계정으로 <strong>모던타임</strong>의<br>다양한 대학생 서비스를 모두 이용하실 수 있습니다.</p>
     <div class="input">
     <div class="label"><label>이메일 입력</label></div>
-    <input type="text" name="email">
+    <input type="text" name="email" value="${email }">
     </div>
-    <input type="submit" value="이메일 인증">
   </form>
 
   <script type="text/javascript">

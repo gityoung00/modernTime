@@ -35,16 +35,13 @@
 
 
 	<div id="container">
-		<h2 class="multiple">
-			안녕하세요,<br>
-			<strong>김지영</strong>님
-		</h2>
+		<h2 class="multiple">사이트 만료 안내</h2>
 		<p class="description">
-			이미 가입된 아이디가 있습니다.<br>아이디 : <strong>jiyoung1329</strong>
+			존재하지 않는 사이트거나 이미 만료된 사이트입니다.<br>
+			다시 시도해주십시요.
 		</p>
 		<div class="buttons">
-			<a href="/login" class="red">로그인</a> <a href="/forgot" class="normal">비밀번호
-				찾기</a>
+			<a href="/login" class="red">돌아가기</a> 
 		</div>
 	</div>
 
