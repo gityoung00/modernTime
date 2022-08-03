@@ -6,20 +6,6 @@ $().ready(function () {
   };
   var _fn = {
     init: function () {
-      $.ajax({
-        url: _apiServerUrl + '/find/school/campus/list',
-        xhrFields: {withCredentials: true},
-        type: 'POST',
-        success: function (response) {
-          _set.campuses = $(response).find('campus').map(function () {
-            return {
-              id: $(this).attr('id'),
-              name: $(this).attr('name'),
-              lowerCaseName: $(this).attr('name').toLowerCase()
-            };
-          }).get();
-        }
-      });
       $container.on('submit', function (event) {
         _fn.onSubmit(event);
       });
