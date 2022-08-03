@@ -19,32 +19,23 @@
 	content="광운대 재학생 커뮤니티. 시간표 작성, 강의평가, 자유게시판, 비밀게시판 등 제공.">
 <meta name="keywords"
 	content="에브리타임, 에타, everytime, 시간표, 수강신청, 강의평가, 학점계산기, 학식, 오늘의학식, 책방, 중고책, 대학생, 대학교, 대학, 대학생 시간표, 대학교 시간표, 대학생 커뮤니티, 대학교 커뮤니티, 시간표 앱, 시간표 어플">
-<meta name="naver-site-verification"
-	content="7366738375e320e44bd1c743b364db13086a7b0e">
+<meta name="naver-site-verification" content="7366738375e320e44bd1c743b364db13086a7b0e">
 <meta name="robots" content="noindex">
+<link href="/favicon.ico" rel="shortcut icon">
+<!-- css -->
 <link type="text/css" href="/css/common.css" rel="stylesheet">
 <link type="text/css" href="/css/main.common.css" rel="stylesheet">
 <link type="text/css" href="/css/main.login.css" rel="stylesheet">
-<link href="/favicon.ico" rel="shortcut icon">
-<!--[if lt IE 9]>
-  <script src="/js/extensions.html5shiv.js"></script>
-  <script src="/js/extensions.respond.min.js"></script>
-  <script src="/js/extensions.excanvas.min.js"></script>
-  <![endif]-->
-<!--[if lt IE 8]>
-  <script src="/js/extensions.json3.min.js"></script>
-  <![endif]-->
-<script type="text/javascript" async=""
-	src="https://www.google-analytics.com/analytics.js"></script>
+
+<!-- javascript -->
+<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
 <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
-<script type="text/javascript"
-	src="/js/extensions.jquery.placeholder.min.js"></script>
+<script type="text/javascript" src="/js/extensions.jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="/js/main.login.js"></script>
 <input type="hidden" id="_w_simile" data-inspect-config="3">
-<script type="text/javascript"
-	src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script>
+<script type="text/javascript" src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script>
 </head>
 <body style="">
 
@@ -53,7 +44,7 @@
 		<h1 class="logo">
 			<a href="/">에브리타임</a>
 		</h1>
-		<form action="/user/login" method="post">
+		<form action="" method="post">
 			<p class="input">
 				<input type="text" name="userid" maxlength="20" class="text"
 					placeholder="아이디">

@@ -17,26 +17,21 @@
   <meta name="keywords" content="에브리타임, 에타, everytime, 시간표, 수강신청, 강의평가, 학점계산기, 학식, 오늘의학식, 책방, 중고책, 대학생, 대학교, 대학, 대학생 시간표, 대학교 시간표, 대학생 커뮤니티, 대학교 커뮤니티, 시간표 앱, 시간표 어플">
   <meta name="naver-site-verification" content="7366738375e320e44bd1c743b364db13086a7b0e">
   <meta name="robots" content="noindex">
-  <link type="text/css" href="/style/register.css" rel="stylesheet">
+  <link type="text/css" href="/css/register.css" rel="stylesheet">
   <link href="/favicon.ico" rel="shortcut icon">
-  <!--[if lt IE 9]>
-  <script src="/js/extensions.html5shiv.js"></script>
-  <script src="/js/extensions.respond.min.js"></script>
-  <script src="/js/extensions.excanvas.min.js"></script>
-  <![endif]-->
-  <!--[if lt IE 8]>
-  <script src="/js/extensions.json3.min.js"></script>
-  <![endif]-->
-  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
   <script type="text/javascript" src="/js/register.index.js"></script>
-<input type="hidden" id="_w_simile" data-inspect-config="3"><script type="text/javascript" src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script></head>
+<input type="hidden" id="_w_simile" data-inspect-config="3">
+<script type="text/javascript" src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script>
+</head>
 <body style="">
 
 
 <form id="container" method="post" action="/register/agreement">
-    <h2>에브리타임 회원가입</h2>
+    <h2>에브리타임 회원가입ddd</h2>
     <p class="description">에브리타임 계정으로 <strong>캠퍼스픽, 에브리타임</strong> 등<br>다양한 대학생 서비스를 모두 이용하실 수 있습니다.</p>
     <h2>학교 선택</h2>
     <div class="input">
