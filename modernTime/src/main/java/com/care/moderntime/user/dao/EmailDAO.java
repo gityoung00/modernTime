@@ -1,6 +1,5 @@
 package com.care.moderntime.user.dao;
 
-import java.time.LocalDateTime;
 
 import org.apache.ibatis.annotations.Mapper;
 

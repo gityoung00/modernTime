@@ -110,6 +110,7 @@ textarea {
 	font-size: 14px
 }
 
+
 #container p.description strong {
 	color: #292929
 }
@@ -129,6 +130,9 @@ textarea {
 	color: #737373;
 	font-size: 12px;
 	font-weight: bold
+}
+#container div.input div.label label.red {
+	color: #c62917;
 }
 
 #container div.input div.label p {

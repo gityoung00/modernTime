@@ -37,7 +37,7 @@
 	<div id="container">
 		<h2 class="multiple">사이트 만료 안내</h2>
 		<p class="description">
-			존재하지 않는 사이트거나 이미 만료된 사이트입니다.<br>
+			유효하지 않은 접근이거나 이미 만료된 사이트입니다.<br>
 			다시 시도해주십시요.
 		</p>
 		<div class="buttons">

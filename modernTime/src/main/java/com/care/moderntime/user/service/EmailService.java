@@ -22,7 +22,7 @@ public class EmailService {
 	@Autowired JavaMailSender mailSender;
 	@Autowired SpringTemplateEngine templateEngine;
 	
-	private static final long EMAIL_TOKEN_EXPIRATION_VALUE = 5L;
+	private static final long EMAIL_TOKEN_EXPIRATION_VALUE = 30L;
 	
 	public String makeToken(String email) {
 		String token = "";
@@ -92,10 +92,12 @@ public class EmailService {
 		// 이메일 불러오면 is_expired = 1로 설정
 		if (dto == null) return null;
 		
-		emailDao.setIsExpired(dto);
+//		emailDao.setIsExpired(dto);
 		System.out.println("token: " + token + ", email: " + dto.getEmail());
 		
 		return dto.getEmail();
 	}
+	
+	
 
 }

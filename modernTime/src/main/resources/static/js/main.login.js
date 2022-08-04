@@ -6,8 +6,9 @@ $().ready(function () {
 			var $form = $container.find('form');
 			var $userid = $form.find('input[name="userid"]');
 			var $password = $form.find('input[name="password"]');
+			var $submit = $container.find('input[type="button"]');
 			$userid.placeholder();
-			$form.on('submit', function () {
+			$submit.on('click', function () {
 				if (_set.isSubmitted === true) {
 					return false;
 				}
@@ -21,10 +22,23 @@ $().ready(function () {
 					$password.focus();
 					return false;
 				}
-				_set.isSubmitted = true;
-				setTimeout(function () {
-					_set.isSubmitted = false;
-				}, 100);
+				
+				$.ajax({
+					url: '/login',
+					type: 'POST',
+					data: {"id" : $userid.val(), "pw": $password.val()},
+					success: function(data){
+						if (data == "success"){
+							location.href="/";
+						} else{
+							alert(data);
+						}
+						
+						
+					}
+				});
+				
+				
 			});
 		}
 	};

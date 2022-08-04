@@ -55,7 +55,7 @@
 			</p>
 			<input type="hidden" name="redirect" value="/">
 			<p class="submit">
-				<input type="submit" value="로그인" class="text">
+				<input type="button" value="로그인" class="text">
 			</p>
 			<label class="autologin"><input type="checkbox"
 				name="autologin" value="1">로그인 유지</label>
@@ -63,7 +63,7 @@
 				<a href="/forgot">아이디/비밀번호 찾기</a>
 			</p>
 			<p class="register">
-				<span>에브리타임에 처음이신가요?</span> <a href="/register">회원가입</a>
+				<span>에브리타임에 처음이신가요?</span> <a href="/register/agreement">회원가입</a>
 			</p>
 		</form>
 	</div>
