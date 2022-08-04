@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.user.dao.EmailDAO">
+
+<select id="checkEmail" parameterType="String" resultType="Integer">
+	select count(*) from user where email=#{email}
+</select>
+
+<select id="getTokenCount" parameterType="String" resultType="Integer">
+	select count(*) from email_token where email=#{email} and is_expired=0 and NOW() <![CDATA[ < ]]> expired_date
+</select>
+
+<select id="getEmail" parameterType="String" resultType="com.care.moderntime.user.dto.EmailTokenDTO">
+	select * from email_token where token=#{token} and is_expired=0 and NOW() <![CDATA[ < ]]> expired_date
+</select>
+
+<update id="setIsExpired" parameterType="com.care.moderntime.user.dto.EmailTokenDTO">
+	update email_token set is_expired=1 where token=#{token};
+</update>
+
+<insert id="setToken" parameterType="com.care.moderntime.user.dto.EmailTokenDTO">
+	insert into email_token(email, token, is_expired, expired_date) values(#{email}, #{token}, #{isExpired}, #{expiredDate})
+</insert>
+
+
+</mapper>
