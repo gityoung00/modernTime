@@ -110,7 +110,7 @@
           <p class="school">diharet</p>
           <ul class="buttons">
             <li><a href="/my">내 정보</a></li>
-            <li><a href="/logout">로그아웃</a></li>
+            <li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
           </ul>
           <hr>
         </form>

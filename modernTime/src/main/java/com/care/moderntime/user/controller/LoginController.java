@@ -28,7 +28,9 @@ public class LoginController {
 	}
 	
 	@GetMapping("logout")
-	public void logout() {
+	public String logout() {
 		loginService.logout();
+		return "redirect:/login";
+		
 	}
 }
