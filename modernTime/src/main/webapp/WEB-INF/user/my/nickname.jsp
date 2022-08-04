@@ -42,7 +42,7 @@
 
 	<div data-v-34dbaf39="">
 		<c:import url="header.jsp" />
-		<form data-v-34dbaf39="" class="container">
+		<form data-v-34dbaf39="" class="container" onSubmit="return false;">
 			<section data-v-34dbaf39="">
 				<h1 data-v-34dbaf39="">닉네임 설정</h1>
 				<div data-v-34dbaf39="" class="input">
@@ -57,7 +57,7 @@
 						※ 닉네임을 설정하면 <span data-v-34dbaf39="" class="caution">30일간 변경할 수 없습니다.</span>
 					</p>
 				</div>
-				<input data-v-34dbaf39="" type="submit" value="닉네임 설정">
+				<input data-v-34dbaf39="" type="submit"  value="닉네임 설정">
 			</section>
 		</form>
 		<c:import url="footer.jsp" />

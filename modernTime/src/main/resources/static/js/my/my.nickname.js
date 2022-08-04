@@ -7,7 +7,12 @@ $().ready(function() {
 			$nickname.on('keyup', function(){
 				$nickname.attr('class', 'pass');
 			});
-			$
+			$submit.hover(function(){
+				$submit.css('cursor', 'pointer')
+			}); 
+			$submit.on('click', function(){
+				
+			});
 		},
 		
 	};
