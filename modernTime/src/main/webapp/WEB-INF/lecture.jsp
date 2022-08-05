@@ -50,7 +50,7 @@
 			<div id="logo">
 				<a href="/"><img src="/images/new/nav.logo.png"></a>
 				<p>
-					<span class="name multiple">에브리타임</span><span class="subname">울산과학대</span>
+					<span class="name multiple">에브리타임</span><span class="subname">광운대학교</span>
 				</p>
 			</div>
 			<div id="account">
@@ -78,8 +78,8 @@
 				<h1>강의평가</h1>
 			</div>
 		</aside>
-		<form class="search">
-			<input type="search" name="keyword" placeholder="과목명, 교수명으로 검색"
+		<form class="search" action="/search">
+			<input type="text" name="keyword" placeholder="과목명, 교수명으로 검색"
 				class="keyword" autocomplete="off"> <input type="submit"
 				class="submit">
 		</form>
@@ -90,11 +90,13 @@
 			</div>
 			<h2>내 강의평</h2>
 			<div class="mylectures">
+			
 				<div class="empty">
 					<p>아직 확인할 수 있는 과목이 없습니다.</p>
 				</div>
 				<div class="loading" style="display: none;"></div>
 			</div>
+			
 		</div>
 		<div class="section">
 			<h2>최근 강의평</h2>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.lecture.reposity.ILectureDAO">
+	<select id="evalsearch" parameterType="SearchDTO" resultType="com.care.moderntime.lecturedto.LectureDTO">
+		SELECT * FROM evaluation WHERE lcture_id LIKE '%'||#{search}||'%' or teacher LIKE '%'||#{search}||'%' ORDER BY no DESC 
+	</select>
+
+</mapper>
