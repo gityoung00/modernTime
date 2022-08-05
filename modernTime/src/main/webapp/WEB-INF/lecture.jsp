@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%
+request.setCharacterEncoding("utf-8");
+String keyword = request.getParameter("keyword");
+%>
+
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -86,17 +94,18 @@
 		<div class="section">
 			<div class="mypoint">
 				<span class="text">포인트</span> <span class="value">20P</span> <a
-					href="/lecture/point" class="history">자세히</a>
+					href="point" class="history">자세히</a>
 			</div>
 			<h2>내 강의평</h2>
+
 			<div class="mylectures">
-			
+
 				<div class="empty">
 					<p>아직 확인할 수 있는 과목이 없습니다.</p>
 				</div>
 				<div class="loading" style="display: none;"></div>
 			</div>
-			
+
 		</div>
 		<div class="section">
 			<h2>최근 강의평</h2>
