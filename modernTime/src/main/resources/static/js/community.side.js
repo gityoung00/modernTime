@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if (!_gfn) var _gfn = {};
 _gfn = _.extend(_gfn, {
 	createArticleItem: function ($target, $data) {
@@ -200,23 +141,23 @@ $().ready(function () {
 			var condition = {
 				campus_id: $('#communityCampusId').val()
 			};
-			$.ajax({
-				url: _apiServerUrl + '/find/community/webside',
-				xhrFields: {withCredentials: true},
-				data: condition,
-				type: 'POST',
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '0') {
-						callback();
-					} else {
-						callback(data);
-					}
-				}
-			});
+//			$.ajax({
+//				url: _apiServerUrl + '/find/community/webside',
+//				xhrFields: {withCredentials: true},
+//				data: condition,
+//				type: 'POST',
+//				success: function (data) {
+//					var responseCode;
+//					if (!$(data).find('response').children().length) {
+//						responseCode = $(data).find('response').text();
+//					}
+//					if (responseCode === '0') {
+//						callback();
+//					} else {
+//						callback(data);
+//					}
+//				}
+//			});
 		},
 		createSide: function (data) {
 			var $response = $(data).find('response');
