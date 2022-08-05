@@ -290,7 +290,7 @@ $().ready(function () {
 			if (keyword.replace(/\s/g, '').length < 2) {
 				alert('검색어를 두 글자 이상 입력해주세요.');
 			} else {
-				location.href = '/lecture/search/' + keyword;
+				location.href = 'lecture'+"?keyword="+keyword;
 			}
 		}
 	};

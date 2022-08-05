@@ -20,7 +20,9 @@
   <meta name="robots" content="noindex">
   <link type="text/css" href="/css/common.css" rel="stylesheet">
   <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.article.css" rel="stylesheet">
   <link type="text/css" href="/css/container.community.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
   <link href="/favicon.ico" rel="shortcut icon">
   <!--[if lt IE 9]>
   <script src="/js/extensions.html5shiv.js"></script>
@@ -30,19 +32,22 @@
   <!--[if lt IE 8]>
   <script src="/js/extensions.json3.min.js"></script>
   <![endif]-->
-  <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/extensions.canvas-to-blob.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.load-image.all.min.js"></script>
+  <script type="text/javascript" src="/js/board.index.js"></script>
   <script type="text/javascript" src="/js/community.side.js"></script>
-  <script type="text/javascript" src="/js/community.index.js"></script>
+  <script type="text/javascript" src="/js/message.send.js"></script>
 </head>
-<body>
+<body style="">
 
 <nav>
     <div class="wrap">
       <div id="logo">
         <a href="/"><img src="/images/new/nav.logo.png"></a>
-        <p><span class="name multiple">에브리타임</span><span class="subname">울산과학대</span></p>
+        <p><span class="name multiple">에브리타임</span><span class="subname">KG IT대</span></p>
       </div>
       <div id="account">
         <a href="/message" title="쪽지함" class="icon message">쪽지함</a></li>
