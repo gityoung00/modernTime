@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.post.repository.IPostDAO">
+
+   <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
+      INSERT INTO post (userId, title, content, nickname, createDate, like, boardId) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{like}, #{boardId})
+   </insert>
+   
+</mapper>
