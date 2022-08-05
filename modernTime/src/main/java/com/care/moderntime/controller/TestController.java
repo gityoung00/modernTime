@@ -7,8 +7,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestController {
 	
-	@GetMapping("login")
-	public String login() {
-		return "login";
-	}
+	
 }
