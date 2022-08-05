@@ -25,39 +25,32 @@
 <meta property="og:url" content="https://everytime.kr/forgot/password/userid">
 <title>비밀번호 찾기 - 에브리타임</title>
 <meta data-vue-meta="ssr" name="robots" content="noindex">
-<link data-vue-meta="ssr" rel="preload" href="/css/4bf4c55aaa9a6cc92e68.css" as="style">
-<link data-vue-meta="ssr" rel="preload" href="/js/e6300f6d84b44222188a.js" as="script">
-<link data-vue-meta="ssr" rel="preload" href="/css/7f4bf5580b469960e4d9.css" as="style">
-<link data-vue-meta="ssr" rel="preload" href="/js/2de4c2e583404abf594a.js" as="script">
-<link data-vue-meta="ssr" rel="stylesheet" href="/css/233234eea2854d91088f.css">
-<script data-vue-meta="ssr" src="/js/d5cb435378c732e79442.js" defer=""></script>
-<script data-vue-meta="ssr" src="/js/879f4c7afc948a90c502.js" defer=""></script>
-<script data-vue-meta="ssr" src="/js/361ef02668680b112a05.js" defer=""></script>
-<link rel="stylesheet" type="text/css" href="/js/../css/7f4bf5580b469960e4d9.css">
-<script charset="utf-8" src="/js/2de4c2e583404abf594a.js"></script>
+<link data-vue-meta="ssr" rel="preload" href="/css/forgot/4bf4c55aaa9a6cc92e68.css" as="style">
+<link data-vue-meta="ssr" rel="preload" href="/css/forgot/a1dae6ed17aadf536b25.css" as="style">
+<link data-vue-meta="ssr" rel="stylesheet" href="/css/forgot/233234eea2854d91088f.css">
+<link rel="stylesheet" type="text/css" href="/css/forgot/a1dae6ed17aadf536b25.css">
 </head>
 <body>
 
-	<div data-v-66dfd76a="">
-		<div data-v-66dfd76a="" class="container">
-			<section data-v-66dfd76a="">
-				<div data-v-66dfd76a="" class="menu">
-					<a data-v-66dfd76a="" href="/forgot"><span data-v-66dfd76a="">아이디 찾기</span></a> <a data-v-66dfd76a="" class="active"><span data-v-66dfd76a="">비밀번호
+	<div data-v-68cdbca8="">
+		<div data-v-68cdbca8="" class="container" onSubmit="return false;">
+			<section data-v-68cdbca8="">
+				<div data-v-68cdbca8="" class="menu">
+					<a data-v-68cdbca8="" href="/forgot"><span data-v-68cdbca8="">아이디 찾기</span></a> <a data-v-68cdbca8="" class="active"><span data-v-68cdbca8="">비밀번호
 							찾기</span></a>
 				</div>
-				<form data-v-66dfd76a="" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
-					<input data-v-66dfd76a="" type="hidden" name="m" value="checkplusSerivce"> <input data-v-66dfd76a="" type="hidden" name="EncodeData"
-						value="AgAFQlExODXCrR9DuU4+4xaRBqFmu6Jq7hA7n0OPnciKyUkMARHrc5V1fhr2GnylP82hrwLvN5G1FY7eoy5qnDbhq+zZsgYNP3vn7aG1TVCgomX4kH6R2EU1iiMksywDgCnwbQSzIQxkC1MbWq9w11T8TY+zq1QoSslx2ZmtsdTGTOcQ82yggo+dmHianx4T0hD9ErJ6AF+OQ4iMS4/eWZI1mzxpib0ksyshQ9AJYJli6/pHm2H6s1T9tVFeucbNTot31Os7j3x1ai2GtMVgnmHXxgTdVHrMpxl2vc2mFsCcw80qc4QrbPC2kao4n1L80n+NIz0HT6iFyySOdf30fozm/30X4iZVrQ4ohmh8hrY0bbRytb599dGXW5oKP9NEosfEs7DVCGYKUzsrDnhmw+J0g+qLhJUaYSzuyfwyHDv27ygYVOoFVFc6Gw22wCDcsYoDi1DF178xWAfrU8VM3NcRv4L/eL6f8rHnYpAPihRtKMHUzaRYk5C7hZyJen1KoCmbur3H44Y3b6h8HVcuEex2jVjictwC">
-					<a data-v-66dfd76a="" class="button red">휴대폰 인증</a>
-				</form>
-				<form data-v-66dfd76a="" method="post" action="https://cert.vno.co.kr/ipin.cb">
-					<input data-v-66dfd76a="" type="hidden" name="m" value="pubmain"> <input data-v-66dfd76a="" type="hidden" name="enc_data"
-						value="AgEERkEzOAUJV28UqIf32mH0AT0gi5i+HbfaDUxnr2vbi4PFDWELEI5G4tT6wr2TtIzqJcFEUtCjATWx5pw2l4PlaEzMytu2te5wXhahJMEs/kmN501G2izwTCGgD9HAnfcQ7KzaamX03WDJOWqfd9czUUYncxZKyXHZma2x1MZM5xDzbKCCAIYJSXXG46wBE2SvI4sGAzf/5WemhlRF9vtrKM2z8R3t50G8tG5Vjmikn//IZmbK64B4LvZ4Lasbo0piBjF+9qABNdsZIB2oJSz/NbZ4IylwO1jCPPPvKesYN4f+NuR80bIlfhsBgUr3m6QpkvU8dg==">
-					<a data-v-66dfd76a="" class="button normal">아이핀 인증</a>
+				<form data-v-68cdbca8="">
+					<input data-v-68cdbca8="" type="email" name="email" placeholder="가입된 이메일" autocomplete="off"> <input data-v-68cdbca8="" type="submit" value="비밀번호 찾기">
+					<div data-v-68cdbca8="" class="description">
+						<p data-v-68cdbca8="">※ 가입된 아이디가 있을 경우, 입력하신 이메일로 비밀번호 변경 방법을 안내해 드립니다.</p>
+						<p data-v-68cdbca8="">※ 만약 이메일이 오지 않는다면, 스팸 편지함으로 이동하지 않았는지 확인해주세요.</p>
+						<p data-v-68cdbca8="">※ 이메일 서비스 제공자 사정에 의해 즉시 도착하지 않을 수 있으니, 최대 30분 정도 기다리신 후 다시 시도해주세요.</p>
+					</div>
 				</form>
 			</section>
 		</div>
 	</div>
+	<script id="__INITIAL_STATE__" type="application/json">{"apiServerUrl":"https://api.everytime.kr","appInfo":{"appName":"","appVersion":"","osName":"","osVersion":""},"isLogged":false,"pageName":"pages/forgot/password_email","pageTitle":"비밀번호 찾기","userid":"dd"}</script>
 
 
 </body>

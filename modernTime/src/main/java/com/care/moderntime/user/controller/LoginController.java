@@ -80,7 +80,7 @@ public class LoginController {
 	
 	@GetMapping("forgot/password/userid")
 	public String sendMail() {
-		return "user/login/pwforgot";
+		return "user/login/pwEmail";
 	}
 
 }
