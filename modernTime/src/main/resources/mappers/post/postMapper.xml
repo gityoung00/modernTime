@@ -8,4 +8,4 @@
       INSERT INTO post (user_id, title, content, nickname, create_date, like, board_id) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{like}, #{boardId})
    </insert>
    
-</mapper>
+</mapper> 

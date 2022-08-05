@@ -317,7 +317,7 @@ $().ready(function () {
 						createDate: 'asdf',
 						like: 2,
 						boardId: 1
-					}),
+					}), 
 					success: function (data) {
 						console.log(data)
 //						var responseCode = $(data).find('response').text();
