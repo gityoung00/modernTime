@@ -1,6 +1,8 @@
 package com.care.moderntime.user.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -62,7 +64,7 @@ public class EmailService {
 		return token;
 	}
 	
-	public void sendMail(String email, String token) throws MessagingException {
+	public void sendMail(String pageName, String email, Map<String, Object> variables) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -75,10 +77,10 @@ public class EmailService {
 
         //템플릿에 전달할 데이터 설정
         Context context = new Context();
-        context.setVariable("token", token);
+        context.setVariables(variables);
 
         //메일 내용 설정 : 템플릿 프로세스
-        String html = templateEngine.process("registerMail", context);
+        String html = templateEngine.process(pageName, context);
         helper.setText(html, true);
 
         //메일 보내기

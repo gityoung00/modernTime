@@ -1,5 +1,7 @@
 package com.care.moderntime.user.controller;
 
+import java.util.HashMap;
+
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.care.moderntime.user.dto.UserDTO;
 import com.care.moderntime.user.service.EmailService;
 import com.care.moderntime.user.service.RegisterService;
+import com.care.moderntime.user.service.UserService;
 
 @Controller
 public class RegisterController {
@@ -22,15 +25,17 @@ public class RegisterController {
 	EmailService emailService;
 	@Autowired
 	RegisterService registerService;
+	@Autowired
+	UserService userService;
 
 	@GetMapping("register/agreement")
 	public String agreement() {
-		return "user/agreement";
+		return "user/register/agreement";
 	}
 
 	@GetMapping("register/identify/email")
 	public String identifyEmail() {
-		return "user/email";
+		return "user/register/email";
 	}
 
 	// 이메일 중복 체크 & 토큰 생성
@@ -50,12 +55,12 @@ public class RegisterController {
 		}
 
 		// token이 빈값이 아니면 -> 이메일로 링크 전송
-		else {
-			// 이메일 전송
-			emailService.sendMail(email, token);
-			return "ok";
+		// 이메일 전송
+		HashMap<String, Object> variables = new HashMap<String, Object>();
+		variables.put("token", token);
+		emailService.sendMail("registerMail", email, variables);
+		return "ok";
 
-		}
 	}
 
 	// 이메일 토큰 확인 페이지
@@ -75,14 +80,18 @@ public class RegisterController {
 
 	// 이메일 중복일때 이동하는 페이지
 	@GetMapping("register/identify/email/result")
-	public String identifyResult(String email) {
-		return "user/identifyResult";
+	public String identifyResult(String email, Model model) {
+		System.out.println("email: " + email);
+		UserDTO user = userService.getUser(email);
+		model.addAttribute("name", user.getName());
+		model.addAttribute("id", user.getId());
+		return "user/register/identifyResult";
 	}
 
 	// 회원가입 폼 이동
 	@GetMapping("register/form")
 	public String registerForm() {
-		return "user/registerForm";
+		return "user/register/registerForm";
 	}
 
 	// 회원가입 폼 작성

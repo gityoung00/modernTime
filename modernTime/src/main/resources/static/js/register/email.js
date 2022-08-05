@@ -46,7 +46,7 @@ $().ready(function() {
 						$enterSubmit.css('display', 'none');
 					}
 					if (data == "emaildouble"){
-						$(location).attr('href', '/register/identify/email/result')
+						$(location).attr('href', '/register/identify/email/result?email=' + $enterEmail.val())
 					}
 					
 				}

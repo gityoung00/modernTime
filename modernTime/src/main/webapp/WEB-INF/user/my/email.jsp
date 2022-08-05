@@ -26,31 +26,35 @@
 <meta property="og:url" content="https://everytime.kr/my/email">
 <title>이메일 변경 - 모던타임</title>
 <meta data-vue-meta="ssr" name="robots" content="noindex">
+<script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
 <link data-vue-meta="ssr" rel="preload" href="/css/my/my.navi.css" as="style">
 <link data-vue-meta="ssr" rel="preload" href="/css/my/my.email.css" as="style">
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/my/my.common.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.email.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.navi.css">
+<script src="/js/my/my.email.js"></script>
+<c:import url="../../common/loginRequired.jsp" />
 </head>
 <body>
 
 	<div data-v-bdf4e790="">
 		<c:import url="header.jsp" />
-		<form data-v-bdf4e790="" class="container">
+		<form data-v-bdf4e790="" class="container" onSubmit="return false;">
 			<section data-v-bdf4e790="">
 				<h1 data-v-bdf4e790="">이메일 변경</h1>
 				<div data-v-bdf4e790="" class="input">
 					<div data-v-bdf4e790="" class="label">
 						<label data-v-bdf4e790="">이메일</label>
 					</div>
-					<input data-v-bdf4e790="" type="email" maxlength="255" placeholder="이메일" autocomplete="off" class="">
+					<input data-v-bdf4e790="" type="email" name="email" maxlength="255" placeholder="이메일" autocomplete="off" value="${sessionScope.email }">
 					<!---->
 				</div>
 				<div data-v-bdf4e790="" class="input">
 					<div data-v-bdf4e790="" class="label">
 						<label data-v-bdf4e790="">계정 비밀번호</label>
 					</div>
-					<input data-v-bdf4e790="" type="password" maxlength="20" placeholder="계정 비밀번호" class="">
+					<input data-v-bdf4e790="" type="password" name="pw" maxlength="20" placeholder="계정 비밀번호" class="">
 				</div>
 				<div data-v-bdf4e790="" class="rules">
 					<p data-v-bdf4e790="">

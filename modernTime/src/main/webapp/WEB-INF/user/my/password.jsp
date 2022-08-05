@@ -22,7 +22,7 @@
 <meta property="fb:app_id" content="258676027581965">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://everytime.kr/images/og_image.png">
-<meta property="og:site_name" content="에브리타임">
+<meta property="og:site_name" content="모던타임">
 <meta property="og:url" content="https://everytime.kr/my/password">
 <title>비밀번호 변경 - 모던타임</title>
 <meta data-vue-meta="ssr" name="robots" content="noindex">
@@ -31,33 +31,38 @@
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/my/my.common.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.password.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.navi.css">
+<script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+<script src="/js/my/my.password.js"></script>
 </head>
 <body>
 
 	<div data-v-3e962932="">
 		<c:import url="header.jsp" />
-		<form data-v-3e962932="" class="container">
+		<form data-v-3e962932="" class="container" onSubmit="return false;">
 			<section data-v-3e962932="">
 				<h1 data-v-3e962932="">비밀번호 변경</h1>
 				<div data-v-3e962932="" class="input">
 					<div data-v-3e962932="" class="label">
 						<label data-v-3e962932="">새 비밀번호</label>
-						<p data-v-3e962932="">영문, 숫자, 특문이 2종류 이상 조합된 8~20자</p>
+						<p data-v-3e962932="">영문, 숫자가 조합된 8~20자</p>
 					</div>
-					<input data-v-3e962932="" type="password" maxlength="20" placeholder="새 비밀번호" class="">
+					<input data-v-3e962932="" name="newPw" type="password" maxlength="20" placeholder="새 비밀번호" class="">
+					<div data-v-3e962932="" class="caution" style="display:none;">영문, 숫자가 조합된 8자~20자 비밀번호를 입력하세요</div>
 					<!---->
-					<input data-v-3e962932="" type="password" maxlength="20" placeholder="새 비밀번호 확인" class="">
+					<input data-v-3e962932="" name="newPwCheck" type="password" maxlength="20" placeholder="새 비밀번호 확인" class="">
+					<div data-v-3e962932="" class="caution" style="display:none;">비밀번호가 일치하지 않습니다</div>
 					<!---->
 				</div>
 				<div data-v-3e962932="" class="input">
 					<div data-v-3e962932="" class="label">
 						<label data-v-3e962932="">현재 비밀번호</label>
 					</div>
-					<input data-v-3e962932="" type="password" maxlength="20" placeholder="현재 비밀번호" class="">
+					<input data-v-3e962932="" name="oldPw" type="password" maxlength="20" placeholder="현재 비밀번호" class="">
 				</div>
 				<div data-v-3e962932="" class="rules">
 					<p data-v-3e962932="">
-						<strong data-v-3e962932="">※ 혹시 타인에게 계정을 양도하려고 하시나요?</strong><br data-v-3e962932=""> 에브리타임 이용약관에서는 타인에게 계정 판매, 양도 및 대여 등을 엄격하게 금지하고 있습니다.<br
+						<strong data-v-3e962932="">※ 혹시 타인에게 계정을 양도하려고 하시나요?</strong><br data-v-3e962932=""> 모던타임 이용약관에서는 타인에게 계정 판매, 양도 및 대여 등을 엄격하게 금지하고 있습니다.<br
 							data-v-3e962932=""> 모니터링 시스템에 의해 계정 양도가 적발될 경우 해당 계정은 영구 정지, 탈퇴 등의 조치가 가해지며, 계정 양도로 인해 사기, 불법 행위가 발생할 경우 관련법에 따라 <span data-v-3e962932=""
 							class="caution">법적 책임을 지게 될 수 있습니다.</span>
 					</p>

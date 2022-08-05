@@ -39,6 +39,7 @@
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/my/my.common.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.auth.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.navi.css">
+<c:import url="../../common/loginRequired.jsp" />
 </head>
 <body>
 

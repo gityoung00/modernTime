@@ -27,16 +27,17 @@
 <title>닉네임 설정 - 모던타임</title>
 <meta data-vue-meta="ssr" name="robots" content="noindex">
 <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
-  <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+<script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
 <link data-vue-meta="ssr" rel="preload" href="/css/my/my.navi.css" as="style">
 <link data-vue-meta="ssr" rel="preload" href="/css/my/my.nickname.css" as="style">
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/my/my.common.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.nickname.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.navi.css">
 <script src="/js/my/my.nickname.js"></script>
+
 </head>
 
-<%--닉네임을 설정하면 30일간 변경할 수 없습니다. 변경하시겠습니까? --%>
+
 <%-- 이미 등록된 닉네임입니다. --%>
 <body>
 
@@ -49,15 +50,40 @@
 					<div data-v-34dbaf39="" class="label">
 						<label data-v-34dbaf39="">닉네임</label>
 					</div>
-					<input data-v-34dbaf39="" type="text" maxlength="10" placeholder="닉네임" autocomplete="off" name="nickname" class="">
+					<c:choose>
+						<c:when test="${duration < 30 }">
+							<input data-v-34dbaf39="" type="text" maxlength="10" placeholder="닉네임" autocomplete="off" name="nickname" value="${sessionScope.nickname }" class=""
+								disabled>
+						</c:when>
+						<c:otherwise>
+							<input data-v-34dbaf39="" type="text" maxlength="10" placeholder="닉네임" autocomplete="off" name="nickname" value="${sessionScope.nickname }" class="">
+						</c:otherwise>
+					</c:choose>
+
 					<!---->
 				</div>
 				<div data-v-34dbaf39="" class="rules">
+					<c:choose>
+						<c:when test="${duration < 30 }">
+					<p data-v-34dbaf39="">
+						※ 닉네임은 <span data-v-34dbaf39="" class="caution">${30-duration }일후 변경가능합니다.</span>
+					</p>
+						</c:when>
+						<c:otherwise>
 					<p data-v-34dbaf39="">
 						※ 닉네임을 설정하면 <span data-v-34dbaf39="" class="caution">30일간 변경할 수 없습니다.</span>
 					</p>
+						</c:otherwise>
+					</c:choose>
 				</div>
-				<input data-v-34dbaf39="" type="submit"  value="닉네임 설정">
+				<c:choose>
+						<c:when test="${duration < 30 }">
+						<input data-v-34dbaf39="" type="submit" value="닉네임 설정" style="background-color:#d9d9d9;" disabled>
+						</c:when>
+						<c:otherwise>
+						<input data-v-34dbaf39="" type="submit" value="닉네임 설정">
+					</c:otherwise>
+					</c:choose>
 			</section>
 		</form>
 		<c:import url="footer.jsp" />

@@ -1,5 +1,8 @@
 package com.care.moderntime.user.dto;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class UserDTO {
 	private String email;
 	private String id;
@@ -9,13 +12,13 @@ public class UserDTO {
 	private int point;
 	private int isCertificate;
 	private int isAdmin;
+	private LocalDateTime nickModifyDate;
 	
 	public UserDTO() {
 		super();
 	}
 
-	public UserDTO(String email, String id, String pw, String name, String nickname, int point, int isCertificate,
-			int isAdmin) {
+	public UserDTO(String email, String id, String pw, String name, String nickname, int point, int isCertificate, int isAdmin, LocalDateTime nickModifyDate) {
 		super();
 		this.email = email;
 		this.id = id;
@@ -25,6 +28,7 @@ public class UserDTO {
 		this.point = point;
 		this.isCertificate = isCertificate;
 		this.isAdmin = isAdmin;
+		this.nickModifyDate = nickModifyDate;
 	}
 
 	public String getEmail() {
@@ -91,6 +95,16 @@ public class UserDTO {
 		this.isAdmin = isAdmin;
 	}
 
+	public LocalDateTime getNickModifyDate() {
+		return nickModifyDate;
+	}
+
+	public void setNickModifyDate(LocalDateTime nickModifyDate) {
+		this.nickModifyDate = nickModifyDate;
+	}
+
+	
+	
 	
 	
 	

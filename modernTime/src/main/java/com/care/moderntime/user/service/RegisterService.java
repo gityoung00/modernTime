@@ -1,5 +1,7 @@
 package com.care.moderntime.user.service;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class RegisterService {
 	public String register(UserDTO dto) {
 		// 비밀번호 암호화
 		dto.setPw(encryptPassword(dto.getPw()));
-		
+		dto.setNickModifyDate(LocalDateTime.now().minusDays(30));
 		int result = userDao.register(dto);
 		if (result == 0) {
 			return "회원가입 중에 문제가 발생하였습니다. 다시 시도해주세요.";

@@ -38,7 +38,12 @@
   <script type="text/javascript" src="/js/community.index.js"></script>
 </head>
 <body>
-
+<script>
+var msg = "${msg }";
+if (msg){
+	alert(msg);
+}
+</script>
 <nav>
     <div class="wrap">
       <div id="logo">

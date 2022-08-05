@@ -39,8 +39,10 @@
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/my/my.common.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.index.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.navi.css">
+<script src="/js/my/my.index.js"></script>
 </head>
 <body>
+	<c:import url="../../common/loginRequired.jsp" />
 
 	<div data-v-cd48e290="">
 	<c:import url="header.jsp" />
@@ -48,16 +50,17 @@
 			<section data-v-cd48e290="">
 				<div data-v-cd48e290="" class="title">
 					<h1 data-v-cd48e290="">내 정보</h1>
-					<a data-v-cd48e290="" href="/user/logout" class="logout">로그아웃</a>
+					<a data-v-cd48e290="" href="/logout" class="logout" onclick="logout();">로그아웃</a>
+					
 				</div>
 				<div data-v-cd48e290="" class="profile">
 					<img data-v-cd48e290="" src="https://cf-fpi.everytime.kr/0.png">
-					<h3 data-v-cd48e290="">jiyoung1329</h3>
+					<h3 data-v-cd48e290="">${id }</h3>
 					<p data-v-cd48e290="">
-						<span data-v-cd48e290="">김지영</span> / <span data-v-cd48e290="">이익며러언</span>
+						<span data-v-cd48e290="">${name }</span> / <span data-v-cd48e290="">${nickname }</span>
 					</p>
 					<p data-v-cd48e290="">
-						<span data-v-cd48e290="">경북대 대구캠</span> <span data-v-cd48e290="">16</span>학번
+						<span data-v-cd48e290="">KG IT대학교</span>
 					</p>
 				</div>
 			</section>

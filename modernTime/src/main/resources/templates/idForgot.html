@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
 
@@ -15,16 +15,15 @@
 										src="https://cf-ec.everytime.kr/email/logo-everytime.png" width="28" height="30" loading="lazy"></a></td>
 							</tr>
 							<tr>
-								<td style="padding: 16px 16px 0 16px; line-height: 30px; color: #292929; font-size: 24px;"><b style="color: #C62917;">모던타임</b><br>회원가입 안내</td>
+								<td style="padding: 16px 16px 0 16px; line-height: 30px; color: #292929; font-size: 24px;"><b style="color: #C62917;">모던타임</b><br>아이디 찾기 안내</td>
 							</tr>
 							<tr>
 								<td style="padding: 32px 16px 0 16px;"><span style="display: inline-block; width: 48px; height: 1px; background-color: #292929;"></span></td>
 							</tr>
 							<tr>
-								<td style="padding: 32px 16px 0 16px; line-height: 20px; color: #292929; font-size: 14px;">안녕하세요, 모던타임입니다.<br> 
-								본 메일은 이메일 인증을 위한 단계입니다.<br> 회원가입을 진행하려면 아래 링크를 클릭해주세요.
-<br> <br> 
-								<a type="button" th:href="@{http://localhost/register/identify/email/check_token(token = ${token})}">이메일 인증</a></td>
+								<td style="padding: 32px 16px 0 16px; line-height: 20px; color: #292929; font-size: 14px;">안녕하세요, 모던타임입니다.<br> <br>8월 5일 18시 41분에 아이디 찾기
+									요청이 있었습니다.<br>본 이메일에 해당하는 아이디는 <strong>[[${id}]]</strong> 입니다.<br> <br> <a href="http://localhost/login" target="_blank"
+									rel="noreferrer noopener">모던타임 바로가기</a></td>
 							</tr>
 							<tr>
 								<td style="padding: 32px 16px 0 16px;"><span style="display: inline-block; width: 48px; height: 1px; background-color: #292929;"></span></td>
@@ -40,8 +39,5 @@
 			</tr>
 		</tbody>
 	</table>
-<h2>이메일 인증을 위해 아래의 버튼을 클릭하세요</h2>
-
-
 </body>
 </html>

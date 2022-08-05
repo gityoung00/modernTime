@@ -8,12 +8,40 @@
 	select * from user where id=#{id}
 </select>
 
+<select id="selectEmail" parameterType="String" resultType="com.care.moderntime.user.dto.UserDTO">
+	select * from user where email=#{email}
+</select>
+
 <select id="selectNickname" parameterType="String" resultType="Integer">
 	select nickname from user where nickname=#{nickname}
 </select>
 
+<select id="getPw" parameterType="String" resultType="String">
+	select pw from user where id=#{id}
+</select>
+
 <insert id="register" parameterType="com.care.moderntime.user.dto.UserDTO">
-	insert into user(id, pw, name, nickname, email) values(#{id}, #{pw}, #{name}, #{nickname}, #{email})
+	insert into user(id, pw, name, nickname, email, nick_modify_date) values(#{id}, #{pw}, #{name}, #{nickname}, #{email}, #{nickModifyDate})
 </insert>
+
+<update id="setNickname">
+	update user set nickname=#{nickname}, nick_modify_date=#{nickModifyDate} where id=#{id}
+</update>
+
+<select id="getNickModifyDate" parameterType="String" resultType="java.time.LocalDateTime">
+	select nick_modify_date from user where nickname=#{nickname}
+</select>
+
+<update id="setPw">
+	update user set pw=#{pw} where id=#{id}
+</update>
+
+<update id="setEmail">
+	update user set email=#{email} where id=#{id}
+</update>
+
+<delete id="deleteUser" parameterType="String">
+	delete from user where id=#{id}
+</delete>
 
 </mapper>

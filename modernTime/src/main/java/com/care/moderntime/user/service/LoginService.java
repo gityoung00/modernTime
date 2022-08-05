@@ -23,10 +23,20 @@ public class LoginService {
 		}
 		
 		session.setAttribute("id", dto.getId());
+		session.setAttribute("nickname", dto.getNickname());
+		session.setAttribute("name", dto.getName());
+		session.setAttribute("email", dto.getEmail());
 		return "success";
 	}
 	
 	public void logout() {
 		session.invalidate();
+	}
+	
+	public String findUser(String email) {
+		UserDTO user = userDao.selectEmail(email);
+		if (user == null) return null;
+		return user.getId();
+		
 	}
 }

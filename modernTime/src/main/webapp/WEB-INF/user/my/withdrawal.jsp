@@ -31,20 +31,22 @@
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/my/my.common.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.withdrawal.css">
 <link rel="stylesheet" type="text/css" href="/css/my/my.navi.css">
+<script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+<script src="/js/my/my.withdrawal.js"></script>
 </head>
-<%-- 탈퇴 전 안내사항을 반드시 확인 후 진행해주세요. 탈퇴하시겠습니까? --%>
 <body>
 
 	<div data-v-75203738="">
 		<c:import url="header.jsp" />
-		<form data-v-75203738="" class="container">
+		<form data-v-75203738="" class="container" onSubmit="return false;">
 			<section data-v-75203738="">
 				<h1 data-v-75203738="">회원 탈퇴</h1>
 				<div data-v-75203738="" class="input">
 					<div data-v-75203738="" class="label">
 						<label data-v-75203738="">계정 비밀번호</label>
 					</div>
-					<input data-v-75203738="" type="password" maxlength="20" placeholder="계정 비밀번호">
+					<input data-v-75203738="" type="password" name="pw" maxlength="20" placeholder="계정 비밀번호">
 				</div>
 				<div data-v-75203738="" class="rules">
 					<!---->
