@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 import com.care.moderntime.admin.dto.NoticeDTO;
 @Mapper
 public interface INoticeDAO {
-	String insert(NoticeDTO dto);
+	void insert(NoticeDTO dto);
 }

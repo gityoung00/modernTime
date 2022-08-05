@@ -1649,6 +1649,7 @@ $().ready(function () {
 			var $form = $articles.find('form.write');
 			var $text = $form.find('textarea[name="text"]');
 			var $option = $form.find('ul.option');
+			var $title = $form.find('input[name="title"]');
 			var isAnonym = ($option.is(':has(li.anonym)') && $option.find('li.anonym').hasClass('active')) ? 1 : 0;
 			var isQuestion = ($option.is(':has(li.question)') && $option.find('li.question').hasClass('active')) ? 1 : 0;
 			if ($text.val().replace(/ /gi, '') === '') {
@@ -1658,22 +1659,23 @@ $().ready(function () {
 			}
 			var parameters = {
 				id: _set.boardId,
-				text: $text.val(),
+				content: $text.val(),
+				title : $title.val()
 //				is_anonym: isAnonym,
 //				is_question: isQuestion
 			};
 			if (_set.attaches.length > 0) {
 				parameters.attaches = JSON.stringify(_set.attaches);
 			}
-			if (_set.type === 2) {
-				var $title = $form.find('input[name="title"]');
-				if ($title.val().replace(/ /gi, '') === '') {
-					alert('제목을 입력해 주세요.');
-					$title.focus();
-					return false;
-				}
-				parameters.title = $title.val();
-			}
+//			if (_set.type === 2) {
+//				var $title = $form.find('input[name="title"]');
+//				if ($title.val().replace(/ /gi, '') === '') {
+//					alert('제목을 입력해 주세요.');
+//					$title.focus();
+//					return false;
+//				}
+//				parameters.title = $title.val();
+//			}
 			if ($form.is(':has(input[name="article_id"])')) {
 				parameters.article_id = $form.find('input[name="article_id"]').val();
 				if (_set.removeAttachIds.length > 0) {
@@ -1689,15 +1691,27 @@ $().ready(function () {
 			if (_set.isCommercial && !confirm(_set.placeholder)) {
 				return;
 			}
+//			$.ajax({
+//				url: 보낼 url 주소(Spring GetMapping("url"), PostMappping("url")),
+//				type: 'GET', 'POST', 'PUT', 'DELETE',
+//				data: {"key": "value"},
+//				success: fucntion(data){
+//					console.log(data) -> controller에서 오는 return값
+//				}
+//			});
+			
+			
+			//게시글 전송
 			$.ajax({
 				url: 'notice',
-				xhrFields: {withCredentials: true},
 				type : 'POST',
-				data : parameters,
+            	data: JSON.stringify(parameters),
+            	dataType: 'json',
+				contentType: 'application/json; charset=UTF-8',
 				success : function(data){
-					console.log();
+					console.log(data);
 				}
-			})
+			});
 //			$.ajax({
 //				url: '/save/board/article',
 //				xhrFields: {withCredentials: true},

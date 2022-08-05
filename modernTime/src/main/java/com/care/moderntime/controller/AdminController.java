@@ -41,10 +41,15 @@ public class AdminController {
 	public String notice() {
 		return "admin/notice";
 	}
-	@ResponseBody
-	@PostMapping(value = "notice")
+	@PostMapping(value = "notice", produces = "application/json; charset=UTF-8")
 	public String noticeWrite(@RequestBody(required = false)NoticeDTO dto) {
-		nsv.insert(dto);
+		String result = nsv.insert(dto);
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		if(result.equals("등록 완료")){
+			return "redirect:notice";			
+		}
+		System.out.println(result);
 		return "admin/notice";
 	}
 	

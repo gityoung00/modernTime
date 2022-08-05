@@ -3,6 +3,7 @@
 <%@ include file="adminHeader.jsp"%>
 <div id="submenu">
 	<div class="wrap">
+	<font color="red" id = "msg"></font>
 		<ul>
 			<li><a href="/393862" data-id="393862" class="new">자유게시판</a></li>
 			<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
@@ -32,13 +33,13 @@
 		<hr>
 	</div>
 	<div class="wrap articles">
-		<form class="write">
+		<form class="write" id="f" method="post">
 			<p>
 				<input name="title" autocomplete="off" placeholder="글 제목"
-					class="title">
+					class="title" id="text">
 			</p>
 			<p>
-				<textarea name="text"
+				<textarea name="text" id="text"
 					placeholder="에브리타임은 누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티 이용규칙을 제정하여 운영하고 있습니다. 위반 시 게시물이 삭제되고 서비스 이용이 일정 기간 제한될 수 있습니다. 
 
 아래는 이 게시판에 해당하는 핵심 내용에 대한 요약 사항이며, 게시물 작성 전 커뮤니티 이용규칙 전문을 반드시 확인하시기 바랍니다. 
@@ -74,7 +75,7 @@
 			<ul class="option">
 				<li title="해시태그" class="hashtag"></li>
 				<li title="첨부" class="attach"></li>
-				<li title="완료"><input type="submit" class="submit" value = "글쓰기"></li>
+				<li title="완료"  class="submit"></li>
 				<li title="익명" class="anonym active"></li>
 				<li title="질문" class="question"></li>
 			</ul>
