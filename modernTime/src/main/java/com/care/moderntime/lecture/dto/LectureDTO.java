@@ -1,4 +1,4 @@
-package com.care.moderntime.lecturedto;
+package com.care.moderntime.lecture.dto;
 
 public class LectureDTO {
 
