@@ -4,7 +4,8 @@
 <mapper namespace="com.care.moderntime.post.repository.IPostDAO">
 
    <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
-      INSERT INTO post (userId, title, content, nickname, createDate, like, boardId) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{like}, #{boardId})
+   <!-- <insert id="writeProc" parameterType="com.care.moderntime.post.dto.PostDTO"> -->
+      INSERT INTO post (user_id, title, content, nickname, create_date, like, board_id) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{like}, #{boardId})
    </insert>
    
 </mapper>

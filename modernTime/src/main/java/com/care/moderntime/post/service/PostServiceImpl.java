@@ -34,7 +34,7 @@ public class PostServiceImpl implements IPostService{
 		
 		postDto.setUserId("id1");	
 		postDto.setNickname("nickname");
-		postDto.setId(0);
+		
 		postDto.setLike(0);
 		postDto.setBoardId(0);
 		

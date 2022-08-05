@@ -1,0 +1,215 @@
+div.container section div.menu[data-v-2f68d331] {
+	box-sizing: border-box;
+	margin-top: 24px;
+	padding-left: 16px;
+	width: 100%;
+	height: 48px;
+	font-size: 0;
+	background-color: #FFFFFF
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section div.menu[data-v-2f68d331] {
+		background-color: #111111
+	}
+}
+
+div.container section div.menu a[data-v-2f68d331] {
+	display: inline-block;
+	padding: 8px 8px 14px 8px
+}
+
+div.container section div.menu a span[data-v-2f68d331] {
+	display: inline-block;
+	border-bottom: 2px solid rgba(0, 0, 0, 0);
+	line-height: 24px;
+	color: #A6A6A6;
+	font-size: 16px
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section div.menu a span[data-v-2f68d331] {
+		color: #6E6E6E
+	}
+}
+
+div.container section div.menu a.active span[data-v-2f68d331] {
+	border-bottom-color: #C62917;
+	color: #C62917;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section div.menu a.active span[data-v-2f68d331] {
+		border-bottom-color: #E45E4F;
+		color: #E45E4F
+	}
+}
+
+div.container section form[data-v-2f68d331] {
+	padding: 24px
+}
+
+div.container section form[data-v-2f68d331]:not(:first-of-type) {
+	margin-top: -16px;
+	padding-top: 0
+}
+
+div.container section form input[data-v-2f68d331] {
+	display: block;
+	box-sizing: border-box;
+	border-radius: 12px;
+	width: 100%;
+	height: 40px
+}
+
+div.container section form input[data-v-2f68d331]:not(:first-of-type) {
+	margin-top: 8px
+}
+
+div.container section form input[type=email][data-v-2f68d331], div.container section form input[type=password][data-v-2f68d331], div.container section form input[type=text][data-v-2f68d331]
+	{
+	padding: 8px;
+	border: 1px solid #EDEDED;
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px;
+	background-color: #F9F9F9
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form input[type=email][data-v-2f68d331], div.container section form input[type=password][data-v-2f68d331], div.container section form input[type=text][data-v-2f68d331]
+		{
+		border: 1px solid #313131;
+		color: #F0F0F0;
+		background-color: #1F1F1F
+	}
+}
+
+div.container section form input[type=email][data-v-2f68d331]:focus, div.container section form input[type=password][data-v-2f68d331]:focus, div.container section form input[type=text][data-v-2f68d331]:focus
+	{
+	background-color: #FFFFFF
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form input[type=email][data-v-2f68d331]:focus, div.container section form input[type=password][data-v-2f68d331]:focus, div.container section form input[type=text][data-v-2f68d331]:focus
+		{
+		background-color: #111111
+	}
+}
+
+div.container section form input[type=submit][data-v-2f68d331] {
+	border: 0;
+	color: #FFFFFF;
+	font-size: 16px;
+	font-weight: bold;
+	background-color: #C62917
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form input[type=submit][data-v-2f68d331] {
+		color: #111111;
+		background-color: #E45E4F
+	}
+}
+
+div.container section form div.description[data-v-2f68d331] {
+	margin-top: 24px
+}
+
+div.container section form div.description p[data-v-2f68d331] {
+	margin-bottom: 4px;
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form div.description p[data-v-2f68d331] {
+		color: #9A9A9A
+	}
+}
+
+div.container section form h1[data-v-2f68d331] {
+	margin-bottom: 24px;
+	line-height: 26px;
+	color: #292929;
+	font-size: 18px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form h1[data-v-2f68d331] {
+		color: #F0F0F0
+	}
+}
+
+div.container section form p.text[data-v-2f68d331] {
+	margin-bottom: 24px;
+	line-height: 20px;
+	color: #737373;
+	font-size: 14px
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form p.text[data-v-2f68d331] {
+		color: #9A9A9A
+	}
+}
+
+div.container section form a.button[data-v-2f68d331] {
+	display: block;
+	border-radius: 12px;
+	line-height: 40px;
+	font-size: 16px;
+	text-align: center;
+	cursor: pointer
+}
+
+div.container section form a.button.red[data-v-2f68d331] {
+	color: #FFFFFF;
+	font-weight: bold;
+	background-color: #C62917
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form a.button.red[data-v-2f68d331] {
+		color: #111111;
+		background-color: #E45E4F
+	}
+}
+
+div.container section form a.button.normal[data-v-2f68d331] {
+	color: #737373;
+	background-color: #F2F2F2
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section form a.button.normal[data-v-2f68d331] {
+		color: #9A9A9A;
+		background-color: #282828
+	}
+}
+
+@media ( max-width : 479px) {
+	body.appwebview div.container section div.menu[data-v-2f68d331] {
+		margin-top: 0
+	}
+}
+
+@media ( min-width : 480px) {
+	div.container[data-v-2f68d331] {
+		margin: 24px auto;
+		width: 480px
+	}
+	div.container section[data-v-2f68d331] {
+		box-sizing: border-box;
+		border: 1px solid #EDEDED;
+		border-radius: 12px
+	}
+	@media ( prefers-color-scheme : dark) {
+		div.container section[data-v-2f68d331] {
+			border: 1px solid #313131
+		}
+	}
+}

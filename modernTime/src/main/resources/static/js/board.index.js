@@ -314,7 +314,7 @@ $().ready(function () {
 						title: 'title',
 						content: 'content',
 						nickname: 'nickname',
-						
+						createDate: 'asdf',
 						like: 2,
 						boardId: 1
 					}),
