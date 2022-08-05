@@ -20,7 +20,9 @@
   <meta name="robots" content="noindex">
   <link type="text/css" href="/css/common.css" rel="stylesheet">
   <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.article.css" rel="stylesheet">
   <link type="text/css" href="/css/container.community.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
   <link href="/favicon.ico" rel="shortcut icon">
   <!--[if lt IE 9]>
   <script src="/js/extensions.html5shiv.js"></script>
@@ -30,19 +32,22 @@
   <!--[if lt IE 8]>
   <script src="/js/extensions.json3.min.js"></script>
   <![endif]-->
-  <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/extensions.canvas-to-blob.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.load-image.all.min.js"></script>
+  <script type="text/javascript" src="/js/board.index.js"></script>
   <script type="text/javascript" src="/js/community.side.js"></script>
-  <script type="text/javascript" src="/js/community.index.js"></script>
+  <script type="text/javascript" src="/js/message.send.js"></script>
 </head>
-<body>
+<body style="">
 
 <nav>
     <div class="wrap">
       <div id="logo">
         <a href="/"><img src="/images/new/nav.logo.png"></a>
-        <p><span class="name multiple">에브리타임</span><span class="subname">울산과학대</span></p>
+        <p><span class="name multiple">에브리타임</span><span class="subname">KG IT대</span></p>
       </div>
       <div id="account">
         <a href="/message" title="쪽지함" class="icon message">쪽지함</a></li>
@@ -62,24 +67,3 @@
       </ul>
     </div>
   </nav>
-<div id="submenu">
-		<div class="wrap">
-			<ul>
-				<li><a href="/393862" data-id="393862" class="new">자유게시판</a></li>
-				<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
-				<li><a href="/420831" data-id="420831" class="new">졸업생게시판</a></li>
-				<li><a href="/412735" data-id="412735" class="new">새내기게시판</a></li>
-				<li><a href="/482868" data-id="482868">시사·이슈</a></li>
-				<li><a href="/420924" data-id="420924" class="new">장터게시판</a></li>
-				<li><a href="/259679" data-id="259679">정보게시판</a></li>
-				<li><a href="/420832" data-id="420832">취업·진로</a></li>
-				<li><a href="/367739" data-id="367739">홍보게시판</a></li>
-				<li><a href="/419065" data-id="419065">동아리·학회</a></li>
-				<li><a href="/462203" data-id="462203" class="new">간호학과 게시판</a></li>
-				<li><a href="/465278" data-id="465278" class="new">치위생학과 게시판</a></li>
-				<li><a href="/455159" data-id="455159" class="new">퀴어</a></li>
-				<li><a href="/455305" data-id="455305">애니/만화 게시판</a></li>
-				<li><a href="/community/search" class="search">게시판 찾기</a></li>
-			</ul>
-			<hr>
-		</div>
