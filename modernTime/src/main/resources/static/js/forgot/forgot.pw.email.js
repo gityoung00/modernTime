@@ -1,7 +1,7 @@
 $().ready(function() {
+	const $id = $("input[name='id']");
 	const $email = $("input[name='email']");
 	const $submit = $("input[type='submit']");
-
 	var _fn = {
 		init: function() {
 			$submit.hover(function() {
@@ -14,9 +14,9 @@ $().ready(function() {
 				}
 				
 				$.ajax({
-					url: '/forgot/pw/sendEmail',
+					url: '/forgot/password/userid',
 					type: 'POST',
-					data: { 'email': $email.val() },
+					data: { 'email': $email.val(), 'id': $id.val() },
 					success: function(data) {
 						if (data == "success"){
 						} else {

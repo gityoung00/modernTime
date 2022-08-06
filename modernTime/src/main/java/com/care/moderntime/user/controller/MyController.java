@@ -71,14 +71,13 @@ public class MyController {
 		}
 
 		// 이메일 중복 체크 -> 토큰 생성
-		String token = emailService.makeToken(email);
-
-		// token이 빈 값이면 -> 이메일이 중복이면
-		if (token.isEmpty())
+		if (emailService.doubleEmailCheck(email)) {
 			return "이미 존재하는 이메일입니다. 다른 이메일을 입력해주세요.";
+		}
 
 		// token이 double이면(5분이내로 동일한 이메일에 링크를 보냈으면) ->
-		if (token.equals("double")) {
+		String token = emailService.makeToken(email);
+		if (token == null) {
 			return "이미 해당 메일로 인증 링크를 전송하였습니다. 메일함을 확인해주세요.";
 		}
 
