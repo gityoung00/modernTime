@@ -33,6 +33,7 @@
   <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/index.js"></script>
   <script type="text/javascript" src="/js/community.side.js"></script>
   <script type="text/javascript" src="/js/community.index.js"></script>
 </head>
@@ -109,7 +110,7 @@
           <p class="school">diharet</p>
           <ul class="buttons">
             <li><a href="/my">내 정보</a></li>
-            <li><a href="/user/logout">로그아웃</a></li>
+            <li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
           </ul>
           <hr>
         </form>

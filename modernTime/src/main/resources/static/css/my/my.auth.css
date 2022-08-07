@@ -1,0 +1,93 @@
+body.appwebview div.container[data-v-6b2a809a] {
+	padding-top: 0
+}
+
+@media only screen and (min-width: 780px) {
+	div.container[data-v-6b2a809a] {
+		padding-top: 80px
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	div.container[data-v-6b2a809a] {
+		padding-top: 56px
+	}
+}
+
+@media only screen and (min-width: 780px) {
+	div.container section[data-v-6b2a809a] {
+		box-sizing: border-box;
+		border: 1px solid #EDEDED;
+		border-radius: 12px;
+		margin: 24px auto 0 auto;
+		padding: 24px;
+		width: 480px
+	}
+	@media ( prefers-color-scheme : dark) {
+		div.container section[data-v-6b2a809a] {
+			border: 1px solid #313131
+		}
+	}
+}
+
+@media only screen and (max-width: 779px) {
+	div.container section[data-v-6b2a809a] {
+		padding: 16px 24px 24px 24px
+	}
+}
+
+div.container section h1[data-v-6b2a809a] {
+	line-height: 30px;
+	color: #292929;
+	font-size: 22px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section h1[data-v-6b2a809a] {
+		color: #F0F0F0
+	}
+}
+
+div.container section a.menu[data-v-6b2a809a] {
+	display: block;
+	margin-top: 8px;
+	padding: 16px;
+	border-radius: 12px;
+	background-color: #F2F2F2
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section a.menu[data-v-6b2a809a] {
+		background-color: #282828
+	}
+}
+
+div.container section a.menu[data-v-6b2a809a]:first-of-type {
+	margin-top: 24px
+}
+
+div.container section a.menu h3[data-v-6b2a809a] {
+	line-height: 24px;
+	color: #292929;
+	font-size: 16px;
+	font-weight: bold
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section a.menu h3[data-v-6b2a809a] {
+		color: #F0F0F0
+	}
+}
+
+div.container section a.menu p[data-v-6b2a809a] {
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px
+}
+
+@media ( prefers-color-scheme : dark) {
+	div.container section a.menu p[data-v-6b2a809a] {
+		color: #9A9A9A
+	}
+}
