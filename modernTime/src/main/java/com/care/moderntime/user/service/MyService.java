@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.care.moderntime.S3.S3Upload;
+import com.care.moderntime.user.dao.CertificationDAO;
 import com.care.moderntime.user.dao.UserDAO;
 import com.care.moderntime.user.dto.CertificationDTO;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,18 +23,24 @@ import lombok.RequiredArgsConstructor;
 public class MyService {
 	
 	private final S3Upload s3Upload;
+	private final CertificationDAO certDao;
 	
 	@Autowired UserDAO userDao;
 	@Autowired HttpSession session;
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	
-	public String sendCertification(MultipartFile picture) throws IOException {
+	public String sendCertification(MultipartFile picture, String type) throws IOException {
 		String id = (String) session.getAttribute("id");
+		// s3에 이미지 업로드
 		String url = s3Upload.uploadFiles(picture, "static");
-		System.out.println("url: " + url);
 		
-		return id;
+		CertificationDTO certification = new CertificationDTO(type, id, url);
+		int result = certDao.saveCertification(certification);
+		if (result == 0) {
+			return "인증 파일 전송 중에 문제가 발생하였습니다. 다시 시도해주세요.";
+		}
+		return "success";
 	}
 	
 	

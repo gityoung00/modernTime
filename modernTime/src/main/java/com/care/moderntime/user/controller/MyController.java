@@ -50,18 +50,32 @@ public class MyController {
 	@ResponseBody
 	@PostMapping("my/auth/freshman")
 	public String myAuthFresh(@RequestParam("picture") MultipartFile picture) throws IOException {
-		String result = myService.sendCertification(picture);
-		return "success";
+		String result = myService.sendCertification(picture, "freshmen");
+		return result;
 	}
 	
 	@GetMapping("my/auth/student")
 	public String myAuthStduent() {
-		return "user/my/authComplete";
+		return "user/my/authForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("my/auth/student")
+	public String myAuthStudent(@RequestParam("picture") MultipartFile picture) throws IOException {
+		String result = myService.sendCertification(picture, "student");
+		return result;
 	}
 	
 	@GetMapping("my/auth/graduate")
 	public String myAuthGraduate() {
-		return "user/my/authComplete";
+		return "user/my/authForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("my/auth/graduate")
+	public String myAuthGraduate(@RequestParam("picture") MultipartFile picture) throws IOException {
+		String result = myService.sendCertification(picture, "graduate");
+		return result;
 	}
 
 	@GetMapping("my/password")
