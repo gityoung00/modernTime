@@ -26,8 +26,9 @@ public class AdminController {
 		return "admin/adminFooter";
 	}
 	
-	@RequestMapping("admin")
+	@GetMapping("admin")
 	public String admin() {
+		System.out.println("testsdfsdfsdf");
 		return "admin/adminMain";
 	}
 	

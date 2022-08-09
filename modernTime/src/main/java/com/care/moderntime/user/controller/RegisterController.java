@@ -58,7 +58,7 @@ public class RegisterController {
 		// 이메일 전송
 		HashMap<String, Object> variables = new HashMap<String, Object>();
 		variables.put("token", token);
-		emailService.sendMail("registerMail", email, variables);
+		emailService.sendMail("registerMail", email, "authEmail", variables);
 		return "ok";
 
 	}
@@ -69,7 +69,7 @@ public class RegisterController {
 		System.out.println(token);
 		String email = emailService.getEmail(token);
 		if (email == null || email.isEmpty()) {
-			return "user/tokenExpired";
+			return "redirect:/expired";
 		}
 
 		model.addAttribute("email", email);
@@ -116,4 +116,5 @@ public class RegisterController {
 		System.out.println("id: " + id + ", nickname: " + nickname);
 		return registerService.doubleCheck(id, nickname);
 	}
+	
 }

@@ -1,5 +1,6 @@
 package com.care.moderntime.user.service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -8,14 +9,34 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.care.moderntime.S3.S3Upload;
 import com.care.moderntime.user.dao.UserDAO;
+import com.care.moderntime.user.dto.CertificationDTO;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MyService {
+	
+	private final S3Upload s3Upload;
+	
 	@Autowired UserDAO userDao;
 	@Autowired HttpSession session;
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	
+	
+	public String sendCertification(MultipartFile picture) throws IOException {
+		String id = (String) session.getAttribute("id");
+		String url = s3Upload.uploadFiles(picture, "static");
+		System.out.println("url: " + url);
+		
+		return id;
+	}
+	
 	
 	// 닉네임 설정 기간 비교
 	public int compareNickSetTime() {
@@ -51,16 +72,22 @@ public class MyService {
 		String id = (String) session.getAttribute("id"); 
 		// 기존 비밀번호와 일치하는지 확인
 		if (checkPassword(id, oldPw)) {
-			newPw = encoder.encode(newPw);
-			int result = userDao.setPw(id, newPw);
-			if (result == 0) {
-				return "비밀번호 변경 중 오류가 발생하였습니다. 다시 시도해주세요";
-			}
-			return "success";
+			return setNewPassword(id, newPw);
 			
 		} else {
 			return "비밀번호를 확인해주세요.";
 		}
+	}
+	
+	public String setNewPassword(String id, String newPw) {
+		// 기존 비밀번호와 일치하는지 확인
+		newPw = encoder.encode(newPw);
+		int result = userDao.setPw(id, newPw);
+		if (result == 0) {
+			return "비밀번호 변경 중 오류가 발생하였습니다. 다시 시도해주세요";
+		}
+		return "success";
+			
 	}
 	
 	public String setEmail(String email) {

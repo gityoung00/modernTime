@@ -48,16 +48,16 @@
 		<div data-v-6b2a809a="" class="container">
 			<section data-v-6b2a809a="">
 				<h1 data-v-6b2a809a="">인증 방식 선택</h1>
-				<a data-v-6b2a809a="" href="/auth/freshman" class="menu"><h3
+				<a data-v-6b2a809a="" href="/my/auth/freshman" class="menu"><h3
 						data-v-6b2a809a="">합격자 인증</h3>
 					<p data-v-6b2a809a="">
 						새내기 게시판만 이용 가능하며,<br data-v-6b2a809a=""> 합격 증명 자료를 통해 인증
-					</p></a> <a data-v-6b2a809a="" href="/auth/student" class="menu"><h3
+					</p></a> <a data-v-6b2a809a="" href="/my/auth/student" class="menu"><h3
 						data-v-6b2a809a="">재학생 인증</h3>
 					<p data-v-6b2a809a="">
 						게시판, 캠퍼스픽 등 모든 커뮤니티 이용이 가능하며,<br data-v-6b2a809a=""> 재학 증명
 						자료를 통해 인증
-					</p></a> <a data-v-6b2a809a="" href="/auth/graduate" class="menu"><h3
+					</p></a> <a data-v-6b2a809a="" href="/my/auth/graduate" class="menu"><h3
 						data-v-6b2a809a="">졸업생 인증</h3>
 					<p data-v-6b2a809a="">
 						게시판, 캠퍼스픽 등 모든 커뮤니티 이용이 가능하며,<br data-v-6b2a809a=""> 졸업 증명

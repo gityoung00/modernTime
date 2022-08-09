@@ -1,5 +1,6 @@
 package com.care.moderntime.user.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -10,10 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.care.moderntime.user.dto.CertificationDTO;
 import com.care.moderntime.user.dto.UserDTO;
 import com.care.moderntime.user.service.EmailService;
 import com.care.moderntime.user.service.MyService;
@@ -35,6 +39,29 @@ public class MyController {
 	@GetMapping("my/auth")
 	public String myAuth() {
 		return "user/my/auth";
+	}
+	
+	@GetMapping("my/auth/freshman")
+	public String myAuthFresh(Model model) {
+		model.addAttribute("title", "새내기 인증");
+		return "user/my/authForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("my/auth/freshman")
+	public String myAuthFresh(@RequestParam("picture") MultipartFile picture) throws IOException {
+		String result = myService.sendCertification(picture);
+		return "success";
+	}
+	
+	@GetMapping("my/auth/student")
+	public String myAuthStduent() {
+		return "user/my/authComplete";
+	}
+	
+	@GetMapping("my/auth/graduate")
+	public String myAuthGraduate() {
+		return "user/my/authComplete";
 	}
 
 	@GetMapping("my/password")
@@ -85,7 +112,7 @@ public class MyController {
 		// 이메일 전송
 		HashMap<String, Object> variables = new HashMap<String, Object>();
 		variables.put("token", token);
-		emailService.sendMail("modifyEmail", email, variables);
+		emailService.sendMail("modifyEmail", email, "modifyEmail", variables);
 		return "새 이메일로 인증 링크를 전송하였습니다. 메일함을 확인해주세요.";
 	}
 

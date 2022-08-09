@@ -3,13 +3,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="adminHeader.jsp"%>
 
-<%-- 로그인 아이디가 admin이 아닐경우 인덱스페이지로 돌아감
-<c:if test="${session.id!='admin'}">
-	<script>
-		location.href = '/';
-	</script>
-</c:if> 
---%>
+
 <div id="submenu">
 		<div class="wrap">
 			<ul>

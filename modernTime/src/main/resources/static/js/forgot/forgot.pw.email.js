@@ -19,6 +19,7 @@ $().ready(function() {
 					data: { 'email': $email.val(), 'id': $id.val() },
 					success: function(data) {
 						if (data == "success"){
+							alert("해당 이메일로 가입한 아이디를 전송하였습니다. 메일함을 확인해주세요.");
 						} else {
 						  alert(data);
 						}

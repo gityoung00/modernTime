@@ -74,11 +74,18 @@ public class EmailService {
 		return token;
 	}
 
-	public void sendMail(String pageName, String email, Map<String, Object> variables) throws MessagingException {
+	public void sendMail(String pageName, String email, String titleName, Map<String, Object> variables) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-		String title = "[모던타임] 이메일 인증 요청";
+		
+		Map<String, String> titles= new HashMap<String, String>();
+		// 제목: 이메일 인증, 이메일 변경, 아이디찾기, 비밀번호 찾기
+		titles.put("authEmail", "[모던타임] 이메일 인증 요청");
+		titles.put("modifyEmail", "[모던타임] 이메일 변경 안내");
+		titles.put("findId", "[모던타임] 아이디 찾기 안내");
+		titles.put("findPw", "[모던타임] 비밀번호 찾기 안내");
+		
+		String title = titles.get(titleName);
 		// 메일 제목 설정
 		helper.setSubject(title);
 
