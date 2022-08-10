@@ -23,6 +23,7 @@
   <link type="text/css" href="/css/container.article.css" rel="stylesheet">
   <link type="text/css" href="/css/container.community.css" rel="stylesheet">
   <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
+  <link type="text/css" href="/adminjs/lectureRegist.css" rel="stylesheet">
   <link href="/favicon.ico" rel="shortcut icon">
   <!--[if lt IE 9]>
   <script src="/js/extensions.html5shiv.js"></script>
@@ -40,6 +41,9 @@
   <script type="text/javascript" src="/adminjs/extensions.canvas-to-blob.min.js"></script>
   <script type="text/javascript" src="/adminjs/extensions.load-image.all.min.js"></script>
   <script type="text/javascript" src="/adminjs/message.send.js"></script>
+  <script type="text/javascript" src="/adminjs/timetable.index.js"></script>
+  <script type="text/javascript" src="/adminjs/timetable.subjects.js"></script>
+  <script type="text/javascript" src="/adminjs/lecture.js"></script>
 </head>
 <body>
 <nav>
