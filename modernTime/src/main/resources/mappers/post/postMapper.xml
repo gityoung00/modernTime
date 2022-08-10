@@ -4,7 +4,19 @@
 <mapper namespace="com.care.moderntime.post.repository.IPostDAO">
 
    <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
-      INSERT INTO post (userId, title, content, nickname, createDate, like, boardId) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{like}, #{boardId})
+      INSERT INTO post (`user_id`, `title`, `content`, `nickname`, `create_date`, `like_count`, `board_id`) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{likeCount}, #{boardId})
    </insert>
+   
+   <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post ORDER BY id DESC
+	</select>
+	
+	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
+		SELECT * FROM post WHERE id=#{id}
+	</select>
+	
+	<update id="modifyProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET title=#{title}, content=#{content} WHERE id=#{id}
+	</update>
    
 </mapper>
