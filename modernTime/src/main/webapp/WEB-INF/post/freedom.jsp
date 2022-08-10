@@ -71,7 +71,7 @@
 		<hr>
 	</div>
 	<div class="wrap articles">
-		<form class="write" action="writeProc" method="post" >
+		<form id="write" class="write" action="writeProc" method="post" >
 			<p><input name="title" autocomplete="off" placeholder="글 제목" class="title"></p>
 			<p>
 				<textarea name="text" placeholder="에브리타임은 누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티 이용규칙을 제정하여 운영하고 있습니다. 위반 시 게시물이 삭제되고 서비스 이용이 일정 기간 제한될 수 있습니다. 
@@ -117,26 +117,27 @@
 			<div class="clearBothOnly"></div>
 		</form>
 		<a id="writeArticleButton" style="display: none;">새 글을 작성해주세요!</a>
+		
 		<!-- 글 시작 -->
-		<c:forEach var="postlist" items="${postList }">
+		<c:forEach var="post" items="${sessionScope.listProc }">
 			<article>
-			<!-- <a class="article" href="/389161/v/262053749"> -->
-			<a class="article" href="/freedomContent">
-				<h2 class="medium">혹시 복학생은 과톡 어떻게 들어가? ${postlist.title }</h2>
-				<p class="small">이번에 복학신청하고 이것저것 찾아보는중인데 과톡은 어떻게 찾나 싶어서ㅠㅠ... 🥲🥲 ${postlist.content }</p>
-				<time class="small">25분 전 ${create_date }</time>
+			<a class="article" href="/freedomContent?id=${post.id }">
+				<h2 class="medium">${post.title }</h2>
+				<p class="small">${post.content }</p>
+				<time class="small">${post.createDate }</time>
 				<h3 class="small">익명</h3>
 				<ul class="status">
-					<li title="공감" class="vote">${postlist.like }</li>
+					<li title="공감" class="vote">${post.likeCount }</li>
 					<li title="댓글" class="comment">2</li>
 				</ul>
 				<hr>
 				<input type="hidden" name="262053749_comment_anonym" value="0">
-					</a>
+			</a>
 			<div class="comments"></div>
-		</article>
+			</article>
 		</c:forEach>
-			<div class="clearBothOnly"></div>
+		
+		<div class="clearBothOnly"></div>
 		<!-- 검색과 페이지 -->
 		<div class="pagination">
 			<form id="searchArticleForm" class="search">

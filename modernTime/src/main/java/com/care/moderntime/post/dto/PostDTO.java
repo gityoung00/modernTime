@@ -1,7 +1,7 @@
 package com.care.moderntime.post.dto;
 
 public class PostDTO {
-	private int id, like, boardId;
+	private int id, likeCount, boardId;
 	private String userId, title, content, nickname, createDate;
 	
 	public int getId() {
@@ -10,11 +10,11 @@ public class PostDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getLike() {
-		return like;
+	public int getLikeCount() {
+		return likeCount;
 	}
-	public void setLike(int like) {
-		this.like = like;
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
 	}
 	public int getBoardId() {
 		return boardId;

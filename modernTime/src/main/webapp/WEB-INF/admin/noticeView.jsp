@@ -37,7 +37,7 @@
 			<img src="https://cf-fpi.everytime.kr/5/1579249303.png"	class="picture large">
 			<div class="profile">
 					<h3 class="admin large">에브리타임</h3>
-					<time class="large">06/07 16:51</time>
+					<time class="large">${noticeView.create_date}</time>
 				</div>
 				<ul class="status">
 					<li class="messagesend" data-modal="messageSend"
@@ -45,17 +45,9 @@
 					<li class="abuse">신고</li>
 				</ul>
 				<hr>
-				<h2 class="large">개인정보 처리방침 개정 안내</h2>
+				<h2 class="large">${noticeView.title }</h2>
 				<p class="large">
-					안녕하세요. 에브리타임입니다.<br>
-					<br>아래와 같이 개인정보 처리방침이 개정되었으니, 서비스 이용에 참고해주시기 바랍니다.<br>
-					<br>[개정 상세 내용]<br>- 2. 수집하는 개인정보의 항목 : 현행화 (수집 시점에 따른 항목
-					분리 및 학교 인증 시 학과 수집)<br>- 5. 개인정보 처리의 위탁 : 현행화 (본인 인증 관련 내용 추가)<br>-
-					6. 수집한 개인정보의 보관 및 파기 : 로그 기록 등 수집 기한 축소<br>- 그 외 조항 : 현행화 및
-					구체화 (첨부 전문 참고)<br>
-					<br>개정된 개인정보 처리방침은 2022년 6월 14일부로 효력이 발생하며, 개정 적용 일자까지 회원이 거부
-					의사를 표시하지 아니할 경우, 개정에 동의한 것으로 간주됩니다.<br>
-					<br>감사합니다.
+					${noticeView.content }
 				</p>
 				<div class="attaches multiple">
 					<figure class="attach">
@@ -83,8 +75,8 @@
 		<div class="pagination">
 			<a id="goListButton" class="list" href="notice">글 목록</a>
 			<!-- article.css 관리자만 보이게 -->
-			<a id="deleteButton" href="noticeDelete">글 삭제</a>
-			<a id="updateButton" href="noticeUpdate">글 수정</a>
+			<a id="deleteButton" href="noticeDelete?id=${noticeView.id}">글 삭제</a>
+			<a id="updateButton" href="noticeUpdate?id=${noticeView.id}">글 수정</a>
 		</div>
 	</div>
 	<hr>
