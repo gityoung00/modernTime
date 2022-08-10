@@ -13,4 +13,10 @@ public interface CertificationDAO {
 	
 	CertificationDTO selectAllCertification();
 	
+	// 학교인증 제출 여부 확인
+	int checkCertification(String userId);
+	
+	// 학교인증 여부 확인
+	int isCertificate(String id);
+	
 }

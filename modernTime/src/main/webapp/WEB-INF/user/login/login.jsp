@@ -36,6 +36,13 @@
 <script type="text/javascript" src="/js/main.login.js"></script>
 <input type="hidden" id="_w_simile" data-inspect-config="3">
 <script type="text/javascript" src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script>
+<script>
+var msg = "${msg }";
+console.log(msg);
+if (msg){
+	alert(msg);
+}
+</script>
 </head>
 <body style="">
 

@@ -43,6 +43,23 @@ public class MyService {
 		return "success";
 	}
 	
+	public String checkCertification() {
+		String id = (String) session.getAttribute("id");
+		if (id == null || id.isEmpty()) {
+			return "login";
+		}
+		int count = certDao.checkCertification(id);
+		if (count > 0) {
+			return "submit";
+		}
+		return "success";
+	}
+	
+	public boolean isCertificate() {
+		String id = (String) session.getAttribute("id");
+		int result = certDao.isCertificate(id);
+		return (result == 1) ? true : false;
+	}
 	
 	// 닉네임 설정 기간 비교
 	public int compareNickSetTime() {

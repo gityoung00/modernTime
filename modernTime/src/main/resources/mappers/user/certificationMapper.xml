@@ -8,4 +8,14 @@
 		INSERT INTO certification(type, picture, user_id) VALUES(#{type}, #{picture}, #{userId})
 	</insert>
 	
+	<select id="checkCertification" parameterType="String" resultType="int">
+		select count(*) from certification where user_id=#{userId}
+	
+	</select>
+	
+	<select id="isCertificate" parameterType="String">
+		select is_certificate from user where id=${id}
+	</select>
+	
+	
 </mapper>

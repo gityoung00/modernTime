@@ -42,7 +42,18 @@ public class MyController {
 	}
 	
 	@GetMapping("my/auth/freshman")
-	public String myAuthFresh(Model model) {
+	public String myAuthFresh(Model model, RedirectAttributes ra) {
+		if (myService.checkCertification().equals("login")) {
+			ra.addFlashAttribute("msg", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		}
+		if (myService.checkCertification().equals("submit")) {
+			ra.addFlashAttribute("msg", "이미 제출하였습니다.");
+			return "redirect:/";
+		}
+		if (myService.isCertificate()) {
+			return "user/my/authComplete";
+		}
 		model.addAttribute("title", "새내기 인증");
 		return "user/my/authForm";
 	}
@@ -55,7 +66,19 @@ public class MyController {
 	}
 	
 	@GetMapping("my/auth/student")
-	public String myAuthStduent() {
+	public String myAuthStduent(Model model, RedirectAttributes ra) {
+		if (myService.checkCertification().equals("login")) {
+			ra.addFlashAttribute("msg", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		} 
+		if (myService.checkCertification().equals("submit")) {
+			ra.addFlashAttribute("msg", "이미 제출하였습니다.");
+			return "redirect:/";
+		}
+		if (myService.isCertificate()) {
+			return "user/my/authComplete";
+		}
+		model.addAttribute("title", "재학생 인증");
 		return "user/my/authForm";
 	}
 	
@@ -67,7 +90,18 @@ public class MyController {
 	}
 	
 	@GetMapping("my/auth/graduate")
-	public String myAuthGraduate() {
+	public String myAuthGraduate(Model model, RedirectAttributes ra) {
+		if (myService.checkCertification().equals("login")) {
+			ra.addFlashAttribute("msg", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		} if (myService.checkCertification().equals("submit")) {
+			ra.addFlashAttribute("msg", "이미 제출하였습니다.");
+			return "redirect:/";
+		}
+		if (myService.isCertificate()) {
+			return "user/my/authComplete";
+		}
+		model.addAttribute("title", "졸업생 인증");
 		return "user/my/authForm";
 	}
 	

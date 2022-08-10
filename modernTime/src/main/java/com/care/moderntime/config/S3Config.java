@@ -1,4 +1,4 @@
-package com.care.moderntime.S3;
+package com.care.moderntime.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
