@@ -71,7 +71,7 @@
     <div class="section">
       <div class="mypoint">
         <span class="text">총 포인트</span>
-        <span class="value"><c:out></span>
+        <span class="value"></span>
       </div>
       <h2>내 포인트 내역</h2>
       <ol class="history"></ol>
