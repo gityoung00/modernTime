@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.care.moderntime.lecturerepositry.ILectureDAO;
+import com.care.moderntime.lecture.repositry.ILectureDAO;
 
 public class LectureService {
 	@Autowired private ILectureDAO dao;

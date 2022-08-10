@@ -29,6 +29,9 @@
 <link data-vue-meta="ssr" rel="preload" href="/css/forgot/a1dae6ed17aadf536b25.css" as="style">
 <link data-vue-meta="ssr" rel="stylesheet" href="/css/forgot/233234eea2854d91088f.css">
 <link rel="stylesheet" type="text/css" href="/css/forgot/a1dae6ed17aadf536b25.css">
+<script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+<script src="/js/forgot/forgot.pw.email.js"></script>
 </head>
 <body>
 
@@ -40,7 +43,9 @@
 							찾기</span></a>
 				</div>
 				<form data-v-68cdbca8="">
-					<input data-v-68cdbca8="" type="email" name="email" placeholder="가입된 이메일" autocomplete="off"> <input data-v-68cdbca8="" type="submit" value="비밀번호 찾기">
+					<input data-v-68cdbca8="" type="hidden" name="id" value="${id }" disabled>
+					<input data-v-68cdbca8="" type="email" name="email" placeholder="가입된 이메일" autocomplete="off">
+					 <input data-v-68cdbca8="" type="submit" value="비밀번호 찾기">
 					<div data-v-68cdbca8="" class="description">
 						<p data-v-68cdbca8="">※ 가입된 아이디가 있을 경우, 입력하신 이메일로 비밀번호 변경 방법을 안내해 드립니다.</p>
 						<p data-v-68cdbca8="">※ 만약 이메일이 오지 않는다면, 스팸 편지함으로 이동하지 않았는지 확인해주세요.</p>
