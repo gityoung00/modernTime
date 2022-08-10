@@ -7,8 +7,6 @@ import com.care.moderntime.user.dto.EmailTokenDTO;
 
 @Mapper
 public interface EmailDAO {
-	// 이메일 체크
-	int checkEmail(String email);
 	
 	// 이메일과 매칭되는 토큰 찾기 - 중복 토큰 방지
 	int getTokenCount(String email);

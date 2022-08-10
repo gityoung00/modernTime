@@ -19,7 +19,7 @@ $().ready(function() {
 					data: { 'id': $id.val() },
 					success: function(data) {
 						if (data == "success"){
-							location.href="/forgot/password/userid"
+							location.href="/forgot/password/userid?id=" + $id.val()
 						} else {
 						  alert(data);
 						}

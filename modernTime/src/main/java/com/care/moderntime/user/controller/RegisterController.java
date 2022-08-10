@@ -43,14 +43,14 @@ public class RegisterController {
 	@PostMapping("register/identify/email/check")
 	public String identifyEmail(@RequestParam String email) throws MessagingException {
 		// 이메일 중복 체크 -> 토큰 생성
-		String token = emailService.makeToken(email);
-
-		// token이 빈 값이면 -> 이메일이 중복이면
-		if (token.isEmpty())
+		String token = null;
+		if (emailService.doubleEmailCheck(email)) {
 			return "emaildouble";
+		}
 
 		// token이 double이면(5분이내로 동일한 이메일에 링크를 보냈으면) ->
-		if (token.equals("double")) {
+		token = emailService.makeToken(email);
+		if (token == null) {
 			return "tokendouble";
 		}
 
@@ -58,7 +58,7 @@ public class RegisterController {
 		// 이메일 전송
 		HashMap<String, Object> variables = new HashMap<String, Object>();
 		variables.put("token", token);
-		emailService.sendMail("registerMail", email, variables);
+		emailService.sendMail("registerMail", email, "authEmail", variables);
 		return "ok";
 
 	}
@@ -69,7 +69,7 @@ public class RegisterController {
 		System.out.println(token);
 		String email = emailService.getEmail(token);
 		if (email == null || email.isEmpty()) {
-			return "user/tokenExpired";
+			return "redirect:/expired";
 		}
 
 		model.addAttribute("email", email);
@@ -116,4 +116,5 @@ public class RegisterController {
 		System.out.println("id: " + id + ", nickname: " + nickname);
 		return registerService.doubleCheck(id, nickname);
 	}
+	
 }

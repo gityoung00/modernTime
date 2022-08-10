@@ -123,10 +123,10 @@ $().ready(function () {
 	};
 	var _fn = {
 		initiate: function () {
-			if (!$container.is(':has(#boardId)')) {
-				location.href = '/';
-				return false;
-			}
+//			if (!$container.is(':has(#boardId)')) {
+//				location.href = '/';
+//				return false;
+//			}
 			$title = $container.find('aside > div.title');
 			$containerTitle = $container.find('div.wrap.title');
 			$articles = $container.find('div.articles');
@@ -675,6 +675,14 @@ $().ready(function () {
 			if (_set.categoryId > 0) {
 				conditions.category_id = _set.categoryId;
 			}
+			$.ajax({
+				url : 'admin/list',
+				type : 'post',
+				data : conditions,
+				success:function(data){
+				console.log(data);					
+				}
+			})
 //			$.ajax({
 //				url: '/find/board/article/list',
 //				xhrFields: {withCredentials: true},
@@ -944,7 +952,7 @@ $().ready(function () {
 				$('<a></a>').attr('href', prevPageUrl).text('이전').addClass('prev').appendTo($pagination);
 			}
 			if (_set.boardPage === 1 && _set.isSearchable && !_set.categoryId) {
-				var $searchForm = $('<form></form>').attr('id', 'searchArticleForm').addClass('search').appendTo($pagination);
+				var $searchForm = $('<form></form>').attr('id', 'sefarchArticleForm').addClass('search').appendTo($pagination);
 				var $searchType = $('<select></select>').attr({
 					name: 'search_type'
 				}).appendTo($searchForm);
@@ -1542,8 +1550,31 @@ $().ready(function () {
 				});
 				_set.attachUploadingStatus[index] = 1;
 				$thumbnail.removeClass('loading').addClass('attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")');
-				$writeForm.find('input[name="file"]').val('');
+				$writeForm.fnd('input[name="file"]').val('');
 			}
+//			  $.ajax({
+//			    type:"POST",
+//			    url: "/admin/upload",
+//			    enctype: 'multipart/form-data',
+//			    processData: false,
+//			    contentType: false,
+//			    data: {
+//					board_id: _set.boardId,
+//					file_name: filename,
+//					file_size: file.size
+//				},
+//			    cache: false,
+//        		timeout: 600000,
+//			    success: function(rtn){
+//			      const message = rtn.data.values[0];
+//			      console.log("message: ", message)
+//			      $("#resultUploadPath").text(message.uploadFilePath)
+//			    },
+//			    err: function(err){
+//			      console.log("err:", err)
+//			    }
+//			  })
+			},
 //			$.ajax({
 //				url: '/save/board/article/attach',
 //				xhrFields: {withCredentials: true},
@@ -1613,7 +1644,7 @@ $().ready(function () {
 //					});
 //				}
 //			});
-		},
+//		)},
 		showAttachThumbnailForm: function ($thumbnail) {
 			var attach = _.find(_set.attaches, function (attach) {
 				return attach.id === $thumbnail.data('id');

@@ -5,7 +5,28 @@
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
 		parameterType="com.care.moderntime.admin.dto.NoticeDTO">
-		INSERT INTO notice (title, content, create_date) VALUES(#{title}, #{content}, #{create_date})
+		INSERT INTO notice (title, content, create_date) VALUES(#{title}, #{content}, NOW())
+	</insert>
+	<select id="list" resultType="com.care.moderntime.admin.dto.NoticeDTO">
+		SELECT * FROM notice ORDER BY id DESC
+	</select>
+	<select id="noticeView" resultType="com.care.moderntime.admin.dto.NoticeDTO">
+		SELECT * FROM notice WHERE id=${id}
+	</select>
+	<delete id="noticeDelete">
+	DELETE FROM notice WHERE id=${id}
+	</delete>
+	
+	<select id="noticeCount" resultType="int">
+		SELECT count(*) FROM notice
+	</select>
+	
+	<insert id="lectureRegist" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		INSERT INTO lecture
+		VALUES(#{lectureId},#{type},#{name},#{teacher},#{time1},#{time2},#{place},#{credit},#{lectureTime},#{maxStudent},#{listenStudent},0)
 	</insert>
 	
+	<select id="lectureList" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture
+	</select>
 </mapper>

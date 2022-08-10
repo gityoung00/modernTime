@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="adminHeader.jsp"%>
 <div id="submenu">
 	<div class="wrap">
@@ -76,291 +77,35 @@
 				<li title="해시태그" class="hashtag"></li>
 				<li title="첨부" class="attach"></li>
 				<li title="완료"  class="submit"></li>
-				<li title="익명" class="anonym active"></li>
-				<li title="질문" class="question"></li>
+<!-- 				<li title="질문" class="question"></li> -->
 			</ul>
 			<div class="clearBothOnly"></div>
 		</form>
 		<a id="writeArticleButton" style="display: none;">새 글을 작성해주세요!</a>
-		
-				<article>
-					<a class="article" href="/noticeView">
-			<h2 class="medium">개인정보 처리방침 개정 안내</h2>
-				<time class="small">06/07 16:51</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">3</li>
-					<li title="공감" class="vote">6</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="254951379_comment_anonym" value="0">
-					</a>
-			<div class="comments"></div>
-		</article>
+	<div id="noticeList">	
+	<!-- 공지리스트 -->
+	<c:forEach var="db" items="${sessionScope.list }">
 		<article>
-			<a class="article" href="/1/v/254950492"><h2 class="medium">서비스
-					이용약관 개정 안내</h2>
-				<time class="small">06/07 16:46</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">6</li>
-					<li title="공감" class="vote">5</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="254950492_comment_anonym" value="0"></a>
-			<div class="comments"></div>
+		<div id = "noticeViewId" style="display:none">${db.id }</div>
+			<a class="article" href="/noticeView?id=${db.id }"><h2 class="medium">${db.title }</h2>
+			<time class="small">${db.create_date }</time>
+			<h3 class="admin small">에브리타임</h3>
+			<ul class="status">
+				<li title="공감" class="vote">0</li>
+				<li title="댓글" class="comment">0</li>
+			</ul>
+			<hr>
+<!--	댓글 가져오는 칸인듯 보임. 			
+<input type="hidden" name="224236731_comment_anonym" value="0"> 
+-->
+			</a>
+<!-- 		<div class="comments"></div> -->
 		</article>
-		<article>
-			<a class="article" href="/1/v/239610975"><h2 class="medium">주기적
-					재인증에 관한 안내</h2>
-				<time class="small">03/14 11:18</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">127</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="239610975_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/224236731"><h2 class="medium">오픈채팅을
-					이용한 각종 피해 예방 안내</h2>
-				<time class="small">21/12/27 13:55</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">411</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="224236731_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/196550620"><h2 class="medium">6/21(월)
-					게시판 오류에 따른 롤백 안내</h2>
-				<time class="small">21/06/21 13:51</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">18</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="196550620_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/165667408"><h2 class="medium">시사·이슈
-					게시판 개설 및 커뮤니티 이용규칙 개정 안내</h2>
-				<time class="small">21/02/08 14:25</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">483</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="165667408_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/157445147"><h2 class="medium">에브리타임
-					커뮤니티 이용규칙 업데이트 안내</h2>
-				<time class="small">20/12/15 18:12</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">1</li>
-					<li title="공감" class="vote">30</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="157445147_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/122347989"><h2 class="medium">5/19(화)
-					서비스 장애 공지</h2>
-				<time class="small">20/05/19 14:43</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">20</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="122347989_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/121410378"><h2 class="medium">익명
-					시스템 업데이트 안내</h2>
-				<time class="small">20/05/13 17:59</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">1</li>
-					<li title="공감" class="vote">1621</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="121410378_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/108413053"><h2 class="medium">커뮤니티
-					이용규칙 업데이트 안내</h2>
-				<time class="small">20/03/10 16:17</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">16</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="108413053_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/107029575"><h2 class="medium">서비스
-					보안 강화 조치에 따른 본인인증 안내</h2>
-				<time class="small">20/03/03 11:27</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">20</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="107029575_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/99865628"><h2 class="medium">에브리타임
-					10주년 돌아보기</h2>
-				<time class="small">20/01/17 17:18</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">11</li>
-					<li title="공감" class="vote">174</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="99865628_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/57387234"><h2 class="medium">에브리타임
-					개인정보 처리방침 개정 안내</h2>
-				<time class="small">19/11/12 10:13</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">1</li>
-					<li title="공감" class="vote">0</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="57387234_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/53003056"><h2 class="medium">에브리타임
-					개인정보 처리방침 개정 안내</h2>
-				<time class="small">18/09/17 18:42</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">1</li>
-					<li title="공감" class="vote">2</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="53003056_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/40942051"><h2 class="medium">3/26(월)
-					로그인 해제 (사용자 인증 정보 오류) 안내</h2>
-				<time class="small">18/03/26 15:48</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">11</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="40942051_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/36933890"><h2 class="medium">2/7(수)
-					익명 작성 오류 안내</h2>
-				<time class="small">18/02/08 00:52</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">10</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="36933890_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/34656985"><h2 class="medium">강의평가/시험정보
-					작성 이벤트! &lt;리틀 카카오 인형&gt; 받아가세요~</h2>
-				<time class="small">17/12/20 15:39</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li class="attach">1</li>
-					<li title="공감" class="vote">118</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="34656985_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/33981418"><h2 class="medium">12/8(금)
-					서비스 장애 공지</h2>
-				<time class="small">17/12/08 02:20</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">0</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="33981418_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/33227058"><h2 class="medium">게시판
-					신설 안내</h2>
-				<time class="small">17/11/21 10:49</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">2</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="33227058_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		<article>
-			<a class="article" href="/1/v/32460087"><h2 class="medium">11/2(목)
-					알림 반복 발송 오류 수정 공지</h2>
-				<time class="small">17/11/02 17:25</time>
-				<h3 class="admin small">에브리타임</h3>
-				<ul class="status">
-					<li title="공감" class="vote">0</li>
-					<li title="댓글" class="comment">0</li>
-				</ul>
-				<hr>
-				<input type="hidden" name="32460087_comment_anonym" value="0"></a>
-			<div class="comments"></div>
-		</article>
-		
-			
+	</c:forEach>
+	</div>	
 			<div class="clearBothOnly"></div>
 		<div class="pagination">
 			<a href="/1/p/2" class="prev">이전</a>
-			<!-- 관리자만 보이게 -->
-			<div>
-				<button onclick="location.href='noticeRegist'">등록</button>
-			</div>
 			<a href="/1/p/2" class="next">다음</a>
 		</div>
 	</div>
