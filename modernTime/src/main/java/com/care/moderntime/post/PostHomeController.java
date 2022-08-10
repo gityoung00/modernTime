@@ -9,18 +9,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PostHomeController {
 	
-	@Autowired HttpSession session;
-	
-//	public String checkSession(String url) {
-//		String id = (String)session.getAttribute("id");
-//		if(id == null)
-//			return "member/loginForm";
-//		return url;
-//	}
-//	
-//	@RequestMapping(value = "/freedom")
-//	public String freedom() {
-//		String url = checkSession("post/freedom");
-//		return url;
-//	}
 }
