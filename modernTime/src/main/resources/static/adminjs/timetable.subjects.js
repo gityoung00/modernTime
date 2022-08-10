@@ -925,6 +925,23 @@ $().ready(function () {
 						success : function(data){
 							alert('sdf');
 							console.log(data);
+							var jsonDatas = data;//JSON.parse(data);
+							var list = "";
+			
+			for(i = 0; i< jsonDatas.cd.length; i++){
+				list += "<tr>";
+				list = list + "<td>" + jsonDatas.cd[i].type+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].time1,jsonDatas.cd[i].time2+ "</td>";
+				list = list + "<td class='bold'>" + jsonDatas.cd[i].name+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].time1.teacher+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].time1.credit+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].time1.place,jsonDatas.cd[i].time1.lectureTime+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].time1.score+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].time1.listenStudent+ "</td>";
+				list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent+ "</td>";
+				list +="</tr>";
+			}
+			("#tbody").html("list");
 						}
       });
 		},

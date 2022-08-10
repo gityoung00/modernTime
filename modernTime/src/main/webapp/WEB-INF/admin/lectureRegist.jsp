@@ -152,22 +152,8 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
-				<c:forEach var="db" items="${sessionScope.lectureList }">
-					<tr>
-						<td>${db.type }</td>
-						<td>${db.time1 },${db.time2 }</td>
-						<td class="bold">${db.name}</td>
-						<td>${db.teacher }</td>
-						<td>${db.credit }</td>
-						<td>${db.place },${db.lecture_time }</td>
-						<td><a href="/lecture/view/2314908" target="_blank"
-							title="4.86" class="star">${db.score }<span class="on"
-								style="width: 97.2%;"></span></a></td>
-						<td>${db.listen_student }</td>
-						<td class="small">${db.max_student }</td>
-					</tr>
-				</c:forEach>
+				<tbody id = "tbody">
+				
 				</tbody>
 				<tfoot>
 					<tr>
