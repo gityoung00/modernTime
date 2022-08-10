@@ -1,5 +1,6 @@
 package com.care.moderntime.user.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -10,10 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.care.moderntime.user.dto.CertificationDTO;
 import com.care.moderntime.user.dto.UserDTO;
 import com.care.moderntime.user.service.EmailService;
 import com.care.moderntime.user.service.MyService;
@@ -35,6 +39,77 @@ public class MyController {
 	@GetMapping("my/auth")
 	public String myAuth() {
 		return "user/my/auth";
+	}
+	
+	@GetMapping("my/auth/freshman")
+	public String myAuthFresh(Model model, RedirectAttributes ra) {
+		if (myService.checkCertification().equals("login")) {
+			ra.addFlashAttribute("msg", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		}
+		if (myService.checkCertification().equals("submit")) {
+			ra.addFlashAttribute("msg", "이미 제출하였습니다.");
+			return "redirect:/";
+		}
+		if (myService.isCertificate()) {
+			return "user/my/authComplete";
+		}
+		model.addAttribute("title", "새내기 인증");
+		return "user/my/authForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("my/auth/freshman")
+	public String myAuthFresh(@RequestParam("picture") MultipartFile picture) throws IOException {
+		String result = myService.sendCertification(picture, "freshmen");
+		return result;
+	}
+	
+	@GetMapping("my/auth/student")
+	public String myAuthStduent(Model model, RedirectAttributes ra) {
+		if (myService.checkCertification().equals("login")) {
+			ra.addFlashAttribute("msg", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		} 
+		if (myService.checkCertification().equals("submit")) {
+			ra.addFlashAttribute("msg", "이미 제출하였습니다.");
+			return "redirect:/";
+		}
+		if (myService.isCertificate()) {
+			return "user/my/authComplete";
+		}
+		model.addAttribute("title", "재학생 인증");
+		return "user/my/authForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("my/auth/student")
+	public String myAuthStudent(@RequestParam("picture") MultipartFile picture) throws IOException {
+		String result = myService.sendCertification(picture, "student");
+		return result;
+	}
+	
+	@GetMapping("my/auth/graduate")
+	public String myAuthGraduate(Model model, RedirectAttributes ra) {
+		if (myService.checkCertification().equals("login")) {
+			ra.addFlashAttribute("msg", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		} if (myService.checkCertification().equals("submit")) {
+			ra.addFlashAttribute("msg", "이미 제출하였습니다.");
+			return "redirect:/";
+		}
+		if (myService.isCertificate()) {
+			return "user/my/authComplete";
+		}
+		model.addAttribute("title", "졸업생 인증");
+		return "user/my/authForm";
+	}
+	
+	@ResponseBody
+	@PostMapping("my/auth/graduate")
+	public String myAuthGraduate(@RequestParam("picture") MultipartFile picture) throws IOException {
+		String result = myService.sendCertification(picture, "graduate");
+		return result;
 	}
 
 	@GetMapping("my/password")
@@ -71,14 +146,13 @@ public class MyController {
 		}
 
 		// 이메일 중복 체크 -> 토큰 생성
-		String token = emailService.makeToken(email);
-
-		// token이 빈 값이면 -> 이메일이 중복이면
-		if (token.isEmpty())
+		if (emailService.doubleEmailCheck(email)) {
 			return "이미 존재하는 이메일입니다. 다른 이메일을 입력해주세요.";
+		}
 
 		// token이 double이면(5분이내로 동일한 이메일에 링크를 보냈으면) ->
-		if (token.equals("double")) {
+		String token = emailService.makeToken(email);
+		if (token == null) {
 			return "이미 해당 메일로 인증 링크를 전송하였습니다. 메일함을 확인해주세요.";
 		}
 
@@ -86,7 +160,7 @@ public class MyController {
 		// 이메일 전송
 		HashMap<String, Object> variables = new HashMap<String, Object>();
 		variables.put("token", token);
-		emailService.sendMail("modifyEmail", email, variables);
+		emailService.sendMail("modifyEmail", email, "modifyEmail", variables);
 		return "새 이메일로 인증 링크를 전송하였습니다. 메일함을 확인해주세요.";
 	}
 

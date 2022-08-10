@@ -17,7 +17,7 @@ public class UserService {
 		UserDTO user = userDao.selectEmail(email);
 		return user;
 	}
-
+	
 	// 유저 정보 얻기 - 비밀번호찾기
 	public UserDTO getUserFromId(String id) {
 		UserDTO user = userDao.selectId(id);

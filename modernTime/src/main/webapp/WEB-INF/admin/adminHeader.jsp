@@ -25,14 +25,6 @@
   <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
   <link type="text/css" href="/adminjs/lectureRegist.css" rel="stylesheet">
   <link href="/favicon.ico" rel="shortcut icon">
-  <!--[if lt IE 9]>
-  <script src="/js/extensions.html5shiv.js"></script>
-  <script src="/js/extensions.respond.min.js"></script>
-  <script src="/js/extensions.excanvas.min.js"></script>
-  <![endif]-->
-  <!--[if lt IE 8]>
-  <script src="/js/extensions.json3.min.js"></script>
-  <![endif]-->
   <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>

@@ -1,12 +1,16 @@
 package com.care.moderntime.post.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.moderntime.post.dto.PostDTO;
@@ -14,55 +18,38 @@ import com.care.moderntime.post.repository.IPostDAO;
 
 @Service
 public class PostServiceImpl implements IPostService{
+	
 	@Autowired private IPostDAO mapper;
-
-	@Override
-	public void writeProc(MultipartHttpServletRequest multi) {
-		//String userId = (String)session.getAttribute("userId");
-		String title = multi.getParameter("title");
-		String content= multi.getParameter("text");
-		//String nickname= multi.getParameter("nickname");
-		
-		System.out.println(title);
-		System.out.println(content);
-		
-		PostDTO postDto = new PostDTO();
-		//postDto.setUserId(userId);		
-		postDto.setTitle(title);
-		postDto.setContent(content);
-		//postDto.setNickname(nickname);
-		
-		postDto.setUserId("id1");	
-		postDto.setNickname("nickname");
-		postDto.setId(0);
-		postDto.setLike(0);
-		postDto.setBoardId(0);
-		
-		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
-		postDto.setCreateDate(sdf.format(date));
-		
-		
-		System.out.println(postDto.getTitle());
-		System.out.println(postDto.getContent());
-		
-		
-		mapper.writeProc(postDto);
-	}
+	@Autowired HttpSession session;
 
 	@Override
 	public String writeProc(PostDTO post) {
-		
 		if(post.getTitle() == null || post.getTitle().isEmpty())
 			return "제목을 입력하세요.";
-		
 		if(post.getContent() == null || post.getContent().isEmpty())
 			return "내용을 입력하세요.";
 		
+//		String stringId = (String)session.getAttribute("id");
+//		int id = Integer.parseInt(stringId);
+//		post.setId(id);
 		mapper.writeProc(post);
 	
 		return null;
 	}
-	
+
+	@Override
+	public void listProc() {
+		ArrayList<PostDTO> listProc = mapper.listProc();
+		session.setAttribute("listProc", listProc);
+	}
+
+
+	@Override
+	public PostDTO viewProc(int id) {
+		System.out.println("freedomContent service2 : " + id);
+		PostDTO post = mapper.viewProc(id);
+		return post;
+	}
+
 
 }

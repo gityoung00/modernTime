@@ -1,5 +1,9 @@
 package com.care.moderntime.post.controller;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,12 +27,6 @@ public class PostController {
 	final static Logger logger = LoggerFactory.getLogger(PostController.class);
 
 	@Autowired IPostService service;
-	
-	@RequestMapping(value = "writeProc")
-	public String writeProc(MultipartHttpServletRequest multi) {
-		service.writeProc(multi);
-		return "forward:/freedom";
-	}
 	
 	//
 	@GetMapping("index")
@@ -57,15 +56,36 @@ public class PostController {
 	@PostMapping("freedom")
 	@ResponseBody
 	public String freedom(@RequestBody PostDTO post, RedirectAttributes ra) {
-		System.out.println(post.getTitle());
+		System.out.println("freedom controller : " + post.getTitle());
 		ra.addFlashAttribute("id", post.getId());
-		return service.writeProc(post);
+		service.writeProc(post);
+		return "freedom";
+	}
+	//게시글 전체 불러오기
+	@ResponseBody
+	@PostMapping(value="freedom/listProc", produces="application/json; charset=UTF-8")
+	public String listProc() {
+		service.listProc();
+		return "forward:/freedom";
 	}
 	
-	
-	@GetMapping("freedomContent")
-	public String freedomContent() {
+	//freedomContent
+	@GetMapping(value="freedomContent", produces = "text/html; charset=UTF-8")
+	public String viewProc(int id, Model model) {
+		System.out.println("보내는 id : " + id);
+		PostDTO post = service.viewProc(id);
+		model.addAttribute("post", post);
 		return "post/freedomContent";
+	}
+	@ResponseBody
+	@PostMapping(value = "freedomContent")
+	public String viewProc() {
+		return "forward:/freedomContent";
+	}
+	
+	@GetMapping("freedomModify")
+	public String freedomModify() {
+		return "post/freedomModify";
 	}
 	@GetMapping("secret")
 	public String secret() {
