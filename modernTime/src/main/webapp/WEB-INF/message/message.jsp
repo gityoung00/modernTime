@@ -25,6 +25,8 @@
 <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
 <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.1/stomp.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/message/message.index.js"></script>
 <script type="text/javascript" src="/js/message/message.send.js"></script>
@@ -65,11 +67,7 @@
 		<div class="messageboxes">
 			<h2>쪽지함</h2>
 			<div class="items">
-				<a class="item active" href="/message/54434168"><time>08/09 21:28</time>
-					<h3>익명</h3>
-					<p class="text">컴공이야?옹</p></a><a class="item" href="/message/54201029"><time>08/02 17:56</time>
-					<h3>익명</h3>
-					<p class="text">?? 나랑 쪽지하던 친구야?</p></a>
+				
 				<div class="loading" style="display: none;"></div>
 			</div>
 		</div>
