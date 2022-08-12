@@ -28,6 +28,10 @@
 <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/2.3.1/stomp.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
+<script>
+var myId = '${sessionScope.id }';
+</script>
+
 <script type="text/javascript" src="/js/message/message.index.js"></script>
 <script type="text/javascript" src="/js/message/message.send.js"></script>
 </head>

@@ -43,7 +43,7 @@
     <input type="password" name="pwCheck" placeholder="비밀번호를 다시 입력해주세요.">
     <div class="label"><label class="red" style="display:none;">비밀번호가 일치하지 않습니다.</label></div>
     </div>
-    <input type="submit" value="회원가입">
+    <input type="submit" value="비밀번호 변경">
   </form>
 
   <script type="text/javascript">

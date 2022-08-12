@@ -15,21 +15,35 @@ import lombok.Setter;
 @Setter
 public class ChatListDTO {
 	private int roomId;
-	private String senderNick;
+	private int isAnonym;
 	private String message;
+	private String nickname;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime createDate;
-	
-	public ChatListDTO(int roomId, String senderNick, String message, LocalDateTime createDate) {
+
+	public ChatListDTO(int roomId, int isAnonym, String message, LocalDateTime createDate) {
 		super();
 		this.roomId = roomId;
-		this.senderNick = senderNick;
+		this.isAnonym = isAnonym;
 		this.message = message;
 		this.createDate = createDate;
 	}
+
+	public ChatListDTO(int roomId, int isAnonym, String message, String nickname, LocalDateTime createDate) {
+		super();
+		this.roomId = roomId;
+		this.isAnonym = isAnonym;
+		this.message = message;
+		this.nickname = nickname;
+		this.createDate = createDate;
+	}
+	
+	
+	
+	
 	
 	
 }

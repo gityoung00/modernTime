@@ -8,22 +8,36 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChatDTO {
-	private int id;
-	private String roomId;
+	private int roomId;
 	private String message;
 	private String sender;
-	private String senderNick;
 	private LocalDateTime createDate;
+	private int isReaded;
+	private int flag; // 0: 알림, 1: 유저간 채팅
 	
-	public ChatDTO(int id, String roomId, String message, String sender, String senderNick, LocalDateTime createDate) {
+	public ChatDTO(int roomId, String message, String sender, LocalDateTime createDate, int isReaded, int flag) {
 		super();
-		this.id = id;
 		this.roomId = roomId;
 		this.message = message;
 		this.sender = sender;
-		this.senderNick = senderNick;
+		this.isReaded = isReaded;
+		this.flag = flag;
 		this.createDate = createDate;
 	}
+
+	public ChatDTO(int roomId, String message, String sender, int isReaded, int flag) {
+		super();
+		this.roomId = roomId;
+		this.message = message;
+		this.sender = sender;
+		this.isReaded = isReaded;
+		this.flag = flag;
+	}
+	
+	
+	
+	
+	
 	
 	
 	
