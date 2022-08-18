@@ -4,7 +4,7 @@
 <mapper namespace="com.care.moderntime.post.repository.IPostDAO">
 
    <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
-      INSERT INTO post (`user_id`, `title`, `content`, `nickname`, `create_date`, `like_count`, `board_id`) VALUES(#{userId}, #{title}, #{content}, #{nickname}, #{createDate}, #{likeCount}, #{boardId})
+      INSERT INTO post (`user_id`, `title`, `content`, `is_anonym`, `create_date`, `like_count`, `board_id`) VALUES(#{userId}, #{title}, #{content}, #{isAnonym}, #{createDate}, #{likeCount}, #{boardId})
    </insert>
    
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
@@ -18,5 +18,26 @@
 	<update id="modifyProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
 		UPDATE post SET title=#{title}, content=#{content} WHERE id=#{id}
 	</update>
+	
+	<delete id="deleteProc" parameterType="int">
+		DELETE FROM post WHERE id=#{id}
+	</delete>
+	
+	<select id="searchProc" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post
+		<choose>
+			<!-- <when test="sel == '3'">WHERE hashtag LIKE '%'||#{search}||'%'</when> -->
+			<when test="sel == '2'">WHERE title LIKE "%",#{search},"%"</when>
+			<when test="sel == '1'">WHERE content LIKE "%",#{search},"%"</when>
+		</choose>
+		 ORDER BY id DESC 
+	</select>
+	
+	<update id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET like_count=#{likeCount} WHERE id=#{id}
+	</update>
+	<!-- <insert id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO">
+      INSERT INTO user_post_like VALUES(#{userId}, #{postId})
+   </insert> -->
    
 </mapper>

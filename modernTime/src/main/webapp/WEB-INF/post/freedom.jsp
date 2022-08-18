@@ -55,7 +55,7 @@
 <!-- 게시판 시작 -->
 <div id="container" class="article">
 	<input type="hidden" id="isUser" value="1"> 
-	<input type="hidden" id="boardId" value="freedom">
+	<input type="hidden" id="boardId" value="${post.id }">
 	<aside class="none">
 		<div class="title">
 			<a class="hamburger"></a>
@@ -111,7 +111,7 @@
 				<li title="해시태그" class="hashtag"></li>
 				<li title="첨부" class="attach"></li>
 				<li title="완료" class="submit"></li>
-				<li title="익명" class="anonym"></li>
+				<li title="익명" class="anonym" name="anonym"></li>
 				<li title="질문" class="question"></li>
 			</ul>
 			<div class="clearBothOnly"></div>
@@ -138,7 +138,10 @@
 		</c:forEach>
 		
 		<div class="clearBothOnly"></div>
+		
 		<!-- 검색과 페이지 -->
+		<%-- ${page } --%>
+		<!-- <form action="searchProc" method="post"> -->
 		<div class="pagination">
 			<form id="searchArticleForm" class="search">
 				<select name="search_type">
@@ -149,10 +152,12 @@
 				</select>
 				<input name="keyword" placeholder="검색어를 입력하세요." class="text">
 			</form>
-			<a href="/freedom/p/2" class="next">다음</a>
+			<a href="/freedom" class="next">다음</a>
 		</div>
+		<!-- </form> -->
 	</div>
 	<hr>
+	
 	<!-- 오른쪽 HOT 게시물(공감 10개)  -->
 	<div class="rightside">
 		<div class="card">
