@@ -36,7 +36,7 @@
   <div id="loading" style="display: none;"><img src="/assets/loading.svg"></div>
     <div id="bar">
     <nav class="trisection">
-      <a href="/" class="home"><span class="icons home-darkgray-16"></span><span class="text">홈</span></a>
+      <a href="/bookstore" class="home"><span class="icons home-darkgray-16"></span><span class="text">홈</span></a>
       <a href="/sell" class="sell"><span class="icons sell-darkgray-16"></span><span class="text">판매하기</span></a>
       <a href="/my" class="my"><span class="icons my-darkgray-16"></span><span class="text">마이페이지</span></a>
     </nav>

@@ -9,4 +9,9 @@ public class BookStoreController {
 	public String bookstore() {
 		return "bookstore/bookStoreIndex";
 	}
+	
+	@RequestMapping("bookstoreview")
+	public String bookStoreview() {
+		return "bookstore/bookStoreView";
+	}
 }
