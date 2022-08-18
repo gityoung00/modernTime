@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="adminHeader.jsp"%>
 <div id="submenu">
 	<div class="wrap">
-	<font color="red" id = "msg"></font>
 		<ul>
 			<li><a href="/393862" data-id="393862" class="new">자유게시판</a></li>
 			<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
@@ -14,36 +12,54 @@
 		</ul>
 		<hr>
 	</div>
-<!-- 	<input type="hidden" id="communityCampusId" value="349"> -->
 </div>
 <div id="container" class="article">
-	<input type="hidden" id="isUser" value="1"> <input
-		type="hidden" id="boardId" value="1">
+ 	<input type="hidden" id="isUser" value="1"> <input
+		type="hidden" id="boardId" value="9999">
 	<aside class="none">
 		<div class="title">
 			<a class="hamburger"></a>
 			<h1>
-				<a href="/notice">공지사항</a>
+				<a href="/schoolAuth">학교 인증</a>
 			</h1>
 		</div>
 	</aside>
 	<div class="wrap title">
 		<h1>
-			<a href="/notice">공지사항</a>
+			<a href="/schoolAuth">학교 인증</a>
 		</h1>
 		<hr>
 	</div>
 	<div class="wrap articles">
-
-		<a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a>
-	<div id="noticeList">	
-	<!-- 공지리스트 -->
-
-	</div>	
-			<div class="clearBothOnly"></div>
+		<article>
+			<a class="article">
+			<img src="https://cf-fpi.everytime.kr/5/1579249303.png"	class="picture large">
+			<div class="profile">
+					<h3 class="admin large">에브리타임</h3>
+					<time class="large">${schoolAuthView.user_id}</time>
+				</div>
+				<hr>
+				<h2 class="large">${schoolAuthView.type }</h2>
+				<p class="large">
+<%-- 					<img src=${schoolAuthView.picture }> --%>
+				</p>
+				<div class="attaches multiple">
+					<figure class="attach">
+						<img
+							src="${schoolAuthView.picture }">
+					</figure>
+				</div>
+				<hr>
+				<hr>
+				<input type="hidden" name="254951379_comment_anonym" value="0"></a>
+			<div class="comments" style="display: block;"></div>
+		</article>
+		<div class="clearBothOnly"></div>
 		<div class="pagination">
-			<a href="/1/p/2" class="prev">이전</a>
-			<a href="/1/p/2" class="next">다음</a>
+			<a id="goListButton" class="list" href="schoolAuth">글 목록</a>
+			<!-- article.css 관리자만 보이게 -->
+			<a id="deleteButton" href="schoolAuthDelete?id=${schoolAuthView.id}">글 삭제</a>
+			<a id="updateButton" href="schoolAuthCheck?id=${schoolAuthView.user_id}">인증하기</a>
 		</div>
 	</div>
 	<hr>
@@ -54,10 +70,8 @@
 					<a>실시간 인기 글</a>
 				</h3>
 				<a class="article" href="/370443/v/262015479">
-				<p class="title">탈광운충들 특</p>
-					<p class="small">
-						내용
-					</p>
+					<p class="title">탈광운충들 특</p>
+					<p class="small">내용</p>
 					<h4>자유게시판</h4>
 					<ul class="status">
 						<li class="vote active">19</li>
@@ -72,23 +86,19 @@
 				<h3>
 					<a href="/hotarticle">HOT 게시물<span>더 보기</span></a>
 				</h3>
-				<a class="list" href="/370443/v/262015479">
-				<time>08/03	10:00</time>
+				<a class="list" href="/370443/v/262015479"> <time>08/03
+						10:00</time>
 					<p>탈광운 충들 특</p>
 					<hr>
-				</a>
-				<a class="list" href="/370443/v/261797452">
-				<time>08/01	12:03</time>
+				</a> <a class="list" href="/370443/v/261797452"> <time>08/01
+						12:03</time>
 					<p>의외로 알바한테 하면 실례인 행동</p>
 					<hr>
-				</a>
-				<a class="list" href="/370443/v/261738330">
-				<time>07/31	20:47</time>
+				</a> <a class="list" href="/370443/v/261738330"> <time>07/31
+						20:47</time>
 					<p>오늘의 일기</p>
-					<hr>
-				</a>
-				<a class="list" href="/370443/v/261529808">
-				<time>07/29	13:27</time>
+					<hr></a> <a class="list" href="/370443/v/261529808"> <time>07/29
+						13:27</time>
 					<p>에타 시간표 뜸</p>
 					<hr>
 				</a>
@@ -108,19 +118,19 @@
 				</h3>
 				<a class="article" href="/lecture/view/2086682"><span
 					class="star"><span class="on" style="width: 100%;"></span></span>
-				<p class="title">머신러닝 : 정한울</p>
+					<p class="title">머신러닝 : 정한울</p>
 					<p class="small">학교 인증 후 확인할 수 있습니다.</p>
 					<hr></a><a class="article" href="/lecture/view/1936809"><span
 					class="star"><span class="on" style="width: 60%;"></span></span>
-				<p class="title">문화기술과사회변동 : 한양대학교 두일철</p>
+					<p class="title">문화기술과사회변동 : 한양대학교 두일철</p>
 					<p class="small">학교 인증 후 확인할 수 있습니다.</p>
 					<hr></a><a class="article" href="/lecture/view/41339"><span
 					class="star"><span class="on" style="width: 60%;"></span></span>
-				<p class="title">교양음악실기1(바이올린) : 배윤진</p>
+					<p class="title">교양음악실기1(바이올린) : 배윤진</p>
 					<p class="small">학교 인증 후 확인할 수 있습니다.</p>
 					<hr></a><a class="article" href="/lecture/view/41759"><span
 					class="star"><span class="on" style="width: 80%;"></span></span>
-				<p class="title">중국어청취연습</p>
+					<p class="title">중국어청취연습</p>
 					<p class="small">학교 인증 후 확인할 수 있습니다.</p>
 					<hr></a>
 			</div>

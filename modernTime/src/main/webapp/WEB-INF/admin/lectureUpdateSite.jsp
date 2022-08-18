@@ -59,7 +59,7 @@
 <!-- 관리자 로그인 인증 필요 -->
 <div id="container" class="lectureRegist">
 
-	<form action="lectureRegist" method="post">
+	<form action="lectureUpdateSite" method="post">
 		<table>
 			<tr>
 				<th>번호</th>
@@ -69,12 +69,14 @@
 				<th>학점</th>
 			</tr>
 			<tr>
-				<td><input type="text" name="lecture_id"></td>
-				<td><input type="radio" value="교양" name="type">교양<input
-					type="radio" value="전공" name="type">전공</td>
-				<td colspan="2"><input type="text" name="name" width="500px"></td>
-				<td><input type="text" name="teacher"></td>
-				<td><input type="number" name="credit"></td>
+				<td><input type="text" name="lecture_id"readonly="readonly" value="${lectureSel.lecture_id }"></td>
+				<td>
+					<input type="radio" value="교양" name="type">교양
+					<input type="radio" value="전공" name="type">전공
+				</td>
+				<td colspan="2"><input type="text" name="name" width="500px" value="${lectureSel.name }"></td>
+				<td><input type="text" name="teacher" value="${lectureSel.teacher }"></td>
+				<td><input type="number" name="credit" value="${lectureSel.credit }"></td>
 
 			</tr>
 			<tr>
@@ -86,81 +88,17 @@
 				<th>신청한 인원</th>
 			</tr>
 			<tr>
-				<td><input type="text" name="time1"></td>
-				<td><input type="text" name="time2" value=""></td>
-				<td><input type="text" name="place"></td>
-				<td><input type="number" name="lecture_time"></td>
-				<td><input type="number" name="max_student"></td>
-				<td><input type="number" name="listen_student"></td>
+				<td><input type="text" name="time1" value="${lectureSel.time1 }"></td>
+				<td><input type="text" name="time2" value="${lectureSel.time2 }" ></td>
+				<td><input type="text" name="place" value="${lectureSel.place }"></td>
+				<td><input type="number" name="lecture_time" value="${lectureSel.lecture_time }"></td>
+				<td><input type="number" name="max_student" value="${lectureSel.max_student }"></td>
+				<td><input type="number" name="listen_student" value="${lectureSel.listen_student }"></td>
+				<input type="hidden" value = "${lectureSel.score}">
 			</tr>
 		</table>
-		<input type="submit" value="강의 등록">
+		<input type="submit" value="수정" style="width:250px;">
 	</form>
 </div>
-	<div id="subjects" style="display: block;" class="subjects">
-		<div class="filter">
-			<a class="item" data-id="keyword"> 
-				<span class="key">검색어:</span><span	class="value">없음</span><span class="reset"></span>
-			</a> 
-			<a class="item" data-id="order"> 
-				<span class="key">정렬:</span><span class="value">기본</span><span class="reset"></span>
-			</a> 
-			<a class="item" data-id="type">
-				<span class="key">구분:</span><span class="value">전체</span><span class="reset"></span>
-			</a> 
-			<a class="item" data-id="credit">
-				<span class="key">학점:</span><span class="value">전체</span><span class="reset"></span>
-			</a>
-		</div>
-		<div class="list">
-			<div class="thead"></div>
-			<table>
-				<thead>
-					<tr>
-						<th>구분
-							<div>구분</div>
-						</th>
-						<th>강의시간
-							<div>강의시간</div>
-						</th>
-						<th>교과목명
-							<div>교과목명</div>
-						</th>
-						<th>교수
-							<div>교수</div>
-						</th>
-						<th>학점
-							<div>학점</div>
-						</th>
-						<th>강의실
-							<div>강의실</div>
-						</th>
-						<th>강의평
-							<div>강의평</div>
-						</th>
-						<th>담은 인원
-							<div>담은 인원</div>
-						</th>
-						<th>수강 정원
-							<div>수강 정원</div>
-						</th>
-					</tr>
-				</thead>
-				<tbody id = "tbody">
-<!-- <td><a href="/lecture/view/2314908" target="_blank" title="4.86" class="star"><span class="on" style="width: 97.2%;"></span></a></td> -->
-				</tbody>
-				<tr>
-					<td colspan="8"></td>
-					<td><button id="deleteLecture">삭제</button></td>
-					<td><button id="updateLecture">수정</button></td>
-				</tr>
-				<!-- <tfoot>
-					<tr>
-						<td colspan="9"></td>
-					</tr>
-				</tfoot> -->
-			</table>
-		</div>
-	</div>
 
 <%@ include file="adminFooter.jsp"%>

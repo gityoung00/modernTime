@@ -21,9 +21,11 @@
   <link type="text/css" href="/css/common.css" rel="stylesheet">
   <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
   <link type="text/css" href="/css/container.article.css" rel="stylesheet">
+  <link type="text/css" href="/adminjs/container.article.css" rel="stylesheet">
   <link type="text/css" href="/css/container.community.css" rel="stylesheet">
   <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
   <link type="text/css" href="/adminjs/lectureRegist.css" rel="stylesheet">
+  <link type="text/css" href="/css/subjects.css" rel="stylesheet">
   <link href="/favicon.ico" rel="shortcut icon">
   <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
@@ -33,8 +35,8 @@
   <script type="text/javascript" src="/adminjs/extensions.canvas-to-blob.min.js"></script>
   <script type="text/javascript" src="/adminjs/extensions.load-image.all.min.js"></script>
   <script type="text/javascript" src="/adminjs/message.send.js"></script>
-  <script type="text/javascript" src="/adminjs/timetable.index.js"></script>
-  <script type="text/javascript" src="/adminjs/timetable.subjects.js"></script>
+<!--   <script type="text/javascript" src="/adminjs/timetable.index.js"></script> -->
+ <!--  <script type="text/javascript" src="/adminjs/timetable.subjects.js"></script> -->
   <script type="text/javascript" src="/adminjs/lecture.js"></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
         <li><a href="/notice">공지사항 등록</a></li>
         <li><a href="/lectureRegist">강의 등록</a></li>
         <li><a href="/reportCheck">신고 확인</a></li>
-        <li><a href="/schoolCheck">학교인증 확인</a></li>
+        <li><a href="/schoolAuth">학교인증 확인</a></li>
         <li><a href="https://bookstore.everytime.kr/">책방</a></li>
       </ul>
     </div>

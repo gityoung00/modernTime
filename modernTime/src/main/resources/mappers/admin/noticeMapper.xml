@@ -20,13 +20,92 @@
 	<select id="noticeCount" resultType="int">
 		SELECT count(*) FROM notice
 	</select>
-	
+	<select id="isLecture" resultType="int">
+		SELECT count(*) FROM lecture WHERE lecture_id=${id}
+	</select>
 	<insert id="lectureRegist" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
 		INSERT INTO lecture
-		VALUES(#{lectureId},#{type},#{name},#{teacher},#{time1},#{time2},#{place},#{credit},#{lectureTime},#{maxStudent},#{listenStudent},0)
+		VALUES(#{lecture_id},#{type},#{name},#{teacher},#{time1},#{time2},#{place},#{credit},#{lecture_time},#{max_student},#{listen_student},0,0)
 	</insert>
 	
 	<select id="lectureList" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
 		SELECT * FROM lecture
 	</select>
+	
+	<select id="lectureSel" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture WHERE lecture_id=${id}
+	</select>
+	
+	<select id="lectureFilterKeyword" resultType="com.care.moderntime.admin.dto.LectureRegistDTO" >
+		SELECT * FROM lecture 
+		<if test='keywordType.equals("과목명")'>
+			WHERE name like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test='keywordType.equals("교수명")'>
+			WHERE teacher like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test='keywordType.equals("강의실")'>
+			WHERE place like CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+	
+	<select id="lectureFilterOrder" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture
+		<if test='orderId.equals("name")'>
+			ORDER BY name ASC;
+		</if>
+		<if test='orderId.equals("rateDesc")'>
+			ORDER BY score DESC;
+		</if>
+		<if test='orderId.equals("rateAsc")'>
+			ORDER BY score ASC;
+		</if>
+		<if test='orderId.equals("popularDesc")'>
+			ORDER BY listen_student DESC;
+		</if>
+		<if test='orderId.equals("popularAsc")'>
+			ORDER BY listen_student ASC;
+		</if>
+	</select>
+	
+	<select id="lectureFilterType" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture
+		<if test="type.equals('전공')">
+			WHERE type like "전공"
+		</if>
+		<if test="type.equals('교양')">
+			WHERE type like "교양"
+		</if>
+	</select>
+	<select id="lectureFilterCredit" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture
+		<if test="credit2==null">
+			WHERE credit like #{credit1}
+		</if>
+		<if test="credit2!=null">
+			WHERE credit like #{credit1} or credit like #{credit2}
+		</if>
+	</select>
+	
+	<delete id="lectureDelete">
+		DELETE FROM lecture WHERE lecture_id = ${id}
+	</delete>
+	
+	<update id="lectureUpdate" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		UPDATE lecture 
+		SET type=#{type},name=#{name},teacher=#{teacher},time1=#{time1},time2=#{time2},place=#{place},credit=#{credit},lecture_time=#{lecture_time},max_student=#{max_student},listen_student=#{listen_student},score=#{score}
+		WHERE lecture_id =${lecture_id}
+	</update>
+	
+	<select id="schoolAuth" resultType="com.care.moderntime.admin.dto.SchoolAuthDTO">
+		SELECT * FROM certification ORDER BY id DESC;
+	</select>
+	
+	<select id="schoolAuthView" resultType="com.care.moderntime.admin.dto.SchoolAuthDTO">
+		SELECT * FROM certification WHERE id=${id}
+	</select>
+	
+	<update id="schoolAuthCheck">
+		UPDATE user SET is_certificate=1 WHERE id = '${id}'
+	</update>
 </mapper>
