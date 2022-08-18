@@ -1,6 +1,7 @@
 package com.care.moderntime.post.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class PostServiceImpl implements IPostService{
 	
 	@Autowired private IPostDAO mapper;
 	@Autowired HttpSession session;
-
+	
 	@Override
 	public String writeProc(PostDTO post) {
 		if(post.getTitle() == null || post.getTitle().isEmpty())
@@ -29,27 +30,81 @@ public class PostServiceImpl implements IPostService{
 		if(post.getContent() == null || post.getContent().isEmpty())
 			return "내용을 입력하세요.";
 		
-//		String stringId = (String)session.getAttribute("id");
-//		int id = Integer.parseInt(stringId);
-//		post.setId(id);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
+		post.setCreateDate(sdf.format(date));
+		
 		mapper.writeProc(post);
 	
 		return null;
 	}
 
 	@Override
-	public void listProc() {
+	public ArrayList<PostDTO> listProc() {
 		ArrayList<PostDTO> listProc = mapper.listProc();
 		session.setAttribute("listProc", listProc);
+		return listProc;
 	}
 
 
 	@Override
 	public PostDTO viewProc(int id) {
-		System.out.println("freedomContent service2 : " + id);
+		System.out.println("service viewProc : " + id);
 		PostDTO post = mapper.viewProc(id);
 		return post;
 	}
 
+	@Override
+	public String modifyProc(PostDTO post) {
+		System.out.println("modify id : " + post.getId());
+		System.out.println("modify title : " + post.getTitle());
+		System.out.println("modify content : " + post.getContent());
+		mapper.modifyProc(post);
+		return null;
+	}
+
+	@Override
+	public String deleteProc(PostDTO post) {
+		System.out.println("delete service id : " + post.getId());
+		mapper.deleteProc(post);
+		return null;
+		
+	}
+
+	@Override
+	public void searchProc(Model model, int currentPage, String search, String select, HttpServletRequest req) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("select", select);
+		
+		int totalCount = mapper.postCount(map);
+		int pageBlock = 10;
+		int end = currentPage * pageBlock;
+		int begin = end+1 - pageBlock;
+
+		ArrayList<PostDTO> boardList = mapper.searchProc(begin, end, select, search);
+		model.addAttribute("boardList", boardList);
+
+		String url = req.getContextPath() + "/searchProc?";
+		if(select != null) {
+			url+="select="+select+"&";
+			url+="search="+search+"&";	
+		}
+		url+="currentPage=";
+		model.addAttribute("page", PageService.getNavi(currentPage, pageBlock, totalCount, url));
+	}
+
+	@Override
+	public String likeProc(PostDTO post) {
+		System.out.println("likeCount : " + post.getLikeCount());
+		
+		mapper.likeProc(post);
+		return null;
+	}
+
+
+
+
+	
 
 }

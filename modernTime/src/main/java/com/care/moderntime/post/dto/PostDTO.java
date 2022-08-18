@@ -1,8 +1,8 @@
 package com.care.moderntime.post.dto;
 
 public class PostDTO {
-	private int id, likeCount, boardId;
-	private String userId, title, content, nickname, createDate;
+	private int id, isAnonym, likeCount, boardId;
+	private String userId, title, content, createDate;
 	
 	public int getId() {
 		return id;
@@ -40,11 +40,11 @@ public class PostDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getNickname() {
-		return nickname;
+	public int getIsAnonym() {
+		return isAnonym;
 	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setIsAnonym(int isAnonym) {
+		this.isAnonym = isAnonym;
 	}
 	public String getCreateDate() {
 		return createDate;

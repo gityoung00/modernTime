@@ -13,8 +13,8 @@
 	
 	</select>
 	
-	<select id="isCertificate" parameterType="String">
-		select is_certificate from user where id=${id}
+	<select id="isCertificate" parameterType="String" resultType="int">
+		select is_certificate from user where id=#{id}
 	</select>
 	
 	
