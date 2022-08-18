@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="adminHeader.jsp"%>
+<c:import url="header.jsp" />
 
 <%-- 로그인 아이디가 admin이 아닐경우 인덱스페이지로 돌아감
 
@@ -40,10 +40,9 @@
           <img src="https://cf-fpi.everytime.kr/0.png" class="picture">
           <p class="nickname">admin</p>
           <p class="school">관리자</p>
-          <p class="school">KG아이티대학</p>
           <ul class="buttons">
-            <li><a href="/my">내 정보</a></li>
-            <li><a href="/adminLogout">로그아웃</a></li>
+            <li><a href="/">홈 화면</a></li>
+            <li><a href="/logout">로그아웃</a></li>
           </ul>
           <hr>
         </form>
@@ -75,4 +74,4 @@
     <div class="rightside"></div>
     <div class="main"></div>
   </div>
-<%@ include file="adminFooter.jsp"%>
+<c:import url="footer.jsp" />

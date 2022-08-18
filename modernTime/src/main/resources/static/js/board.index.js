@@ -123,6 +123,7 @@ $().ready(function () {
 	};
 	var _fn = {
 		initiate: function () {
+			//주석
 //			if (!$container.is(':has(#boardId)')) {
 //				location.href = '/';
 //				return false;
@@ -158,9 +159,11 @@ $().ready(function () {
 			$container.on('click', '#writeArticleButton', function () {
 				_fn.showWriteArticleForm();
 			});
+			//placeholder 변경
 			$container.on('change', '#searchArticleForm > select[name="search_type"]', function () {
 				var $form = $container.find('#searchArticleForm');
 				var $keyword = $form.find('input[name="keyword"]');
+				//placeholder 변경 기능
 				if ($(this).val() === '3') {
 					$keyword.attr('placeholder', '#에브리타임');
 				} else {
@@ -168,10 +171,12 @@ $().ready(function () {
 				}
 				$keyword.val('');
 			});
+			//검색 부분
 			$container.on('submit', '#searchArticleForm', function () {
 				_fn.searchArticle();
 				return false;
 			});
+			//글 목록 버튼
 			$container.on('click', '#goListButton', function () {
 				if (_set.boardPage > 1) {
 					history.go(-1);
@@ -183,11 +188,13 @@ $().ready(function () {
 			$articles.on('click', 'a[href]', function (event) {
 				_fn.goLinkContent(this, event);
 			});
+			//게시글 수정버튼
 			$articles.on('click', '> article > a.article > ul.status > li.update', function () {
 				var $article = $(this).parents('article');
 				_fn.showWriteArticleForm($article);
 				return false;
 			});
+			//게시글 삭제버튼
 			$articles.on('click', '> article > a.article > ul.status > li.del', function () {
 				var $article = $(this).parents('article');
 				if (confirm('이 글을 삭제하시겠습니까?')) {
@@ -223,10 +230,12 @@ $().ready(function () {
 				}
 				return false;
 			});
+			//공감 버튼
 			$articles.on('click', '> article > a.article > div.buttons > span.posvote', function () {
 				var $article = $(this).parents('article');
 				_fn.voteArticle($article);
 			});
+			//스크랩 버튼
 			$articles.on('click', '> article > a.article > div.buttons > span.scrap', function () {
 				var $article = $(this).parents('article');
 				_fn.scrapArticle($article);
@@ -280,12 +289,15 @@ $().ready(function () {
 			$articles.on('click', '> form.write > ul.option > li.attach', function () {
 				_fn.addAttachOnWriteArticleForm();
 			});
-			$articles.on('click', '> form.write > ul.option > li.submit', function () {
+//			$articles.on('click', '> form.write > ul.option > li.submit', function () {
+			//게시글 작성 기능
+			$articles.on('click', '> form[action="writeProc"] > ul.option > li.submit', function () {
 				$articles.find('form.write').submit();
 				
+				//freedom
 				var $freedomTitle = $container.find('input[name="title"]');
-				var $freedomcontent = $container.find('textarea[name="text"]');
-
+				var $freedomContent = $container.find('textarea[name="text"]');
+				
 				//게시판 글 작성
 				$.ajax({
 					url: '/freedom',
@@ -293,12 +305,9 @@ $().ready(function () {
 					type: 'POST',
 					contentType: "application/json; charset=UTF-8",
 					data: JSON.stringify({
-						userId: 'test123',
+//						userId: 'test123',
 						title: $freedomTitle.val(),
-						content: $freedomcontent.val(),
-						nickname: 'nickname',
-						
-						likeCount: 2,
+						content: $freedomContent.val(),
 						boardId: 1
 					}), 
 					success: function (data) {
@@ -306,6 +315,32 @@ $().ready(function () {
 						alert('작성이 완료되었습니다.');
 					}
 				});
+				
+			});
+			//게시글 수정 기능
+			$articles.on('click', '> form[action="modifyProc"] > ul.option > li.submit', function () {
+				$articles.find('form.write').submit();
+				
+				//freedomContent
+				var $freedomModifyTitle = $container.find('input[name="modifyTitle"]');
+				var $freedomModifyContent = $container.find('textarea[name="modifyText"]');
+				
+					//게시글 수정
+					$.ajax({
+						url: 'freedomContent',
+						xhrFields: {withCredentials: true},
+						type: 'POST',
+						contentType: "application/json; charset=UTF-8",
+						data: JSON.stringify({
+							title: $freedomModifyTitle.val(),
+							content: $freedomModifyContent.val()
+						}), 
+						success: function (data) {
+							console.log(data)
+							alert('수정이 완료되었습니다.');
+						}
+					});
+				
 			});
 			$articles.on('submit', '> article > div.comments > form.writecomment', function () {
 				_fn.writeComment($(this));
@@ -319,6 +354,7 @@ $().ready(function () {
 					$(this).blur();
 				}
 			});
+			//익명체크
 			$articles.on('click', '> article > div.comments > form.writecomment > ul.option > li.anonym', function () {
 				var $this = $(this);
 				if ($this.hasClass('active')) {
@@ -327,23 +363,59 @@ $().ready(function () {
 					$this.addClass('active');
 				}
 			});
+			//댓글 완료버튼
 			$articles.on('click', '> article > div.comments > form.writecomment > ul.option > li.submit', function () {
 				$(this).parents('form.writecomment').submit();
+				var $form = $container.find('form.writecomment');
+				var $text = $form.find('input[name="text"]');
+				
+				//댓글 작성
+				$.ajax({
+					url: 'freedomContent/commentWrite',
+					xhrFields: {withCredentials: true},
+					type: 'POST',
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify({
+						comment: $text.val(),
+						userId: 'test123',
+						postId: _set.boardId,
+						addCommentId: 0
+						
+					}),
+					success: function (data) {
+						console.log(data);
+						var responseCode = $(data).find('response').text();
+						if (responseCode === '0' || responseCode === '-3') {
+							alert('댓글을 작성할 수 없습니다.');
+						} else if (responseCode == '-1') {
+							alert('너무 자주 댓글을 작성할 수 없습니다.');
+						} else if (responseCode === '-2') {
+							alert('내용을 입력해 주세요.');
+						} else {
+							location.reload();
+						}
+					}
+				});
+				
 			});
+			//대댓글 버튼
 			$articles.on('click', '> article > div.comments > article > ul.status > li.childcomment', function () {
 				var $comment = $(this).parent().parent();
 				_fn.createChildCommentForm($comment);
 			});
+			//댓글 공감
 			$articles.on('click', '> article > div.comments > article > ul.status > li.commentvote', function () {
 				var $comment = $(this).parent().parent();
 				_fn.voteComment($comment);
 			});
+			//댓글 삭제
 			$articles.on('click', '> article > div.comments > article > ul.status > li.del', function () {
 				var $comment = $(this).parent().parent();
 				if (confirm('이 댓글을 삭제하시겠습니까?')) {
 					_fn.removeComment($comment);
 				}
 			});
+			//댓글 신고
 			$articles.on('click', '> article > div.comments > article > ul.status > li.abuse', function () {
 				var $comment = $(this).parent().parent();
 				_fn.showAbuseForm($comment, 'comment');
@@ -383,6 +455,7 @@ $().ready(function () {
 			_fn.loadContent(params);
 			history.pushState(null, null, url);
 		},
+		//검색 부분
 		goRedirectContent: function (url) {
 			if (typeof history.pushState === 'undefined') {
 				location.href = url;
@@ -392,6 +465,7 @@ $().ready(function () {
 			_fn.loadContent(params);
 			history.pushState(null, null, url);
 		},
+		//검색 부분
 		loadContent: function (params) {
 			if (params.v) {
 				$container.find('div.seasons, div.categories').addClass('none');
@@ -420,6 +494,7 @@ $().ready(function () {
 				_fn.loadArticles();
 			}
 		},
+		//검색 부분
 		parseParams: function (url) {
 			var params = {};
 			var paths = url.split('/').slice(2);
@@ -435,6 +510,7 @@ $().ready(function () {
 			}
 			return params;
 		},
+		//페이징, 검색 url
 		encodeUrl: function (params) {
 			var url;
 			if (typeof params.boardId !== 'undefined') {
@@ -660,6 +736,7 @@ $().ready(function () {
 			$(window).scrollTop(0);
 			//$articles.empty();
 			$('<div></div>').text('불러오는 중입니다...').addClass('loading').appendTo($articles);
+			//?
 			_set.startNum = _set.limitNum * (_set.boardPage - 1);
 			if (_set.moiminfo && _set.boardId === 'bestarticle') {
 				_fn.createBestarticleSeasons();
@@ -703,46 +780,60 @@ $().ready(function () {
 			}
 			
 			//게시글 보이기
+//			$.ajax({
+//				url: 'freedom/listProc',
+//				type: 'POST',
+//				data: conditions,
+//				success: function (data) {
+//					console.log(data);
+//				}
+//			})
+			
+					
+			//게시글 보이기
 			$.ajax({
 				url: 'freedom/listProc',
+				xhrFields: {withCredentials: true},
 				type: 'POST',
 				data: conditions,
 				success: function (data) {
 					console.log(data);
+					var responseCode;
+					if (!$(data).find('response').children().length) {
+						responseCode = $(data).find('response').text();
+					}
+					if (responseCode === '0') {
+						if (_set.isUser) {
+							_fn.createDialog('게시판이 존재하지 않습니다.');
+						} else {
+							location.href = '/login?redirect=' + location.pathname;
+						}
+					} else if (responseCode === '-100') {
+						if (confirm('학교인증 회원만 접근할 수 있습니다. 학교인증을 하시겠습니까?')) {
+							location.href = '/auth';
+						} else {
+							history.go(-1);
+						}
+					} else if (responseCode === '-300' || responseCode === '-400') {
+						_fn.createDialog('접근 권한이 없습니다.');
+					} else {
+						callback(data);
+					}
 				}
-			})
+			});
 			
-					
-			//게시판 검색
+			//댓글 리스트
 //			$.ajax({
-//				url: '/find/board/article/list',
+//				url: 'freedomContent/commentList',
 //				xhrFields: {withCredentials: true},
 //				type: 'POST',
 //				data: conditions,
 //				success: function (data) {
-//					var responseCode;
-//					if (!$(data).find('response').children().length) {
-//						responseCode = $(data).find('response').text();
-//					}
-//					if (responseCode === '0') {
-//						if (_set.isUser) {
-//							_fn.createDialog('게시판이 존재하지 않습니다.');
-//						} else {
-//							location.href = '/login?redirect=' + location.pathname;
-//						}
-//					} else if (responseCode === '-100') {
-//						if (confirm('학교인증 회원만 접근할 수 있습니다. 학교인증을 하시겠습니까?')) {
-//							location.href = '/auth';
-//						} else {
-//							history.go(-1);
-//						}
-//					} else if (responseCode === '-300' || responseCode === '-400') {
-//						_fn.createDialog('접근 권한이 없습니다.');
-//					} else {
-//						callback(data);
-//					}
+//					console.log(data);
 //				}
 //			});
+			
+			
 		},
 		//글 작성부분?
 		createArticles: function (data, isListItem) {
@@ -978,11 +1069,14 @@ $().ready(function () {
 				_fn.createDialog(message);
 			}
 			$('<div></div>').addClass('clearBothOnly').appendTo($articles);
+			//페이지 이동 버튼
 			var $pagination = $('<div></div>').addClass('pagination').appendTo($articles);
+			//처음버튼
 			if (_set.boardPage > 2) {
 				var firstPageUrl = _fn.encodeUrl({ page: 1 });
 				$('<a></a>').attr('href', firstPageUrl).text('처음').addClass('first').appendTo($pagination);
 			}
+			//이전버튼
 			if (_set.boardPage > 1) {
 				var prevPageUrl = _fn.encodeUrl({ page: (_set.boardPage - 1) });
 				$('<a></a>').attr('href', prevPageUrl).text('이전').addClass('prev').appendTo($pagination);
@@ -992,12 +1086,15 @@ $().ready(function () {
 				var $searchType = $('<select></select>').attr({
 					name: 'search_type'
 				}).appendTo($searchForm);
+				
+				//검색 옵션
 				$('<option></option>').val('4').text('전체').appendTo($searchType);
 				$('<option></option>').val('3').text('해시태그').appendTo($searchType);
 				if (_set.type === 2) {
 					$('<option></option>').val('2').text('글 제목').appendTo($searchType);
 				}
 				$('<option></option>').val('1').text('글 내용').appendTo($searchType);
+				//검색 입력부분
 				var $keyword = $('<input>').attr({
 					name: 'keyword',
 					placeholder: '검색어를 입력하세요.'
@@ -1011,10 +1108,14 @@ $().ready(function () {
 					$keyword.val(defaultKeyword);
 				}
 			}
+			//다음 버튼
 			if (!$articles.is(':has(article.dialog)')) {
 				var nextPageUrl = _fn.encodeUrl({ page: (_set.boardPage + 1)});
 				$('<a></a>').attr('href', nextPageUrl).text('다음').addClass('next').appendTo($pagination);
 			}
+			
+			
+			
 		},
 		parseArticleText: function (text) {
 			if (!_set.isSearchable) {
@@ -1103,22 +1204,31 @@ $().ready(function () {
 				} else {
 					$comment.addClass('parent');
 				}
+				
+				
+			
 				$('<img>').attr('src', $this.attr('user_picture')).addClass('picture medium').appendTo($comment);
 				$('<h3></h3>').html($this.attr('user_nickname')).addClass('medium').addClass($this.attr('user_type')).appendTo($comment);
+				//댓글 버튼 부분
 				var $status = $('<ul></ul>').addClass('status').appendTo($comment);
 				if (_set.isUser && $this.attr('id') !== '0') {
+					//대댓글
 					if ($this.attr('parent_id') === '0' && (_set.isCommentable === 1 || _set.authToComment === 1)) {
 						$('<li></li>').text('대댓글').addClass('childcomment').appendTo($status);
 					}
+					//공감
 					$('<li></li>').text('공감').addClass('commentvote').appendTo($status);
+					//삭제
 					if ($this.attr('is_mine') === '1') {
 						$('<li></li>').text('삭제').addClass('del').appendTo($status);
 					} else {
+						//쪽지
 						$('<li></li>').text('쪽지').addClass('messagesend').attr({'data-modal': 'messageSend', 'data-comment-id': $this.attr('id'), 'data-is-anonym': Number($this.attr('user_id') === '0')}).appendTo($status);
 						if (_set.isManageable) {
 							$('<li></li>').text('삭제').addClass('managedel').appendTo($status);
 							$('<li></li>').text('삭제 및 이용 제한').addClass('manageabuse').appendTo($status);
 						} else {
+							//신고
 							$('<li></li>').text('신고').addClass('abuse').appendTo($status);
 						}
 					}
@@ -1134,6 +1244,19 @@ $().ready(function () {
 						[$this.attr('posvote') === '0' ? 'hide' : 'show']()
 					)
 				);
+				//댓글 보이기
+				$.ajax({
+					url: 'freedomContent/commentList',
+					xhrFields: {withCredentials: true},
+					type: 'POST',
+					contentType: "application/json; charset=UTF-8",
+					data: JSON.stringify({
+						postId: _set.boardId
+					}),
+					success: function (data) {
+						console.log(data);
+					}
+				});
 			});
 			if (_set.isCommentable || _set.authToComment) {
 				var $writecomment = $('<form></form>').addClass('writecomment').appendTo($comments);
@@ -1154,7 +1277,15 @@ $().ready(function () {
 			$comments.show();
 			var $pagination = $articles.find('> div.pagination');
 			$pagination.empty();
-			$('<a></a>').attr('id', 'goListButton').text('글 목록').addClass('list').appendTo($pagination);
+			//addClass : 페이지 로드 된 상태에서 클래스 값 추가
+			//appendTo : 앞 요소를 뒤 요소로 이동
+			//결과 : http://localhost/389161/p/1
+			//$('<a></a>').attr('id', 'goListButton').text('글 목록').addClass('list').appendTo($pagination);
+			//글 목록 버튼
+			$('<a></a>').attr('id', 'goListButton').text('글 목록').addClass('freedom');
+			
+			
+
 		},
 		manageMoim: function () {
 			var $form = $container.find('#manageMoimForm');
@@ -1178,32 +1309,34 @@ $().ready(function () {
 				}
 				
 				//수정
-				$.ajax({
-					url: 'freedomContent/update',
-					xhrFields: {withCredentials: true},
-					type: 'POST',
-					data: params,
-					success: function (data) {
-						var responseCode = $(data).find('response').text();
-						if (responseCode === '0') {
-							alert('수정할 수 없습니다.');
-						} else {
-							alert('변경된 설정을 저장하였습니다.');
-							location.reload();
-						}
-					}
-				});
+//				$.ajax({
+//					url: 'freedomContent',
+//					xhrFields: {withCredentials: true},
+//					type: 'POST',
+//					data: params,
+//					success: function (data) {
+//						var responseCode = $(data).find('response').text();
+//						if (responseCode === '0') {
+//							alert('수정할 수 없습니다.');
+//						} else {
+//							alert('변경된 설정을 저장하였습니다.');
+//							location.reload();
+//						}
+//					}
+//				});
 				return false;
 			});
 			$form.find('a.close').on('click', function () {
 				$form.hide();
 			});
+			//게시판 양도
 			$form.find('.button[value="게시판 양도"]').on('click', function () {
 				if (confirm('게시판을 다른 이용자에게 양도하시겠습니까?')) {
 					$form.hide();
 					_fn.transferMoim();
 				}
 			});
+			//게시판 삭제
 			$form.find('.button[value="게시판 삭제"]').on('click', function () {
 				if (!confirm('게시판을 삭제하면 모든 글이 삭제되며 다시 복구할 수 없습니다.')) {
 					return false;
@@ -1230,6 +1363,7 @@ $().ready(function () {
 //				});
 			});
 		},
+		//게시판 양도
 		transferMoim: function () {
 			var $form = $container.find('#transferMoimForm');
 			var $transfererPassword = $form.find('input[name="transferer_password"]');
@@ -1245,6 +1379,7 @@ $().ready(function () {
 					$transfereeUserid.focus();
 					return false;
 				}
+				//게시판 양도
 //				$.ajax({
 //					url: '/save/board/transferRequest',
 //					xhrFields: {withCredentials: true},
@@ -1571,6 +1706,7 @@ $().ready(function () {
 
 			});
 		},
+		//업로드?
 		uploadAttachOnWriteArticleForm: function (index, file, filename, $thumbnail, thumbnail) {
 			var $writeForm = $articles.find('form.write');
 			if (_.indexOf(_set.attachUploadingStatus.slice(0, index), 0) !== -1) {
@@ -1693,12 +1829,14 @@ $().ready(function () {
 				$form.hide();
 			});
 		},
+		//글 작성
 		writeArticle: function () {
 			var $form = $articles.find('form.write');
-			var $text = $form.find('textarea[name="text"]');
+			var $text = $form.find('textarea[name="text"], textarea[name="modifyText"]');
 			var $option = $form.find('ul.option');
 			var isAnonym = ($option.is(':has(li.anonym)') && $option.find('li.anonym').hasClass('active')) ? 1 : 0;
 			var isQuestion = ($option.is(':has(li.question)') && $option.find('li.question').hasClass('active')) ? 1 : 0;
+				console.log($text.val());
 			if ($text.val().replace(/ /gi, '') === '') {
 				alert('내용을 입력해 주세요.');
 				$text.focus();
@@ -1737,6 +1875,8 @@ $().ready(function () {
 			if (_set.isCommercial && !confirm(_set.placeholder)) {
 				return;
 			}
+			
+			//글 작성
 //			$.ajax({
 //				url: '/save/board/article',
 //				xhrFields: {withCredentials: true},
@@ -1772,6 +1912,7 @@ $().ready(function () {
 //				}
 //			});
 		},
+		//검색 부분
 		searchArticle: function () {
 			var $form = $container.find('#searchArticleForm');
 			var $searchType = $form.find('select[name="search_type"]');
@@ -1797,47 +1938,29 @@ $().ready(function () {
 			_fn.goRedirectContent(searchUrl);
 		},
 		removeArticle: function ($article) {
-//			$.ajax({
-//				url: '/remove/board/article',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: {
-//					id: $article.data('id')
-//				},
-//				success: function (data) {
-//					var responseCode = $(data).find('response').text();
-//					if (responseCode === '1') {
-//						$container.find('#goListButton').click();
-//					} else if (responseCode === '-3') {
-//						alert('질문 글은 댓글이 달린 이후에는 삭제할 수 없습니다.');
-//					} else {
-//						alert('삭제할 수 없습니다.');
-//					}
-//				}
-//			});
+			//게시글 삭제
+			$.ajax({
+				url: 'freedomContent/deleteProc',
+				xhrFields: {withCredentials: true},
+				type: 'POST',
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({
+					id: _set.boardId
+				}),
+				success: function (data) {
+					console.log(data)
+					var responseCode = $(data).find('response').text();
+					if (responseCode === '-1') {
+						alert('삭제할 수 없습니다.');
+					} else if (responseCode === '-2') {
+						alert('게시판 개설 혹은 마지막 게시물 게시 이후, 14일 동안 활동이 없는 게시판만 삭제할 수 있습니다.');
+					} else {
+						alert('게시판을 삭제하였습니다.');
+					}
+				}
+			});
 		},
-		abuseArticle: function ($article, reason) {
-//			$.ajax({
-//				url: '/save/board/article/abuse',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: {
-//					id: $article.data('id'),
-//					reason: reason
-//				},
-//				success: function (data) {
-//					var responseCode = $(data).find('response').text();
-//					if (responseCode === '0') {
-//						alert('신고할 수 없습니다.');
-//					} else if (responseCode === '-1') {
-//						alert('이미 신고한 글입니다.');
-//					} else {
-//						alert('신고하였습니다.');
-//						location.reload();
-//					}
-//				}
-//			});
-		},
+		//공감 버튼
 		voteArticle: function ($article) {
 			var $vote = $article.find('a.article > ul.status > li.vote');
 			if ($article.data('is_mine') === '1') {
@@ -1851,27 +1974,35 @@ $().ready(function () {
 				alert('로그인 후 가능합니다.');
 				return false;
 			}
-//			$.ajax({
-//				url: '/save/board/article/vote',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: {
-//					id: $article.data('id'),
-//					vote: '1'
-//				},
-//				success: function (data) {
+			
+			
+			//글 공감
+			$.ajax({
+				url: 'freedomContent/likeProc',
+				xhrFields: {withCredentials: true},
+				type: 'POST',
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({
+					likeCount: '1',
+					userId: _set.isUser,
+					postId: _set.boardId
+				}),
+				success: function (data) {
 //					var response = Number($('response', data).text());
-//					if (response === 0) {
-//						alert('공감할 수 없습니다.');
-//					} else if (response === -1) {
-//						alert('이미 공감하였습니다.');
-//					} else if (response === -2) {
-//						alert('오래된 글은 공감할 수 없습니다.');
-//					} else {
-//						$vote.text(response);
-//					}
-//				}
-//			});
+					var response = $(data).find('response').text();
+					console.log(response)
+					
+					if (response === 0) {
+						alert('공감할 수 없습니다.');
+					} else if (response === -1) {
+						alert('이미 공감하였습니다.');
+					} else if (response === -2) {
+						alert('오래된 글은 공감할 수 없습니다.');
+					} else {
+						$vote.text(response);
+					}
+				}
+			});
 		},
 		scrapArticle: function ($article) {
 			var $scrap = $article.find('ul.status > li.scrap');
@@ -1882,33 +2013,38 @@ $().ready(function () {
 				alert('로그인 후 가능합니다.');
 				return false;
 			}
-//			$.ajax({
-//				url: '/save/board/article/scrap',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: {
-//					article_id: $article.data('id')
-//				},
-//				success: function (data) {
-//					var response = Number($('response', data).text());
-//					if (response === 0) {
-//						alert('스크랩할 수 없습니다.');
-//					} else if (response === -1) {
-//						alert('존재하지 않는 글입니다.');
-//					} else if (response === -2) {
-//						alert('이미 스크랩하였습니다.');
-//					} else if (response === -3) {
-//						alert('내가 쓴 글은 스크랩할 수 없습니다.');
-//					} else {
-//						$scrap.text(response);
-//					}
-//				}
-//			});
+			
+			//스크랩
+			$.ajax({
+				url: 'freedomContent/scrapProc',
+				xhrFields: {withCredentials: true},
+				type: 'POST',
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({
+					article_id: $article.data('id')
+				}),
+				success: function (data) {
+					var response = Number($('response', data).text());
+					if (response === 0) {
+						alert('스크랩할 수 없습니다.');
+					} else if (response === -1) {
+						alert('존재하지 않는 글입니다.');
+					} else if (response === -2) {
+						alert('이미 스크랩하였습니다.');
+					} else if (response === -3) {
+						alert('내가 쓴 글은 스크랩할 수 없습니다.');
+					} else {
+						$scrap.text(response);
+					}
+				}
+			});
 		},
 		removeScrap: function ($article) {
 			if (!confirm('스크랩을 취소하시겠습니까?')) {
 				return false;
 			}
+			
+			//스크랩 취소
 //			$.ajax({
 //				url: '/remove/board/article/scrap',
 //				xhrFields: {withCredentials: true},
@@ -1932,6 +2068,8 @@ $().ready(function () {
 			if (!confirm('이 글을 공지로 설정하시겠습니까?')) {
 				return false;
 			}
+			
+			//공지 설정
 //			$.ajax({
 //				url: '/update/board/notice',
 //				xhrFields: {withCredentials: true},
@@ -1949,6 +2087,7 @@ $().ready(function () {
 //				}
 //			});
 		},
+		//댓글 부분
 		writeComment: function ($form) {
 			var $article = $form.parents('article');
 			var $text = $form.find('input[name="text"]');
@@ -1960,6 +2099,7 @@ $().ready(function () {
 				return false;
 			}
 			var params = {
+				post: _set.boardId,
 				text: $text.val(),
 				is_anonym: isAnonym
 			};
@@ -1968,25 +2108,23 @@ $().ready(function () {
 			} else {
 				params.id = $article.data('id');
 			}
+			
+//			//댓글 리스트
 //			$.ajax({
-//				url: '/save/board/comment',
+//				url: 'freedomContent/commentList',
 //				xhrFields: {withCredentials: true},
 //				type: 'POST',
-//				data: params,
+//				contentType: "application/json; charset=UTF-8",
+//				data: JSON.stringify({
+//					postId: _set.boardId
+//				}),
 //				success: function (data) {
-//					var responseCode = $(data).find('response').text();
-//					if (responseCode === '0' || responseCode === '-3') {
-//						alert('댓글을 작성할 수 없습니다.');
-//					} else if (responseCode == '-1') {
-//						alert('너무 자주 댓글을 작성할 수 없습니다.');
-//					} else if (responseCode === '-2') {
-//						alert('내용을 입력해 주세요.');
-//					} else {
-//						location.reload();
-//					}
+//					console.log(data);
 //				}
 //			});
+			
 		},
+		//대댓글 처리부분
 		createChildCommentForm: function ($comment) {
 			var $commentForm = $articles.find('> article > div.comments > form.writecomment').filter(function () {
 				return $(this).data('parentId') === $comment.data('id');
@@ -1995,6 +2133,7 @@ $().ready(function () {
 				$commentForm = $articles.find('> article > div.comments > form.\
 				comment:not(.child)').clone().addClass('child').data('parentId', $comment.data('id'));
 				$commentForm.find('input[name="text"]').attr('placeholder', '대댓글을 입력하세요.');
+				//대댓글
 				var $beforeComment = $articles.find('> article > div.comments > article.child').filter(function () {
 					return $(this).data('parentId') === $comment.data('id');
 				}).last();
@@ -2007,6 +2146,7 @@ $().ready(function () {
 			}
 			$commentForm.find('input[name="text"]').focus();
 		},
+		//공감 처리부분
 		voteComment: function ($comment) {
 			var $vote = $comment.find('ul.status > li.vote');
 			if ($comment.data('is_mine') === '1') {
@@ -2020,6 +2160,8 @@ $().ready(function () {
 				alert('로그인 후 가능합니다.');
 				return false;
 			}
+			
+			//댓글 공감
 //			$.ajax({
 //				url: '/save/board/comment/vote',
 //				xhrFields: {withCredentials: true},
@@ -2043,6 +2185,7 @@ $().ready(function () {
 //			});
 		},
 		removeComment: function ($comment) {
+			//댓글 삭제
 //			$.ajax({
 //				url: '/remove/board/comment',
 //				xhrFields: {withCredentials: true},
@@ -2060,7 +2203,32 @@ $().ready(function () {
 //				}
 //			});
 		},
+		//신고
+		abuseArticle: function ($article, reason) {
+			//글 신고
+//			$.ajax({
+//				url: '/save/board/article/abuse',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: {
+//					id: $article.data('id'),
+//					reason: reason
+//				},
+//				success: function (data) {
+//					var responseCode = $(data).find('response').text();
+//					if (responseCode === '0') {
+//						alert('신고할 수 없습니다.');
+//					} else if (responseCode === '-1') {
+//						alert('이미 신고한 글입니다.');
+//					} else {
+//						alert('신고하였습니다.');
+//						location.reload();
+//					}
+//				}
+//			});
+		},
 		abuseComment: function ($comment, reason) {
+			//댓글 신고
 //			$.ajax({
 //				url: '/save/board/comment/abuse',
 //				xhrFields: {withCredentials: true},

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="adminHeader.jsp"%>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	<%pageContext.setAttribute("replaceChar", "\n"); %>
+<c:import url="header.jsp" />
 <div id="submenu">
 	<div class="wrap">
 		<ul>
@@ -47,7 +49,7 @@
 				<hr>
 				<h2 class="large">${noticeView.title }</h2>
 				<p class="large">
-					${noticeView.content }
+					${fn:replace(noticeView.content,replaceChar,"<br/>") }
 				</p>
 				<div class="attaches multiple">
 					<figure class="attach">
@@ -216,4 +218,4 @@
 		<input type="submit" value="전송" class="button">
 	</form>
 </div>
-<%@ include file="adminFooter.jsp"%>
+<c:import url="../footer.jsp" />
