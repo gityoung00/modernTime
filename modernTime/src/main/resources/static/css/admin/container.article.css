@@ -206,6 +206,9 @@
 #container > div.articles > #noticeList > article {
 	margin-bottom: -1px; box-sizing: border-box; border: 1px solid #e3e3e3; background-color: #fff;
 }
+#container > div.articles > #noticeList > article > a.article {
+	display: block; padding: 15px;
+}
 #container > div.articles > #noticeList > article.noticearticle {
 	margin-bottom: 5px; border-color: #c62917;
 }
@@ -504,6 +507,10 @@
 #container > div.articles > #schoolAuthList > article {
 	margin-bottom: -1px; box-sizing: border-box; border: 1px solid #e3e3e3; background-color: #fff;
 }
+#container > div.articles > #schoolAuthList > article > a.article{
+	display: block; padding: 15px;
+}
+
 #container > div.articles > #schoolAuthList > article.noticearticle {
 	margin-bottom: 5px; border-color: #c62917;
 }

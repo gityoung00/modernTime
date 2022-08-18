@@ -25,6 +25,9 @@ public class PostServiceImpl implements IPostService{
 	
 	@Override
 	public String writeProc(PostDTO post) {
+		String id = (String) session.getAttribute("id");
+		post.setUserId(id);
+		
 		if(post.getTitle() == null || post.getTitle().isEmpty())
 			return "제목을 입력하세요.";
 		if(post.getContent() == null || post.getContent().isEmpty())

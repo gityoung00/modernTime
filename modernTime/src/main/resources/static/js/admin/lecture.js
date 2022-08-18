@@ -2,6 +2,7 @@ if (!_set) var _set = {};
 
 $().ready(function() {
 	var $subjects, $filterItems;
+	var $tbody = $('#tbody');
 	_set = _.extend(_set, {
 		subjectSchoolId: 0,
 		subjectCampusId: 0,
@@ -16,19 +17,28 @@ $().ready(function() {
 		subjectLimitNum: 50,
 		subjectStartNum: 0,
 		subjectFilter: {},
-		id : [1,2],
-		text : ['전공','교양'],
+		id: [1, 2],
+		text: ['전공', '교양'],
 	});
+	const weekday = {
+		0: '월',
+		1: '화',
+		2: '수',
+		3: '목',
+		4: '금',
+		5: '토',
+		6: '일',
+	}
 	var _fn = {
 		init: function() {
-			
+
 			$subjects = $('#subjects');
 
-			$("#deleteLecture").on('click',function(e){
+			$("#deleteLecture").on('click', function(e) {
 				e.preventDefault();
 				_fn.deleteLecture();
 			});
-			$("#updateLecture").on('click',function(e){
+			$("#updateLecture").on('click', function(e) {
 				e.preventDefault();
 				_fn.updateLecture();
 			});
@@ -82,36 +92,39 @@ $().ready(function() {
 				limitNum: _set.subjectLimitNum,
 				startNum: _set.subjectStartNum
 			});
+			console.log("start")
 			$.ajax({
 				url: 'admin/lectureList',
 				type: 'POST',
 				data: params,
 				contentType: 'application/json; charset=UTF-8',
 				success: function(data) {
-					console.log(data);
 					var jsonDatas = data;//JSON.parse(data);
 					var list = "";
+					$(jsonDatas.cd).each((idx, lecture) => {
+						_fn.addLecture(lecture);
 
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list += "<tr>";
-						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-						} else {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-						}
-						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
-						list += "</tr>";
-					}
-					$("#tbody").html(list);
+
+					})
+					//					for (i = 0; i < jsonDatas.cd.length; i++) {
+					//						list += "<tr>";
+					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
+					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
+					//						} else {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
+					//						}
+					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
+					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
+					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
+					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
+					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
+					//						list += "</tr>";
+					//					}
+					//					$("#tbody").html(list);
 					//
 					//var $star = $('<a></a>');
 					//$star.addClass('star').appendTo($td);
@@ -125,6 +138,46 @@ $().ready(function() {
 					//
 				}
 			});
+
+		},
+		addLecture: function(lecture) {
+			console.log(_fn.getLectureTime(lecture))
+			var percent = lecture.score / 5 * 100 + '%'
+			var $tr = $('<tr></tr>')
+			$('<td></td>').text(lecture.type).appendTo($tr)
+			$('<td></td>').text(_fn.getLectureTime(lecture)).appendTo($tr)
+			$('<td></td>').text(lecture.name).addClass('bold').appendTo($tr)
+			$('<td></td>').text(lecture.teacher).appendTo($tr)
+			$('<td></td>').text(lecture.credit).appendTo($tr)
+			$('<td></td>').text(lecture.place).appendTo($tr)
+			// 별점
+			// <a class='star'><span class='on' style='width:" + percent + "'></span></a>
+			$score = $('<td></td>')
+			$aStar = $('<a></a>').addClass('star')
+			$('<span></span>').addClass('on').css("width", percent).appendTo($aStar)
+			$aStar.appendTo($score)
+			$score.appendTo($tr)
+
+			$('<td></td>').text(lecture.listen_student).addClass('small').appendTo($tr)
+			$('<td></td>').text(lecture.max_student).addClass('small').appendTo($tr)
+			$tr.appendTo($tbody);
+		},
+		getLectureTime: function(lecture) {
+			var week1 = parseInt(lecture.week1);
+			var starttime1 = lecture.starttime1;
+			var endtime1 = lecture.endtime1;
+			var week2 = parseInt(lecture.week2);
+			var starttime2 = lecture.starttime2;
+			var endtime2 = lecture.endtime2;
+			console.log(week1, week2)
+			time = `${weekday[week1]} ${_fn.getTime(starttime1)}-${_fn.getTime(endtime1)}, ${weekday[week2]} ${_fn.getTime(starttime2)}-${_fn.getTime(endtime2)}`;
+			return time;
+		},
+		getTime: function(time) {
+			time = parseInt(time);
+			hour = parseInt(time / 12);
+			minute = (time % 12) * 5;
+			return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`
 
 		},
 		open: function() {
@@ -274,41 +327,45 @@ $().ready(function() {
 			}
 			_set.subjectFilter.keyword = JSON.stringify({ type: keywordType.id, keyword: keyword });
 			//    {type: keywordType.id, keyword: keyword};
-			var params={
-				type : keywordType.text,
-				search : keyword
-				
+			var params = {
+				type: keywordType.text,
+				search: keyword
+
 			};
-				console.log(params);
+			console.log(params);
 			$.ajax({
-				url:'/lectureFilterKeyword',
-				type:'POST',
-				data : params,
-				success:function(data){
+				url: '/lectureFilterKeyword',
+				type: 'POST',
+				data: params,
+				success: function(data) {
 					console.log(data);
 					var jsonDatas = data;//JSON.parse(data);
 					var list = "";
+					$(jsonDatas.cd).each((idx, lecture) => {
+						_fn.addLecture(lecture);
 
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list += "<tr>";
-						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-						} else {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-						}
-						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
-						list += "</tr>";
-					}
-					$("#tbody").html(list);
+
+					})
+					//					for (i = 0; i < jsonDatas.cd.length; i++) {
+					//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+					//						list += "<tr>";
+					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
+					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
+					//						} else {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
+					//						}
+					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
+					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
+					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
+					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
+					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
+					//						list += "</tr>";
+					//					}
+					//					$("#tbody").html(list);
 				}
 			})
 			var $filterItem = $filterItems.find('a.item[data-id="keyword"]').addClass('active');
@@ -368,39 +425,42 @@ $().ready(function() {
 			$filterItem.find('span.value').html(order.text);
 			$('#subjectOrderFilter').hide();
 			var params = {
-				orderId : order.id
+				orderId: order.id
 			}
 			console.log(params);
 			$.ajax({
-				url:'/lectureFilterOrder',
-				type:'POST',
-				data : params,
-				success:function(data){
+				url: '/lectureFilterOrder',
+				type: 'POST',
+				data: params,
+				success: function(data) {
 					console.log(data);
 					var jsonDatas = data;//JSON.parse(data);
 					var list = "";
-
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list += "<tr>";
-						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-						} else {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-						}
-						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
-						list += "</tr>";
-					}
-					$("#tbody").html(list);
-				}});
+					$(jsonDatas.cd).each((idx, lecture) => {
+						_fn.addLecture(lecture);
+					})
+					//					for (i = 0; i < jsonDatas.cd.length; i++) {
+					//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+					//						list += "<tr>";
+					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
+					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
+					//						} else {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
+					//						}
+					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
+					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
+					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
+					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
+					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
+					//						list += "</tr>";
+					//					}
+					//					$("#tbody").html(list);
+				}
+			});
 			//      _fn.loadSubjects(true, function (data) {
 			//        _fn.appendSubjects(data);
 			//      });
@@ -415,30 +475,30 @@ $().ready(function() {
 			if (_set.subjectFilter.type) {
 				setTypeFilter = JSON.parse(_set.subjectFilter.type);
 			}
-			var items =  [_set.id,_set.text];
+			var items = [_set.id, _set.text];
 			$(this).attr({ type: 'form', name: 'type' });
-//			_.each(items, function() {
-				var type1 = {
-					          id: 1,
-					          text: '전공'
-				};
-				var type2 = {
-					          id: 2,
-					          text: '교양'
-				};
-				var $label = $('<label></label>').appendTo($filter);
-				var $checkbox = $('<input>').attr({ type: 'checkbox', name: 'type' }).data('type', type1).appendTo($label);
-				if (setTypeFilter === undefined || _.contains(setTypeFilter, type1.id) === true) {
-					$checkbox.attr('checked', true);
-				}
-				$('<span></span>').html(type1.text).appendTo($label);
-				var $label = $('<label></label>').appendTo($filter);
-				var $checkbox = $('<input>').attr({ type: 'checkbox', name: 'type' }).data('type', type2).appendTo($label);
-				if (setTypeFilter === undefined || _.contains(setTypeFilter, type2.id) === true) {
-					$checkbox.attr('checked', true);
-				}
-				$('<span></span>').html(type2.text).appendTo($label);
-//			});
+			//			_.each(items, function() {
+			var type1 = {
+				id: 1,
+				text: '전공'
+			};
+			var type2 = {
+				id: 2,
+				text: '교양'
+			};
+			var $label = $('<label></label>').appendTo($filter);
+			var $checkbox = $('<input>').attr({ type: 'checkbox', name: 'type' }).data('type', type1).appendTo($label);
+			if (setTypeFilter === undefined || _.contains(setTypeFilter, type1.id) === true) {
+				$checkbox.attr('checked', true);
+			}
+			$('<span></span>').html(type1.text).appendTo($label);
+			var $label = $('<label></label>').appendTo($filter);
+			var $checkbox = $('<input>').attr({ type: 'checkbox', name: 'type' }).data('type', type2).appendTo($label);
+			if (setTypeFilter === undefined || _.contains(setTypeFilter, type2.id) === true) {
+				$checkbox.attr('checked', true);
+			}
+			$('<span></span>').html(type2.text).appendTo($label);
+			//			});
 			$('#subjectTypeFilter').show();
 		},
 		resetTypeFilter: function() {
@@ -473,35 +533,37 @@ $().ready(function() {
 			$('#subjectTypeFilter').hide();
 			console.log(value)
 			$.ajax({
-				url:'/lectureFilterType',
-				type:'POST',
-				data : {type : value},
-				success : function(data){
+				url: '/lectureFilterType',
+				type: 'POST',
+				data: { type: value },
+				success: function(data) {
 					console.log(data)
 					var jsonDatas = data;//JSON.parse(data);
 					var list = "";
+					$(jsonDatas.cd).each((idx, lecture) => {
+						_fn.addLecture(lecture);
+					})
+					//					for (i = 0; i < jsonDatas.cd.length; i++) {
+					//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+					//						list += "<tr>";
+					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
+					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
+					//						} else {
+					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
+					//						}
+					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
+					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
+					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
+					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
+					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
+					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
+					//						list += "</tr>";
+					//					}
+					//					$("#tbody").html(list);
 
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list += "<tr>";
-						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-						} else {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-						}
-						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
-						list += "</tr>";
-					}
-					$("#tbody").html(list);
-					
 				}
 			})
 			//      _fn.loadSubjects(true, function (data) {
@@ -566,37 +628,39 @@ $().ready(function() {
 			$filterItem.find('span.value').html(value);
 			$('#subjectCreditFilter').hide();
 			$.ajax({
-				url:'/lectureFilterCredit',
-				type:'POST',
-				data : {
-					credit : value
+				url: '/lectureFilterCredit',
+				type: 'POST',
+				data: {
+					credit: value
 				},
-				success : function(data){
-				console.log(data)
+				success: function(data) {
+					console.log(data)
 					var jsonDatas = data;//JSON.parse(data);
 					var list = "";
-
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list += "<tr>";
-						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-						} else {
-							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-						}
-						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
-						list += "</tr>";
-					}
-					$("#tbody").html(list);
-					}
+					$(jsonDatas.cd).each((idx, lecture) => {
+						_fn.addLecture(lecture);
+					})
+//					for (i = 0; i < jsonDatas.cd.length; i++) {
+//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+//						list += "<tr>";
+//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
+//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
+//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
+//						} else {
+//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
+//						}
+//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
+//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
+//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
+//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
+//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
+//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
+//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
+//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
+//						list += "</tr>";
+//					}
+//					$("#tbody").html(list);
+				}
 			})
 			//      _fn.loadSubjects(true, function (data) {
 			//        _fn.appendSubjects(data);
@@ -700,78 +764,79 @@ $().ready(function() {
 				$filterItems.find('a.item[data-id="credit"]').removeClass('active').html('<span class="key">학점:</span><span class="value">전체</span><span class="reset"></span>');
 			}
 		},
-		 deleteLecture : function(){
-//			
-			var checkBox =  $("#tbody").find('input:checkbox[name="chkbox"]:checked');
-//			console.log(checkBox)
-//			var check = $("#tbody").find("#chkbox");
-// 			 ==  true
+		deleteLecture: function() {
+			//			
+			var checkBox = $("#tbody").find('input:checkbox[name="chkbox"]:checked');
+			//			console.log(checkBox)
+			//			var check = $("#tbody").find("#chkbox");
+			// 			 ==  true
 			var cnt = checkBox.length;
-//			console.log(checkBox);
-       var arr =checkBox.map(function() {
-            return $(this).attr('value');
-        });
-        var tmp = arr.get();
- 		   var map = JSON.stringify(tmp);
- 		   console.log(map)
- 		   console.log(tmp)
-        if(cnt == 0){
-            alert("선택된 글이 없습니다.");
-        }
-        else{
-			$.ajax({
-				type: "POST",
-				url : "/lectureDelete",
-				data : {
-					id : map				},
-				success: function(data){
-					console.log(data);
-					alert("강의를 삭제했습니다.");
-					location.href="/lectureRegist";
-				},
-				error : function(){
-					alert("삭제 실패");
-				}
-				
+			//			console.log(checkBox);
+			var arr = checkBox.map(function() {
+				return $(this).attr('value');
 			});
-			
+			var tmp = arr.get();
+			var map = JSON.stringify(tmp);
+			console.log(map)
+			console.log(tmp)
+			if (cnt == 0) {
+				alert("선택된 글이 없습니다.");
 			}
-        },		 
-        updateLecture : function(){
-			var checkBox =  $("#tbody").find('input:checkbox[name="chkbox"]:checked');
-			var cnt = checkBox.length;
-       var arr =checkBox.map(function() {
-            return $(this).attr('value');
-        });
-        if(cnt == 0){
-            alert("선택된 강의가 없습니다.");
-        }
-        else if(cnt != 1){
-			alert("강의는 하나씩만 수정가능합니다.");
-		}
-        else{
-			$.ajax({
-				type: "POST",
-				url : "/lectureUpdate",
-				data : {
-					id : arr.get()
-				},
-				success: function(data){
-					console.log(data);
-					var uri = '/lectureUpdateSite?id='+arr.get()
-					location.replace(uri);
-				},
-				error : function(){
-					alert("삭제 실패");
-				}
-				
-			});
-			
-			}
-        }
-    }
+			else {
+				$.ajax({
+					type: "POST",
+					url: "/lectureDelete",
+					data: {
+						id: map
+					},
+					success: function(data) {
+						console.log(data);
+						alert("강의를 삭제했습니다.");
+						location.href = "/lectureRegist";
+					},
+					error: function() {
+						alert("삭제 실패");
+					}
 
-		
+				});
+
+			}
+		},
+		updateLecture: function() {
+			var checkBox = $("#tbody").find('input:checkbox[name="chkbox"]:checked');
+			var cnt = checkBox.length;
+			var arr = checkBox.map(function() {
+				return $(this).attr('value');
+			});
+			if (cnt == 0) {
+				alert("선택된 강의가 없습니다.");
+			}
+			else if (cnt != 1) {
+				alert("강의는 하나씩만 수정가능합니다.");
+			}
+			else {
+				$.ajax({
+					type: "POST",
+					url: "/lectureUpdate",
+					data: {
+						id: arr.get()
+					},
+					success: function(data) {
+						console.log(data);
+						var uri = '/lectureUpdateSite?id=' + arr.get()
+						location.replace(uri);
+					},
+					error: function() {
+						alert("삭제 실패");
+					}
+
+				});
+
+			}
+		}
+	}
+
+
 
 	_fn.init();
 	_fn.open();

@@ -1,0 +1,852 @@
+@charset "utf-8";
+
+body {
+	background-color: #fff;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+a {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+}
+
+input, textarea {
+	outline: none;
+	/*   -webkit-appearance: none; */
+}
+
+input::placeholder, textarea::placeholder {
+	color: #a6a6a6;
+}
+
+#container hr {
+	clear: both;
+	height: 0;
+	border: 0;
+}
+
+#container div.tab {
+	display: none;
+}
+
+#container div.loadingdialog {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 202;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#container div.loadingdialog p {
+	position: absolute;
+	left: 50%;
+	bottom: 50%;
+	padding: 16px 16px 16px 44px;
+	line-height: 24px;
+	box-sizing: border-box;
+	border-radius: 4px;
+	transform: translate(-50%, 50%);
+	color: #737373;
+	font-size: 14px;
+	text-align: center;
+	background: #fff url('/images/loading.svg') no-repeat left 16px center;
+	background-size: 24px 24px;
+}
+
+#container div.side {
+	margin: 0 8px 8px 8px;
+	padding: 24px 0 12px 0;
+	border: 1px solid #ededed;
+	border-radius: 12px;
+	box-sizing: border-box;
+}
+
+#container div.side h2 {
+	display: inline-block;
+	margin: 0 16px 12px 16px;
+	line-height: 27px;
+	color: #292929;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#container div.side a.writebutton {
+	float: right;
+	display: inline-block;
+	margin: 0 16px 0 0;
+	padding: 0 16px;
+	line-height: 30px;
+	border-radius: 15px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #c62917;
+	cursor: pointer;
+}
+
+#container div.side div.empty {
+	padding: 0 0 12px 16px;
+}
+
+#container div.side div.empty p {
+	line-height: 20px;
+	color: #a6a6a6;
+	font-size: 14px;
+}
+
+#container div.side div.empty p strong {
+	color: #c62917;
+}
+
+#container div.side div.empty a {
+	display: inline-block;
+	margin-top: 8px;
+	padding: 0 16px;
+	line-height: 28px;
+	border: 1px solid #a6a6a6;
+	border-radius: 15px;
+	color: #737373;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#container div.side.head div.loading {
+	height: 123px;
+	background: transparent url('/images/loading.svg') no-repeat center center;
+	background-size: 36px 36px;
+}
+
+#container div.side.head p {
+	position: relative;
+	margin: 0 16px 8px 16px;
+}
+
+#container div.side.head p label {
+	position: absolute;
+	display: inline-block;
+	width: 64px;
+	line-height: 20px;
+	color: #737373;
+	font-size: 12px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#container div.side.head p span {
+	display: block;
+	padding-left: 72px;
+	line-height: 20px;
+	color: #292929;
+	font-size: 14px;
+	word-wrap: break-word;
+}
+
+#container div.side.book div.books {
+	height: 100px;
+}
+
+#container div.side.book div.books div.wrap {
+	position: absolute;
+	left: 0;
+	padding: 0 8px 0 16px;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 0;
+	white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+}
+
+#container div.side.book div.books div.wrap::-webkit-scrollbar {
+	display: none;
+	background-color: transparent;
+}
+
+#container div.side.book div.books div.wrap a.book {
+	display: inline-block;
+	position: relative;
+	margin-right: 8px;
+	padding: 12px 12px 12px 87px;
+	width: 288px;
+	height: 100px;
+	border: 1px solid #d6d6d6;
+	border-radius: 18px;
+	box-sizing: border-box;
+	vertical-align: top;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+#container div.side.book div.books div.wrap a.book figure {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 75px;
+	height: 100px;
+	background-size: cover;
+}
+
+#container div.side.book div.books div.wrap a.book h3, #container div.side.book div.books div.wrap a.book p.detail {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#container div.side.book div.books div.wrap a.book h3 {
+	line-height: 20px;
+	color: #292929;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#container div.side.book div.books div.wrap a.book p.detail {
+	line-height: 18px;
+	color: #737373;
+	font-size: 12px;
+}
+
+#container div.side.book div.books div.wrap a.book p.price span {
+	display: inline-block;
+	line-height: 20px;
+	letter-spacing: 0;
+}
+
+#container div.side.book div.books div.wrap a.book p.price span.selling {
+	color: #c62917;
+	font-size: 14px;
+}
+
+#container div.side.book div.books div.wrap a.book p.price span.original {
+	margin-left: 4px;
+	color: #d6d6d6;
+	font-size: 12px;
+	text-decoration: line-through;
+}
+
+#container div.side.article div.rating div.rate {
+	margin: 0 16px 12px 16px;
+}
+
+#container div.side.article div.rating div.rate span.value {
+	margin-left: 8px;
+	height: 24px;
+	line-height: 24px;
+	color: #292929;
+	font-size: 18px;
+}
+
+#container div.side.article div.rating div.rate span.star {
+	float: left;
+	display: block;
+	width: 120px;
+	height: 24px;
+	background: transparent url('/images/app.subject.rating.details.star.off.png') no-repeat;
+	background-size: 120px 24px;
+}
+
+#container div.side.article div.rating div.rate span.star span.on {
+	display: block;
+	height: 24px;
+	background: transparent url('/images/app.subject.rating.details.star.on.png') no-repeat;
+	background-size: 120px 24px;
+}
+
+#container div.side.article div.rating div.details {
+	margin: 0 16px;
+}
+
+#container div.side.article div.rating div.details p {
+	position: relative;
+	margin-bottom: 8px;
+}
+
+#container div.side.article div.rating div.details p label {
+	position: absolute;
+	display: inline-block;
+	width: 64px;
+	line-height: 20px;
+	color: #737373;
+	font-size: 12px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#container div.side.article div.rating div.details p span {
+	display: block;
+	padding-left: 72px;
+	line-height: 20px;
+	color: #292929;
+	font-size: 14px;
+	word-wrap: break-word;
+}
+
+#container div.side.article div.articles {
+	margin-top: 16px;
+}
+
+#container div.side.article div.articles article {
+	position: relative;
+	margin: 0 8px;
+	padding: 16px 8px;
+	border-top: 1px solid #ededed;
+}
+
+#container div.side.article div.articles article div.confirm {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	padding-top: 52px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+#container div.side.article div.articles article div.confirm p {
+	padding: 4px 8px;
+	height: 100%;
+	box-sizing: border-box;
+	line-height: 20px;
+	color: #444444;
+	font-size: 14px;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+#container div.side.article div.articles article a.button {
+	float: right;
+	display: inline-block;
+	margin-left: 4px;
+	padding: 0 8px;
+	line-height: 24px;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: #a6a6a6;
+	font-size: 11px;
+	background-color: #f2f2f2;
+	cursor: pointer;
+}
+
+#container div.side.article div.articles article a.button.posvote {
+	padding-left: 23px;
+	background-image: url('/images/container.lecture.button.posvote.png');
+	background-repeat: no-repeat;
+	background-position: left 8px center;
+	background-size: 11px 11px;
+}
+
+#container div.side.article div.articles article p.rate {
+	margin-bottom: 4px;
+}
+
+#container div.side.article div.articles article p.rate span.star {
+	display: block;
+	width: 60px;
+	height: 12px;
+	background: transparent url('/images/app.subject.rating.details.star.off.png') no-repeat left top;
+	background-size: 60px 12px;
+}
+
+#container div.side.article div.articles article p.rate span.star span.on {
+	float: left;
+	display: block;
+	height: 12px;
+	background: transparent url('/images/app.subject.rating.details.star.on.png') no-repeat left top;
+	background-size: 60px 12px;
+}
+
+#container div.side.article div.articles article p.info {
+	margin-bottom: 4px;
+	line-height: 20px;
+	font-size: 0;
+}
+
+#container div.side.article div.articles article p.info span {
+	display: inline-block;
+	margin-right: 8px;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+#container div.side.article div.articles article p.info span.semester {
+	color: #a6a6a6;
+}
+
+#container div.side.article div.articles article p.info span.posvote {
+	padding-left: 14px;
+	color: #c62917;
+	background-image: url('/images/container.lecture.posvote.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 11px 11px;
+}
+
+#container div.side.article div.articles article p.text {
+	line-height: 20px;
+	color: #292929;
+	font-size: 14px;
+	word-wrap: break-word;
+}
+
+#container div.side.article div.articles article.notconfirmed p.text {
+	filter: blur(3px);
+	-webkit-filter: blur(3px);
+}
+
+#container div.side.exam h2 {
+	margin-bottom: 16px;
+}
+
+#container div.side.exam div.exams article {
+	position: relative;
+	margin: 0 8px;
+	padding: 16px 8px;
+	border-top: 1px solid #ededed;
+}
+
+#container div.side.exam div.exams article a.button {
+	float: right;
+	display: inline-block;
+	margin-left: 4px;
+	padding: 0 8px;
+	line-height: 24px;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: #a6a6a6;
+	font-size: 11px;
+	background-color: #f2f2f2;
+	cursor: pointer;
+}
+
+#container div.side.exam div.exams article a.button.posvote {
+	padding-left: 23px;
+	background-image: url('/images/container.lecture.button.posvote.png');
+	background-repeat: no-repeat;
+	background-position: left 8px center;
+	background-size: 11px 11px;
+}
+
+#container div.side.exam div.exams article h3 {
+	line-height: 20px;
+	color: #292929;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#container div.side.exam div.exams article p.info {
+	margin-bottom: 16px;
+	line-height: 20px;
+	font-size: 0;
+}
+
+#container div.side.exam div.exams article p.info span {
+	display: inline-block;
+	margin-right: 8px;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+#container div.side.exam div.exams article p.info span.semester {
+	color: #a6a6a6;
+}
+
+#container div.side.exam div.exams article p.info span.posvote {
+	padding-left: 14px;
+	color: #c62917;
+	background-image: url('/images/container.lecture.posvote.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 11px 11px;
+}
+
+#container div.side.exam div.exams article h4 {
+	position: absolute;
+	display: inline-block;
+	width: 64px;
+	line-height: 20px;
+	color: #737373;
+	font-size: 12px;
+	font-weight: normal;
+}
+
+#container div.side.exam div.exams article p.text, #container div.side.exam div.exams article p.types {
+	margin: 0 0 16px 64px;
+	line-height: 20px;
+	color: #292929;
+	font-size: 14px;
+	word-wrap: break-word;
+}
+
+#container div.side.exam div.exams article ol.questions {
+	margin-left: 64px;
+}
+
+#container div.side.exam div.exams article ol.questions li {
+	margin-bottom: 4px;
+	padding: 4px;
+	border-radius: 4px;
+	line-height: 18px;
+	color: #444444;
+	font-size: 13px;
+	word-wrap: break-word;
+	background-color: #f9f9f9;
+}
+
+#container div.side.exam div.exams article.unread h4, #container div.side.exam div.exams article.unread p.text, #container div.side.exam div.exams article.unread p.types,
+	#container div.side.exam div.exams article.unread ol.questions {
+	filter: blur(3px);
+	-webkit-filter: blur(3px);
+}
+
+#container div.side.exam div.exams article div.pay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	padding-top: 56px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+#container div.side.exam div.exams article div.pay div.wrap {
+	padding: 16px 8px 0 8px;
+	height: 100%;
+	box-sizing: border-box;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+#container div.side.exam div.exams article div.pay div.wrap p {
+	line-height: 20px;
+	color: #444444;
+	font-size: 14px;
+}
+
+#container div.side.exam div.exams article div.pay div.wrap p strong {
+	color: #c62917;
+}
+
+#container div.side.exam div.exams article div.pay div.wrap a.pay {
+	display: inline-block;
+	margin-top: 8px;
+	padding: 0 16px;
+	line-height: 28px;
+	border: 1px solid #c62917;
+	border-radius: 15px;
+	color: #c62917;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#container form.lecture-write {
+	display: none;
+}
+
+#container form.lecture-write div.wrap {
+	padding: 24px 16px;
+	border-radius: 12px;
+	box-sizing: border-box;
+}
+
+#container form.lecture-write div.wrap h2 {
+	float: left;
+	margin-bottom: 12px;
+	line-height: 27px;
+	color: #292929;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#container form.lecture-write div.wrap a.close {
+	display: none;
+}
+
+#container form.lecture-write div.wrap h3 {
+	margin-bottom: 12px;
+	padding-top: 12px;
+	line-height: 20px;
+	border-top: 1px solid #ededed;
+	color: #444444;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#container form.lecture-write div.wrap p.description {
+	margin-bottom: 4px;
+	line-height: 18px;
+	color: #a6a6a6;
+	font-size: 12px;
+}
+
+#container form.lecture-write div.wrap dt {
+	margin-bottom: 4px;
+	line-height: 20px;
+	color: #444444;
+	font-size: 12px;
+}
+
+#container form.lecture-write div.wrap dd {
+	margin-bottom: 8px;
+	font-size: 0;
+}
+
+#container form.lecture-write div.wrap dd a {
+	display: inline-block;
+	margin: 0 4px 4px 0;
+	padding: 0 12px;
+	line-height: 30px;
+	border-radius: 15px;
+	color: #737373;
+	font-size: 12px;
+	background-color: #f2f2f2;
+	cursor: pointer;
+}
+
+#container form.lecture-write div.wrap dd a.active {
+	color: #c62917;
+	font-weight: bold;
+}
+
+#container form.lecture-write div.wrap dd select {
+	margin-bottom: 4px;
+	height: 30px;
+	border: 1px solid #ededed;
+	border-radius: 4px;
+	color: #292929;
+	font-size: 14px;
+	background-color: #f9f9f9;
+}
+
+#container form.lecture-write div.wrap input {
+	margin-bottom: 4px;
+	padding-left: 5px;
+	width: 70%;
+	height: 30px;
+	border: 1px solid #ededed;
+	border-radius: 4px;
+	color: #292929;
+	font-size: 14px;
+	background-color: #f9f9f9;
+	height: 30px;
+}
+
+#container form.lecture-write div.wrap input:focus {
+	background-color: #fff;
+}
+
+#container form.lecture-write div.wrap textarea.text {
+	margin-bottom: 12px;
+	padding: 5px 8px;
+	width: 100%;
+	line-height: 20px;
+	height: 100px;
+	border: 1px solid #ededed;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: #292929;
+	font-size: 14px;
+	background-color: #f9f9f9;
+	resize: none;
+}
+
+#container form.lecture-write div.wrap input.text {
+	margin-bottom: 4px;
+	padding: 8px;
+	width: 100%;
+	height: 30px;
+	line-height: 20px;
+	border: 1px solid #ededed;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: #292929;
+	font-size: 14px;
+	background-color: #f9f9f9;
+}
+
+#container form.lecture-write div.wrap ol.questions {
+	padding-bottom: 12px;
+}
+
+#container form.lecture-write div.wrap ol.questions li {
+	list-style-type: decimal;
+	margin-left: 16px;
+	padding-left: 8px;
+	color: #737373;
+	font-size: 12px;
+}
+
+#container form.lecture-write div.wrap ol.questions li.new {
+	list-style-type: none;
+}
+
+#container form.lecture-write div.wrap ol.questions li.new>a {
+	display: inline-block;
+	padding: 0 8px;
+	line-height: 28px;
+	border: 1px solid #c62917;
+	border-radius: 4px;
+	color: #c62917;
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#container form.lecture-write div.wrap input.submit {
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	border: 0;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #c62917;
+}
+
+#container dl dd.timeplaces div.timeplace {
+    margin-bottom: 5px;
+    padding: 5px;
+    width: 400px;
+}
+
+#container dl dd.timeplaces div.timeplace ol.weeks li.active {
+	color: #fff;
+	background-color: #c62917;
+}
+
+#container dl dd.timeplaces div.timeplace p {
+	clear: left;
+	padding-top: 5px;
+}
+
+#container dl dd.timeplaces div.timeplace ol.weeks li {
+	float: left;
+	margin-right: 1px;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	cursor: pointer;
+	color: #a6a6a6;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #f2f2f2;
+	text-align: center;
+}
+
+@media only screen and (max-width: 640px) {
+	body.appwebview #container div.tab {
+		display: block;
+		position: fixed;
+		z-index: 300;
+		left: 0;
+		top: 0;
+		padding-left: 16px;
+		width: 100%;
+		height: 48px;
+		box-sizing: border-box;
+		font-size: 0;
+		background-color: #fff;
+	}
+	body.appwebview #container div.tab a {
+		display: inline-block;
+		padding: 8px 8px 14px 8px;
+		cursor: pointer;
+	}
+	body.appwebview #container div.tab a span {
+		display: inline-block;
+		border-bottom: 2px solid transparent;
+		line-height: 24px;
+		color: #a6a6a6;
+		font-size: 16px;
+	}
+	body.appwebview #container div.tab a.active span {
+		border-bottom-color: #c62917;
+		color: #c62917;
+		font-weight: bold;
+	}
+	#container form.lecture-write div.wrap {
+		margin: 0 8px 8px 8px;
+		border: 1px solid #c62917;
+	}
+}
+
+@media only screen and (min-width: 641px) {
+	#container div.side.head div.loading {
+		height: 129px;
+	}
+	#container div.side.head h2 {
+		line-height: 33px;
+		font-size: 22px;
+	}
+	#container div.side.book div.books div.wrap {
+		position: static;
+	}
+	#container div.side.article {
+		float: left;
+		width: 640px;
+	}
+	#container div.side.exam {
+		float: right;
+		margin-left: 0;
+		width: 484px;
+	}
+	#container form.lecture-write {
+		position: fixed;
+		z-index: 200;
+		left: 0;
+		top: 0;
+		padding: 8px;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+	#container form.lecture-write div.wrap {
+		position: relative;
+		z-index: 201;
+		left: 50%;
+		top: 50%;
+		padding: 24px;
+		width: 100%;
+		max-width: 720px;
+		max-height: 100%;
+		transform: translate(-50%, -50%);
+		background-color: #fff;
+		overflow: auto;
+	}
+	#container form.lecture-write div.wrap h2 {
+		line-height: 33px;
+		font-size: 22px;
+	}
+	#container form.lecture-write div.wrap a.close {
+		float: right;
+		display: inline-block;
+		width: 15px;
+		height: 33px;
+		color: transparent;
+		font-size: 0;
+		background: transparent url('/images/new/container.modal.close.png') no-repeat center center;
+		background-size: 15px 15px;
+		cursor: pointer;
+	}
+	#container form.lecture-write div.wrap dt {
+		position: absolute;
+		display: inline-block;
+		width: 72px;
+		line-height: 30px;
+	}
+	#container form.lecture-write div.wrap dd {
+		padding-left: 72px;
+	}
+	#container form.lecture-write div.wrap input.submit {
+		padding: 0 16px;
+		width: auto;
+	}
+}

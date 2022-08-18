@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class UserDTO {
-	private String email;
 	private String id;
 	private String pw;
 	private String name;
 	private String nickname;
+	private String email;
 	private int point;
 	private int isCertificate;
 	private int isAdmin;
@@ -18,13 +18,13 @@ public class UserDTO {
 		super();
 	}
 
-	public UserDTO(String email, String id, String pw, String name, String nickname, int point, int isCertificate, int isAdmin, LocalDateTime nickModifyDate) {
+	public UserDTO(String id, String pw, String name, String nickname, String email, int point, int isCertificate, int isAdmin, LocalDateTime nickModifyDate) {
 		super();
-		this.email = email;
 		this.id = id;
 		this.pw = pw;
 		this.name = name;
 		this.nickname = nickname;
+		this.email = email;
 		this.point = point;
 		this.isCertificate = isCertificate;
 		this.isAdmin = isAdmin;

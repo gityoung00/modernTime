@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	<%pageContext.setAttribute("replaceChar", "\n"); %>
-<%@ include file="adminHeader.jsp"%>
+<c:import url="header.jsp" />
 <div id="submenu">
 	<div class="wrap">
 		<ul>
@@ -218,4 +218,4 @@
 		<input type="submit" value="전송" class="button">
 	</form>
 </div>
-<%@ include file="adminFooter.jsp"%>
+<c:import url="../footer.jsp" />

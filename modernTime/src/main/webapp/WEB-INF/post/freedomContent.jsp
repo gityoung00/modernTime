@@ -139,7 +139,7 @@
 				<ul class="status">
 					<li class="update">수정</li>
 					<li class="del">삭제</li>
-					<li class="messagesend" data-modal="messageSend" data-article-id="262053749" data-is-anonym="1">쪽지</li>
+					<li class="messagesend" data-modal="messageSend" data-article-id="${post.id }" data-is-anonym="1">쪽지</li>
 					<!-- <li class="abuse">신고</li> -->
 				</ul>
 				<hr>

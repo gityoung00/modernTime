@@ -1,7 +1,8 @@
-package com.care.moderntime.controller;
+package com.care.moderntime.admin.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,15 +42,9 @@ public class AdminController {
 		return "admin/adminMain";
 	}
 	
-	@RequestMapping("adminLogout")
-	public String adminLogout(HttpSession session) {
-		session.invalidate();
-		return "index";
-	}
-	
 	@GetMapping("notice")
 	public String notice() {
-		return "admin/notice";
+		return "admin/notice/notice";
 	}
 	@ResponseBody
 	@PostMapping(value = "notice", produces = "text/html; charset=UTF-8")
@@ -76,7 +71,7 @@ public class AdminController {
 		
 		
 		model.addAttribute("noticeView",nsv.noticeView(id));
-		return "admin/noticeView";
+		return "admin/notice/noticeView";
 	}
 	
 	@RequestMapping("noticeDelete")
@@ -85,22 +80,19 @@ public class AdminController {
 		if(result.equals("삭제 완료")) {			
 			return "redirect:notice";
 		}
-		return "admin/noticeView";
+		return "admin/notice/noticeView";
 	}
 	
 	@GetMapping("lectureRegist")
 	public String lectureRegist() {
-		return "admin/lectureRegist";
+		return "admin/lecture/lectureRegist";
 	}
 	
-	@PostMapping("lectureRegist")
-	public String lectureRegistPost(LectureRegistDTO dto,HttpSession session){
-		String result = nsv.lectureRegist(dto);
-		if(result.equals("등록완료")) {
-			return "redirect:/lectureRegist";			
-		}
-		session.setAttribute("result", result);
-		return "admin/lectureRegist";
+	@ResponseBody
+	@PostMapping("lecture/regist")
+	public Map<String, Object> lectureRegistPost(@RequestBody LectureRegistDTO dto){
+		Map<String, Object> result = nsv.lectureRegist(dto);
+		return result;
 	}
 	
 	@ResponseBody
@@ -168,19 +160,19 @@ public class AdminController {
 		System.out.println(id);
 		String result = nsv.lectureSel(id);
 		if(result.equals("돌려줌"))return "admin/lectureUpdateSite";
-		return"admin/lectureRegist";
+		return "admin/lecture/lectureRegist";
 	}
 	@PostMapping(value="/lectureUpdateSite")
 	public String lectureUpdateSite(LectureRegistDTO dto) {
 		System.out.println(dto);
 			String result = nsv.lectureUpdate(dto);
 		if(result.equals("수정 완료"))return "admin/lectureRegist";
-		return"admin/lectureUpdateSite";
+		return"admin/lecture/lectureUpdateSite";
 	}
 	
 	@GetMapping("schoolAuth")
 	public String schoolAuth() {
-		return "admin/schoolAuth";
+		return "admin/schoolAuth/schoolAuth";
 	}
 	@ResponseBody
 	@PostMapping(value = "schoolAuth", produces = "application/json; charset=UTF-8")
@@ -194,12 +186,12 @@ public class AdminController {
 	@RequestMapping("schoolAuthView")
 	public String schoolAuthView(String id, HttpSession session, Model model) {
 		model.addAttribute("schoolAuthView",nsv.schoolAuthView(id));
-		return "admin/schoolAuthView";
+		return "admin/schoolAuth/schoolAuthView";
 	}
 	
 	@RequestMapping("schoolAuthCheck")
 	public String schoolAuthCheck(String id) {
 		nsv.schoolAuthCheck(id);
-		return "admin/schoolAuth";
+		return "admin/schoolAuth/schoolAuth";
 	}
 }

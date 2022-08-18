@@ -52,7 +52,7 @@
 			<div id="logo">
 				<a href="/"><img src="/images/new/nav.logo.png"></a>
 				<p>
-					<span class="name multiple">에브리타임</span><span class="subname">울산과학대</span>
+					<span class="name multiple">에브리타임</span><span class="subname">KG아이티대학교</span>
 				</p>
 			</div>
 			<div id="account">
@@ -71,23 +71,12 @@
 			</ul>
 		</div>
 	</nav>
+
 	<div id="submenu">
 		<div class="wrap">
 			<ul>
 				<li><a href="/freedom" data-id="393862" class="new">자유게시판</a></li>
 				<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
-				<li><a href="/420831" data-id="420831" class="new">졸업생게시판</a></li>
-				<li><a href="/412735" data-id="412735" class="new">새내기게시판</a></li>
-				<li><a href="/482868" data-id="482868">시사·이슈</a></li>
-				<li><a href="/420924" data-id="420924" class="new">장터게시판</a></li>
-				<li><a href="/259679" data-id="259679">정보게시판</a></li>
-				<li><a href="/420832" data-id="420832">취업·진로</a></li>
-				<li><a href="/367739" data-id="367739">홍보게시판</a></li>
-				<li><a href="/419065" data-id="419065">동아리·학회</a></li>
-				<li><a href="/462203" data-id="462203" class="new">간호학과 게시판</a></li>
-				<li><a href="/465278" data-id="465278" class="new">치위생학과 게시판</a></li>
-				<li><a href="/455159" data-id="455159" class="new">퀴어</a></li>
-				<li><a href="/455305" data-id="455305">애니/만화 게시판</a></li>
 				<li><a href="/community/search" class="search">게시판 찾기</a></li>
 			</ul>
 			<hr>
@@ -120,17 +109,23 @@
 					<p class="school">${sessionScope.name }</p>
 					<p class="school">${sessionScope.id }</p>
 					<ul class="buttons">
+						<c:choose>
+						<c:when test = "${sessionScope.isAdmin == 1 }">
+						<li style="width: auto; float: none;"><a href="/admin">관리자 페이지</a></li>
+						</c:when>
+						<c:otherwise>
 						<li><a href="/my">내 정보</a></li>
 						<li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
+						</c:otherwise>
+						</c:choose>
 					</ul>
 					<hr>
 				</form>
 			</div>
 			<div class="card">
 				<div class="menus">
-					<a href="/myarticle" class="myarticle">내가 쓴 글</a> 
-					<a href="/mycommentarticle" class="mycommentarticle">댓글 단 글</a> 
-					<a href="/myscrap" class="myscrap">내 스크랩</a>
+					<a href="/myarticle" class="myarticle">내가 쓴 글</a> <a href="/mycommentarticle" class="mycommentarticle">댓글 단 글</a> <a href="/myscrap" class="myscrap">내
+						스크랩</a>
 					<hr>
 				</div>
 			</div>

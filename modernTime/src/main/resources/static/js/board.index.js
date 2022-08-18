@@ -305,7 +305,7 @@ $().ready(function () {
 					type: 'POST',
 					contentType: "application/json; charset=UTF-8",
 					data: JSON.stringify({
-						userId: 'test123',
+//						userId: 'test123',
 						title: $freedomTitle.val(),
 						content: $freedomContent.val(),
 						boardId: 1

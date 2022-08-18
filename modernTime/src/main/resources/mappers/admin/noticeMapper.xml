@@ -21,11 +21,11 @@
 		SELECT count(*) FROM notice
 	</select>
 	<select id="isLecture" resultType="int">
-		SELECT count(*) FROM lecture WHERE lecture_id=${id}
+		SELECT count(*) FROM lecture WHERE lecture_id=#{id}
 	</select>
 	<insert id="lectureRegist" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
-		INSERT INTO lecture
-		VALUES(#{lecture_id},#{type},#{name},#{teacher},#{time1},#{time2},#{place},#{credit},#{lecture_time},#{max_student},#{listen_student},0,0)
+		INSERT INTO lecture(lecture_id, type, name, teacher, place, credit, lecture_time, max_student, week1, starttime1, endtime1, week2, starttime2, endtime2)
+		VALUES(#{lecture_id}, #{type}, #{name}, #{teacher}, #{place}, #{credit}, #{lecture_time}, #{max_student}, #{week1}, #{starttime1}, #{endtime1}, #{week2}, #{starttime2}, #{endtime2})
 	</insert>
 	
 	<select id="lectureList" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
