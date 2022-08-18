@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $().ready(function () {
 	var $container = $('#container');
 	var $banners = $('#banners');
@@ -79,23 +20,23 @@ $().ready(function () {
 			var condition = {
 				campus_id: $('#communityCampusId').val()
 			};
-			$.ajax({
-				url: _apiServerUrl + '/find/community/web',
-				xhrFields: {withCredentials: true},
-				data: condition,
-				type: 'POST',
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '0') {
-						callback();
-					} else {
-						callback(data);
-					}
-				}
-			});
+//			$.ajax({
+//				url: _apiServerUrl + '/find/community/web',
+//				xhrFields: {withCredentials: true},
+//				data: condition,
+//				type: 'POST',
+//				success: function (data) {
+//					var responseCode;
+//					if (!$(data).find('response').children().length) {
+//						responseCode = $(data).find('response').text();
+//					}
+//					if (responseCode === '0') {
+//						callback();
+//					} else {
+//						callback(data);
+//					}
+//				}
+//			});
 		},
 		createHome: function (data) {
 			var $response = $(data).find('response');
