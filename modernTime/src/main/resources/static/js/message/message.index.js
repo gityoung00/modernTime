@@ -5,6 +5,8 @@ $().ready(function() {
 	var $messages = $container.find('div.messages');
 	var $messageMore = $('#messageMore');
 	var $messageSend = $('#messageSend');
+	var $messageSendButton = $messageSend.find('input[type="button"]');
+
 
 
 	var _set = {
@@ -19,21 +21,35 @@ $().ready(function() {
 	var _fn = {
 		init: function() {
 			_fn.loadMessageBoxes(function(data) {
+				console.log("data: ", data)
 				_fn.appendMessageBoxes(data.data);
+
+				// 페이지 로딩
+				$messageBoxes.find('div.items').find('a.item').each((idx, item) => {
+					if ($(item).attr('href') == location.pathname) {
+						_fn.openMessages($(item).data('id'));
+					}
+				})
 				if ($container.data('box-id') > 0) {
 					_fn.openMessages($container.data('box-id'));
 				} else {
 					_set.isMessagesRendered = true;
 				}
 			});
+			console.log("pathname", location.pathname)
+
+
 			// 채팅방 클릭했을때
 			$messageBoxes.find('div.items').on('scroll', function() {
 				_fn.onMessageBoxesScroll();
 			}).on('click', 'a.item', function() {
+				console.log("this: ", this)
 				//				console.log("a.item. click", _set.isMessagesRendered)
 				if (_set.isMessagesRendered === true) {
-					_gfn.pushHistoryState($(this).attr('href'), { boxId: $(this).data('id') });
-					_fn.openMessages($(this).data('id'));
+					location.href=$(this).attr('href')
+//					console.log($(this).data('id'))
+//					_gfn.pushHistoryState($(this).attr('href'), { boxId: $(this).data('id') });
+//					_fn.openMessages($(this).data('id'));
 				}
 				return false;
 			});
@@ -43,7 +59,7 @@ $().ready(function() {
 			}).on('click', 'div.title a.refresh', function() {
 				if (_set.boxId > 0 && _set.isMessagesRendered === true) {
 					_fn.loadMessages(function(data) {
-						console.log("sdsdfsfsdfsd", data.data);
+						//						console.log("sdsdfsfsdfsd", data.data);
 						_fn.appendMessages(data);
 					});
 				}
@@ -101,9 +117,9 @@ $().ready(function() {
 				var nickname = (isAnonym == 0) ? chat.nickname : "익명";
 				var message = chat.message;
 				var createDate = chat.createDate;
-				var unreadCount = Number(0);
+				var unreadCount = chat.unreadCount;
 
-				console.log("id: ", id, "nickname: ", nickname)
+				//				console.log("id: ", id, "nickname: ", nickname)
 				var $item = $('<a></a>').addClass('item').attr('href', '/message/' + id).data({ id: id, nickname: nickname });
 				if (id === _set.boxId) {
 					$item.addClass('active');
@@ -155,48 +171,35 @@ $().ready(function() {
 			_set.isMessageBoxesRendered = true;
 			_set.boxId = boxId;
 			console.log("boxId: " + boxId);
-			// websocket 연결
-			var sockJs = new SockJS("/stomp/chat");
-			var stomp = Stomp.over(sockJs);
 
-
-			// 2. connection이 맺어지면 실행			
+			var sockJs = null;
+			var stomp = null;
+			sockJs = new SockJS("/stomp/chat");
+			stomp = Stomp.over(sockJs);
 			stomp.connect({}, function() {
-				console.log("stomp connection");
-
-				// 채팅방에 뿌려지는 데이터 받기
+				console.log("stomp connect ")
 				stomp.subscribe("/sub/" + boxId, function(chat) {
 					console.log("chat: ", chat)
-					var $items = $messages.find('div.items');
-					var $item = $('<div></div>').addClass('item');
-					$('<p></p>').addClass('type type0').text('안내').appendTo($item);
-					$('<p></p>').addClass('text').html(chat.body).appendTo($item);
-					$item.prependTo($items);
-					console.log("chat body: ", chat.body);
+					
+					_fn.appendMessage(JSON.parse(chat.body))
 
 				});
-
-				$messageSend.on('submit', function(event) {
-					event.preventDefault();  
+				//			console.log("messageSendButton: ", $messageSendButton)
+				$messageSendButton.on('click', function(event) {
 					var params = _fn.onSubmitMessageSend(boxId);
-					_fn.closeMessageSend();
+					$messageSend.hide();
+					//					_fn.closeMessageSend();
 					console.log("param: ", params)
-					stomp.send('/pub/chat/send', {}, JSON.stringify(params))
-
-
+					stomp.send('/pub/chat/send/' + boxId, {}, JSON.stringify(params))
 
 				});
-				//				stomp.send('/pub/chat/send', {}, JSON.stringify({ "text": "teser", 'box_id': boxId }));
+
+
 
 			});
-
-
-
-			//			console.log("boxId", boxId)
-
 			$messageBoxes.removeClass('visible');
 			$messageBoxes.find('div.items a.item').removeClass('active');
-
+			//
 			var nickname = '';
 			var $activeMessageBox = $messageBoxes.find('div.items a.item').filter(function() {
 				return $(this).data('id') === _set.boxId;
@@ -206,7 +209,7 @@ $().ready(function() {
 				$activeMessageBox.find('p.count').remove();
 				nickname = $activeMessageBox.data('nickname');
 			}
-
+			//
 			$messages.addClass('visible').empty();
 			var $title = $('<div></div>').addClass('title').appendTo($messages);
 			$('<a></a>').addClass('back').text('뒤로').appendTo($title);
@@ -246,8 +249,7 @@ $().ready(function() {
 			var params = {
 				roomId: boxId,
 				message: $textarea.val(),
-				sender: "ddf",
-				senderNick: "dsfsdf",
+				sender: myId,
 
 
 			};
@@ -282,13 +284,15 @@ $().ready(function() {
 		},
 		appendMessages: function(data) {
 			var $items = $messages.find('div.items');
-			console.log($items)
+			//			console.log($items)
 			data.forEach(function(chat) {
-				console.log(chat)
+				//				console.log(chat)
 				var message = chat.message;
+				console.log(chat.flag, myId, chat.sender)
 				var type = (chat.flag == 0) ? 0 : ((myId == chat.sender) ? 2 : 1);
 				var createDate = `${chat.createDate[0]}-${(chat.createDate[1]).toString().padStart(2, '0')}-${(chat.createDate[2]).toString().padStart(2, '0')}T${(chat.createDate[3]).toString().padStart(2, '0')}:${(chat.createDate[4]).toString().padStart(2, '0')}:${(chat.createDate[5]).toString().padStart(2, '0')}`;
-				console.log(message, type, createDate)
+				console.log(createDate)
+				//				console.log(message, type, createDate)
 				var $item = $('<div></div>').addClass('item');
 				$('<time></time>').text(_gfn.formatRelativeDate(createDate)).appendTo($item);
 				if (type === 1) {
@@ -312,6 +316,36 @@ $().ready(function() {
 			//					$activeBoxItem.find('p.text').html($recentMessageItem.find('p.text').html().split("<br>")[0]);
 			//				}
 			//			}
+		},
+		appendMessage: function(chat) {
+			console.log(chat)
+			var $items = $messages.find('div.items');
+			var message = chat.message;
+			
+			console.log(chat.flag, myId, chat.sender)
+			var type = (chat.flag == 0) ? 0 : ((myId == chat.sender) ? 2 : 1);
+			// 2022-08-18T01:21:37
+			var today = new Date();
+			today.setHours(today.getHours() + 9);
+			today = today.toISOString()
+			var createDate = today;
+			//				console.log(message, type, createDate)
+			var $item = $('<div></div>').addClass('item');
+			$('<time></time>').text(_gfn.formatRelativeDate(createDate)).appendTo($item);
+			if (type === 1) {
+				$('<p></p>').addClass('type type1').text('받은 쪽지').appendTo($item);
+			} else if (type === 2) {
+				$('<p></p>').addClass('type type2').text('보낸 쪽지').appendTo($item);
+			} else {
+				$('<p></p>').addClass('type type0').text('안내').appendTo($item);
+			}
+			$('<p></p>').addClass('text').html(message).appendTo($item);
+			$item.prependTo($items);
+			_set.isMessagesRendered = true;
+
+			// 쪽지함 리스트에 있는 text도 업데이트			
+			$messageBoxes.find('a.item.active > p').text(message)
+			$items.find('div.loading').remove();
 		},
 		closeMessages: function() {
 			$messageBoxes.addClass('visible');
@@ -386,5 +420,12 @@ $().ready(function() {
 			}
 		}
 	};
+	//	// websocket 연결
+	//	var sockJs = new SockJS("/stomp/chat");
+	//	var stomp = Stomp.over(sockJs);
+	//	stomp.connect({}, function() {
+	//		console.log("stomp connect ")
+	//		_fn.init();
+	//	});
 	_fn.init();
 });

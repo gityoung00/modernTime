@@ -3,6 +3,7 @@ package com.care.moderntime.message.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.care.moderntime.message.dto.ChatDTO;
 import com.care.moderntime.message.dto.ChatInfoDTO;
@@ -22,6 +23,9 @@ public interface ChatDAO {
 	// 알림메세지 생성시 필요
 	ChatInfoDTO getPostChatInfo(int id);
 	ChatInfoDTO getCommentChatInfo(int id);
+	
+	// 채팅방 접속했을때 -> is_readed 업데이트
+	void updateIsReaded(@Param("roomId") int roomId, @Param("id") String id);
 	
 	// 채팅 저장
 	void saveChat(ChatDTO chat);

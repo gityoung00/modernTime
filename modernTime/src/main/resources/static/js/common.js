@@ -32,7 +32,7 @@
 if (!_gfn) var _gfn = {};
 _gfn = _.extend(_gfn, {
 	formatRelativeDate: function (text, isShort) {
-		console.log("formRelativeDate: ", text)
+//		console.log("formRelativeDate: ", text)
 		
 		if (!text) {
 			return '';

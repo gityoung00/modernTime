@@ -25,6 +25,8 @@ public class ChatDTO {
 		this.createDate = createDate;
 	}
 
+		
+	
 	public ChatDTO(int roomId, String message, String sender, int isReaded, int flag) {
 		super();
 		this.roomId = roomId;

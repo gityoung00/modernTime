@@ -1,10 +1,16 @@
 package com.care.moderntime.message.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -33,6 +39,7 @@ public class ChatController {
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
 	private final ChatService chatService;
+	@Autowired HttpSession session;
 
 	// 메세지 페이지
 	@GetMapping("message")
@@ -64,12 +71,14 @@ public class ChatController {
 	}
 
 	// 채팅방에서 메세지 전송
-	@MessageMapping("chat/send")
-	public void sendMsg(@RequestBody Map<String, Object> test) {
-		System.out.println(test.get("text"));
-		int receiver = (int) test.get("box_id");
-		System.out.println("teststst");
-		simpMessagingTemplate.convertAndSend("/sub/" + receiver, test.get("text"));
+	@MessageMapping("chat/send/{id}")
+	public void sendMsg(@DestinationVariable Integer id, @RequestBody Map<String, String> data) {
+		String message = data.get("message");
+		String sender = data.get("sender");
+		ChatDTO chat = new ChatDTO(id, message, sender, 0, 1);
+		chatService.sendChat(chat);
+		
+		simpMessagingTemplate.convertAndSend("/sub/" + id, chat);
 
 	}
 
@@ -92,7 +101,6 @@ public class ChatController {
 	// 채팅방 접속 -> 웹소켓 접속 -> 그동안의 채팅 내용 보여주기
 	@GetMapping("message/{id}")
 	public String openChat(@PathVariable Integer id) {
-		System.out.println("roomId: " + id);
 		return "message/message";
 	}
 

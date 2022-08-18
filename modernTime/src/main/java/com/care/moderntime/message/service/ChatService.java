@@ -102,11 +102,23 @@ public class ChatService {
 		String id = (String) session.getAttribute("id");
 		System.out.println("id: " + id + ", roomId: " + roomId);
 //		if (id == null || id.isEmpty()) return null;
-
+		
+		
+		// 채팅 리스트 있는 친구들 isReaded=1로 바꾸기
+		chatDao.updateIsReaded(roomId, id);
+		
+		// chat list 가져오기
 		ArrayList<ChatDTO> chatList = chatDao.getChatList(roomId);
 		System.out.println("chatlist");
 		System.out.println(chatList);
 		return chatList;
+	}
+	
+	// 채팅 보내기
+	public void sendChat(ChatDTO chat) {
+		// 상대방 접속 여부 확인..?
+		// 상대방이 채팅방에 있으면 is_readed = 1 아니면 0
+		chatDao.saveChat(chat);
 	}
 
 

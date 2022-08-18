@@ -3,12 +3,12 @@
 
 <mapper namespace="com.care.moderntime.message.dao.ChatDAO">
 	<select id="findMessageList" parameterType="String" resultType="com.care.moderntime.message.dto.ChatListDTO">
-		select r.room_id as roomId, r.is_anonym as isAnonym, c.message as message, u.nickname,
-		c.create_date as createDate from room r
-		join (select * from
-		(select * from chat order by chat.id desc limit 50) a group by a.room_id order by a.id desc) c on r.room_id=c.room_id
-		join user u on r.part_user=u.id
-		where r.part_user &lt;&gt; #{id}
+		select r.room_id, r.is_anonym, c.message, r.nickname, c.create_date, c.count
+		from (select room_id, is_anonym, nickname from room join user on room.part_user=user.id where part_user=#{id}) r
+		join
+		(select ch.*, cc.count from chat ch join (select room_id, count(case when (is_readed=0 and sender &lt;&gt; #{id}) then 1 end) as count from chat group by room_id) cc on ch.room_id=cc.room_id
+		where id in (select max(id) from chat group by room_id) order by ch.room_id desc) c
+		on r.room_id=c.room_id;
 	</select>
 
 
@@ -50,9 +50,13 @@
 	</insert>
 
 	<select id="getChatList" parameterType="int" resultType="com.care.moderntime.message.dto.ChatDTO">
-		select room_id, message, sender, create_date, is_readed, flag from chat where room_id=#{id}
-		order by id desc
+		select room_id, message, sender, create_date, is_readed, flag from chat where room_id=#{id} order by id desc
 	</select>
 
+
+	<update id="updateIsReaded">
+		update chat set is_readed=1 where room_id=#{roomId} and sender &lt;&gt; #{id} and is_readed=0
+	
+	</update>
 
 </mapper>
