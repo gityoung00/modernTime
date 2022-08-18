@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.care.moderntime.lecture.service.LectureService;
-import com.care.moderntime.lecturedto.LectureDTO;
 
 @Controller
 public class LectureController {

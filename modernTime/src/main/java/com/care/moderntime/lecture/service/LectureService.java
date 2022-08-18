@@ -8,12 +8,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.care.moderntime.lecturedao.LectureDAO;
-import com.care.moderntime.lecturedto.LectureDTO;
+import com.care.moderntime.lecture.repository.ILectureDAO;
+
 
 @Service
 public class LectureService {
-	@Autowired LectureDAO lectureDao;
+	@Autowired ILectureDAO lectureDao;
 	@Autowired HttpSession session; 
 
 }
