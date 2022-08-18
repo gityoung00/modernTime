@@ -4,17 +4,7 @@
 <%@ include file="adminHeader.jsp"%>
 <div id="submenu">
 	<div class="wrap">
-	<font color="red" id = "msg"></font>
-		<ul>
-			<li><a href="/393862" data-id="393862" class="new">자유게시판</a></li>
-			<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
-			<li><a href="/420831" data-id="420831" class="new">졸업생게시판</a></li>
-			<li><a href="/412735" data-id="412735" class="new">새내기게시판</a></li>
-			<li><a href="/community/search" class="search">게시판 찾기</a></li>
-		</ul>
-		<hr>
 	</div>
-<!-- 	<input type="hidden" id="communityCampusId" value="349"> -->
 </div>
 <div id="container" class="article">
 	<input type="hidden" id="isUser" value="1"> <input
@@ -23,21 +13,20 @@
 		<div class="title">
 			<a class="hamburger"></a>
 			<h1>
-				<a href="/notice">공지사항</a>
+				<a href="/schoolAuth">학교 인증</a>
 			</h1>
 		</div>
 	</aside>
 	<div class="wrap title">
 		<h1>
-			<a href="/notice">공지사항</a>
+			<a href="/schoolAuth">학교 인증</a>
 		</h1>
 		<hr>
 	</div>
 	<div class="wrap articles">
 
-		<a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a>
-	<div id="noticeList">	
-	<!-- 공지리스트 -->
+	<div id="schoolAuthList">	
+	<!-- 학교인증 요청사항 리스트 -->
 
 	</div>	
 			<div class="clearBothOnly"></div>
