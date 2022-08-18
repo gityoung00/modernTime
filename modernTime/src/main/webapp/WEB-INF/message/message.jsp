@@ -25,7 +25,13 @@
 <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
 <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+<script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.1/stomp.min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
+<script>
+var myId = '${sessionScope.id }';
+</script>
+
 <script type="text/javascript" src="/js/message/message.index.js"></script>
 <script type="text/javascript" src="/js/message/message.send.js"></script>
 </head>
@@ -40,7 +46,9 @@
 				</p>
 			</div>
 			<div id="account">
-				<a href="/message" title="쪽지함" class="icon message">쪽지함<span class="badge">1</span></a> <a href="/my" title="내 정보" class="icon my">내 정보</a> <input
+				<a href="/message" title="쪽지함" class="icon message">쪽지함
+<!-- 				<span class="badge">1</span> -->
+				</a> <a href="/my" title="내 정보" class="icon my">내 정보</a> <input
 					type="hidden" id="userUserid" value="jiyoung1329"> <input type="hidden" id="userSchool" value="116"> <input type="hidden" id="userCampus"
 					value="405">
 			</div>
@@ -65,48 +73,17 @@
 		<div class="messageboxes">
 			<h2>쪽지함</h2>
 			<div class="items">
-				<a class="item active" href="/message/54434168"><time>08/09 21:28</time>
-					<h3>익명</h3>
-					<p class="text">컴공이야?옹</p></a><a class="item" href="/message/54201029"><time>08/02 17:56</time>
-					<h3>익명</h3>
-					<p class="text">?? 나랑 쪽지하던 친구야?</p></a>
+				
 				<div class="loading" style="display: none;"></div>
 			</div>
 		</div>
 		<div class="messages visible">
 			<div class="title">
 				<a class="back">뒤로</a>
-				<h2>익명</h2>
+				<h2></h2>
 				<a class="send" data-modal="messageSend" data-box-id="54434168" data-is-anonym="1">쪽지 보내기</a><a class="refresh">새로고침</a><a class="more">더보기</a>
 			</div>
 			<div class="items">
-				<div class="item">
-					<time>08/09 21:28</time>
-					<p class="type type1">받은 쪽지</p>
-					<p class="text">컴공이야?옹</p>
-				</div>
-				<div class="item">
-					<time>08/09 21:26</time>
-					<p class="type type2">보낸 쪽지</p>
-					<p class="text">코딩중 ㅎㅎ</p>
-				</div>
-				<div class="item">
-					<time>08/09 21:25</time>
-					<p class="type type1">받은 쪽지</p>
-					<p class="text">뭐해~~</p>
-				</div>
-				<div class="item">
-					<time>08/09 21:25</time>
-					<p class="type type2">보낸 쪽지</p>
-					<p class="text">안뇽</p>
-				</div>
-				<div class="item">
-					<time>08/09 21:25</time>
-					<p class="type type0">안내</p>
-					<p class="text">
-						대구캠 자유게시판에 작성된 익명1의 댓글을 통해 시작된 쪽지입니다.<br>글 내용: 심심해
-					</p>
-				</div>
 			</div>
 		</div>
 		<form id="messageSend" class="modal">
@@ -115,15 +92,13 @@
 			<p>
 				<textarea name="message" class="text" placeholder="내용을 입력해주세요."></textarea>
 			</p>
-			<input type="submit" value="전송" class="button">
+			<input type="button" value="전송" class="button">
 		</form>
 		<form id="messageMore" class="modal">
 			<a title="닫기" class="close"></a>
 			<h3>쪽지함</h3>
 			<ul>
 				<li><a data-menu="removeAll">전체 삭제</a></li>
-				<li><a data-menu="block">차단</a></li>
-				<li><a data-menu="reportSpam">스팸 신고</a></li>
 			</ul>
 		</form>
 	</div>

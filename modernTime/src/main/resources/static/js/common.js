@@ -32,6 +32,8 @@
 if (!_gfn) var _gfn = {};
 _gfn = _.extend(_gfn, {
 	formatRelativeDate: function (text, isShort) {
+//		console.log("formRelativeDate: ", text)
+		
 		if (!text) {
 			return '';
 		}
@@ -39,7 +41,7 @@ _gfn = _.extend(_gfn, {
 		var yearShortString = text.slice(2, 4);
 		var monthString = text.slice(5, 7);
 		var dayString = text.slice(8, 10);
-		var timeString = text.slice(11, 16);
+		var timeString = text.slice(11, 19);
 		var year = Number(yearString);
 		var month = Number(monthString);
 		var day = Number(dayString);
@@ -47,7 +49,7 @@ _gfn = _.extend(_gfn, {
 		var minute = Number(timeString.slice(3, 5));
 		var second = Number(timeString.slice(6, 8));
 		var date;
-		var now = _diffTime ? new Date(new Date().getTime() - _diffTime) : new Date();
+		var now = new Date();
 		var target = new Date(year, month - 1, day, hour, minute, second);
 		var diff = (now.getTime() - target.getTime()) / 1000;
 		if (diff < 120) {

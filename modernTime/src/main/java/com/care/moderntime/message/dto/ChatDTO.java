@@ -1,57 +1,47 @@
 package com.care.moderntime.message.dto;
 
+import java.time.LocalDateTime;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ChatDTO {
-	private int id;
-	private String type;
-	private String roomId;
+	private int roomId;
 	private String message;
-	private String senderId;
-	private String receiverId;
-	public ChatDTO(int id, String type, String roomId, String message, String senderId, String receiverId) {
+	private String sender;
+	private LocalDateTime createDate;
+	private int isReaded;
+	private int flag; // 0: 알림, 1: 유저간 채팅
+	
+	public ChatDTO(int roomId, String message, String sender, LocalDateTime createDate, int isReaded, int flag) {
 		super();
-		this.id = id;
-		this.type = type;
 		this.roomId = roomId;
 		this.message = message;
-		this.senderId = senderId;
-		this.receiverId = receiverId;
+		this.sender = sender;
+		this.isReaded = isReaded;
+		this.flag = flag;
+		this.createDate = createDate;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public String getRoomId() {
-		return roomId;
-	}
-	public void setRoomId(String roomId) {
+
+		
+	
+	public ChatDTO(int roomId, String message, String sender, int isReaded, int flag) {
+		super();
 		this.roomId = roomId;
-	}
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
 		this.message = message;
+		this.sender = sender;
+		this.isReaded = isReaded;
+		this.flag = flag;
 	}
-	public String getSenderId() {
-		return senderId;
-	}
-	public void setSenderId(String senderId) {
-		this.senderId = senderId;
-	}
-	public String getReceiverId() {
-		return receiverId;
-	}
-	public void setReceiverId(String receiverId) {
-		this.receiverId = receiverId;
-	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
