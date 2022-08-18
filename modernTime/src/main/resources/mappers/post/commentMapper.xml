@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.post.repository.ICommentDAO">
+	
+   <insert id="commentWrite" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.CommentDTO">
+      INSERT INTO comment (`is_anonym`, `comment`, `create_date`, `post_id`, `user_id`, `p_comment_id`) VALUES(#{isAnonym}, #{comment}, #{createDate}, #{postId}, #{userId}, #{addCommentId})
+   </insert>
+   
+   <select id="commentList" resultType="com.care.moderntime.post.dto.CommentDTO">
+		SELECT * FROM comment WHERE post_id=${postId} AND p_comment_id=0 ORDER BY id ASC
+	</select>
+	
+	<select id="commentView" resultType="com.care.moderntime.post.dto.CommentDTO" parameterType="int">
+		SELECT * FROM comment WHERE id=#{id}
+	</select>
+	
+	<delete id="commentDelete" parameterType="int">
+		DELETE FROM comment WHERE id=#{id}
+	</delete>
+	
+	
+   
+</mapper>

@@ -13,8 +13,17 @@ public interface IPostService {
 	
 	public String writeProc(PostDTO post);
 
-	void listProc();
+	public ArrayList<PostDTO> listProc();
 
 	public PostDTO viewProc(int id);
+
+	public String modifyProc(PostDTO post);
+
+	public String deleteProc(PostDTO post);
+
+	public void searchProc(Model model, int currentPage, String search, String select, HttpServletRequest req);
+
+	public String likeProc(PostDTO post);
+
 
 }

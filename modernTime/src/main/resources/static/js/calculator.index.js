@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $().ready(function () {
 	var $container = $('#container');
 	var $menu;
@@ -130,12 +71,15 @@ $().ready(function () {
 			_set.requiredCredit = Number($('#userRequiredCredit').val());
 			_set.gradeType = $('#userGradeType').val();
 			_fn.loadReports();
+			//시간표 학기 선택
 			$menu.on('click', 'ol > li', function () {
 				var $li = $(this);
-				if ($li.data('id')) {
+//				if ($li.data('id')) {
+					//선택한 li에 active를 넣고 원래 있었던 것엔 active 지움
 					$li.addClass('active').siblings().removeClass('active');
+					//클릭 시 과목 보여줌
 					_fn.showSubjects($li.data('id'));
-				}
+//				}
 				_fn.scrollToActiveMenu();
 			});
 			$container.find('table.subjects > caption > a.import').on('click', function () {
@@ -187,15 +131,15 @@ $().ready(function () {
 			if (_set.gradeType !== '') {
 				parameters.grade_type = _set.gradeType;
 			}
-			$.ajax({
-				url: _apiServerUrl + '/find/calculator/report/list',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: parameters,
-				success: function (data) {
-					callback(data);
-				}
-			});
+//			$.ajax({
+//				url: _apiServerUrl + '/find/calculator/report/list',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: parameters,
+//				success: function (data) {
+//					callback(data);
+//				}
+//			});
 		},
 		createReports: function (data) {
 			var $school_id = $(data).find('school').attr('id');
@@ -295,6 +239,7 @@ $().ready(function () {
 			var $subjects = $container.find('table.subjects');
 			var $tbody = $subjects.find('tbody');
 			var report = _.findWhere(_set.reports, { id: $tbody.data('id') });
+			//카톡 사진 참고
 			var data = {
 				id: report.id,
 				sum: report.sum * 10,
@@ -550,6 +495,7 @@ $().ready(function () {
 				$('<span>')
 			);
 		},
+		//리셋
 		resetSubjects: function () {
 			var $subjects = $container.find('table.subjects');
 			var $tbody = $subjects.find('tbody');
@@ -727,6 +673,7 @@ $().ready(function () {
 				}
 			});
 		},
+		//학기 누르면 옆으로 스크롤
 		scrollToActiveMenu: function () {
 			if (!$menu.is(':has(li.active)')) {
 				return false;
