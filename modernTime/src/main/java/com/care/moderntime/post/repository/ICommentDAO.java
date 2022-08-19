@@ -11,7 +11,9 @@ public interface ICommentDAO {
 
 	public void commentWrite(CommentDTO comment);
 
-	public void commentList(CommentDTO comment);
+	public CommentDTO commentList(int post_id);
+
+	public ArrayList<CommentDTO> commentList();
 
 
 }

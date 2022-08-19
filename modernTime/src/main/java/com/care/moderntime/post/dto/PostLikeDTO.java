@@ -1,21 +1,23 @@
 package com.care.moderntime.post.dto;
 
 public class PostLikeDTO {
-	private String userId;
-	private int PostId;
+	private String user_id;
+	private int post_id;
 	
-	public String getUserId() {
-		return userId;
+	public String getUser_id() {
+		return user_id;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
-	public int getPostId() {
-		return PostId;
+	public int getPost_id() {
+		return post_id;
 	}
-	public void setPostId(int postId) {
-		PostId = postId;
+	public void setPost_id(int post_id) {
+		this.post_id = post_id;
 	}
+	
+	
 	
 	
 	

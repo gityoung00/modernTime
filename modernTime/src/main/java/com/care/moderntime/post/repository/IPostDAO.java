@@ -31,5 +31,23 @@ public interface IPostDAO {
 	public void insertLike(PostLikeDTO postlike);
 	
 	public int countLike(PostLikeDTO postlike);
+	
+	public int countLike(PostDTO post);
+	
+	public void scrapProc(PostDTO post);
+	
+	public void insertScrap(PostLikeDTO postlike);
+
+	public int countScrap(PostLikeDTO postlike);
+	
+	public int countScrap(PostDTO post);
+
+	public void tableCountLike(PostLikeDTO postlike);
+
+	public int tableCountLike(PostDTO post);
+
+	public int tableCountScrap(PostDTO post);
+	
+
 
 }

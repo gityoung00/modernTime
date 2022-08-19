@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +29,9 @@ public class PostServiceImpl implements IPostService{
 	
 	@Override
 	public String writeProc(PostDTO post) {
+//		String userId = (String)session.getAttribute("user_id");
+//		System.out.println("write(service) userId : " + userId);
+		
 		if(post.getTitle() == null || post.getTitle().isEmpty())
 			return "제목을 입력하세요.";
 		if(post.getContent() == null || post.getContent().isEmpty())
@@ -35,7 +39,9 @@ public class PostServiceImpl implements IPostService{
 		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
-		post.setCreateDate(sdf.format(date));
+		post.setCreate_date(sdf.format(date));
+		
+		post.setBoard_id(1);
 		
 		mapper.writeProc(post);
 		
@@ -54,10 +60,13 @@ public class PostServiceImpl implements IPostService{
 	}
 
 	@Override
-	public ArrayList<PostDTO> listProc() {
+	public Map<String, Object> listProc() {
+		Map<String, Object> res = new HashMap<String, Object>();
 		ArrayList<PostDTO> listProc = mapper.listProc();
-		session.setAttribute("listProc", listProc);
-		return listProc;
+		
+		res.put("data", listProc);
+		
+		return res;
 	}
 
 
@@ -65,6 +74,7 @@ public class PostServiceImpl implements IPostService{
 	public PostDTO viewProc(int id) {
 		System.out.println("view(service) id : " + id);
 		PostDTO post = mapper.viewProc(id);
+		
 		session.setAttribute("post", post);
 		
 //		if(post != null) {
@@ -115,27 +125,63 @@ public class PostServiceImpl implements IPostService{
 		model.addAttribute("page", PageService.getNavi(currentPage, pageBlock, totalCount, url));
 	}
 
+	//공감
 	@Override
 	public String likeProc(PostDTO post) {
 		System.out.println("likeProc(service) id : " + post.getId());
-		System.out.println("likeProc(service) likeCount : " + post.getLikeCount());
-		mapper.likeProc(post);
-		return null;
+		System.out.println("likeProc(service) like_count : " + post.getLike_count());
+		
+		int tmp = mapper.countLike(post);
+		int addLike = mapper.tableCountLike(post) + 1;
+		System.out.println("tmp : " + tmp + " /addLike : " + addLike);
+		if(tmp == 0) {
+			post.setLike_count(addLike);
+			mapper.likeProc(post);
+			return "+1";
+		}else {
+			return "그대로";
+		}
 	}
-
 	@Override
 	public String insertLike(PostLikeDTO postlike) {
-		System.out.println("insertLike(service) userId : " + postlike.getUserId());
-		System.out.println("insertLike(service) postId : " + postlike.getPostId());
+		System.out.println("insertLike(service) userId : " + postlike.getUser_id());
+		System.out.println("insertLike(service) postId : " + postlike.getPost_id());
+		
 		int tmp = mapper.countLike(postlike);
 		if(tmp == 0) {
 			mapper.insertLike(postlike);
 			return "성공";
-		}
-		else {
+		}else
 			return "실패";
+	}
+	
+	//스크랩
+	@Override
+	public String scrapProc(PostDTO post) {
+		System.out.println("scrapProc(service) id : " + post.getId());
+		
+		int tmp = mapper.countScrap(post);
+		int addScrap = mapper.tableCountScrap(post) + 1;
+		System.out.println("tmp : " + tmp + " /addScrap : " + addScrap);
+		if(tmp == 0) {
+			post.setScrap_count(addScrap);
+			mapper.scrapProc(post);
+			return "+1";
+		}else {
+			return "그대로";
 		}
-			
+	}
+	@Override
+	public String insertScrap(PostLikeDTO postlike) {
+		System.out.println("insertScrap(service) userId : " + postlike.getUser_id());
+		System.out.println("insertScrap(service) postId : " + postlike.getPost_id());
+		
+		int tmp = mapper.countScrap(postlike);
+		if(tmp == 0) {
+			mapper.insertScrap(postlike);
+			return "성공";
+		}else 
+			return "실패";
 	}
 	
 

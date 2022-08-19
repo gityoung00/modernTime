@@ -4,7 +4,7 @@
 <mapper namespace="com.care.moderntime.post.repository.IPostDAO">
 
    <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
-      INSERT INTO post (`user_id`, `title`, `content`, `is_anonym`, `create_date`, `like_count`, `board_id`) VALUES(#{userId}, #{title}, #{content}, #{isAnonym}, #{createDate}, #{likeCount}, #{boardId})
+      INSERT INTO post (`user_id`, `title`, `content`, `is_anonym`, `create_date`, `like_count`, `board_id`, `scrap_count`) VALUES(#{user_id}, #{title}, #{content}, #{is_anonym}, #{create_date}, #{like_count}, #{board_id}, #{scrap_count})
    </insert>
    
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
@@ -16,7 +16,7 @@
 	</select>
 	
 	<update id="modifyProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
-		UPDATE post SET title=#{title}, content=#{content} WHERE id=#{id}
+		UPDATE post SET title=#{title}, content=#{content}, is_anonym=#{is_anonym} WHERE id=#{id}
 	</update>
 	
 	<delete id="deleteProc" parameterType="int">
@@ -33,17 +33,40 @@
 		 ORDER BY id DESC 
 	</select>
 	
+	<!-- 공감 -->
 	<update id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
-		UPDATE post SET like_count=#{likeCount} WHERE id=#{id}
+		UPDATE post SET like_count=#{like_count} WHERE id=#{id}
 	</update>
 	
 	<insert id="insertLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO">
-      INSERT INTO user_post_like VALUES(#{userId}, #{postId})
+      INSERT INTO user_post_like VALUES(#{user_id}, #{post_id})
    </insert>
    
    <select id="countLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
-		SELECT count(*) FROM user_post_like WHERE user_id=#{userId} AND post_id=#{postId}
+		SELECT count(*) FROM user_post_like WHERE user_id=#{user_id} AND post_id=#{post_id}
 	</select>
+	<!-- 공감 카운트 -->
+	<select id="tableCountLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_post_like WHERE post_id=#{post_id}
+	</select>
+	
+	<!-- 스크랩 -->
+	<update id="scrapProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET scrap_count=#{scrap_count} WHERE id=#{id}
+	</update>
+	
+	<insert id="insertScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO">
+      INSERT INTO user_scrap VALUES(#{user_id}, #{post_id})
+   </insert>
+   
+   <select id="countScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_scrap WHERE user_id=#{user_id} AND post_id=#{post_id}
+	</select>
+	<!-- 스크랩 카운트 -->
+	<select id="tableCountScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_scrap WHERE post_id=#{post_id}
+	</select>
+	
    
    
 </mapper>
