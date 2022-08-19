@@ -16,6 +16,8 @@ public interface INoticeDAO {
 
 	NoticeDTO noticeView(String id);
 	
+	void noticeUpdate(NoticeDTO dto);
+	
 	void noticeDelete(String id);
 
 	int noticeCount();

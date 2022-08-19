@@ -13,6 +13,11 @@
 	<select id="noticeView" resultType="com.care.moderntime.admin.dto.NoticeDTO">
 		SELECT * FROM notice WHERE id=${id}
 	</select>
+	
+	<update id="noticeUpdate" parameterType="com.care.moderntime.admin.dto.NoticeDTO">
+		update notice set title=#{title}, content=#{content} where id=#{id}
+	</update>
+	
 	<delete id="noticeDelete">
 	DELETE FROM notice WHERE id=${id}
 	</delete>
@@ -20,9 +25,11 @@
 	<select id="noticeCount" resultType="int">
 		SELECT count(*) FROM notice
 	</select>
+	
 	<select id="isLecture" resultType="int">
 		SELECT count(*) FROM lecture WHERE lecture_id=#{id}
 	</select>
+	
 	<insert id="lectureRegist" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
 		INSERT INTO lecture(lecture_id, type, name, teacher, place, credit, lecture_time, max_student, week1, starttime1, endtime1, week2, starttime2, endtime2)
 		VALUES(#{lecture_id}, #{type}, #{name}, #{teacher}, #{place}, #{credit}, #{lecture_time}, #{max_student}, #{week1}, #{starttime1}, #{endtime1}, #{week2}, #{starttime2}, #{endtime2})

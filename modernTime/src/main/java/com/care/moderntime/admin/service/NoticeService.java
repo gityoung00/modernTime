@@ -44,39 +44,52 @@ public class NoticeService {
 	}
 
 //공지 전체 불러오기
-	public String list() {
+	public HashMap<String, Object> list() {
+		HashMap<String, Object> response = new HashMap<String, Object>();
 		int currentPage = 1;
 		int pageBlock = 5; // 한 화면에 보여줄 데이터 수
 		int totalCount = noticeDao.noticeCount(); // 총 데이터의 수
 		int end = currentPage * pageBlock; // 데이터의 끝 번호
 		int begin = end + 1 - pageBlock; // 데이터의 시작 번호
 		ArrayList<NoticeDTO> list = noticeDao.list(begin, end);
-		String data = "{\"cd\" : [";
-		for (NoticeDTO tmp : list) {
-			data += "{ \"title\" : \"" + tmp.getTitle() + "\",";
-			data += " \"content\" : \"" + tmp.getContent() + "\",";
-			data += " \"createDate\" : \"" + tmp.getCreate_date() + "\",";
-			data += " \"id\" : \"" + tmp.getId() + "\" },";
-		}
-		data = data.substring(0, data.length() - 1);
-		data += "]}";
-//		
+		response.put("data", list);
+		return response;
 //		String data = "{\"cd\" : [";
-//		for(LectureRegistDTO tmp : list) {
-//			data += "{ \"lectureId\" : \"" + tmp.getLecture_id() + "\",";
-//			data +=	 " \"type\" : \"" + tmp.getType()+ "\",";
-//			data += " \"score\" : \"" + tmp.getScore()+"\" },";
+//		for (NoticeDTO tmp : list) {
+//			data += "{ \"title\" : \"" + tmp.getTitle() + "\",";
+//			data += " \"content\" : \"" + tmp.getContent() + "\",";
+//			data += " \"createDate\" : \"" + tmp.getCreate_date() + "\",";
+//			data += " \"id\" : \"" + tmp.getId() + "\" },";
 //		}
-//		
-//		data = data.substring(0, data.length()-1);
+//		data = data.substring(0, data.length() - 1);
 //		data += "]}";
-		return data;
+////		
+////		String data = "{\"cd\" : [";
+////		for(LectureRegistDTO tmp : list) {
+////			data += "{ \"lectureId\" : \"" + tmp.getLecture_id() + "\",";
+////			data +=	 " \"type\" : \"" + tmp.getType()+ "\",";
+////			data += " \"score\" : \"" + tmp.getScore()+"\" },";
+////		}
+////		
+////		data = data.substring(0, data.length()-1);
+////		data += "]}";
+//		return data;
 	}
 
 	public NoticeDTO noticeView(String id) {
 		NoticeDTO view = noticeDao.noticeView(id);
 		return view;
 	}
+	
+	// 공지 수정
+	public String update(NoticeDTO dto) {
+		System.out.println("notice id: " + dto.getId());
+		System.out.println(dto.getContent());
+		noticeDao.noticeUpdate(dto);
+		System.out.println("공지 수정 완료");
+		return "공지 수정 완료";
+	}
+	
 
 	public String delete(String id) {
 		noticeDao.noticeDelete(id);

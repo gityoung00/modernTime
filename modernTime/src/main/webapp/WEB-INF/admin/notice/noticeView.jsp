@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-	<%pageContext.setAttribute("replaceChar", "\n"); %>
-<c:import url="header.jsp" />
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%pageContext.setAttribute("replaceChar", "\n"); %>
+<c:import url="noticeViewHeader.jsp" />
 <div id="submenu">
 	<div class="wrap">
 		<ul>
@@ -42,9 +43,11 @@
 					<time class="large">${noticeView.create_date}</time>
 				</div>
 				<ul class="status">
+					
+					<li class="update">수정</li>
+					<li class="del">삭제</li>
 					<li class="messagesend" data-modal="messageSend"
 						data-article-id="254951379" data-is-anonym="0">쪽지</li>
-					<li class="abuse">신고</li>
 				</ul>
 				<hr>
 				<h2 class="large">${noticeView.title }</h2>
@@ -77,8 +80,8 @@
 		<div class="pagination">
 			<a id="goListButton" class="list" href="notice">글 목록</a>
 			<!-- article.css 관리자만 보이게 -->
-			<a id="deleteButton" href="noticeDelete?id=${noticeView.id}">글 삭제</a>
-			<a id="updateButton" href="noticeUpdate?id=${noticeView.id}">글 수정</a>
+<%-- 			<a id="deleteButton" href="noticeDelete?id=${noticeView.id}">글 삭제</a> --%>
+<%-- 			<a id="updateButton" href="noticeUpdate?id=${noticeView.id}">글 수정</a> --%>
 		</div>
 	</div>
 	<hr>
