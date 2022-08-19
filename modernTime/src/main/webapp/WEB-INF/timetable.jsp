@@ -45,7 +45,7 @@
 </head>
 <body>
 
-<nav>
+<nav> 
     <div class="wrap">
       <div id="logo">
         <a href="/"><img src="/images/new/nav.logo.png"></a>
