@@ -36,8 +36,14 @@
 	<update id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
 		UPDATE post SET like_count=#{likeCount} WHERE id=#{id}
 	</update>
-	<!-- <insert id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO">
+	
+	<insert id="insertLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO">
       INSERT INTO user_post_like VALUES(#{userId}, #{postId})
-   </insert> -->
+   </insert>
+   
+   <select id="countLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_post_like WHERE user_id=#{userId} AND post_id=#{postId}
+	</select>
+   
    
 </mapper>

@@ -70,21 +70,21 @@
     </div>
   </nav>
 <script type="text/javascript">
-    var _timetableGridInfo = [{"no":"0","rows":[90,108],"hidden":true},{"no":"1","rows":[108,126],"hidden":false},{"no":"2","rows":[126,144],"hidden":false},{"no":"3","rows":[144,162],"hidden":false},{"no":"4","rows":[162,180],"hidden":false},{"no":"5","rows":[180,198],"hidden":false},{"no":"6","rows":[198,216],"hidden":false},{"no":"7","rows":[216,226],"hidden":false},{"no":"8","rows":[226,236],"hidden":false},{"no":"9","rows":[236,246],"hidden":false},{"no":"10","rows":[246,256],"hidden":false},{"no":"11","rows":[256,266],"hidden":false},{"no":"","rows":[266,288],"hidden":false}];
+    var _timetableGridInfo = [];
   </script>
-  <div id="container" class="timetable">
+  <div id="container" class="timetable" style="height: 756px;">
     <hr>
     <aside>
       <form class="select">
-        <select id="semesters"></select>
+        <select id="semesters"><option>2022년 겨울학기</option><option>2022년 2학기</option><option>2022년 여름학기</option><option>2022년 1학기</option><option>2021년 겨울학기</option><option>2021년 2학기</option><option>2021년 여름학기</option><option>2021년 1학기</option><option>2020년 겨울학기</option><option>2020년 2학기</option><option>2020년 여름학기</option><option>2020년 1학기</option><option>2019년 겨울학기</option><option>2019년 2학기</option><option>2019년 여름학기</option><option>2019년 1학기</option><option>2018년 겨울학기</option><option>2018년 2학기</option><option>2018년 여름학기</option><option>2018년 1학기</option><option>2017년 겨울학기</option><option>2017년 2학기</option><option>2017년 여름학기</option><option>2017년 1학기</option><option>2016년 겨울학기</option><option>2016년 2학기</option><option>2016년 여름학기</option><option>2016년 1학기</option><option>2015년 겨울학기</option><option>2015년 2학기</option><option>2015년 여름학기</option><option>2015년 1학기</option><option>2014년 겨울학기</option><option>2014년 2학기</option><option>2014년 여름학기</option><option>2014년 1학기</option><option>2013년 겨울학기</option><option>2013년 2학기</option><option>2013년 여름학기</option><option>2013년 1학기</option><option>2012년 겨울학기</option><option>2012년 2학기</option><option>2012년 여름학기</option><option>2012년 1학기</option><option>2011년 겨울학기</option><option>2011년 2학기</option><option>2011년 여름학기</option><option>2011년 1학기</option><option>2010년 겨울학기</option><option>2010년 2학기</option><option>2010년 여름학기</option><option>2010년 1학기</option></select>
       </form>
       <div class="title">
         <a class="hamburger"></a>
-        <h1 id="tableName">시간표</h1>
+        <h1 id="tableName">시간표 1</h1>
         <div class="description">
           <ul class="info">
-            <li><span id="tableCredit">0</span> 학점</li>
-            <li><time id="tableUpdatedAt"></time> 변경</li>
+            <li style="display: none;"><span id="tableCredit">0</span> 학점</li>
+            <li><time id="tableUpdatedAt">08/01 16:05</time> 변경</li>
           </ul>
         </div>
         <hr>
@@ -96,19 +96,19 @@
         <hr>
       </div>
       <div class="menu">
-        <ol></ol>
+        <ol><li class="active"><a href="/timetable/2022/2/34508110" class="primary">시간표 1</a></li><li class="extension"><a class="create">새 시간표 만들기</a></li></ol>
       </div>
     </aside>
-    <div class="wrap">
-      <div class="tablehead"></div>
-      <div class="tablebody"></div>
+    <div class="wrap" style="width: 486px;">
+      <div class="tablehead"><table class="tablehead"><tbody><tr><th></th><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td style="display: none;">토</td><td style="display: none;">일</td></tr></tbody></table></div>
+      <div class="tablebody"><table class="tablebody" style="margin-top: -452px;"><tbody><tr><th><div class="times"><div class="time">오전 0시</div><div class="time">오전 1시</div><div class="time">오전 2시</div><div class="time">오전 3시</div><div class="time">오전 4시</div><div class="time">오전 5시</div><div class="time">오전 6시</div><div class="time">오전 7시</div><div class="time">오전 8시</div><div class="time">오전 9시</div><div class="time">오전 10시</div><div class="time">오전 11시</div><div class="time">오후 12시</div><div class="time">오후 1시</div><div class="time">오후 2시</div><div class="time">오후 3시</div><div class="time">오후 4시</div><div class="time">오후 5시</div><div class="time">오후 6시</div><div class="time">오후 7시</div><div class="time">오후 8시</div><div class="time">오후 9시</div><div class="time">오후 10시</div><div class="time">오후 11시</div></div></th><td><div class="cols" style="width: 84px;"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td><td><div class="cols" style="width: 84px;"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td><td><div class="cols" style="width: 84px;"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td><td><div class="cols" style="width: 84px;"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td><td><div class="cols" style="width: 84px;"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td><td style="display: none;"><div class="cols"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td><td style="display: none;"><div class="cols"></div><div class="grids"><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div><div class="grid"></div></div></td></tr></tbody></table><div class="nontimes"></div></div>
     </div>
     <form id="tableExport" class="modal">
       <a title="닫기" class="close"></a>
       <h3>시간표 이미지 저장</h3>
       <p>
         <label>이미지 옵션</label>
-        <label class="checkbox"><input type="radio" name="is_mobile" value="false" checked> PC용</label>
+        <label class="checkbox"><input type="radio" name="is_mobile" value="false" checked=""> PC용</label>
         <label class="checkbox"><input type="radio" name="is_mobile" value="true"> 모바일용</label>
       </p>
       <input type="hidden" name="id">
@@ -187,10 +187,10 @@
       <input type="button" value="전체 취소" class="button light floatLeft" data-action="deselect">
       <input type="submit" value="적용" class="button">
     </form>
-    <ul class="floating"></ul>
+    <ul class="floating" style="left: 521.16px;"><li class="button custom only">새 수업 추가</li></ul>
   </div>
-  <form id="customsubjects">
-    <input type="hidden" name="id">
+  <form id="customsubjects" style="display: none;">
+    <input type="hidden" name="id" value="">
     <a title="닫기" class="close"></a>
     <h2></h2>
     <dl>
@@ -200,7 +200,7 @@
       <dd><input type="text" name="professor" placeholder="예) 홍길동" maxlength="40" class="text"></dd>
       <dt>시간/장소</dt>
       <dd class="timeplaces">
-        <a class="new"><strong>+</strong> 더 입력</a>
+        <div class="timeplace"><ol class="weeks"><li class="active">월</li><li>화</li><li>수</li><li>목</li><li>금</li><li>토</li><li>일</li></ol><p><select class="starthour"><option value="0">오전 0시</option><option value="1">오전 1시</option><option value="2">오전 2시</option><option value="3">오전 3시</option><option value="4">오전 4시</option><option value="5">오전 5시</option><option value="6">오전 6시</option><option value="7">오전 7시</option><option value="8">오전 8시</option><option value="9" selected="selected">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option><option value="22">오후 10시</option><option value="23">오후 11시</option></select><select class="startminute"><option value="0">0분</option><option value="5">5분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select><span>~</span><select class="endhour"><option value="0">오전 0시</option><option value="1">오전 1시</option><option value="2">오전 2시</option><option value="3">오전 3시</option><option value="4">오전 4시</option><option value="5">오전 5시</option><option value="6">오전 6시</option><option value="7">오전 7시</option><option value="8">오전 8시</option><option value="9">오전 9시</option><option value="10" selected="selected">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option><option value="22">오후 10시</option><option value="23">오후 11시</option></select><select class="endminute"><option value="0">0분</option><option value="5">5분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select><input type="text" placeholder="예) 종303" class="text place"></p></div><a class="new"><strong>+</strong> 더 입력</a>
       </dd>
     </dl>
     <div class="clearBothOnly"></div>
@@ -214,21 +214,21 @@
       <li><a href="/page/rules">커뮤니티이용규칙</a></li>
       <li><a href="/notice">공지사항</a></li>
       <li><a href="/page/faq">문의하기</a></li>
-      <li class="copyright"><a href="/">&copy; 에브리타임</a></li>
+      <li class="copyright"><a href="/">© 에브리타임</a></li>
     </ul>
   </div>
   <script type="text/javascript">
-    var _serverTime = 1659350632626;
+    var _serverTime = 1660883642861;
     var _clientTime = new Date().getTime();
     var _diffTime = _clientTime - _serverTime;
     var _apiServerUrl = 'https://api.everytime.kr';
   </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-22022140-4');
   </script>
-</body>
-</html>
+
+</body></html>

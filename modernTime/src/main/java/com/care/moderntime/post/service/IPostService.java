@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.moderntime.post.dto.PostDTO;
+import com.care.moderntime.post.dto.PostLikeDTO;
 
 public interface IPostService {
 	
@@ -24,6 +25,8 @@ public interface IPostService {
 	public void searchProc(Model model, int currentPage, String search, String select, HttpServletRequest req);
 
 	public String likeProc(PostDTO post);
+
+	public String insertLike(PostLikeDTO postlike);
 
 
 }
