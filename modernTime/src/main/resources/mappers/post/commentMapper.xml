@@ -11,14 +11,13 @@
 		SELECT * FROM comment WHERE post_id=${postId} AND p_comment_id=0 ORDER BY id ASC
 	</select>
 	
-	<select id="commentView" resultType="com.care.moderntime.post.dto.CommentDTO" parameterType="int">
-		SELECT * FROM comment WHERE id=#{id}
-	</select>
-	
 	<delete id="commentDelete" parameterType="int">
 		DELETE FROM comment WHERE id=#{id}
 	</delete>
 	
+	<insert id="comcommentWrite" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.CommentDTO">
+      INSERT INTO comment (`is_anonym`, `comment`, `create_date`, `post_id`, `user_id`, `p_comment_id`) VALUES(#{isAnonym}, #{comment}, #{createDate}, #{postId}, #{userId}, #{addCommentId})
+   </insert>
 	
    
 </mapper>

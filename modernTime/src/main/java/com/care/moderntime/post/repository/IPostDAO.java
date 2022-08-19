@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.care.moderntime.post.dto.PostDTO;
+import com.care.moderntime.post.dto.PostLikeDTO;
 
 @Mapper
 public interface IPostDAO {
@@ -26,5 +27,9 @@ public interface IPostDAO {
 	public ArrayList<PostDTO> searchProc(@Param("b") int begin, @Param("e")int end,  @Param("sel")String sel, @Param("search") String search);
 
 	public void likeProc(PostDTO post);
+
+	public void insertLike(PostLikeDTO postlike);
+	
+	public int countLike(PostLikeDTO postlike);
 
 }

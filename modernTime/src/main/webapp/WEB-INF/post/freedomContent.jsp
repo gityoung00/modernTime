@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../header.jsp"%>
 
 <div id="submenu">
@@ -74,7 +74,7 @@
 	</div>
 	<div class="wrap articles">
 		<!-- 수정버튼 누르면 생기는 -->
-		<form id="modify" class="write" action="modifyProc" method="post">
+		<%-- <form id="modify" class="write" action="modifyProc" method="post">
 			<p>
 				<input name="modifyTitle" autocomplete="off" placeholder="글 제목" class="title" value="${post.title }">
 			</p>
@@ -124,9 +124,10 @@
 			</ul>
 			<div class="clearBothOnly"></div>
 			<input type="hidden" name="article_id" value="262767917">
-		</form>
+		</form> --%>		
+		<!-- <a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a> -->
 
-		<a id="writeArticleButton" style="display: none;">새 글을 작성해주세요!</a>
+
 
 		<!-- 글 시작 -->
 		<article>
@@ -158,7 +159,6 @@
 
 			<!-- 댓글 시작 -->
 			<div class="comments" style="display: block;">
-			<c:forEach var="comment" items="${commentList }">
 				<article class="parent">
 					<img src="https://cf-fpi.everytime.kr/0.png" class="picture medium">
 					<h3 class="medium">익명${comment.addCommentId }</h3>
@@ -172,14 +172,15 @@
 					</ul>
 					<hr>
 					<p class="large">
-						내용이 안나와${comment.comment }
+						내용${comment.comment }
 					</p>
-					<time class="medium">시간이 안나와${comment.createDate }</time>
+					<time class="medium">시간${comment.createDate }</time>
 					<ul class="status commentvotestatus">
 						<li class="vote commentvote" style="display: list-item;">1</li>
 					</ul>
 				</article>
-			</c:forEach>
+<%-- 			<c:forEach var="comment" items="${commentList }"> --%>
+<%-- 			</c:forEach> --%>
 
 				<!-- 대댓글 -->
 				<article class="child">
@@ -192,7 +193,7 @@
 						<li class="abuse">신고</li>
 					</ul>
 					<hr>
-					<p class="large">아하 내가 너무 급했나보네! 알려줘서 고마워ㅎㅎ😄${comment.commnet }</p>
+					<p class="large">아하 내가 너무 급했나보네! 알려줘서 고마워ㅎㅎ😄${comment.comment }</p>
 					<time class="medium">08/03 17:16</time>
 					<ul class="status commentvotestatus">
 						<li class="vote commentvote" style="display: none;">0</li>
@@ -201,7 +202,7 @@
 				</article>
 				
 				<!-- 대댓글 입력 부분 -->
-				<!-- <form class="writecomment child">
+				<form class="writecomment child">
 					<input type="text" name="text" maxlength="300" autocomplete="off"
 						placeholder="대댓글을 입력하세요." class="text">
 					<ul class="option">
@@ -209,7 +210,7 @@
 						<li title="완료" class="submit"></li>
 					</ul>
 					<div class="clearBothOnly"></div>
-				</form> -->
+				</form>
 
 				<!-- 댓글 입력 부분 -->
 				<form class="writecomment">

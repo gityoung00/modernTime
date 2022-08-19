@@ -71,7 +71,7 @@
 		<hr>
 	</div>
 	<div class="wrap articles">
-		<form id="write" class="write" action="writeProc" method="post" >
+		<!-- <form id="write" class="write" action="writeProc" method="post" >
 			<p><input name="title" autocomplete="off" placeholder="글 제목" class="title"></p>
 			<p>
 				<textarea name="text" placeholder="에브리타임은 누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티 이용규칙을 제정하여 운영하고 있습니다. 위반 시 게시물이 삭제되고 서비스 이용이 일정 기간 제한될 수 있습니다. 
@@ -115,8 +115,8 @@
 				<li title="질문" class="question"></li>
 			</ul>
 			<div class="clearBothOnly"></div>
-		</form>
-		<a id="writeArticleButton" style="display: none;">새 글을 작성해주세요!</a>
+		</form> -->
+		<a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a>
 		
 		<!-- 글 시작 -->
 		<c:forEach var="post" items="${sessionScope.listProc }">

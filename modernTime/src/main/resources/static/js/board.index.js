@@ -156,6 +156,7 @@ $().ready(function () {
 			$containerTitle.on('click', '#manageMoim', function () {
 				_fn.manageMoim();
 			});
+			//새 글을 작성해주세요!
 			$container.on('click', '#writeArticleButton', function () {
 				_fn.showWriteArticleForm();
 			});
@@ -191,7 +192,8 @@ $().ready(function () {
 			//게시글 수정버튼
 			$articles.on('click', '> article > a.article > ul.status > li.update', function () {
 				var $article = $(this).parents('article');
-				_fn.showWriteArticleForm($article);
+				_fn.showModifyArticleForm($article);
+//				_fn.showWriteArticleForm($article);
 				return false;
 			});
 			//게시글 삭제버튼
@@ -289,57 +291,60 @@ $().ready(function () {
 			$articles.on('click', '> form.write > ul.option > li.attach', function () {
 				_fn.addAttachOnWriteArticleForm();
 			});
-//			$articles.on('click', '> form.write > ul.option > li.submit', function () {
-			//게시글 작성 기능
-			$articles.on('click', '> form[action="writeProc"] > ul.option > li.submit', function () {
+			//게시글 작성과 수정 기능
+			$articles.on('click', '> form.write > ul.option > li.submit', function () {
 				$articles.find('form.write').submit();
-				
-				//freedom
-				var $freedomTitle = $container.find('input[name="title"]');
-				var $freedomContent = $container.find('textarea[name="text"]');
-				
-				//게시판 글 작성
-				$.ajax({
-					url: '/freedom',
-					xhrFields: {withCredentials: true},
-					type: 'POST',
-					contentType: "application/json; charset=UTF-8",
-					data: JSON.stringify({
-//						userId: 'test123',
-						title: $freedomTitle.val(),
-						content: $freedomContent.val(),
-						boardId: 1
-					}), 
-					success: function (data) {
-						console.log(data)
-						alert('작성이 완료되었습니다.');
-					}
-				});
-				
-			});
-			//게시글 수정 기능
-			$articles.on('click', '> form[action="modifyProc"] > ul.option > li.submit', function () {
-				$articles.find('form.write').submit();
-				
-				//freedomContent
-				var $freedomModifyTitle = $container.find('input[name="modifyTitle"]');
-				var $freedomModifyContent = $container.find('textarea[name="modifyText"]');
-				
-					//게시글 수정
+				var url = new URL(location.href)
+				if(url.pathname != '/freedomContent') {
+					//freedom
+					var $freedomTitle = $container.find('input[name="title"]');
+					var $freedomContent = $container.find('textarea[name="text"]');
+					
+					//게시글 작성
 					$.ajax({
-						url: 'freedomContent',
+						url: '/freedom',
 						xhrFields: {withCredentials: true},
 						type: 'POST',
 						contentType: "application/json; charset=UTF-8",
 						data: JSON.stringify({
-							title: $freedomModifyTitle.val(),
-							content: $freedomModifyContent.val()
+							userId: 'test123',
+							title: $freedomTitle.val(),
+							content: $freedomContent.val(),
+							boardId: 1
 						}), 
 						success: function (data) {
 							console.log(data)
-							alert('수정이 완료되었습니다.');
+							alert('작성이 완료되었습니다.');
+							location.reload();
 						}
 					});
+				}else{
+					
+					
+					
+					//freedomContent
+					var $freedomModifyTitle = $container.find('input[name="modifyTitle"]');
+					var $freedomModifyContent = $container.find('textarea[name="modifyText"]');
+					
+	//					//게시글 수정
+						$.ajax({
+							url: 'freedomContent',
+							xhrFields: {withCredentials: true},
+							type: 'POST',
+							contentType: "application/json; charset=UTF-8",
+							data: JSON.stringify({
+								title: $freedomModifyTitle.val(),
+								content: $freedomModifyContent.val()
+							}), 
+							success: function (data) {
+								console.log(data)
+								alert('수정이 완료되었습니다.');
+							}
+						});
+				}
+				
+				
+				
 				
 			});
 			$articles.on('submit', '> article > div.comments > form.writecomment', function () {
@@ -400,7 +405,10 @@ $().ready(function () {
 			});
 			//대댓글 버튼
 			$articles.on('click', '> article > div.comments > article > ul.status > li.childcomment', function () {
+				alert('너무 자주 댓글을 작성할 수 없습니다.');
+				
 				var $comment = $(this).parent().parent();
+				console.log($comment)
 				_fn.createChildCommentForm($comment);
 			});
 			//댓글 공감
@@ -1475,6 +1483,7 @@ $().ready(function () {
 				}
 			});
 		},
+		//새 글 작성
 		showWriteArticleForm: function ($article) {
 			if (_set.authToWrite) {
 				if (confirm('학교인증 회원만 글을 작성할 수 있습니다. 학교인증을 하시겠습니까?')) {
@@ -1491,13 +1500,13 @@ $().ready(function () {
 			_fn.hideWriteArticleButton();
 			var $form = $('<form></form>').addClass('write').prependTo($articles);
 
-			if (_set.type === 2) {
+//			if (_set.type === 2) {
 				var $title = $('<input>').attr({
 					name: 'title',
 					autocomplete: 'off',
-					placeholder: '글 제목'
+					placeholder: '글 제목을 입력해주세요!'
 				}).addClass('title').appendTo($('<p></p>').appendTo($form));
-			}
+//			}
 			var $text = $('<textarea></textarea>').attr({
 				name: 'text',
 				placeholder: _set.placeholder
@@ -1541,7 +1550,7 @@ $().ready(function () {
 				$('<li></li>').attr('title', '질문').addClass('question').appendTo($option);
 			}
 			$('<div></div>').addClass('clearBothOnly').appendTo($form);
-			if ($article && $article.data('article')) {
+//			if ($article && $article.data('article')) {
 				$article.hide();
 				var $pagination = $articles.find('div.pagination');
 				$pagination.find('a.list').hide();
@@ -1552,34 +1561,35 @@ $().ready(function () {
 					$articles.find('form.write').remove();
 				}).appendTo($pagination);
 				var $articleData = $article.data('article');
-				$title.val($articleData.attr('raw_title'));
-				$text.val($articleData.attr('raw_text'));
+//				$title.val($articleData.attr('raw_title'));
+//				$text.val($articleData.attr('raw_text'));
 				$('<input>').attr({
 					type: 'hidden',
 					name: 'article_id'
-				}).val($article.data('id')).appendTo($form);
-				if ($articleData.find('attach').length > 0) {
-					$thumbnails.show();
-					$articleData.find('attach').each(function () {
-						var $attach = $(this);
-						var attachId = Number($attach.attr('id'));
-						var thumbnail = $attach.attr('fileurl');
-						var caption = $attach.attr('raw_caption');
-						$('<li></li>').addClass('thumbnail attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")').insertBefore($thumbnailsNewButton);
-						_set.attaches.push({
-							id: attachId,
-							caption: caption
-						});
-					});
-				}
-				if (Number($articleData.attr('user_id')) === 0) {
-					$option.find('li.anonym').addClass('active');
-				}
-				if (Number($articleData.attr('is_question')) === 1) {
-					$question.show();
-					$option.find('li.question').addClass('active');
-				}
-			}
+				}).val(_set.boardId).appendTo($form);
+				console.log(_set.boardId)
+//				if ($articleData.find('attach').length > 0) {
+//					$thumbnails.show();
+//					$articleData.find('attach').each(function () {
+//						var $attach = $(this);
+//						var attachId = Number($attach.attr('id'));
+//						var thumbnail = $attach.attr('fileurl');
+//						var caption = $attach.attr('raw_caption');
+//						$('<li></li>').addClass('thumbnail attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")').insertBefore($thumbnailsNewButton);
+//						_set.attaches.push({
+//							id: attachId,
+//							caption: caption
+//						});
+//					});
+//				}
+//				if (Number($articleData.attr('user_id')) === 0) {
+//					$option.find('li.anonym').addClass('active');
+//				}
+//				if (Number($articleData.attr('is_question')) === 1) {
+//					$question.show();
+//					$option.find('li.question').addClass('active');
+//				}
+//			}
 			if (!$article) {
 				if (_set.categories.length > 0) {
 					var $categoriesContainer = $('<p></p>').addClass('categories').prependTo($form);
@@ -1607,6 +1617,151 @@ $().ready(function () {
 					}
 				}
 			}
+		},
+		//게시글 수정(만들었음)
+		showModifyArticleForm: function ($article) {
+			if (_set.authToWrite) {
+				if (confirm('학교인증 회원만 글을 작성할 수 있습니다. 학교인증을 하시겠습니까?')) {
+					location.href = '/auth';
+				}
+				return false;
+			}
+
+			_set.attaches = [];
+			_set.removeAttachIds = [];
+			_set.attachDragHoverCount = 0;
+			_set.attachUploadingStatus = [];
+
+			_fn.hideWriteArticleButton();
+			
+			var $form = $('<form></form>').addClass('write').prependTo($articles);
+
+			//제목 작성
+//			if (_set.type === 2) {
+				var $title = $('<input>').attr({
+					name: 'modifyTitle',
+					autocomplete: 'off',
+					placeholder: '수정할 글 제목을 입력해주세요!'
+				}).addClass('modifyTitle').appendTo($('<p></p>').appendTo($form));
+//			}
+			//내용 작성
+			var $text = $('<textarea></textarea>').attr({
+				name: 'modifyText',
+				placeholder: _set.placeholder
+			}).appendTo($('<p></p>').appendTo($form));
+			
+			if (_set.placeholder.length >= 50) {
+				$text.addClass('smallplaceholder');
+			}
+			if (_set.type === 2) {
+				$title.focus();
+			} else {
+				$text.focus();
+			}
+			if (_set.hashtags.length > 0) {
+				var $hashtags = $('<ul></ul>').addClass('hashtags').appendTo($form);
+				for (var i in _set.hashtags) {
+					var hashtag = _set.hashtags[i];
+					$('<li></li>').text('#' + hashtag).appendTo($hashtags);
+				}
+				$('<div></div>').addClass('clearBothOnly').appendTo($hashtags);
+			}
+			
+			var $file = $('<input>').addClass('file').attr({type: 'file', name: 'file', multiple: true}).appendTo($form);
+			var $thumbnails = $('<ol></ol>').addClass('thumbnails').appendTo($form);
+			var $thumbnailsNewButton = $('<li></li>').addClass('new').appendTo($thumbnails);
+			$('<div></div>').addClass('clearBothOnly').appendTo($form);
+			//질문
+			var $question = $('<p></p>')
+				.addClass('question')
+				.appendTo($form);
+			$('<div></div>')
+				.html('질문 글을 작성하면 게시판 상단에 일정 기간 동안 노출되어, 더욱 빠르게 답변을 얻을 수 있게 됩니다.<br>또한, 다른 학우들이 정성껏 작성한 답변을 유지하기 위해, 댓글이 달린 이후에는 <b>글을 수정 및 삭제할 수 없습니다.</b>')
+				.appendTo($question);
+			//선택
+			var $option = $('<ul></ul>').addClass('option').appendTo($form);
+			if (_set.isSearchable) {
+				$('<li></li>').attr('title', '해시태그').addClass('hashtag').appendTo($option);
+			}
+			$('<li></li>').attr('title', '첨부').addClass('attach').appendTo($option);
+			$('<li></li>').attr('title', '완료').addClass('submit').appendTo($option);
+			if (_set.privAnonym !== 1) {
+				$('<li></li>').attr('title', '익명').addClass('anonym').appendTo($option);
+			}
+			if (_set.isQuestionable === 1) {
+				$('<li></li>').attr('title', '질문').addClass('question').appendTo($option);
+			}
+			$('<div></div>').addClass('clearBothOnly').appendTo($form);
+//			if ($article && $article.data('article')) {
+				$article.hide();
+				var $pagination = $articles.find('div.pagination');
+				$pagination.find('a.list').hide();
+				$('<a></a>').text('글 수정 취소').addClass('cancel').on('click', function () {
+					$pagination.find('a.list').show();
+					$article.show();
+					$(this).remove();
+					$articles.find('form.write').remove();
+				}).appendTo($pagination);
+				var $articleData = $article.data('article');
+//				$title.val($articleData.attr('raw_title'));
+//				$text.val($articleData.attr('raw_text'));
+				$('<input>').attr({
+					type: 'hidden',
+					name: 'article_id'
+				}).val(_set.boardId).appendTo($form);
+				console.log(_set.boardId)
+//				if ($articleData.find('attach').length > 0) {
+//					$thumbnails.show();
+//					$articleData.find('attach').each(function () {
+//						var $attach = $(this);
+//						var attachId = Number($attach.attr('id'));
+//						var thumbnail = $attach.attr('fileurl');
+//						var caption = $attach.attr('raw_caption');
+//						$('<li></li>').addClass('thumbnail attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")').insertBefore($thumbnailsNewButton);
+//						_set.attaches.push({
+//							id: attachId,
+//							caption: caption
+//						});
+//					});
+//				}
+//				if (Number($articleData.attr('user_id')) === 0) {
+//					$option.find('li.anonym').addClass('active');
+//				}
+//				if (Number($articleData.attr('is_question')) === 1) {
+//					$question.show();
+//					$option.find('li.question').addClass('active');
+//				}
+//			}
+			if (!$article) {
+				if (_set.categories.length > 0) {
+					var $categoriesContainer = $('<p></p>').addClass('categories').prependTo($form);
+					_.each(_set.categories, function (category) {
+						var $categoryRadio = $('<input>').attr({
+							type: 'radio',
+							name: 'category_id',
+							id: 'category_' + category.id,
+							value: category.id
+						});
+						var $categoryLabel = $('<label></label>').attr({
+							for: 'category_' + category.id
+						}).text(category.name);
+						$categoriesContainer.append([
+							$categoryRadio,
+							$categoryLabel
+						]);
+					});
+					if (_set.categoryId > 0) {
+						$categoriesContainer.find('[name="category_id"]').filter(function (idx, elem) {
+							return Number($(elem).val()) === _set.categoryId;
+						}).prop({ checked: true });
+					} else {
+						$categoriesContainer.find('[name="category_id"]').eq(0).prop({ checked: true });
+					}
+				}
+			}
+			
+			
+			
 		},
 		addHashtagOnWriteArticleForm: function (hashtag) {
 			var $writeForm = $articles.find('form.write');
@@ -1851,15 +2006,15 @@ $().ready(function () {
 			if (_set.attaches.length > 0) {
 				parameters.attaches = JSON.stringify(_set.attaches);
 			}
-			if (_set.type === 2) {
-				var $title = $form.find('input[name="title"]');
-				if ($title.val().replace(/ /gi, '') === '') {
-					alert('제목을 입력해 주세요.');
-					$title.focus();
-					return false;
-				}
-				parameters.title = $title.val();
-			}
+//			if (_set.type === 2) {
+//				var $title = $form.find('input[name="title"]');
+//				if ($title.val().replace(/ /gi, '') === '') {
+//					alert('제목을 입력해 주세요.');
+//					$title.focus();
+//					return false;
+//				}
+//				parameters.title = $title.val();
+//			}
 			if ($form.is(':has(input[name="article_id"])')) {
 				parameters.article_id = $form.find('input[name="article_id"]').val();
 				if (_set.removeAttachIds.length > 0) {
@@ -1909,6 +2064,29 @@ $().ready(function () {
 //						var boardUrl = _fn.encodeUrl({ boardId: _set.boardId });
 //						_fn.goRedirectContent(boardUrl);
 //					}
+//				}
+//			});
+
+			//freedom
+//			var $freedomTitle = $container.find('input[name="title"]');
+//			var $freedomContent = $container.find('textarea[name="text"]');
+//			
+//			//게시글 작성
+//			$.ajax({
+//				url: '/freedom',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				contentType: "application/json; charset=UTF-8",
+//				data: JSON.stringify({
+//					userId: 'test123',
+//					title: $freedomTitle.val(),
+//					content: $freedomContent.val(),
+//					boardId: 1
+//				}), 
+//				success: function (data) {
+//					console.log(data)
+//					alert(data);
+//					location.reload();
 //				}
 //			});
 		},
@@ -2002,6 +2180,22 @@ $().ready(function () {
 						$vote.text(response);
 					}
 				}
+			});
+			//테이블에 들어가는
+			$.ajax({
+				url: 'freedomContent/insertLike',
+				xhrFields: {withCredentials: true},
+				type: 'POST',
+				contentType: "application/json; charset=UTF-8",
+				data: JSON.stringify({
+					userId: 'test1234',
+					postId: _set.boardId
+				}),
+				success: function (data) {
+					console.log(data)
+					if(data === '실패')
+						alert('이미 공감하였습니다.')
+				},
 			});
 		},
 		scrapArticle: function ($article) {
@@ -2124,7 +2318,7 @@ $().ready(function () {
 //			});
 			
 		},
-		//대댓글 처리부분
+		//대댓글 버튼 누르면 나오는 부분
 		createChildCommentForm: function ($comment) {
 			var $commentForm = $articles.find('> article > div.comments > form.writecomment').filter(function () {
 				return $(this).data('parentId') === $comment.data('id');
