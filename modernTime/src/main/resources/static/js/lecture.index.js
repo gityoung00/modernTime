@@ -77,24 +77,24 @@ $().ready(function () {
 			if ($articles.data('campus-id') > 0) {
 				params.campus_id = $articles.data('campus-id');
 			}
-			$.ajax({
-				url: _apiServerUrl + '/find/lecture/article/list/recent',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: params,
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '-1') {
-						window.alert('접근 권한이 없습니다.');
-						history.go(-1);
-					} else {
-						callback(data);
-					}
-				}
-			});
+//			$.ajax({
+//				url: _apiServerUrl + '/find/lecture/article/list/recent',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: params,
+//				success: function (data) {
+//					var responseCode;
+//					if (!$(data).find('response').children().length) {
+//						responseCode = $(data).find('response').text();
+//					}
+//					if (responseCode === '-1') {
+//						window.alert('접근 권한이 없습니다.');
+//						history.go(-1);
+//					} else {
+//						callback(data);
+//					}
+//				}
+//			});
 		},
 		createAllArticles: function (data) {
 			var $loading = $articles.find('div.loading');
@@ -154,14 +154,14 @@ $().ready(function () {
 			});
 		},
 		ajaxMyPoint: function (callback) {
-			$.ajax({
-				url: _apiServerUrl + '/find/lecture/point',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				success: function (data) {
-					callback(data);
-				}
-			});
+//			$.ajax({
+//				url: _apiServerUrl + '/find/lecture/point',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				success: function (data) {
+//					callback(data);
+//				}
+//			});
 		},
 		createMyPoint: function (data) {
 			var point = $(data).find('response').text();
@@ -178,41 +178,42 @@ $().ready(function () {
 		},
 		ajaxMyLectures: function (callback) {
 			$.ajax({
-				url: _apiServerUrl + '/find/lecture/list/mine',
+				url: 'list',
 				xhrFields: {withCredentials: true},
 				type: 'POST',
 				success: function (data) {
 					callback(data);
 				}
 			});
+			
 		},
-		createMyLectures: function (data) {
-			var $loading = $mylectures.find('div.loading');
-			var $lecturesData = $(data).find('lecture');
-			if ($lecturesData.length === 0) {
-				$('<div></div>').addClass('empty').html('<p>아직 확인할 수 있는 과목이 없습니다.</p>').insertBefore($loading);
-			} else {
-				$lecturesData.each(function () {
-					var $this = $(this);
-					var name = $this.attr('name');
-					var professor = $this.attr('professor_name');
-					var isWritten = Number($this.attr('is_written'));
-					var $a = $('<a></a>').addClass('lecture').attr('href', '/lecture/view/' + $this.attr('id'));
-					var $h3 = $('<h3></h3>').appendTo($a);
-					$('<span></span>').addClass('name').html(name).appendTo($h3);
-					if (professor) {
-						$('<span></span>').addClass('professor').html(professor).appendTo($h3);
-					}
-					if (isWritten) {
-						$('<span></span>').text('평가 완료').addClass('button completed').appendTo($a);
-					} else {
-						$('<span></span>').text('평가하기').addClass('button write').appendTo($a);
-					}
-					$a.insertBefore($loading);
-				});
-			}
-			$loading.hide();
-		},
+//		createMyLectures: function (data) {
+//			var $loading = $mylectures.find('div.loading');
+//			var $lecturesData = $(data).find('lecture');
+//			if ($lecturesData.length === 0) {
+//				$('<div></div>').addClass('empty').html('<p>아직 확인할 수 있는 과목이 없습니다.</p>').insertBefore($loading);
+//			} else {
+//				$lecturesData.each(function () {
+//					var $this = $(this);
+//					var name = $this.attr('name');
+//					var professor = $this.attr('professor_name');
+//					var isWritten = Number($this.attr('is_written'));
+//					var $a = $('<a></a>').addClass('lecture').attr('href', '/lecture/view/' + $this.attr('id'));
+//					var $h3 = $('<h3></h3>').appendTo($a);
+//					$('<span></span>').addClass('name').html(name).appendTo($h3);
+//					if (professor) {
+//						$('<span></span>').addClass('professor').html(professor).appendTo($h3);
+//					}
+//					if (isWritten) {
+//						$('<span></span>').text('평가 완료').addClass('button completed').appendTo($a);
+//					} else {
+//						$('<span></span>').text('평가하기').addClass('button write').appendTo($a);
+//					}
+//					$a.insertBefore($loading);
+//				});
+//			}
+//			$loading.hide();
+//		},
 		onScroll: function () {
 			if (_set.isRendered === false || _set.isLoadCompleted === true) {
 				return;

@@ -2,83 +2,90 @@ package com.care.moderntime.lecture.dto;
 
 public class LectureDTO {
 
-	private String id;
-	private String practice;
-	private String project;
-	private String grade;
-	private String attend;
-	private String exam;
-	private int score;
-	private String comment;
-	private String listen_date;
 	private String lecture_id;
-	private String user_id;
-	
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getPractice() {
-		return practice;
-	}
-	public void setPractice(String practice) {
-		this.practice = practice;
-	}
-	public String getProject() {
-		return project;
-	}
-	public void setProject(String project) {
-		this.project = project;
-	}
-	public String getGrade() {
-		return grade;
-	}
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
-	public String getAttend() {
-		return attend;
-	}
-	public void setAttend(String attend) {
-		this.attend = attend;
-	}
-	public String getExam() {
-		return exam;
-	}
-	public void setExam(String exam) {
-		this.exam = exam;
-	}
-	public int getScore() {
-		return score;
-	}
-	public void setScore(int score) {
-		this.score = score;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	public String getListen_date() {
-		return listen_date;
-	}
-	public void setListen_date(String listen_date) {
-		this.listen_date = listen_date;
-	}
-	public String getLecture_lecture_id() {
+	private String type;
+	private String name;
+	private String teacher;
+	private String time1;
+	private String time2;
+	private String place;
+	private int credit;
+	private int lecture_time;
+	private int max_student;
+	private int listen_student;
+	private double score;
+	public String getLecture_id() {
 		return lecture_id;
 	}
-	public void setLecture_lecture_id(String lecture_lecture_id) {
+	public void setLecture_id(String lecture_id) {
 		this.lecture_id = lecture_id;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getType() {
+		return type;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setType(String type) {
+		this.type = type;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(String teacher) {
+		this.teacher = teacher;
+	}
+	public String getTime1() {
+		return time1;
+	}
+	public void setTime1(String time1) {
+		this.time1 = time1;
+	}
+	public String getTime2() {
+		return time2;
+	}
+	public void setTime2(String time2) {
+		this.time2 = time2;
+	}
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public int getCredit() {
+		return credit;
+	}
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+	public int getLecture_time() {
+		return lecture_time;
+	}
+	public void setLecture_time(int lecture_time) {
+		this.lecture_time = lecture_time;
+	}
+	public int getMax_student() {
+		return max_student;
+	}
+	public void setMax_student(int max_student) {
+		this.max_student = max_student;
+	}
+	public int getListen_student() {
+		return listen_student;
+	}
+	public void setListen_student(int listen_student) {
+		this.listen_student = listen_student;
+	}
+	public double getScore() {
+		return score;
+	}
+	public void setScore(double score) {
+		this.score = score;
+	}
+
 
 }

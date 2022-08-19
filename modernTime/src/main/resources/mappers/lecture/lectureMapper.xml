@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.care.moderntime.lecture.dao.LectureDAO">
-	<select id="search" parameterType="String" resultType="com.care.moderntime.lecture.dto.LectureDTO">
-		SELECT * FROM lecture WHERE name LIKE '%',#{search},'%' or teacher LIKE '%',#{search},'%' ORDER BY no DESC 
-	</select>
+<!-- 	<select id="search" parameterType="String" resultType="com.care.moderntime.lecture.dto.LectureDTO"> -->
+<!-- 		SELECT * FROM lecture WHERE name LIKE '%',#{search},'%' or teacher LIKE '%',#{search},'%' ORDER BY no DESC  -->
+<!-- 	</select> -->
 		
+<select id="list" parameterType="String" resultType="com.care.modertime.lecture.dto.LectureDTO">
+	SELECT * FROM lecture ORDER BY lecture_id DESC
+</select>
+
 
 </mapper>

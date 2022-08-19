@@ -10,10 +10,9 @@ import com.care.moderntime.lecture.dto.LectureDTO;
 @Mapper
 public interface ILectureDAO {
 	
-	void insert(EvaluationDTO dto);
-	ArrayList<LectureDTO> searchlist();  
-	public LectureDTO viewLecture(int lecture_id);
+	void insert(EvaluationDTO dto); 
 	ArrayList<LectureDTO> list();  
-	ArrayList<LectureDTO> evalist();  
+//	ArrayList<EvaluationDTO> evalist();
+
 	
 	}
