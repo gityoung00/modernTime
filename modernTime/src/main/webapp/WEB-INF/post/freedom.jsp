@@ -121,7 +121,7 @@
 <!-- 게시판 시작 -->
 <div id="container" class="article">
 	<input type="hidden" id="isUser" value="1"> 
-	<input type="hidden" id="boardId" value="${post.id }">
+	<input type="hidden" id="boardId" value="freedom">
 	<aside class="none">
 		<div class="title">
 			<a class="hamburger"></a>
@@ -190,10 +190,10 @@
 			<a class="article" href="/freedomContent?id=${post.id }">
 				<h2 class="medium">${post.title }</h2>
 				<p class="small">${post.content }</p>
-				<time class="small">시간${post.createDate }</time>
-				<h3 class="small">익명</h3>
+				<time class="small">${post.create_date }</time>
+				<h3 class="small">${post.is_anonym }</h3>
 				<ul class="status">
-					<li title="공감" class="vote">좋아요${post.likeCount }</li>
+					<li title="공감" class="vote">${post.like_count }</li>
 					<li title="댓글" class="comment">2</li>
 				</ul>
 				<hr>

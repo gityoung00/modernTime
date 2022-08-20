@@ -741,11 +741,12 @@ $().ready(function () {
 			});
 
 		},
+		//다음 버튼 누른 후 로드
 		loadArticles: function () {
 			$(window).scrollTop(0);
 			//$articles.empty();
 			$('<div></div>').text('불러오는 중입니다...').addClass('loading').appendTo($articles);
-			//?
+			//1부터 10까지고 2페이지이면 1부터 10, 3페이지면 20부터 -> 다음버튼 눌렀을 때 게시글 id수 같음(블럭느낌)
 			_set.startNum = _set.limitNum * (_set.boardPage - 1);
 			if (_set.moiminfo && _set.boardId === 'bestarticle') {
 				_fn.createBestarticleSeasons();
@@ -840,6 +841,7 @@ $().ready(function () {
 					$articles.find('div.loading').hide();
 					
 					_fn.makePagination();
+					
 //					var data = "";
 //					
 //					for(i = 0; i < jsonDatas.cd.length; i++) {
@@ -1033,8 +1035,6 @@ $().ready(function () {
 					//제목 넣는 부분
 					if (_set.type === 2) {
 						$title.addClass('large').appendTo($a);
-						//addclass : 앞에꺼에 값 추가
-						//appendTo : 앞에꺼에 속성 추가
 					}
 					$text.addClass('large').appendTo($a);
 					if (isQuestion === 1) {
@@ -1162,9 +1162,9 @@ $().ready(function () {
 				//검색 옵션
 				$('<option></option>').val('4').text('전체').appendTo($searchType);
 				$('<option></option>').val('3').text('해시태그').appendTo($searchType);
-				if (_set.type === 2) {
+//				if (_set.type === 2) {
 					$('<option></option>').val('2').text('글 제목').appendTo($searchType);
-				}
+//				}
 				$('<option></option>').val('1').text('글 내용').appendTo($searchType);
 				//검색 입력부분
 				var $keyword = $('<input>').attr({
