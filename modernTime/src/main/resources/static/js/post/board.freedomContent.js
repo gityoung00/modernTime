@@ -1081,20 +1081,20 @@ $().ready(function () {
 						$article = $("<article></article>").addClass("parent");
 						
 						if(post.is_anonym == 1) {
-							$("<h3></h3>").addClass("medium").text("익명").attr($article);
+							$("<h3></h3>").addClass("medium").text("익명").appendTo($article);
 						}else{
-							$("<h3></h3>").addClass("medium").text(post.user_id).attr($article);
+							$("<h3></h3>").addClass("medium").text(post.user_id).appendTo($article);
 						}
-						$ul = $("<ul></ul>").addClass("status").attr($article);
-						$("<li></li>").addClass("childcomment").text("대댓글").attr($ul);
-						$("<li></li>").addClass("commentvote").text("공감").attr($ul);
+						$ul = $("<ul></ul>").addClass("status").appendTo($article);
+						$("<li></li>").addClass("childcomment").text("대댓글").appendTo($ul);
+						$("<li></li>").addClass("commentvote").text("공감").appendTo($ul);
 						//??
-						$("<li></li>").addClass("messagesend").data("modal", "messageSend").data("comment.id", comment.id).data("is.anonym", comment.is_anonym).text("쪽지").attr($ul);
-						$("<hr>").attr($article)
-						$("<p></p>").addClass("large").text(comment.comment).attr($article);
-						$("<time></time>").addClass("medium").text(comment.create_date).attr($article);
-						$ul = $("<ul></ul>").addClass("status commentvotestatus").attr($article);
-						$(("<li></li>").addClass("vote commentvote").css("display") === "list-item").text(comment.like_count).attr($ul);
+						$("<li></li>").addClass("messagesend").data("modal", "messageSend").data("comment.id", comment.id).data("is.anonym", comment.is_anonym).text("쪽지").appendTo($ul);
+						$("<hr>").appendTo($article)
+						$("<p></p>").addClass("large").text(comment.comment).appendTo($article);
+						$("<time></time>").addClass("medium").text(comment.create_date).appendTo($article);
+						$ul = $("<ul></ul>").addClass("status commentvotestatus").appendTo($article);
+						$(("<li></li>").addClass("vote commentvote").css("display") === "list-item").text(comment.like_count).appendTo($ul);
 						
 					
 					});
