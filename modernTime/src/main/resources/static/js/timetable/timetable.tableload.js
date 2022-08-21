@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if (!_set) var _set = {};
 _set = _.extend(_set, {
 	weeks: ['월', '화', '수', '목', '금', '토', '일'],
@@ -169,7 +110,6 @@ _gfn = _.extend(_gfn, {
 		var $tbodyWrap = $container.find('div.tablebody');
 		var $colsDivs = $tbodyWrap.find('table.tablebody div.cols');
 		var $nontimesDiv = $tbodyWrap.find('div.nontimes');
-
 		// color 정보 체크
 		var color;
 		for (var i in _set.colors) {
@@ -185,8 +125,9 @@ _gfn = _.extend(_gfn, {
 
 		// 이미 추가한 수업 체크
 		var $insertedSubjects = $tbodyWrap.find('div.subject').filter(function () {
-			return $(this).data('id') === subject.id;
+			return $(this).data('id') == subject.code;
 		});
+		console.log($insertedSubjects.length)
 		if ($insertedSubjects.length > 0) {
 			alert('이미 추가한 수업입니다.');
 			return;
@@ -212,7 +153,7 @@ _gfn = _.extend(_gfn, {
 			// 셀 만들기
 			var $colsDiv = $colsDivs.eq(time.day);
 			var $subjectDiv = $('<div></div>').data({
-				'id': subject.id,
+				'id': subject.code,
 				'credit': subject.credit,
 				'day': time.day,
 				'startTime': time.starttime,
@@ -316,7 +257,11 @@ $().ready(function () {
 			$(window).resize(function () {
 				_gfn.resizeContainer();
 			});
+			console.log("initiateContent")
+			// 시작 지점
 			_fn.initiateContent();
+			
+			
 			$(window).on('load', function () { // Fix popstate issue in Safari
 				setTimeout(function () {
 					$(window).on('popstate', function () {
@@ -337,8 +282,11 @@ $().ready(function () {
 					$(this).find('ul.status').hide();
 				});
 				$tbodyWrap.on('click', 'div.subject .del', function () {
+					console.log(this)
 					var $subject = $(this).parents('div.subject');
+					console.log($subject.html())
 					if (confirm('이 수업을 삭제하시겠습니까?')) {
+						console.log($subject.data())
 						_gfn.deleteSubjectInTable($subject.data('id'), function () {
 							_gfn.save(_set.tableId, $('#tableName').text());
 						});
@@ -346,7 +294,9 @@ $().ready(function () {
 				});
 			}
 			if ($('body').is(':has(#semesters)')) {
+				// 학기 선택했을때
 				$('#semesters').on('change', function () {
+					_set.tableId = 0;
 					var data = $(this).find('option:selected').data();
 					var url = '/timetable/' + data.year + '/' + data.semester;
 					_fn.goRedirectContent(url);
@@ -362,6 +312,7 @@ $().ready(function () {
 		initiateContent: function () {
 			var url = location.pathname;
 			var params = _fn.parseParams(url);
+			console.log("params", params);
 			_fn.loadContent(params);
 		},
 		goLinkContent: function (that, event) {
@@ -414,16 +365,21 @@ $().ready(function () {
 			return params;
 		},
 		loadContent: function (params) {
+			console.log("loadContent")
 			if (params.mode === 'timetable') {
 				_fn.loadContentTimetable(params);
-			} else if (params.mode === 'friend') {
-				_fn.loadFriend(params);
-			}
+			} 
+//			else if (params.mode === 'friend') {
+//				_fn.loadFriend(params);
+//			}
 		},
 		loadContentTimetable: function (params) {
+			console.log("loadContentTimetable")
 			_fn.loadSemesters(function () {
 				var $semesterItems = $('#semesters').find('option');
 				var $currentSemester;
+				
+				// 넘어오는 년, 월이 있으면 /timetable/2022/2
 				if (params.year && params.semester) {
 					$currentSemester = $semesterItems.filter(function () {
 						var data = $(this).data();
@@ -433,6 +389,7 @@ $().ready(function () {
 						_fn.goRedirectContent('/timetable');
 						return false;
 					}
+				// 넘어오는 년, 월이 없으면 /timetable
 				} else {
 					var nowDate = Math.floor(_serverTime / 86400000) * 86400000;
 					var dateDiff = 0;
@@ -446,51 +403,54 @@ $().ready(function () {
 							$currentSemester = $this;
 						}
 					});
-					if (!$currentSemester || !$currentSemester.length) {
-						return false;
-					}
+//					if (!$currentSemester || !$currentSemester.length) {
+//						return false;
+//					}
 				}
 				var year = $currentSemester.data('year');
 				var semester = $currentSemester.data('semester');
+				console.log(_set.year, _set.semester)
 				if (_set.year !== year || _set.semester !== semester) {
 					_set.year = year;
 					_set.semester = semester;
-					_set.hasSyllabus = $currentSemester.data('hasSyllabus');
-					_set.hasSubjectDatabase = $currentSemester.data('hasSubjectDatabase');
 					$currentSemester.prop('selected', true);
 					$menu.empty();
 					$floating.empty();
-					if ($currentSemester.data('isSupported') === true) {
-						$('#tableCredit').parent().show();
-						$('<li></li>').addClass('button search').text('수업 목록에서 검색').appendTo($floating);
-						$('<li></li>').addClass('button custom').text('직접 추가').appendTo($floating);
-					} else {
-						$('#tableCredit').parent().hide();
-						$('<li></li>').addClass('button custom only').text('새 수업 추가').appendTo($floating);
-					}
+				
+					$('#tableCredit').parent().show();
+					$('<li></li>').addClass('button search').text('수업 목록에서 검색').appendTo($floating);
+					$('<li></li>').addClass('button custom').text('직접 추가').appendTo($floating);
+
 					_gfn.resizeContainer();
 					$('#customsubjects').find('a.close').click();
 					if ($('body').is(':has(#subjects)')) {
 						$('#subjects').find('a.reset').click();
 					}
 				}
+				
+				// 테이블리스트 로드
 				_fn.loadTableList(function () {
+					console.log("loadTableList callback")
+					console.log(params)
+					// 테이블 아이디가 있으면
 					if (params.id) {
 						_set.tableId = params.id;
-					} else {
-						var $primaryMenu = $menu.find('li').filter(function () {
-							return $(this).data('isPrimary') === true;
-						});
-						if ($primaryMenu.length) {
-							_set.tableId = $primaryMenu.data('id');
-						} else {
+					}
+					// 테이블 아이디가 없으면
+					else{
+						
+							// 테이블 만들기
+						if (!_set.tableId){
 							_fn.makeNewTable();
 							return false;
 						}
+//						}
 					}
 					var $currentMenu = $menu.find('li').filter(function () {
+						console.log("$currentMenu", this)
 						return $(this).data('id') === _set.tableId;
 					});
+					console.log("$currentMenu", $currentMenu)
 					$currentMenu.siblings().removeClass('active');
 					$currentMenu.addClass('active');
 					$('#tableName').text($currentMenu.data('name'));
@@ -501,6 +461,7 @@ $().ready(function () {
 			});
 		},
 		loadSemesters: function (callback) {
+			console.log("loadSemesters")
 			if ($('body').is(':has(#semesters)')) {
 				var $semesters = $('#semesters');
 				if ($semesters.is(':not(:has(option))')) {
@@ -517,9 +478,9 @@ $().ready(function () {
 		},
 		ajaxSemesters: function (callback) {
 			$.ajax({
-				url: _apiServerUrl + '/find/timetable/subject/semester/list',
+				url:  '/timetable/semester/list',
 				xhrFields: {withCredentials: true},
-				type: 'POST',
+				type: 'GET',
 				success: function (data) {
 					callback(data);
 				}
@@ -527,33 +488,30 @@ $().ready(function () {
 		},
 		createSemesters: function(data) {
 			var $semesters = $('#semesters');
-			$(data).find('semester').each(function () {
-				var $this = $(this);
+			$(data.data).each(function (_, smst) {
 				$('<option></option>').data({
-					year: Number($this.attr('year')),
-					semester: $this.attr('semester'),
-					startDate: $this.attr('start_date'),
-					endDate: $this.attr('end_date'),
-					isSupported: ($this.attr('is_supported') === '1' ? true : false),
-					hasSyllabus: ($this.attr('has_syllabus') === '1' ? true : false),
-					hasSubjectDatabase: ($this.attr('has_subject_database') === '1' ? true : false)
-				}).text($this.attr('year') + '년 ' + $this.attr('semester') + '학기').appendTo($semesters);
+					year: Number(smst.year),
+					semester: smst.semester,
+					startDate: smst.startDate,
+					endDate: smst.endDate,
+				}).text(smst.year + '년 ' + smst.semester + '학기').appendTo($semesters);
 			});
 			$menu.empty();
 		},
 		loadTableList: function (callback) {
-			if ($menu.is(':empty')) {
-				_fn.ajaxTableList(function (data) {
-					_fn.createTableList(data);
-					callback();
-				});
-			} else {
+			console.log("loadTableList")
+			_fn.ajaxTableList(function (data) {
+				_fn.createTableList(data);
 				callback();
-			}
+			});
+//			if ($menu.is(':empty')) {
+//			} else {
+//				callback();
+//			}
 		},
-		ajaxTableList: function (callback) {
+		ajaxTableList: function(callback) {
 			$.ajax({
-				url: _apiServerUrl + '/find/timetable/table/list/semester',
+				url: '/timetable/find/table/list',
 				xhrFields: {withCredentials: true},
 				type: 'POST',
 				data: {
@@ -561,10 +519,7 @@ $().ready(function () {
 					semester: _set.semester
 				},
 				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
+					var responseCode = data.responseCode;
 					if (responseCode === '-1') {
 						alert('시간표 목록을 불러올 수 없습니다.');
 						return false;
@@ -574,27 +529,30 @@ $().ready(function () {
 			});
 		},
 		createTableList: function (data) {
-			$(data).find('table').each(function () {
-				var $this = $(this);
-				var url = '/timetable/' + _set.year + '/' + _set.semester + '/' + $this.attr('id');
+			console.log("createTableList", data)
+			$menu.empty();
+			$(data.data).each(function (_, table) {
+				_set.tableId = Number(table.id);	
+				console.log("createTableList", table)
+				var url = '/timetable/' + _set.year + '/' + _set.semester + '/' + table.id;
 				var $li = $('<li></li>').data({
-					id: Number($this.attr('id')),
-					name: $this.attr('name'),
-					priv: $this.attr('priv'),
-					isPrimary: ($this.attr('is_primary') === '1' ? true : false),
-					updatedAt: $this.attr('updated_at')
+					id: Number(table.id),
+					name: table.name,
+					priv: "",
+					isPrimary: true,
+					updatedAt: table.createTime
 				});
-				var $a = $('<a></a>').attr('href', url).text($this.attr('name')).appendTo($li);
-				if ($this.attr('is_primary') === '1') {
-					$a.addClass('primary');
-				}
+				var $a = $('<a></a>').attr('href', url).text(table.name).appendTo($li);
+//				if ($this.attr('is_primary') === '1') {
+//					$a.addClass('primary');
+//				}
 				$li.appendTo($menu);
 			});
-			var $extensionLi = $('<li></li>').addClass('extension').appendTo($menu);
-			$('<a></a>').addClass('create').text('새 시간표 만들기').appendTo($extensionLi);
-			if ($('#semesters').find('option:selected').data('isSupported') === true) {
-				$('<a></a>').addClass('wizard').attr('href', '/timetable/wizard/' + _set.year + '/' + _set.semester).text('마법사로 시간표 만들기').appendTo($extensionLi);
-			}
+//			var $extensionLi = $('<li></li>').addClass('extension').appendTo($menu);
+//			$('<a></a>').addClass('create').text('새 시간표 만들기').appendTo($extensionLi);
+//			if ($('#semesters').find('option:selected').data('isSupported') === true) {
+//				$('<a></a>').addClass('wizard').attr('href', '/timetable/wizard/' + _set.year + '/' + _set.semester).text('마법사로 시간표 만들기').appendTo($extensionLi);
+//			}
 		},
 		loadTable: function () {
 			_fn.createTableLayout();
@@ -609,48 +567,55 @@ $().ready(function () {
 			if ($('body').is(':has(#friendToken)')) {
 				parameters.userid = $('#friendToken').val();
 			}
+			console.log("_set.tableId: ", _set.tableId)
 			$.ajax({
-				url: _apiServerUrl + '/find/timetable/table',
+				url: '/timetable/find/table',
 				xhrFields: {withCredentials: true},
 				type: 'POST',
 				data: parameters,
 				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '-1') {
+					var responseCode = data.responseCode;
+					if (responseCode === -1) {
 						alert('시간표를 불러올 수 없습니다.');
 						return false;
-					} else if (responseCode === '-2') {
-						alert('친구만 볼 수 있는 시간표입니다.');
-						return false;
-					}
+					} 
 					callback(data);
 				}
 			});
 		},
 		createTable: function (data) {
-			$(data).find('table > subject').each(function () {
-				var $subject = $(this);
-				if ($subject.find('closed').attr('value') === '1' && $('body').is(':has(#subjects)')) {
-					alert($subject.find('name').attr('value') + ' 수업이 아래와 같은 이유로 삭제되었습니다.\n-수업이 폐강 또는 이름이 변경됨.\n-해당 수업의 카테고리가 변경됨.');
-				}
+			console.log("createTable", data)
+			$(data.data).each(function (_, lecture) {
+				console.log("createTable", lecture)
 				var subject = {
-					id: Number($subject.attr('id')),
-					code: $subject.find('internal').attr('value'),
-					name: $subject.find('name').attr('value'),
-					professor: $subject.find('professor').attr('value'),
-					credit: Number($subject.find('credit').attr('value')),
-					place: $subject.find('place').attr('value'),
-					times: $.map($subject.find('time > data'), function (data) {
-						return {
-							starttime: Number($(data).attr('starttime')),
-							endtime: Number($(data).attr('endtime')),
-							day: Number($(data).attr('day')),
-							place: $(data).attr('place')
-						};
-					})
+					type: lecture.type,
+					code: lecture.lecture_id,
+					name: lecture.name,
+					professor: lecture.teacher,
+					credit: lecture.credit,
+					place: lecture.place,
+					times: [
+						{
+							day: lecture.week1,
+							starttime: lecture.starttime1,
+							endtime: lecture.endtime1,
+						},
+						{
+							day: lecture.week2,
+							starttime: lecture.starttime2,
+							endtime: lecture.endtime2,
+						},
+						
+					] 
+					
+//					times: $.map($subject.find('time > data'), function (data) {
+//						return {
+//							starttime: Number($(data).attr('starttime')),
+//							endtime: Number($(data).attr('endtime')),
+//							day: Number($(data).attr('day')),
+//							place: $(data).attr('place')
+//						};
+//					})
 				};
 				_gfn.insertSubjectIntoTable(subject);
 			});
@@ -740,11 +705,15 @@ $().ready(function () {
 			$empty.appendTo($theadWrap);
 			_gfn.resizeContainer();
 		},
+		
+		// 테이블 만들기
 		makeNewTable: function () {
 			var $container = $('#container');
 			var $aside = $container.find('aside');
 			var $menu = $aside.find('div.menu > ol');
 			var tableName;
+			
+			// 테이블 이름 짓기
 			for (var i = 1; ; i += 1) {
 				tableName = '시간표 ' + i;
 				var $exist = $menu.find('li').filter(function () {
@@ -758,86 +727,10 @@ $().ready(function () {
 			_gfn.save(0, tableName, function (tableId) {
 				$menu.empty();
 				var url = '/timetable/' + _set.year + '/' + _set.semester + '/' + tableId;
+				console.log("url: ", url);
 				_fn.goRedirectContent(url);
 			});
 		},
-		loadFriend: function (params) {
-			var identifier = params.identifier;
-			var friendInfo = $menu.is(':empty').toString();
-			_fn.ajaxFriend(identifier, friendInfo, function (data) {
-				if ($(data).find('user').length > 0) {
-					_fn.createFriendTitle(identifier, data);
-				}
-				if ($(data).find('primaryTables').length > 0) {
-					_fn.createFriendTableList(data);
-				}
-				$menu.find('li').removeClass('active');
-				var $table = $(data).find('table');
-				if ($table.attr('identifier')) {
-					$menu.find('li').filter(function () {
-						return $(this).data('identifier') === $table.attr('identifier');
-					}).addClass('active');
-				}
-				if ($table.attr('status') === '-1') {
-					_fn.createTableEmptyLayout($table.attr('year') + '년 ' + $table.attr('semester') + '학기 시간표가 없습니다');
-				} else if ($table.attr('status') === '-2') {
-					_fn.createTableEmptyLayout('공개되지 않은 시간표입니다');
-				} else {
-					_fn.createTableLayout();
-					_fn.createTable(data);
-				}
-			});
-		},
-		ajaxFriend: function (identifier, friendInfo, callback) {
-			$.ajax({
-				url: _apiServerUrl + '/find/timetable/table/friend',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: {
-					identifier: identifier,
-					friendInfo: friendInfo
-				},
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '-1') {
-						alert('존재하지 않는 시간표입니다.');
-						location.href = '/';
-						return false;
-					}
-					callback(data);
-				}
-			});
-		},
-		createFriendTitle: function (identifier, data) {
-			var $user = $(data).find('user');
-			$('<h1></h1>').html($user.attr('name')).appendTo($title);
-			if ($user.attr('isMine') && $user.attr('isFriend')) {
-				if ($user.attr('isMine') === '1') {
-				} else if ($user.attr('isFriend') === '1') {
-					var $buttons = $('<ol></ol>').addClass('buttons threecols').appendTo($title);
-					var $li = $('<li></li>').appendTo($buttons);
-					$('<a></a>').attr('id', 'friendRemove').data('identifier', identifier).addClass('light').text('친구 삭제').appendTo($li);
-				} else {
-					var $buttons = $('<ol></ol>').addClass('buttons').appendTo($title);
-					var $li = $('<li></li>').appendTo($buttons);
-					$('<a></a>').attr('id', 'friendRequestButton').data('identifier', identifier).text('친구 요청').appendTo($li);
-				}
-			}
-			$('<hr>').appendTo($title);
-		},
-		createFriendTableList: function (data) {
-			var $primaryTables = $(data).find('primaryTables > primaryTable');
-			$primaryTables.each(function () {
-				var $this = $(this);
-				var url = '/@' + $this.attr('identifier');
-				var text = $this.attr('year') + '년 ' + $this.attr('semester') + '학기';
-				var $li = $('<li></li>').data('identifier', $this.attr('identifier')).appendTo($menu);
-				var $a = $('<a></a>').attr('href', url).text(text).appendTo($li);
-			});
-		}
 	};
 	_fn.initiate();
 });

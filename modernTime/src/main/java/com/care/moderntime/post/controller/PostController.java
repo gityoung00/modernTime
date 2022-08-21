@@ -182,10 +182,5 @@ public class PostController {
 	public String promotional() {
 		return "post/promotional";
 	}
-	
-	@GetMapping("timetable")
-	public String timetable() {
-		return "timetable";
-	}
 
 }

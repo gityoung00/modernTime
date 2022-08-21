@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $().ready(function () {
 	var $aside = $('aside:first');
 	var $container = $('#container');
@@ -64,9 +5,12 @@ $().ready(function () {
 
 	var _fn = {
 		initiate: function () {
+			// 시간표 이미지로 저장
 			_fn.initiateTableExport();
+			// 시간표 세팅
 			_fn.initiateTableSetting();
 		},
+		// 시간표 이미지로 저장
 		initiateTableExport: function () {
 			$tableExport = $('#tableExport');
 			$('[data-modal="tableExport"]').on('click', function () {
@@ -117,6 +61,7 @@ $().ready(function () {
 				callback(canvas);
 			});
 		},
+		// 시간표 세팅
 		initiateTableSetting: function () {
 			$tableSetting = $('#tableSetting');
 			$('[data-modal="tableSetting"]').on('click', function () {
@@ -179,7 +124,7 @@ $().ready(function () {
 					return false;
 				}
 				$.ajax({
-					url: _apiServerUrl + '/update/timetable/table/name',
+					url: '/timetable/update/table/name',
 					xhrFields: {withCredentials: true},
 					type: 'POST',
 					data: {
@@ -187,7 +132,7 @@ $().ready(function () {
 					},
 					async: false,
 					success: function (data) {
-						response = Number($(data).find('response').text());
+						response = data;
 					},
 					statusCode: {
 						401: function () {
@@ -204,55 +149,55 @@ $().ready(function () {
 					return false;
 				}
 			}
-			// 공개 범위 저장
-			if (newPriv !== tablePriv) {
-				$.ajax({
-					url: _apiServerUrl + '/update/timetable/table/private',
-					xhrFields: {withCredentials: true},
-					type: 'POST',
-					data: {
-						id: _set.tableId,
-						priv: newPriv
-					},
-					async: false,
-					success: function (data) {
-						response = Number($(data).find('response').text());
-					},
-					statusCode: {
-						401: function () {
-							response = 0;
-						}
-					}
-				});
-				if (response < 1) {
-					alert('권한을 변경할 수 없습니다.');
-					return false;
-				}
-			}
-			// 기본 시간표 설정
-			if (newIsPrimary !== tableIsPrimary) {
-				$.ajax({
-					url: _apiServerUrl + '/update/timetable/table/primary',
-					xhrFields: {withCredentials: true},
-					type: 'POST',
-					data: {
-						id: _set.tableId
-					},
-					async: false,
-					success: function (data) {
-						response = Number($(data).find('response').text());
-					},
-					statusCode: {
-						401: function () {
-							response = 0;
-						}
-					}
-				});
-				if (response < 1) {
-					alert('기본 시간표를 변경할 수 없습니다.');
-					return false;
-				}
-			}
+//			// 공개 범위 저장
+//			if (newPriv !== tablePriv) {
+//				$.ajax({
+//					url: _apiServerUrl + '/update/timetable/table/private',
+//					xhrFields: {withCredentials: true},
+//					type: 'POST',
+//					data: {
+//						id: _set.tableId,
+//						priv: newPriv
+//					},
+//					async: false,
+//					success: function (data) {
+//						response = Number($(data).find('response').text());
+//					},
+//					statusCode: {
+//						401: function () {
+//							response = 0;
+//						}
+//					}
+//				});
+//				if (response < 1) {
+//					alert('권한을 변경할 수 없습니다.');
+//					return false;
+//				}
+//			}
+//			// 기본 시간표 설정
+//			if (newIsPrimary !== tableIsPrimary) {
+//				$.ajax({
+//					url: _apiServerUrl + '/update/timetable/table/primary',
+//					xhrFields: {withCredentials: true},
+//					type: 'POST',
+//					data: {
+//						id: _set.tableId
+//					},
+//					async: false,
+//					success: function (data) {
+//						response = Number($(data).find('response').text());
+//					},
+//					statusCode: {
+//						401: function () {
+//							response = 0;
+//						}
+//					}
+//				});
+//				if (response < 1) {
+//					alert('기본 시간표를 변경할 수 없습니다.');
+//					return false;
+//				}
+//			}
 			alert('저장하였습니다.');
 			location.reload();
 		},
