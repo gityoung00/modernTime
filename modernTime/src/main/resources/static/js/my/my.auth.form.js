@@ -13,8 +13,10 @@ $().ready(function() {
 				event.preventDefault();  
 				console.log($form)
 				console.log($form[0])
+				console.log($picture.val())
 				const data = new FormData($form[0]);
 				console.log(data)
+				console.log($($form[0]).find('input[name="picture"]').val())
 				
 				$.ajax({
 					url: location.href,

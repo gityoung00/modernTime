@@ -67,10 +67,10 @@ body {
 
 #container.calculator div.section div.chart article.overview div.column.acquisition p.total
 	{
-	cursor: pointer;
+/* 	cursor: pointer; */
 	padding-right: 15px;
-	background: rgba(0, 0, 0, 0)
-		url("/images/container.calculator.setting.png") no-repeat right center
+/* 	background: rgba(0, 0, 0, 0) */
+/* 		url("/images/container.calculator.setting.png") no-repeat right center */
 }
 
 #container.calculator div.section div.chart article.semester div.series div.legend

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.care.moderntime.calculator.dao.CalculatorDAO">
+	<select id="getAllReport" parameterType="String" resultType="com.care.moderntime.calculator.dto.ReportDTO">
+		select * from report where user_id=#{userId};
+	</select>
+
+	<select id="getAllSubject" parameterType="int" resultType="com.care.moderntime.calculator.dto.SubjectDTO">
+		select * from subject where report_id=#{reportId};
+	</select>
+	
+	
+	
+	<insert id="insertReport" parameterType="com.care.moderntime.calculator.dto.ReportDTO" 
+			useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into report(semester, user_id) values(#{semester}, #{user_id})
+	</insert>
+
+	<update id="updateReport">
+		update report set sum=#{sum}, sum_major=#{sum_major}, credit=#{credit}, credit_calc=#{credit_calc}, credit_major=#{credit_major}, credit_major_calc=#{credit_major_calc}, updated_at=#{updated_at} where id=#{id}
+	</update>
+	
+	<insert id="insertSubject">
+		insert into subject(name, grade, credit, is_major, report_id) values(#{name}, #{grade}, #{credit}, #{is_major}, #{report_id})
+	</insert>
+	
+	<delete id="deleteSubject">
+		delete from subject where report_id=#{reportId}
+	</delete>
+	
+	
+	
+</mapper>
