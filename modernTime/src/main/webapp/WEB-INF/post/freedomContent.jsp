@@ -1,7 +1,73 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@ include file="../header.jsp"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head> 
+  <title>에브리타임</title>
+  <meta charset="utf-8">
+  <meta name="referrer" content="origin">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta property="fb:app_id" content="258676027581965">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://everytime.kr/images/og_image.png">
+  <meta property="og:url" content="https://everytime.kr/c/349">
+  <meta property="og:site_name" content="에브리타임">
+  <meta property="og:title" content="에브리타임">
+  <meta property="og:description" content="전국 400개 대학을 지원하는 대학교 커뮤니티 및 시간표 서비스. 시간표 작성 및 학업 관리, 학교 생활 정보, 학교별 익명 커뮤니티 기능을 제공합니다.">
+  <meta name="description" content="전국 400개 대학을 지원하는 대학교 커뮤니티 및 시간표 서비스. 시간표 작성 및 학업 관리, 학교 생활 정보, 학교별 익명 커뮤니티 기능을 제공합니다.">
+  <meta name="keywords" content="에브리타임, 에타, everytime, 시간표, 수강신청, 강의평가, 학점계산기, 학식, 오늘의학식, 책방, 중고책, 대학생, 대학교, 대학, 대학생 시간표, 대학교 시간표, 대학생 커뮤니티, 대학교 커뮤니티, 시간표 앱, 시간표 어플">
+  <meta name="naver-site-verification" content="7366738375e320e44bd1c743b364db13086a7b0e">
+  <meta name="robots" content="noindex">
+  <link type="text/css" href="/css/common.css" rel="stylesheet">
+  <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.article.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.community.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
+  <link href="/favicon.ico" rel="shortcut icon">
+  <!--[if lt IE 9]>
+  <script src="/js/extensions.html5shiv.js"></script>
+  <script src="/js/extensions.respond.min.js"></script>
+  <script src="/js/extensions.excanvas.min.js"></script>
+  <![endif]-->
+  <!--[if lt IE 8]>
+  <script src="/js/extensions.json3.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/extensions.canvas-to-blob.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.load-image.all.min.js"></script>
+  <script type="text/javascript" src="/js/post/board.freedomContent.js"></script>
+  <script type="text/javascript" src="/js/community.side.js"></script>
+  <script type="text/javascript" src="/js/message.send.js"></script>
+</head>
+<body style="">
+
+<nav>
+    <div class="wrap">
+      <div id="logo">
+        <a href="/"><img src="/images/new/nav.logo.png"></a>
+        <p><span class="name multiple">에브리타임</span><span class="subname">KG IT대</span></p>
+      </div>
+      <div id="account">
+        <a href="/message" title="쪽지함" class="icon message">쪽지함</a></li>
+        <a href="/my" title="내 정보" class="icon my">내 정보</a>
+        <input type="hidden" id="userUserid" value="diharet">
+        <input type="hidden" id="userSchool" value="316">
+        <input type="hidden" id="userCampus" value="349">
+      </div>
+      <ul id="menu">
+        <li class="active"><a href="/freedom">게시판</a></li>
+        <li><a href="/timetable">시간표</a></li>
+        <li><a href="/lecture">강의평가</a></li>
+        <li><a href="/calculator">학점계산기</a></li>
+        <li><a href="/friend">친구</a></li>
+        <li><a href="https://bookstore.everytime.kr/">책방</a></li>
+        <li><a href="https://www.campuspick.com/">캠퍼스픽</a></li>
+      </ul>
+    </div>
+  </nav>
 
 <div id="submenu">
 	<div class="wrap">
@@ -74,7 +140,7 @@
 	</div>
 	<div class="wrap articles">
 		<!-- 수정버튼 누르면 생기는 -->
-		<form id="modify" class="write" action="modifyProc" method="post">
+		<%-- <form id="modify" class="write" action="modifyProc" method="post">
 			<p>
 				<input name="modifyTitle" autocomplete="off" placeholder="글 제목" class="title" value="${post.title }">
 			</p>
@@ -124,17 +190,25 @@
 			</ul>
 			<div class="clearBothOnly"></div>
 			<input type="hidden" name="article_id" value="262767917">
-		</form>
+		</form> --%>		
+		<!-- <a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a> -->
 
-		<a id="writeArticleButton" style="display: none;">새 글을 작성해주세요!</a>
+
 
 		<!-- 글 시작 -->
 		<article>
 			<a class="article"> 
 			<img src="https://cf-fpi.everytime.kr/0.png" class="picture large">
 				<div class="profile">
-					<h3 class="large">익명</h3>
-					<time class="large">${post.createDate }</time>
+					<c:choose>
+						<c:when test="${post.is_anonym == 1 }">
+							<h3 class="large">익명</h3>
+						</c:when>
+						<c:otherwise>
+							<h3 class="large">${post.user_id }</h3>
+						</c:otherwise>
+					</c:choose>
+					<time class="large">${post.create_date }</time>
 				</div>
 				<ul class="status">
 					<li class="update">수정</li>
@@ -146,9 +220,9 @@
 				<h2 class="large">${post.title }</h2>
 				<p class="large">${post.content }</p>
 				<ul class="status left">
-					<li title="공감" class="vote">${post.likeCount }</li>
-					<li title="댓글" class="comment">7</li>
-					<li title="스크랩" class="scrap">0</li>
+					<li title="공감" class="vote">${post.like_count }</li>
+					<li title="댓글" class="comment">${post.commentCount }</li>
+					<li title="스크랩" class="scrap">${post.scrap_count }</li>
 				</ul>
 				<hr>
 				<div class="buttons">
@@ -158,28 +232,28 @@
 
 			<!-- 댓글 시작 -->
 			<div class="comments" style="display: block;">
-			<c:forEach var="comment" items="${commentList }">
+			<%-- <c:forEach var="comment" items="${commentList }"> --%>
 				<article class="parent">
 					<img src="https://cf-fpi.everytime.kr/0.png" class="picture medium">
-					<h3 class="medium">익명${comment.addCommentId }</h3>
+					<h3 class="medium">익명${comment.p_comment_id }</h3>
 					<ul class="status">
 						<li class="childcomment">대댓글</li>
 						<li class="commentvote">공감</li>
 						<li class="messagesend" data-modal="messageSend"
 							data-comment-id="${comment.id }"
-							data-is-anonym="${comment.anonym }">쪽지</li>
+							data-is-anonym="${comment.is_anonym }">쪽지</li>
 						<li class="abuse">신고</li>
 					</ul>
 					<hr>
 					<p class="large">
-						내용이 안나와${comment.comment }
+						내용${comment.comment }
 					</p>
-					<time class="medium">시간이 안나와${comment.createDate }</time>
+					<time class="medium">시간${comment.create_date }</time>
 					<ul class="status commentvotestatus">
 						<li class="vote commentvote" style="display: list-item;">1</li>
 					</ul>
 				</article>
-			</c:forEach>
+			<%-- </c:forEach>  --%>
 
 				<!-- 대댓글 -->
 				<article class="child">
@@ -192,7 +266,7 @@
 						<li class="abuse">신고</li>
 					</ul>
 					<hr>
-					<p class="large">아하 내가 너무 급했나보네! 알려줘서 고마워ㅎㅎ😄${comment.commnet }</p>
+					<p class="large">아하 내가 너무 급했나보네! 알려줘서 고마워ㅎㅎ😄${comment.comment }</p>
 					<time class="medium">08/03 17:16</time>
 					<ul class="status commentvotestatus">
 						<li class="vote commentvote" style="display: none;">0</li>
@@ -201,7 +275,7 @@
 				</article>
 				
 				<!-- 대댓글 입력 부분 -->
-				<!-- <form class="writecomment child">
+<!-- 				<form class="writecomment child">
 					<input type="text" name="text" maxlength="300" autocomplete="off"
 						placeholder="대댓글을 입력하세요." class="text">
 					<ul class="option">

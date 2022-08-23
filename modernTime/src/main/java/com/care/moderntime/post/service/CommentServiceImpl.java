@@ -3,6 +3,8 @@ package com.care.moderntime.post.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,7 +27,7 @@ public class CommentServiceImpl implements ICommentService{
 		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
-		comment.setCreateDate(sdf.format(date));
+		comment.setCreate_date(sdf.format(date));
 		
 		mapper.commentWrite(comment);
 		
@@ -35,11 +37,14 @@ public class CommentServiceImpl implements ICommentService{
 	}
 
 	@Override
-	public String commentList(CommentDTO comment) {
-		System.out.println("commentList(service) postId : " + comment.getPostId());
-		mapper.commentList(comment);
-		return null;
+	public Map<String, Object> commentList() {
+		Map<String, Object> res = new HashMap<String, Object>();
+		ArrayList<CommentDTO> commentList = mapper.commentList();
+		res.put("data", commentList);
+		return res;
 	}
+
+	
 
 
 }
