@@ -1,8 +1,9 @@
-package com.care.moderntime.controller;
+package com.care.moderntime.admin.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -74,9 +75,8 @@ public class AdminController {
 	
 	@ResponseBody
 	@PostMapping(value = "admin/list", produces = "application/json; charset=UTF-8")
-	public String noticeList() {
-		String data = nsv.list();
-		return data;
+	public Map<String, Object> noticeList() {
+		return nsv.list();
 	}
 	
 	@RequestMapping("noticeView")
