@@ -10,23 +10,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.care.moderntime.lecturedto.LectureDTO;
+import com.care.moderntime.lecture.service.LectureService;
 
 @Controller
-public class LectureController {		
+public class LectureController {
 	
+
 	@RequestMapping("lecture")
 	public String lecture() {
 		return "lecture";
 	}
+
 	@RequestMapping("timetable")
 	public String timetable() {
 		return "timetable";
 	}
-	@RequestMapping("point")
+
+	@RequestMapping("/lecture/point")
 	public String point() {
 		return "point";
 	}
 
-}
 
+}

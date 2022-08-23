@@ -505,7 +505,7 @@ $().ready(function () {
       }
       var keywordTypes = [{id: 'name', text: '과목명'}, {id: 'professor', text: '교수명'}, {id: 'code', text: '과목코드'}, {id: 'place', text: '장소'}];
       _.each(keywordTypes, function (keywordType) {
-        var $label = $('<label></label>').addClass('inline').appendTo($filter);
+//        var $label = $('<label></label>').addClass('inline').appendTo($filter);
         var $radio = $('<input>').attr({type: 'radio', name: 'keyword_type'}).data('keywordType', keywordType).appendTo($label);
         if (setType === keywordType.id) {
           $radio.attr('checked', true);
@@ -865,15 +865,6 @@ $().ready(function () {
         limitNum: _set.subjectLimitNum,
         startNum: _set.subjectStartNum
       });
-//      $.ajax({
-//			url:'admin/lectureList',
-//			type : 'POST',
-//			data : params,
-//			contentType: 'application/json; charset=UTF-8',
-//						success : function(data){
-//							console.log(data);
-//						}
-//		});
 
 //      $.ajax({
 //        url: _apiServerUrl + '/find/timetable/subject/list',
@@ -910,7 +901,9 @@ $().ready(function () {
 //      }
     },		
     //
+    
     loadLecture : function (){
+    var scores = [];
 			      var params = _.extend(_.clone(_set.subjectFilter), {
 			        campusId: _set.subjectCampusId,
 			        year: _set.year,
@@ -923,18 +916,51 @@ $().ready(function () {
 			data : params,
 			contentType: 'application/json; charset=UTF-8',
 						success : function(data){
-							alert('sdf');
 							console.log(data);
+							var jsonDatas = data;//JSON.parse(data);
+							var list = "";
+			
+			for(i = 0; i< jsonDatas.cd.length; i++){
+				var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+				list += "<tr>";
+				list = list + "<td>" + jsonDatas.cd[i].type+ "</td>";
+				if(jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 ===""){
+					list = list + "<td>" + jsonDatas.cd[i].time1+"</td>";
+				}else{
+					list = list + "<td>" + jsonDatas.cd[i].time1+jsonDatas.cd[i].time2+ "</td>";}
+				list = list + "<td class='bold'>" + jsonDatas.cd[i].name+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].teacher+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].credit+ "</td>";
+				list = list + "<td>" + jsonDatas.cd[i].place,jsonDatas.cd[i].lectureTime+ "</td>";
+				list = list + "<td><a class='star'><span class='on' style='width:"+percent+ "'></span></a></td>";//jsonDatas.cd[i].score
+				list = list + "<td>" + jsonDatas.cd[i].listenStudent+ "</td>";
+				list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent+ "</td>";
+				list +="</tr>";
+				scores[i] = jsonDatas.cd[i].score;
+			}
+			$("#tbody").html(list);
+			//
+			//var $star = $('<a></a>');
+			//$star.addClass('star').appendTo($td);
+			
+			  for(i = 0; i < scores.length; i++){
+            	var percent = scores[i] / 5 * 100 + '%';
+				console.log(percent);
+            //$('<span></span>').addClass('on').width(percent).appendTo($star);
+			}
+			
+			//
 						}
       });
+      
 		},
 		//
     appendSubjects: function (data) {
       var count = $(data).find('response > subject').length;
-      if (count !== _set.subjectLimitNum) {
-        $listTfoot.hide();
-        _set.isSubjectLoadCompleted = true;
-      }
+//      if (count !== _set.subjectLimitNum) {
+//        $listTfoot.hide();
+//        _set.isSubjectLoadCompleted = true;
+//      }
       if (_set.subjectStartNum === 0 && count === 0) {
         var $emptyTr = $('<tr></tr>').addClass('empty').appendTo($listTbody);
         $('<th></th>').text('검색 결과가 없습니다').attr('colspan', $listThead.find('tr > th').length).appendTo($emptyTr);
@@ -966,9 +992,11 @@ $().ready(function () {
           var $syllabusTd = $('<td></td>').appendTo($tr);
           $('<a></a>').addClass('syllabus').text('조회').attr({href: syllabusUrl, target: '_blank'}).appendTo($syllabusTd);
         }
+        
+      
         _.each(_set.subjectColumnInfo, function (item) {
           var value = $subjectData.attr(item.name) || "";
-          var value = $subjectData.attr(item.name) || "";
+         
           var $td = $('<td></td>');
           if (item.name === 'lectureRate') {
             var $star = $('<a></a>');

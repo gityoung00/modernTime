@@ -10,24 +10,22 @@
 	<a title="닫기" class="close"></a>
 	<h3>검색어</h3>
 	<div class="filter">
-		<label class="inline"><input type="radio" name="keyword_type"
-			checked="checked"><span>과목명</span></label><label class="inline"><input
-			type="radio" name="keyword_type"><span>교수명</span></label><label
-			class="inline"><input type="radio" name="keyword_type"><span>과목코드</span></label><label
-			class="inline"><input type="radio" name="keyword_type"><span>장소</span></label><input
-			class="keyword" type="search" name="keyword" placeholder="검색어">
+		<label class="inline">
+			<input type="radio" name="keyword_type"	checked="checked"><span>과목명</span>
+		</label>
+		<label class="inline">
+			<input type="radio" name="keyword_type"><span>교수명</span>
+		</label>
+		<label class="inline">
+			<input type="radio" name="keyword_type"><span>장소</span>
+		</label>
+		<input class="keyword" type="search" name="keyword" placeholder="검색어">
 	</div>
 	<input type="submit" value="검색" class="button">
 </form>
 <form id="subjectOrderFilter" class="modal">
 	<a title="닫기" class="close"></a>
 	<h3>정렬</h3>
-	<div class="filter"></div>
-	<input type="submit" value="적용" class="button">
-</form>
-<form id="subjectTimeFilter" class="modal">
-	<a title="닫기" class="close"></a>
-	<h3>시간</h3>
 	<div class="filter"></div>
 	<input type="submit" value="적용" class="button">
 </form>
@@ -48,7 +46,7 @@
 		class="button light floatLeft" data-action="deselect"> <input
 		type="submit" value="적용" class="button">
 </form>
-<form id="subjectCreditFilter" class="modal">
+<form id="subjectCreditFilter" class="modal" name="subjectCreditFilter">
 	<a title="닫기" class="close"></a>
 	<h3>학점</h3>
 	<div class="filter"></div>
@@ -71,7 +69,7 @@
 				<th>학점</th>
 			</tr>
 			<tr>
-				<td><input type="text" name="lectureId"></td>
+				<td><input type="text" name="lecture_id"></td>
 				<td><input type="radio" value="교양" name="type">교양<input
 					type="radio" value="전공" name="type">전공</td>
 				<td colspan="2"><input type="text" name="name" width="500px"></td>
@@ -91,9 +89,9 @@
 				<td><input type="text" name="time1"></td>
 				<td><input type="text" name="time2" value=""></td>
 				<td><input type="text" name="place"></td>
-				<td><input type="number" name="lectureTime"></td>
-				<td><input type="number" name="maxStudent"></td>
-				<td><input type="number" name="listenStudent"></td>
+				<td><input type="number" name="lecture_time"></td>
+				<td><input type="number" name="max_student"></td>
+				<td><input type="number" name="listen_student"></td>
 			</tr>
 		</table>
 		<input type="submit" value="강의 등록">
@@ -101,15 +99,11 @@
 </div>
 	<div id="subjects" style="display: block;" class="subjects">
 		<div class="filter">
-			<a class="close">닫기</a> <a class="reset hide">초기화</a> 
 			<a class="item" data-id="keyword"> 
 				<span class="key">검색어:</span><span	class="value">없음</span><span class="reset"></span>
 			</a> 
 			<a class="item" data-id="order"> 
 				<span class="key">정렬:</span><span class="value">기본</span><span class="reset"></span>
-			</a> 
-			<a class="item" data-id="time"> 
-				<span class="key">시간:</span><span class="value">전체</span><span class="reset"></span>
 			</a> 
 			<a class="item" data-id="type">
 				<span class="key">구분:</span><span class="value">전체</span><span class="reset"></span>
@@ -126,8 +120,8 @@
 						<th>구분
 							<div>구분</div>
 						</th>
-						<th>학수번호
-							<div>학수번호</div>
+						<th>강의시간
+							<div>강의시간</div>
 						</th>
 						<th>교과목명
 							<div>교과목명</div>
@@ -138,8 +132,8 @@
 						<th>학점
 							<div>학점</div>
 						</th>
-						<th>시간 및 강의실
-							<div>시간 및 강의실</div>
+						<th>강의실
+							<div>강의실</div>
 						</th>
 						<th>강의평
 							<div>강의평</div>
@@ -147,33 +141,24 @@
 						<th>담은 인원
 							<div>담은 인원</div>
 						</th>
-						<th>유의사항
-							<div>유의사항</div>
+						<th>수강 정원
+							<div>수강 정원</div>
 						</th>
 					</tr>
 				</thead>
-				<tbody>
-				<c:forEach var="db" items="${sessionScope.lectureList }">
-					<tr>
-						<td>${db.type }</td>
-						<td>${db.time1 },${db.time2 }</td>
-						<td class="bold">${db.name}</td>
-						<td>${db.teacher }</td>
-						<td>${db.credit }</td>
-						<td>${db.place },${db.lecture_time }</td>
-						<td><a href="/lecture/view/2314908" target="_blank"
-							title="4.86" class="star">${db.score }<span class="on"
-								style="width: 97.2%;"></span></a></td>
-						<td>${db.listen_student }</td>
-						<td class="small">${db.max_student }</td>
-					</tr>
-				</c:forEach>
+				<tbody id = "tbody">
+<!-- <td><a href="/lecture/view/2314908" target="_blank" title="4.86" class="star"><span class="on" style="width: 97.2%;"></span></a></td> -->
 				</tbody>
-				<tfoot>
+				<tr>
+					<td colspan="8"></td>
+					<td><button id="deleteLecture">삭제</button></td>
+					<td><button id="updateLecture">수정</button></td>
+				</tr>
+				<!-- <tfoot>
 					<tr>
 						<td colspan="9"></td>
 					</tr>
-				</tfoot>
+				</tfoot> -->
 			</table>
 		</div>
 	</div>

@@ -1,0 +1,158 @@
+@charset "utf-8";
+
+body {
+  background-color: #fff; user-select: none; -webkit-user-select: none; overflow: hidden;
+}
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+}
+#bottom {
+  display: none;
+}
+
+#container div.loading {
+  padding: 120px 0; height: 36px; background: transparent url('/images/loading.svg') no-repeat center center; background-size: 36px 36px;
+}
+
+#container div.messageboxes, #container div.messages {
+  position: relative; height: 100%; box-sizing: border-box; overflow: hidden;
+}
+#container div.messageboxes div.items, #container div.messages div.items {
+  height: 100%; box-sizing: border-box; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+
+#container div.messageboxes div.items a.item {
+  display: block; padding: 12px 24px; cursor: pointer;
+}
+#container div.messageboxes div.items a.item.unread {
+  background-color: #fdf9f3;
+}
+#container div.messageboxes div.items a.item.active {
+  background-color: #c62917;
+}
+#container div.messageboxes div.items a.item time,
+#container div.messageboxes div.items a.item p.count {
+  float: right; margin-left: 8px; line-height: 20px;
+}
+#container div.messageboxes div.items a.item h3,
+#container div.messageboxes div.items a.item p.text {
+  line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#container div.messageboxes div.items a.item time {
+  color: #a6a6a6; font-size: 12px;
+}
+#container div.messageboxes div.items a.item h3 {
+  color: #292929; font-size: 14px; font-weight: bold;
+}
+#container div.messageboxes div.items a.item p.count {
+  color: #c62917; font-size: 14px; font-weight: bold;
+}
+#container div.messageboxes div.items a.item p.text {
+  color: #737373; font-size: 14px;
+}
+#container div.messageboxes div.items a.item.active time,
+#container div.messageboxes div.items a.item.active h3,
+#container div.messageboxes div.items a.item.active p.count,
+#container div.messageboxes div.items a.item.active p.text {
+  color: #fff;
+}
+#container div.messageboxes div.items div.empty {
+  padding: 120px 0; text-align: center;
+}
+#container div.messageboxes div.items div.empty p {
+  display: inline-block; padding-top: 47px; color: #a6a6a6; font-size: 18px; font-weight: bold; background: transparent url('/images/container.message.empty.png') no-repeat top center; background-size: 48px 39px;
+}
+
+#container div.messages div.title {
+  display: flex; width: 100%; box-sizing: border-box; background-color: #fff;
+}
+#container div.messages div.title h2 {
+  flex: auto; line-height: 48px; color: #292929; font-size: 18px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#container div.messages div.title a {
+  flex-shrink: 0; display: inline-block; width: 48px; height: 48px; color: transparent; font-size: 0; background-repeat: no-repeat; background-size: 24px 24px; background-position: center center; cursor: pointer;
+}
+#container div.messages div.title a.back {
+  background-image: url('/images/container.message.back.png');
+}
+#container div.messages div.title a.send {
+  background-image: url('/images/container.message.send.png');
+}
+#container div.messages div.title a.refresh {
+  background-image: url('/images/container.message.refresh.png');
+}
+#container div.messages div.title a.more {
+  width: 40px; background-image: url('/images/container.message.more.png'); background-size: 16px 24px;
+}
+#container div.messages div.items div.item {
+  margin: 0 8px; padding: 12px 16px; border-bottom: 1px solid #ededed;
+}
+#container div.messages div.items div.item p.type {
+  line-height: 20px; font-size: 14px; font-weight: bold;
+}
+#container div.messages div.items div.item p.type.type0 {
+  color: #737373;
+}
+#container div.messages div.items div.item p.type.type1 {
+  color: #0ca5af;
+}
+#container div.messages div.items div.item p.type.type2 {
+  color: #ffcc1c;
+}
+#container div.messages div.items div.item time {
+  float: right; line-height: 20px; color: #a6a6a6; font-size: 12px;
+}
+#container div.messages div.items div.item p.text {
+  margin-top: 4px; line-height: 20px; color: #292929; font-size: 14px; word-wrap: break-word;
+}
+
+@media only screen and (max-width: 640px) {
+  #container div.messageboxes {
+    display: none;
+  }
+  #container div.messageboxes.visible {
+    display: block;
+  }
+  #container div.messageboxes h2 {
+    display: none;
+  }
+  #container div.messages {
+    display: none;
+  }
+  #container div.messages.visible {
+    display: block;
+  }
+  #container div.messages div.title {
+    position: fixed; z-index: 1;
+  }
+  #container div.messages div.items {
+    padding-top: 48px;
+  }
+}
+
+@media only screen and (min-width: 641px) {
+  #container div.messageboxes, #container div.messages {
+    border: 1px solid #ededed; border-radius: 12px;
+  }
+  #container div.messageboxes {
+    margin-right: 8px; padding: 69px 0 12px 0; width: 344px;
+  }
+  #container div.messageboxes h2 {
+    position: absolute; left: 16px; top: 24px; line-height: 33px; color: #292929; font-size: 22px; font-weight: bold;
+  }
+  #container div.messageboxes div.items a.item {
+    padding: 12px 16px;
+  }
+  #container div.messages {
+    padding: 60px 0 12px 0; width: 780px;
+  }
+  #container div.messages div.title {
+    position: absolute; left: 0; top: 0; padding: 12px 0 0 16px;
+  }
+  #container div.messages div.title a.back {
+    display: none;
+  }
+  #container div.messages div.items div.item {
+    padding: 12px 8px;
+  }
+}

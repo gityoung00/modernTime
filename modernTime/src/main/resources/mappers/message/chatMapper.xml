@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.message.dao.ChatDAO">
+	<select id="findMessageList" parameterType="String" resultType="com.care.moderntime.message.dto.ChatListDTO">
+		select r.room_id, r.is_anonym, c.message, r.nickname, c.create_date, c.count
+		from (select room_id, is_anonym, nickname from room join user on room.part_user=user.id where part_user=#{id}) r
+		join
+		(select ch.*, cc.count from chat ch join (select room_id, count(case when (is_readed=0 and sender &lt;&gt; #{id}) then 1 end) as count from chat group by room_id) cc on ch.room_id=cc.room_id
+		where id in (select max(id) from chat group by room_id) order by ch.room_id desc) c
+		on r.room_id=c.room_id;
+	</select>
+
+
+	<select id="getPostUser" parameterType="String" resultType="String">
+		select user.id from user join post on user.id=post.user_id where post.id=#{id};
+
+	</select>
+
+	<select id="getCommentUser" parameterType="String" resultType="String">
+		select user.id from user join comment on user.id=comment.user_id where comment.id=#{id};
+
+	</select>
+
+	<select id="getRoomId" resultType="int">
+		select r.room_id+1 from room r order by r.room_id desc limit 1
+	</select>
+
+	<insert id="makeChatRoom" parameterType="com.care.moderntime.message.dto.RoomDTO">
+		insert into room(room_id, part_user, is_anonym) values(#{roomId}, #{partUser}, #{isAnonym});
+	</insert>
+
+	<select id="getCommentChatInfo" parameterType="int" resultType="com.care.moderntime.message.dto.ChatInfoDTO">
+		select b.name as bName, p.title, c.is_anonym as isAnonym, c.user_id as userId, u.nickname
+		from post p join comment c
+		on c.post_id=p.id
+		join board b on p.board_id = b.id
+		join user u on c.user_id=u.id where c.id=#{id}
+	</select>
+
+	<select id="getPostChatInfo" parameterType="int" resultType="com.care.moderntime.message.dto.ChatInfoDTO">
+		select b.name as bName, p.title, p.is_anonym as isAnonym, p.user_id as userId, u.nickname
+		from post p join board b on p.board_id = b.id
+		join user u on p.user_id=u.id where p.id=#{id}
+	</select>
+
+	<insert id="saveChat" parameterType="com.care.moderntime.message.dto.ChatDTO">
+		insert into chat(room_id, message, sender, is_readed, flag) values(#{roomId}, #{message}, #{sender}, #{isReaded},
+		#{flag})
+	</insert>
+
+	<select id="getChatList" parameterType="int" resultType="com.care.moderntime.message.dto.ChatDTO">
+		select room_id, message, sender, create_date, is_readed, flag from chat where room_id=#{id} order by id desc
+	</select>
+
+
+	<update id="updateIsReaded">
+		update chat set is_readed=1 where room_id=#{roomId} and sender &lt;&gt; #{id} and is_readed=0
+	
+	</update>
+
+</mapper>

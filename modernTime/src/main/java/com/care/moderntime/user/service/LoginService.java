@@ -33,10 +33,5 @@ public class LoginService {
 		session.invalidate();
 	}
 	
-	public String findUser(String email) {
-		UserDTO user = userDao.selectEmail(email);
-		if (user == null) return null;
-		return user.getId();
-		
-	}
+	
 }
