@@ -18,10 +18,7 @@ import com.care.moderntime.bookstore.dto.BookStoreDTO;
 public class BookStoreService {
 	@Autowired
 	IBookStoreDAO dao;
-	@Autowired
-	NoticeService tmp;
 	@Autowired HttpSession session;
-	private ArrayList<Integer> num = tmp.getNum();
 
 //	public HashMap<String, ArrayList<String>> findList(String keyword) {
 //		String data = "";
@@ -33,14 +30,6 @@ public class BookStoreService {
 //		
 //	}
 
-	public ArrayList<Integer> getNum() {
-		return num;
-	}
-
-	public void setNum(ArrayList<Integer> num) {
-		this.num = num;
-	}
-	
 	// 판매글 등록
 	public BookStoreDTO bookSell(BookStoreDTO dto) {
 		if (dto.getUser_id() == null || dto.getUser_id() == "") {
@@ -53,14 +42,14 @@ public class BookStoreService {
 		return null;
 	}
 	
-	public void insertPicture(BookStoreDTO dto) {
-		for(int j=0;j<num.size();j++) {
-			System.out.println(dto.getId());
-			System.out.println(num.get(j));
-			dao.insertPicture(dto.getId(),num.get(j));
-		}
-		tmp.getNum().clear();
-	}
+//	public void insertPicture(BookStoreDTO dto) {
+//		for(int j=0;j<num.size();j++) {
+//			System.out.println(dto.getId());
+//			System.out.println(num.get(j));
+//			dao.insertPicture(dto.getId(),num.get(j));
+//		}
+//		tmp.getNum().clear();
+//	}
 
 	public String bookSellList() {
 		ArrayList<BookStoreDTO> list = dao.bookSellList();

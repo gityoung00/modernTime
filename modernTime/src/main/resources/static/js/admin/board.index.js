@@ -370,6 +370,7 @@ $().ready(function() {
 			history.pushState(null, null, url);
 		},
 		loadContent: function(params) {
+			console.log(params)
 			if (params.v) {
 				$container.find('div.seasons, div.categories').addClass('none');
 				_fn.loadComments(params.v);
@@ -639,7 +640,6 @@ $().ready(function() {
 			if (_set.moiminfo && _set.boardId === 'bestarticle') {
 				_fn.createBestarticleSeasons();
 			}
-
 			_fn.ajaxArticles(function(data) {
 				if (_set.moiminfo) {
 					var $responseXml = $(data).find('response');
@@ -660,7 +660,6 @@ $().ready(function() {
 		},
 		ajaxArticles: function() {
 			var conditions = {
-				id: _set.boardId,
 				limit_num: _set.limitNum,
 				start_num: _set.startNum
 			};
@@ -678,19 +677,15 @@ $().ready(function() {
 				conditions.category_id = _set.categoryId;
 			}
 			//공지사항 전체보기
+			console.log(conditions)
 			$.ajax({
-				url: 'admin/list',
+				url: '/admin/list',
 				type: 'post',
-				dataType: 'text',
-				data: { boardid: 1 },
-				
+				contentType: "application/JSON; charset=UTF-8;",
+				data: JSON.stringify(conditions),
+
 				success: function(data) {
-//					data = JSON.parse(data);
-//					var str = data.trim().replace(/\r/gi, '<br/>').replace(/\n/gi, '\\n');
-					var jsonDatas = JSON.parse(data);
-					
-					$(jsonDatas.data).each((idx, notice) => {
-						console.log(notice)
+					$(data.data).each((idx, notice) => {
 						$article = $('<article></article>')
 
 						$("<div></div>").attr("id", "noticeViewId").css("display", "none").text(notice.id).appendTo($article);
@@ -701,69 +696,24 @@ $().ready(function() {
 						$("<time></time>").addClass("small").text(notice.create_date).appendTo($titleLink);
 						// 작성자		
 						$("<h3></h3>").addClass("small").addClass("admin").text("에브리타임").appendTo($titleLink);
-						
+
 						// 공감, 댓글
 						var $ul = $("<ul></ul>").addClass("status")
 						$("<li></li>").attr("title", "공감").addClass("vote").text(0).appendTo($ul);
 						$("<li></li>").attr("title", "댓글").addClass("comment").text(0).appendTo($ul);
 						$ul.appendTo($titleLink)
-						
-						
+
+
 						$("<hr>").appendTo($titleLink);
-						
+
 						$article.appendTo($noticeList);
-						
+
 					})
-//					var list = "";
-//					for (i = 0; i < jsonDatas.cd.length; i++) {
-//						list += "<article>";
-//						list = list + "<div id='noticeViewId' style='display:none'>" + jsonDatas.cd[i].id + "</div>";
-//						list = list + "<a class='article' href='/noticeView?id=" + jsonDatas.cd[i].id + "'><h2 class='medium'>" + jsonDatas.cd[i].title + "</h2>";
-//						list = list + "<time class='small'>" + jsonDatas.cd[i].createDate + "</time>";
-//						list = list + "<h3 class='admin small'>" + '에브리타임' + "</h3>";
-//						list = list + "<ul class='status'><li title = '공감' class='vote'>" + 0 + "</li>";
-//						list = list + "<li title = '댓글' class='comment'>" + 0 + "</li></ul>";
-//						list = list + "<hr>";
-//						//				list = list + "<input type='hidden' name='224236731_comment_anonym' value='0'>";
-//						list = list + "</a>";
-//						//				list = list + "<div class='comments'></div>";
-//						list += "</article>";
-//					}
-//					$("#noticeList").html(list);
 				},
 				error: function(error) {
 					console.log(error);
 				}
 			})
-			//			$.ajax({
-			//				url: '/find/board/article/list',
-			//				xhrFields: {withCredentials: true},
-			//				type: 'POST',
-			//				data: conditions,
-			//				success: function (data) {
-			//					var responseCode;
-			//					if (!$(data).find('response').children().length) {
-			//						responseCode = $(data).find('response').text();
-			//					}
-			//					if (responseCode === '0') {
-			//						if (_set.isUser) {
-			//							_fn.createDialog('게시판이 존재하지 않습니다.');
-			//						} else {
-			//							location.href = '/login?redirect=' + location.pathname;
-			//						}
-			//					} else if (responseCode === '-100') {
-			//						if (confirm('학교인증 회원만 접근할 수 있습니다. 학교인증을 하시겠습니까?')) {
-			//							location.href = '/auth';
-			//						} else {
-			//							history.go(-1);
-			//						}
-			//					} else if (responseCode === '-300' || responseCode === '-400') {
-			//						_fn.createDialog('접근 권한이 없습니다.');
-			//					} else {
-			//						callback(data);
-			//					}
-			//				}
-			//			});
 		},
 		//글 작성부분?
 		createArticles: function(data, isListItem) {
@@ -1242,50 +1192,6 @@ $().ready(function() {
 				//				});
 			});
 		},
-		transferMoim: function() {
-			var $form = $container.find('#transferMoimForm');
-			var $transfererPassword = $form.find('input[name="transferer_password"]');
-			var $transfereeUserid = $form.find('input[name="transferee_userid"]');
-			$form.show();
-			$form.on('submit', function() {
-				if (!$transfererPassword.val()) {
-					alert('양도인의 비밀번호를 입력하세요.');
-					$transfererPassword.focus();
-					return false;
-				} else if (!$transfereeUserid.val()) {
-					alert('피양도인의 아이디를 입력하세요.');
-					$transfereeUserid.focus();
-					return false;
-				}
-				//				$.ajax({
-				//					url: '/save/board/transferRequest',
-				//					xhrFields: {withCredentials: true},
-				//					type: 'POST',
-				//					data: {
-				//						board_id: _set.boardId,
-				//						transferer_password: $transfererPassword.val(),
-				//						transferee_userid: $transfereeUserid.val()
-				//					},
-				//					success: function (data) {
-				//						var responseCode = $(data).find('response').text();
-				//						if (responseCode === '0' || responseCode === '-1' || responseCode === '-2') {
-				//							alert('게시판을 양도할 수 없습니다.');
-				//						} else if (responseCode === '-3') {
-				//							alert('양도인(본인)의 비밀번호를 바르게 입력하세요.');
-				//						} else if (responseCode === '-4') {
-				//							alert('존재하지 않는 피양도인 아이디입니다.');
-				//						} else {
-				//							alert('게시판 양도를 요청하였습니다.\n요청 수락 후 게시판이 자동으로 양도됩니다.');
-				//							$form.hide();
-				//						}
-				//					}
-				//				});
-				return false;
-			});
-			$form.find('a.close').on('click', function() {
-				$form.hide();
-			});
-		},
 		setSeason: function(that) {
 			var season = $(that).data('value');
 			var boardUrl = _fn.encodeUrl({ boardId: _set.boardId });
@@ -1529,6 +1435,8 @@ $().ready(function() {
 			var $writeForm = $articles.find('form.write');
 			$writeForm.find('input[name="file"]').click();
 		},
+
+		// 파일 첨부 썸네일 보여주기
 		changeAttachOnWriteArticleForm: function(files) {
 			if (files.length === 0) {
 				return;
@@ -1555,8 +1463,12 @@ $().ready(function() {
 			var $writeForm = $articles.find('form.write');
 			var $thumbnails = $writeForm.find('> ol.thumbnails').show();
 			var $thumbnailsNewButton = $thumbnails.find('> li.new');
+
+			// 파일 첨부 썸네일 보여주기
 			_.each(files, function(file, index) {
+				console.log("index: ", index, ", file: ", file)
 				_set.attachUploadingStatus.push(0);
+
 				var $thumbnail = $('<li></li>').addClass('thumbnail loading').insertBefore($thumbnailsNewButton);
 				var fileName = 'everytime-web-' + new Date().getTime().toString() + '.jpg';
 				var loadImageOptions = {
@@ -1564,10 +1476,13 @@ $().ready(function() {
 					maxWidth: 1280
 				};
 				loadImage.parseMetaData(file, function(data) {
+					console.log("loadImage.parseMetaData", data)
 					if (data.exif) {
 						loadImageOptions.orientation = data.exif.get('Orientation');
 					}
 					loadImage(file, function(canvas) {
+						console.log("loadImage, ", file)
+						console.log(canvas.toDataURL, canvas.toBlob)
 						if (!canvas.toDataURL || !canvas.toBlob) {
 							_set.attachUploadingStatus[index] = -1;
 							$thumbnail.remove();
@@ -1602,99 +1517,29 @@ $().ready(function() {
 				$thumbnail.removeClass('loading').addClass('attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")');
 				$writeForm.fnd('input[name="file"]').val('');
 			}
-			//			  $.ajax({
-			//			    type:"POST",
-			//			    url: "/admin/upload",
-			//			    enctype: 'multipart/form-data',
-			//			    processData: false,
-			//			    contentType: false,
-			//			    data: {
-			//					board_id: _set.boardId,
-			//					file_name: filename,
-			//					file_size: file.size
-			//				},
-			//			    cache: false,
-			//        		timeout: 600000,
-			//			    success: function(rtn){
-			//			      const message = rtn.data.values[0];
-			//			      console.log("message: ", message)
-			//			      $("#resultUploadPath").text(message.uploadFilePath)
-			//			    },
-			//			    err: function(err){
-			//			      console.log("err:", err)
-			//			    }
-			//			  })
+			$.ajax({
+				type: "POST",
+				url: "/admin/upload",
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				data: {
+					board_id: _set.boardId,
+					file_name: filename,
+					file_size: file.size
+				},
+				cache: false,
+				timeout: 600000,
+				success: function(rtn) {
+					const message = rtn.data.values[0];
+					console.log("message: ", message)
+					$("#resultUploadPath").text(message.uploadFilePath)
+				},
+				err: function(err) {
+					console.log("err:", err)
+			 	}
+			})
 		},
-		//			$.ajax({
-		//				url: '/save/board/article/attach',
-		//				xhrFields: {withCredentials: true},
-		//				type: 'POST',
-		//				data: {
-		//					board_id: _set.boardId,
-		//					file_name: filename,
-		//					file_size: file.size
-		//				},
-		//				success: function (data) {
-		//					var responseCode = $(data).find('response').text();
-		//					if (responseCode === '0' || responseCode === '-21' || responseCode === '-22') {
-		//						uploadFail();
-		//						return;
-		//					}
-		//					var $attach = $(data).find('attach');
-		//					var $s3Provider = $(data).find('s3Provider');
-		//					var attachId = Number($attach.attr('id'));
-		//					var s3Path = $attach.attr('s3_path');
-		//					var s3ThumbnailPath = $attach.attr('s3_thumbnail_path');
-		//					var s3Provider = JSON.parse($s3Provider.attr('s3'));
-		//					var formData = new FormData();
-		//					formData.append('Content-Type', file.type);
-		//					formData.append('acl', s3Provider['acl']);
-		//					formData.append('success_action_status', s3Provider['success_action_status']);
-		//					formData.append('policy', s3Provider['policy']);
-		//					formData.append('X-amz-algorithm', s3Provider['X-amz-algorithm']);
-		//					formData.append('X-amz-credential', s3Provider['X-amz-credential']);
-		//					formData.append('X-amz-date', s3Provider['X-amz-date']);
-		//					formData.append('X-amz-expires', s3Provider['X-amz-expires']);
-		//					formData.append('X-amz-signature', s3Provider['X-amz-signature']);
-		//					formData.append('key', s3Path);
-		//					formData.append('file', file);
-		//					$.ajax({
-		//						url: 'https://' + s3Provider.bucket + '.s3.' + s3Provider.region + '.amazonaws.com/',
-		//						type: 'POST',
-		//						data: formData,
-		//						contentType: false,
-		//						processData: false,
-		//						success: function () {
-		//							$.ajax({
-		//								url: 'https://apigateway.everytime.kr/createThumbnail',
-		//								data: JSON.stringify({
-		//									's3': {
-		//										'srcKey': s3Path,
-		//										'bucket': s3Provider.bucket,
-		//										'dstKey': s3ThumbnailPath
-		//									}
-		//								}),
-		//								method: 'post',
-		//								dataType: 'json',
-		//								success: function (createThumbnailResponse) {
-		//									if (createThumbnailResponse === 'success') {
-		//										uploadSuccess(attachId);
-		//									} else {
-		//										uploadFail();
-		//									}
-		//								},
-		//								error: function () {
-		//									uploadFail();
-		//								}
-		//							});
-		//						},
-		//						error: function () {
-		//							uploadFail();
-		//						}
-		//					});
-		//				}
-		//			});
-		//		)},
 		showAttachThumbnailForm: function($thumbnail) {
 			var attach = _.find(_set.attaches, function(attach) {
 				return attach.id === $thumbnail.data('id');
@@ -1780,19 +1625,21 @@ $().ready(function() {
 			//					console.log(data) -> controller에서 오는 return값
 			//				}
 			//			});
-
+			console.log(parameters);
 
 			//게시글 등록
 			$.ajax({
-				url: 'notice',
+				url: '/admin/notice',
 				type: 'POST',
 				data: JSON.stringify(parameters),
-				//            	dataType: 'json',
 				contentType: 'application/json; charset=UTF-8',
 				success: function(data) {
-					console.log(data);
-					alert('공지 등록');
+					alert('공지가 등록되었습니다.');
 					location.reload();
+				},
+				fail: function(res) {
+					console.log(res);
+
 				}
 			});
 			//			$.ajax({
@@ -1856,7 +1703,7 @@ $().ready(function() {
 		},
 		removeArticle: function($article) {
 			var url = new URL(location.href);
-			notice_id =url.searchParams.get("id");
+			notice_id = url.searchParams.get("id");
 			console.log(notice_id)
 			location.href = `/noticeDelete?id=${notice_id}`
 		},

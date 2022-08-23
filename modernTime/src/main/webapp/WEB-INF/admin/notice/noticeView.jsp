@@ -37,8 +37,8 @@
 	<div class="wrap articles">
 		<article>
 			<a class="article">
-			<img src="https://cf-fpi.everytime.kr/5/1579249303.png"	class="picture large">
-			<div class="profile">
+				<img src="https://cf-fpi.everytime.kr/5/1579249303.png"	class="picture large">
+				<div class="profile">
 					<h3 class="admin large">에브리타임</h3>
 					<time class="large">${noticeView.create_date}</time>
 				</div>
@@ -55,6 +55,9 @@
 					${fn:replace(noticeView.content,replaceChar,"<br/>") }
 				</p>
 				<div class="attaches multiple">
+					<c:forEach var="attach" items="${attachs }">
+					
+					</c:forEach>
 					<figure class="attach">
 						<img
 							src="https://cf-ea.everytime.kr/attach_thumbnail/19/50441461/everytime-web-1654588269349.jpg?Expires=1659516090&amp;Key-Pair-Id=APKAICU6XZKH23IGASFA&amp;Signature=KGh66K7RHzodCAsrFPWPKnesAi4uqnmtpxYbL10rir4WKRpxHr83ynWRAuvTMMk0jpVNz3tZ9mVVSxdAB~W38t8Ykyzdf-FPw7wdWhYOl2iCEH4xIwHTHezGQX2-J7sbxh3XV2QRR2jcVpxZbLP9dNXr3YtYM1ZwDY4lmLNmVi20XHNCjmPTflg72lF~5Ufp6PRNxr8C1tBX2e-71hzKEmSsQpjMLFo0TJpjYujGDYsiLy4HY75Cu-twWiz8wO53oNSeDiS2DPgUplbNgfXZWG2TScZRZvOCGfa9IlG24BN7ehtfd8mB4MWRaCJLOAa8PADiN6AGPtWT7X2d4nWmjQ__">
@@ -73,7 +76,8 @@
 				<div class="buttons">
 					<span class="posvote">공감</span><span class="scrap">스크랩</span>
 				</div>
-				<input type="hidden" name="254951379_comment_anonym" value="0"></a>
+				<input type="hidden" name="254951379_comment_anonym" value="0">
+			</a>
 			<div class="comments" style="display: block;"></div>
 		</article>
 		<div class="clearBothOnly"></div>
