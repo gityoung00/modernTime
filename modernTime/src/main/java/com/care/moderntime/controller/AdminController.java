@@ -1,5 +1,6 @@
 package com.care.moderntime.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.moderntime.admin.dto.LectureRegistDTO;
@@ -52,15 +54,21 @@ public class AdminController {
 		return "admin/notice";
 	}
 	@ResponseBody
-	@PostMapping(value = "notice", produces = "text/html; charset=UTF-8")
-	public String noticeWrite(@RequestBody(required = false)NoticeDTO dto) {
+	@PostMapping(value = "notice", produces = "application/json; charset=UTF-8")
+	public String noticeWrite(@RequestBody(required = false)NoticeDTO dto) throws IOException {
 		String result = nsv.insert(dto);
-		System.out.println(dto.getTitle());
-		System.out.println(dto.getContent());
 		if(result.equals("등록 완료")){
 			System.out.println(result);
 			return result;			
 		}
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("admin/upload")
+	public String adminImage(@RequestParam("file") MultipartFile picture) throws IOException{
+		System.out.println(picture);
+		String result = nsv.imageUpload(picture);
 		return result;
 	}
 	
@@ -73,8 +81,6 @@ public class AdminController {
 	
 	@RequestMapping("noticeView")
 	public String noticeView(String id, HttpSession session, Model model) {
-		
-		
 		model.addAttribute("noticeView",nsv.noticeView(id));
 		return "admin/noticeView";
 	}

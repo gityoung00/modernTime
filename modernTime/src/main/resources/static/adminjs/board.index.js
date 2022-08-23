@@ -236,7 +236,7 @@ $().ready(function () {
 				return false;
 			});
 			$articles.on('drag dragstart dragend dragover dragenter dragleave drop', '> form.write', function (event) {
-				event.preventDefault();
+				event.preventD3efault();
 				event.stopPropagation();
 			}).on('dragenter', '> form.write', function (event) {
 				_fn.dragstartOnWriteArticleForm(event);
@@ -685,8 +685,9 @@ $().ready(function () {
 				
 				success:function(data){
 					console.log(data)
-					 var str = data.trim().replace(/\r/gi, '<br/>').replace(/\n/gi, '\\n');
-				var jsonDatas = JSON.parse(str);
+//					 var str = data.trim().replace(/\r/gi, '<br/>').replace(/\n/gi, '\\n');
+				var jsonDatas = data;
+//				JSON.parse(str);
 				console.log(jsonDatas);	
 					var list = "";
 			for(i = 0; i < jsonDatas.cd.length; i++){
@@ -1341,6 +1342,7 @@ $().ready(function () {
 
 			_fn.hideWriteArticleButton();
 			var $form = $('<form></form>').addClass('write').prependTo($articles);
+			
 				var $title = $('<input>').attr({
 					name: 'title',
 					autocomplete: 'off',
@@ -1379,16 +1381,16 @@ $().ready(function () {
 				.appendTo($question);
 			var $option = $('<ul></ul>').addClass('option').appendTo($form);
 //			if (_set.isSearchable) {
-				$('<li></li>').attr('title', '해시태그').addClass('hashtag').appendTo($option);
+//				$('<li></li>').attr('title', '해시태그').addClass('hashtag').appendTo($option);
 //			}
 			$('<li></li>').attr('title', '첨부').addClass('attach').appendTo($option);
 			$('<li></li>').attr('title', '완료').addClass('submit').appendTo($option);
 //			if (_set.privAnonym !== 1) {
 //				$('<li></li>').attr('title', '익명').addClass('anonym').appendTo($option);
 //			}
-			if (_set.isQuestionable === 1) {
-				$('<li></li>').attr('title', '질문').addClass('question').appendTo($option);
-			}
+//			if (_set.isQuestionable === 1) {
+//				$('<li></li>').attr('title', '질문').addClass('question').appendTo($option);
+//			}
 			$('<div></div>').addClass('clearBothOnly').appendTo($form);
 			if ($article && $article.data('article')) {
 				$article.hide();
@@ -1407,6 +1409,7 @@ $().ready(function () {
 					type: 'hidden',
 					name: 'article_id'
 				}).val($article.data('id')).appendTo($form);
+				console.log($article.data('id'))
 				if ($articleData.find('attach').length > 0) {
 					$thumbnails.show();
 					$articleData.find('attach').each(function () {
@@ -1557,6 +1560,9 @@ $().ready(function () {
 		},
 		uploadAttachOnWriteArticleForm: function (index, file, filename, $thumbnail, thumbnail) {
 			var $writeForm = $articles.find('form.write');
+			var formData = new FormData($('form.write')[0]) ;
+			$writeForm.encoding = "multipart/form-data";
+//			console.log(formData)
 			if (_.indexOf(_set.attachUploadingStatus.slice(0, index), 0) !== -1) {
 				setTimeout(function () {
 					_fn.uploadAttachOnWriteArticleForm(index, file, filename, $thumbnail, thumbnail);
@@ -1576,28 +1582,27 @@ $().ready(function () {
 				$thumbnail.removeClass('loading').addClass('attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")');
 				$writeForm.fnd('input[name="file"]').val('');
 			}
-//			  $.ajax({
-//			    type:"POST",
-//			    url: "/admin/upload",
-//			    enctype: 'multipart/form-data',
-//			    processData: false,
-//			    contentType: false,
-//			    data: {
-//					board_id: _set.boardId,
-//					file_name: filename,
-//					file_size: file.size
-//				},
-//			    cache: false,
-//        		timeout: 600000,
-//			    success: function(rtn){
+			  $.ajax({
+			    type:"POST",
+			    url: "/admin/upload",
+			    enctype: 'multipart/form-data',
+			    processData: false,
+			    contentType: false,
+			    data: formData,
+				dataType:"json",
+			    cache: false,
+        		timeout: 600000,
+			    success: function(rtn){
 //			      const message = rtn.data.values[0];
 //			      console.log("message: ", message)
+//			      console.log("message: ", message)
+			      console.log(rtn)
 //			      $("#resultUploadPath").text(message.uploadFilePath)
-//			    },
-//			    err: function(err){
-//			      console.log("err:", err)
-//			    }
-//			  })
+			    },
+			    err: function(err){
+			      console.log("err:", err)
+			    }
+			  })
 			},
 //			$.ajax({
 //				url: '/save/board/article/attach',
@@ -1666,6 +1671,7 @@ $().ready(function () {
 //							uploadFail();
 //						}
 //					});
+					
 //				}
 //			});
 //		)},
@@ -1702,9 +1708,22 @@ $().ready(function () {
 		},
 		writeArticle: function () {
 			var $form = $articles.find('form.write');
+			$form.encoding = "multipart/form-data";
+//			console.log($form)
+//			console.log($form[0])
+//			var $form = $articles.find('form.write');
 			var $text = $form.find('textarea[name="text"]');
 			var $option = $form.find('ul.option');
 			var $title = $form.find('input[name="title"]');
+			var $file = $form.find('input[name="file"]');
+			var $picture = $file[0].files[0];
+			const $formData = new FormData($form[0]);
+//			$formData.append("file","filename"[0].files[0]);
+			console.log($formData);
+			console.log($picture);
+			var $files = $file.val();
+			var $filename = $files.replace('C:\\fakepath\\', "");
+			console.log($filename)
 			var isAnonym = ($option.is(':has(li.anonym)') && $option.find('li.anonym').hasClass('active')) ? 1 : 0;
 			var isQuestion = ($option.is(':has(li.question)') && $option.find('li.question').hasClass('active')) ? 1 : 0;
 			if ($text.val().replace(/ /gi, '') === '') {
@@ -1715,7 +1734,8 @@ $().ready(function () {
 			var parameters = {
 				id: _set.boardId,
 				content: $text.val(),
-				title : $title.val()
+				title : $title.val(),
+				
 //				is_anonym: isAnonym,
 //				is_question: isQuestion
 			};
@@ -1769,6 +1789,25 @@ $().ready(function () {
 					location.reload();
 				}
 			});
+			
+			//게시글 등록 + 이미지
+//			$.ajax({
+//				url: 'admin/upload',
+//				enctype: 'multipart/form-data',
+//				processData: false,    
+//				contentType: false,
+//				type : 'POST',
+//            	data:JSON.stringify({
+//					file : $filename
+//				}),
+////            	dataType: 'json'parameters,
+////				contentType: 'multipart/form-data; charset=UTF-8',
+////				contentType: 'application/json; charset=UTF-8',
+//				success : function(json){
+//					var obj = JSON.parse(json);
+//					console.log(obj)
+//				}
+//			});
 //			$.ajax({
 //				url: '/save/board/article',
 //				xhrFields: {withCredentials: true},
@@ -1815,6 +1854,18 @@ $().ready(function () {
 			}
 			var searchType = Number($searchType.val());
 			var keyword = $keyword.val().replace(/[#?=&<>]/gi, '');
+			var data= {
+				searchType : searchType,
+				keyword : keyword
+			}
+			$.ajax({
+				url : "/search",
+				type : "post",
+				data : data,
+				success : function(data){
+					console.log(data);
+				}
+			})
 			var searchUrl;
 			if (searchType === 3) {
 				keyword = keyword.replace(/([^a-z0-9ㄱ-ㅎㅏ-ㅣ가-힣_])/gi, '');

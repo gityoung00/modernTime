@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.bookstore.dao.IBookStoreDAO">
+
+<!-- 	<select id="findList" resultType="String"> -->
+<!-- 		SELECT name FROM lecture WHERE name like CONCAT('%', #{keyword}, '%') OR teacher like CONCAT('%', #{keyword}, '%') -->
+<!-- 	</select> -->
+
+	<insert id="bookSell" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.care.moderntime.bookstore.dto.BookStoreDTO">
+		INSERT INTO bookpost(title,author,publisher,publication_date,price,comment,create_date,is_sold,user_id) 
+		VALUES(#{title},#{author},#{publisher},#{publication_date},#{price},#{comment},NOW(),0,#{user_id})
+	</insert>
+	
+	<insert id="insertPicture" >
+		INSERT INTO book_picture VALUES(#{bookPicId},#{bookId})
+	</insert>
+	
+	<select id="loadPicture" resultType="com.care.moderntime.bookstore.dto.BookPictureDTO">
+		SELECT * FROM book_picture WHERE bookpost_id=${id}
+	</select>
+	
+	<select id="pictureUrl" parameterType="int" resultType="String">
+		SELECT picture FROM picture WHERE id=${i}
+	</select>
+	<select id="bookSellList" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
+		SELECT * FROM bookpost ORDER BY id DESC;
+	</select>
+	
+	<select id="bookSellListSearch" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
+		SELECT * FROM bookpost WHERE title like CONCAT('%', #{keyword}, '%') ORDER BY id DESC
+	</select>
+	
+	<select id="bookSellListMy" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
+		SELECT * FROM bookpost WHERE user_id like CONCAT('%', #{userId}, '%') ORDER BY id DESC
+	</select>
+	
+	<select id="bookstoreview" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
+		SELECT * FROM bookpost WHERE id=${id}
+	</select>
+	
+	
+</mapper>

@@ -1,5 +1,6 @@
 package com.care.moderntime.admin.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,16 +11,28 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.care.moderntime.S3.S3Upload;
 import com.care.moderntime.admin.dao.INoticeDAO;
+import com.care.moderntime.admin.dao.INoticePictureDAO;
 import com.care.moderntime.admin.dto.LectureRegistDTO;
 import com.care.moderntime.admin.dto.NoticeDTO;
+import com.care.moderntime.admin.dto.PictureDTO;
 import com.care.moderntime.admin.dto.SchoolAuthDTO;
+import com.care.moderntime.bookstore.service.BookStoreService;
+import com.care.moderntime.user.dao.CertificationDAO;
+import com.care.moderntime.user.dto.CertificationDTO;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class NoticeService {
+	private final S3Upload s3Upload;
 	@Autowired private INoticeDAO noticeDao;
 	@Autowired private HttpSession session;
+	@Autowired private INoticePictureDAO pictureDao;
 	
 
 	public String insert(NoticeDTO dto) {
@@ -31,12 +44,6 @@ public class NoticeService {
 		if(dto.getContent() == null || dto.getContent().isEmpty()) {
 			return "내용은 필수요소입니다.";
 		}
-//		LocalDateTime now = LocalDateTime.now();
-//		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd hh:mm");
-//		String formatNow = now.format(format);
-//		System.out.println(formatNow);
-//		dto.setCreate_date(formatNow);
-//		
 		noticeDao.insert(dto);
 		return "등록 완료";
 	}
@@ -129,24 +136,27 @@ public class NoticeService {
 		
 	return data;
 	}
+	//검색으로 강의 필터링
 	public String lectureFilterKeyword(String keywordType, String keyword) {
 		System.out.println(keywordType+" "+keyword);
 		ArrayList<LectureRegistDTO>list = noticeDao.lectureFilterKeyword(keywordType,keyword);
 		String data=lectureListString(list);
-			
 		return data;
 		
 	}
+	//순서 (별점,수강인원 등으로 정렬)
 	public String lectureFilterOrder(String orderId) {
 		ArrayList<LectureRegistDTO> list = noticeDao.lectureFilterOrder(orderId);
 		String data = lectureListString(list);
 		return data;
 	}
+	//전공/교양 여부로 필터
 	public String lectureFilterType(String type) {
 		ArrayList<LectureRegistDTO> list = noticeDao.lectureFilterType(type);
 		String data = lectureListString(list);
 		return data;
 	}
+	//학점 단위로 필터
 	public String lectureFilterCredit(String credit) {
 		String credit1="";
 		String credit2="";
@@ -163,6 +173,8 @@ public class NoticeService {
 		String data = lectureListString(list);
 		return data;
 	}
+	
+	//학교 인증 데이터 전체 표현
 	public String schoolAuth() {
 		ArrayList<SchoolAuthDTO> list = noticeDao.schoolAuth();
 		String data = "{\"cd\" : [";
@@ -176,14 +188,20 @@ public class NoticeService {
 		data += "]}";
 		return data;
 	}
+	
+	//학교 인증 요청 게시글 보기
 	public SchoolAuthDTO schoolAuthView(String id) {
 		SchoolAuthDTO view = noticeDao.schoolAuthView(id);
 		return view;
 	}
+	
+	//학교 인증 처리
 	public String schoolAuthCheck(String id) {
 		noticeDao.schoolAuthCheck(id);
 		return "인증 완료";
 	}
+	
+	//강의 삭제
 	public String lectureDelete(String asd) {
 		System.out.println(asd);
 		String[] tmp = asd.split("\"");
@@ -205,6 +223,8 @@ public class NoticeService {
 		}
 		return null;
 	}
+	
+	//강의 있는지 없는지 확인
 	public String lectureSel(String id) {
 		LectureRegistDTO dto = 	noticeDao.lectureSel(id);
 		if(dto == null) 
@@ -213,6 +233,8 @@ public class NoticeService {
 		session.setAttribute("lectureSel", dto);
 		return "돌려줌";
 	}
+	
+	//강의 수정
 	public String lectureUpdate(LectureRegistDTO dto) {
 		
 		String lecture_id =(String)session.getAttribute("lecture_id");
@@ -225,5 +247,26 @@ public class NoticeService {
 		dto.setLecture_id(lecture_id);
 		noticeDao.lectureUpdate(dto);
 		return "수정 완료";
+	}
+	
+	static ArrayList<Integer> num = new ArrayList<>();
+	public static ArrayList<Integer> getNum() {
+		return num;
+	}
+	//이미지 업로드
+	public String imageUpload(MultipartFile picture) throws IOException{
+		// s3에 이미지 업로드
+		System.out.println("bookstore image upload");
+		String url = s3Upload.uploadFiles(picture, "static");
+		String comment = "공지사진";
+		PictureDTO pictureDto = new PictureDTO(url, comment);
+		int result = pictureDao.savePicture(pictureDto);
+		if (result == 0) {
+			return "인증 파일 전송 중에 문제가 발생하였습니다. 다시 시도해주세요.";
+		}
+		num.add(pictureDto.getId());
+		System.out.println(pictureDto.getId());
+		System.out.println(num.size());
+		return "success";
 	}
 }

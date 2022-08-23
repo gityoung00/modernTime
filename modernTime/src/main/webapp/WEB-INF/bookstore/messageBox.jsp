@@ -19,12 +19,12 @@
 <body>
   <header>
     <div id="title">
-      <a href="/" class="logo"><img src="/assets/logo.png" alt="에브리타임 책방"></a>
+      <a href="/bookstore" class="logo"><img src="/assets/logo.png" alt="에브리타임 책방"></a>
     </div>
 
 
     <ul id="tab">
-      <li><a href="/my">판매 중인 책</a></li>
+      <li><a href="/myBook">판매 중인 책</a></li>
       <li class="active"><a href="/messagebox">쪽지함</a></li>
     </ul>
     <hr>
@@ -32,9 +32,9 @@
   <div id="messageboxes"><a class="box empty">아직 주고 받은 쪽지가 없습니다.</a></div>
   <div id="bar">
     <nav class="trisection">
-      <a href="/" class="home"><span class="icons home-darkgray-16"></span><span class="text">홈</span></a>
+      <a href="/bookstore" class="home"><span class="icons home-darkgray-16"></span><span class="text">홈</span></a>
       <a href="/sell" class="sell"><span class="icons sell-darkgray-16"></span><span class="text">판매하기</span></a>
-      <a href="/my" class="my"><span class="icons my-darkgray-16"></span><span class="text">마이페이지</span></a>
+      <a href="/myBook" class="my"><span class="icons my-darkgray-16"></span><span class="text">마이페이지</span></a>
     </nav>
   </div>
   <div id="bottom">

@@ -70,7 +70,7 @@ var bookstore = {
     },
     findItemList: function (mine, keyword, campus, start, callback) {
       $.ajax({
-        url: '/find/itemlist.json',
+        url: '/bookSellList',
         type: 'GET',
         dataType: 'json',
         data: {
@@ -85,7 +85,7 @@ var bookstore = {
     },
     findLectureList: function (keyword, callback) {
       $.ajax({
-        url: '/find/lecturelist.xml',
+        url: '/findList',
         type: 'GET',
         data: {
           keyword: keyword
@@ -128,7 +128,8 @@ var bookstore = {
       });
     },
     formatPrice: function (text) {
-      return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
+      return text + '원';
+//      return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
     },
     formatDate: function (text) {
       text = text.replace(/-/g, '');
@@ -168,13 +169,16 @@ var bookstore = {
     },
     saveItem: function (data, callback) {
       $.ajax({
-        url: '/save/item',
+        url: '/bookSell',
         type: 'POST',
         dataType: 'json',
         data: data,
         success: function (response) {
           callback(response);
-        }
+        },
+        error : function(){
+	console.log(data)
+}
       });
     },
     saveItemComment: function (data, callback) {
