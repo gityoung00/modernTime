@@ -189,7 +189,7 @@
 				<dt>취득</dt>
 				<dd class="acquisition">0</dd>
 			</dl>
-			<a class="import">시간표 불러오기</a>
+			<a class="import" style="display: inline;">시간표 불러오기</a>
 		</caption>
 		<thead>
 			<tr>

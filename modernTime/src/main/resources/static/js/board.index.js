@@ -90,7 +90,7 @@ $().ready(function () {
 		})()
 	};
 	var _set = {
-		limitNum: 20,
+		limitNum: 10,
 		startNum: 0,
 		isUser: false,
 		boardId: undefined,
@@ -172,7 +172,7 @@ $().ready(function () {
 				}
 				$keyword.val('');
 			});
-			//검색 부분
+			//검색 부분(확인 눌렀을 때)
 			$container.on('submit', '#searchArticleForm', function () {
 				_fn.searchArticle();
 				return false;
@@ -313,7 +313,7 @@ $().ready(function () {
 						type: 'POST',
 						contentType: "application/json; charset=UTF-8",
 						data: JSON.stringify({
-							user_id: 'test1234',
+							user_id: 'test123',
 							title: $freedomTitle.val(),
 							content: $freedomContent.val(),
 							is_anonym: isAnonym
@@ -446,6 +446,7 @@ $().ready(function () {
 			_set.categoryId = _set.categoryId || 0;
 			var url = window.location.pathname;
 			var params = _fn.parseParams(url);
+			console.log("params: ", params)
 			_fn.loadContent(params);
 		},
 		goLinkContent: function (that, event) {
@@ -461,21 +462,22 @@ $().ready(function () {
 			}
 			event.preventDefault();
 			var params = _fn.parseParams(url);
-			_fn.loadContent(params);
+			_fn.loadContent(params); //(페이징)
 			history.pushState(null, null, url);
 		},
-		//검색 부분
+		//검색 부분(url로 보내줌)
 		goRedirectContent: function (url) {
 			if (typeof history.pushState === 'undefined') {
 				location.href = url;
 				return false;
 			}
 			var params = _fn.parseParams(url);
-			_fn.loadContent(params);
+			_fn.loadContent(params); //(검색)
 			history.pushState(null, null, url);
 		},
-		//검색 부분
+		//검색 부분?
 		loadContent: function (params) {
+			console.log("loadContent params: ", params)
 			if (params.v) {
 				$container.find('div.seasons, div.categories').addClass('none');
 				_fn.loadComments(params.v);
@@ -557,7 +559,7 @@ $().ready(function () {
 					if (typeof params.page !== 'undefined') {
 						url += '/p/' + params.page;
 					}
-				} else {
+				} else { //해시태그
 					if (_set.searchType === 3) {
 						url += '/hashtag/' + _set.keyword;
 					} else if (_set.searchType === 2) {
@@ -575,6 +577,8 @@ $().ready(function () {
 				}
 			}
 			return url;
+			
+		
 		},
 		createDialog: function (message) {
 			$articles.find('div.loading').remove();
@@ -744,7 +748,7 @@ $().ready(function () {
 		//다음 버튼 누른 후 로드
 		loadArticles: function () {
 			$(window).scrollTop(0);
-			//$articles.empty();
+			$articles.empty();
 			$('<div></div>').text('불러오는 중입니다...').addClass('loading').appendTo($articles);
 			//1부터 10까지고 2페이지이면 1부터 10, 3페이지면 20부터 -> 다음버튼 눌렀을 때 게시글 id수 같음(블럭느낌)
 			_set.startNum = _set.limitNum * (_set.boardPage - 1);
@@ -772,7 +776,9 @@ $().ready(function () {
 			var conditions = {
 				id: _set.boardId,
 				limit_num: _set.limitNum,
-				start_num: _set.startNum
+				start_num: _set.startNum,
+				search_type: _set.searchType,
+				keyword: _set.keyword
 			};
 			if (_set.moiminfo) {
 				conditions.moiminfo = 'true';
@@ -789,28 +795,21 @@ $().ready(function () {
 			}
 			
 			//게시글 보이기
-//			$.ajax({
-//				url: 'freedom/listProc',
-//				type: 'POST',
-//				data: conditions,
-//				success: function (data) {
-//					console.log(data);
-//				}
-//			})
-			
-					
-			//게시글 보이기
+			console.log("ajax, listProc conditions: ", conditions)
 			$.ajax({
-				url: 'freedom/listProc',
+				url: '/listProc',
 				xhrFields: {withCredentials: true},
 				type: 'POST',
 				data: conditions,
 				success: function (data) {
 					console.log(data);
+					console.log(conditions);
+					console.log(_set.boardPage);
+					
 					
 //					var jsonDatas = JSON.parse(data);
 //					console.log(jsonDatas);
-
+					$('<a></a>').attr('id', 'writeArticleButton').text('새 글을 작성해주세요!').appendTo($articles);
 					$(data.data).each((_, post) => {
 //						console.log(post)
 						$article = $("<article></article>")
@@ -836,6 +835,8 @@ $().ready(function () {
 						$aTitle.appendTo($article);
 						$article.appendTo($articles);
 //						console.log($articles.html())
+						
+						
 						
 					});
 					$articles.find('div.loading').hide();
@@ -887,22 +888,10 @@ $().ready(function () {
 			return function(){
 				console.log("tst");
 			};
-			
-			//댓글 리스트
-//			$.ajax({
-//				url: 'freedomContent/commentList',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: conditions,
-//				success: function (data) {
-//					console.log(data);
-//				}
-//			});
-			
-			
 		},
 		//글 작성부분?
 		createArticles: function (data, isListItem) {
+			//주석
 			$articles.empty();
 			if (_set.isWritable || _set.authToWrite) {
 				$('<a></a>').attr('id', 'writeArticleButton').text('새 글을 작성해주세요!').appendTo($articles);
@@ -1141,7 +1130,7 @@ $().ready(function () {
 		makePagination: function(){
 			//페이지 이동 버튼
 			var $pagination = $('<div></div>').addClass('pagination').appendTo($articles);
-			_set.boardPage = 1;
+//			_set.boardPage = 1;
 			//처음버튼
 			if (_set.boardPage > 2) {
 				var firstPageUrl = _fn.encodeUrl({ page: 1 });
@@ -1615,12 +1604,12 @@ $().ready(function () {
 //				$article.hide();
 				var $pagination = $articles.find('div.pagination');
 				$pagination.find('a.list').hide();
-				$('<a></a>').text('글 수정 취소').addClass('cancel').on('click', function () {
-					$pagination.find('a.list').show();
-					$article.show();
-					$(this).remove();
-					$articles.find('form.write').remove();
-				}).appendTo($pagination);
+//				$('<a></a>').text('글 수정 취소').addClass('cancel').on('click', function () {
+//					$pagination.find('a.list').show();
+//					$article.show();
+//					$(this).remove();
+//					$articles.find('form.write').remove();
+//				}).appendTo($pagination);
 //				var $articleData = $article.data('article');
 //				$title.val($articleData.attr('raw_title'));
 //				$text.val($articleData.attr('raw_text'));
@@ -2151,7 +2140,7 @@ $().ready(function () {
 //				}
 //			});
 		},
-		//검색 부분
+		//검색 부분(정보 담아서 url로)
 		searchArticle: function () {
 			var $form = $container.find('#searchArticleForm');
 			var $searchType = $form.find('select[name="search_type"]');
@@ -2174,7 +2163,27 @@ $().ready(function () {
 			} else {
 				searchUrl = _fn.encodeUrl({ all: keyword });
 			}
+			
+			//게시글 검색
+//			$.ajax({
+//				url: 'freedom/searchProc',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				contentType: "application/json; charset=UTF-8",
+//				data: JSON.stringify({
+//					search: $keyword.val()
+//				}), 
+//				success: function (data) {
+//					console.log(data)
+//					alert(data);
+//					location.reload();
+//				}
+//			});
+			
+			
 			_fn.goRedirectContent(searchUrl);
+			
+			
 		},
 		removeArticle: function ($article) {
 			//게시글 삭제

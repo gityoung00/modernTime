@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.care.moderntime.admin.dto.LectureRegistDTO;
 import com.care.moderntime.post.dto.PostDTO;
 import com.care.moderntime.post.dto.PostLikeDTO;
 import com.care.moderntime.post.repository.IPostDAO;
@@ -45,45 +46,72 @@ public class PostServiceImpl implements IPostService{
 		
 		mapper.writeProc(post);
 		
-//		System.out.println("post Id : " + post.getId() + "outID : " + outId);
-//		
-//		session.removeAttribute("post");
-//		
-//		if(post.getId() == 0) {
-//			mapper.writeProc(post);
-//			return "작성 성공";
-//		}else {
-//			mapper.modifyProc(post);
-//			return "수정 성공";
-//		}
 		return null;
 	}
+	
+	
+	public String listData(ArrayList<PostDTO> listProc) {
+		String data = "{\"cd\" : [";
+		for(PostDTO tmp : listProc) {
+			data += "{ \"start_num\" : \"" + tmp.getStart_num() + "\",";
+			data +=	 " \"search_type\" : \"" + tmp.getSearch_type()+ "\",";
+			data += " \"keyword\" : \"" + tmp.getKeyword()+"\" },";
+		}
+		data = data.substring(0, data.length()-1);
+		data += "]}";
+		return data;
+	}
+	
+	
+	
 
+//	@Override
+//	public Map<String, Object> listProc() {
+//		Map<String, Object> res = new HashMap<String, Object>();
+//		ArrayList<PostDTO> listProc = mapper.listProc();
+//		
+//		res.put("data", listProc);
+//		
+//		return res;
+//	}
+	
 	@Override
-	public Map<String, Object> listProc() {
+	public Map<String, Object> listProc(int start_num) {
+		System.out.println("\n(ser)start_num : " + start_num);
+		
+		PostDTO post = new PostDTO();
+		post.setStart_num(start_num);
+		System.out.println("(ser)post start_num : " + post.getStart_num());
+		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> listProc = mapper.listProc();
+		ArrayList<PostDTO> listProc = mapper.listProc(start_num);
 		
 		res.put("data", listProc);
+		return res;
+		
+	}
+	
+	@Override
+	public Map<String, Object> searchProc(int search_type, String keyword) {
+		System.out.println("\n(ser)search_type : " + search_type);
+		System.out.println("(ser)keyword : " + keyword);
+		
+		Map<String, Object> res = new HashMap<String, Object>();
+		ArrayList<PostDTO> searchProc = mapper.searchProc(search_type, keyword);
+		res.put("data", searchProc);
 		
 		return res;
+		
+		
 	}
-
+	
+	
 
 	@Override
 	public PostDTO viewProc(int id) {
 		System.out.println("view(service) id : " + id);
 		PostDTO post = mapper.viewProc(id);
-		
 		session.setAttribute("post", post);
-		
-//		if(post != null) {
-//			outId = id;
-//			session.setAttribute("post", post);
-//		}else {
-//			outId = 0;
-//		}
-		
 		return post;
 	}
 
@@ -100,29 +128,6 @@ public class PostServiceImpl implements IPostService{
 		mapper.deleteProc(post);
 		return null;
 		
-	}
-
-	@Override
-	public void searchProc(Model model, int currentPage, String search, String select, HttpServletRequest req) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map.put("select", select);
-		
-		int totalCount = mapper.postCount(map);
-		int pageBlock = 10;
-		int end = currentPage * pageBlock;
-		int begin = end+1 - pageBlock;
-
-		ArrayList<PostDTO> boardList = mapper.searchProc(begin, end, select, search);
-		model.addAttribute("boardList", boardList);
-
-		String url = req.getContextPath() + "/searchProc?";
-		if(select != null) {
-			url+="select="+select+"&";
-			url+="search="+search+"&";	
-		}
-		url+="currentPage=";
-		model.addAttribute("page", PageService.getNavi(currentPage, pageBlock, totalCount, url));
 	}
 
 	//공감
@@ -183,11 +188,9 @@ public class PostServiceImpl implements IPostService{
 		}else 
 			return "실패";
 	}
-	
-
-
-
 
 	
-
 }
+
+
+

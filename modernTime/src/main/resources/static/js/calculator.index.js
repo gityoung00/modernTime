@@ -74,14 +74,14 @@ $().ready(function () {
 			//시간표 학기 선택
 			$menu.on('click', 'ol > li', function () {
 				var $li = $(this);
-//				if ($li.data('id')) {
+				if ($li.data('id')) {
 					//선택한 li에 active를 넣고 원래 있었던 것엔 active 지움
 					$li.addClass('active').siblings().removeClass('active');
-					//클릭 시 과목 보여줌
 					_fn.showSubjects($li.data('id'));
-//				}
+				}
 				_fn.scrollToActiveMenu();
 			});
+			//시간표 불러오기 버튼 
 			$container.find('table.subjects > caption > a.import').on('click', function () {
 				_fn.loadPrimaryTableList();
 			});
