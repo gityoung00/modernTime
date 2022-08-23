@@ -61,18 +61,30 @@ public class AdminController {
 	
 	@ResponseBody
 	@PostMapping(value = "admin/list", produces = "application/json; charset=UTF-8")
-	public String noticeList() {
-		String data = nsv.list();
+	public Map<String, Object> noticeList() {
+		Map<String, Object> data = nsv.list();
+//		String data = nsv.list();
 		return data;
 	}
 	
 	@RequestMapping("noticeView")
 	public String noticeView(String id, HttpSession session, Model model) {
 		
-		
 		model.addAttribute("noticeView",nsv.noticeView(id));
 		return "admin/notice/noticeView";
 	}
+	
+	// 공지 수정
+	@ResponseBody
+	@PostMapping("notice/update")
+	public String noticeUpdate(@RequestBody NoticeDTO dto) {
+//		System.out.println(dto.getTitle());
+//		System.out.println(dto.getContent());
+//		System.out.println(dto.getId());
+		nsv.update(dto);
+		return "공지 수정 완료";
+	}
+	
 	
 	@RequestMapping("noticeDelete")
 	public String noticeDelete(String id) {

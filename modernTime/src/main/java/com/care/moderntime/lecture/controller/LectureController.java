@@ -21,11 +21,6 @@ public class LectureController {
 		return "lecture";
 	}
 
-	@RequestMapping("timetable")
-	public String timetable() {
-		return "timetable";
-	}
-
 	@RequestMapping("/lecture/point")
 	public String point() {
 		return "point";

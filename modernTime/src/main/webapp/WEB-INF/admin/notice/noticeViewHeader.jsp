@@ -32,15 +32,10 @@
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
   <script type="text/javascript" src="/js/community.side.js"></script>
-  <script type="text/javascript" src="/js/admin/board.index.js"></script>
+  <script type="text/javascript" src="/js/admin/notice.detail.js"></script>
   <script type="text/javascript" src="/js/admin/extensions.canvas-to-blob.min.js"></script>
   <script type="text/javascript" src="/js/admin/extensions.load-image.all.min.js"></script>
   <script type="text/javascript" src="/js/admin/message.send.js"></script>
-  <script type="text/javascript" src="/js/admin/lecture.js"></script>
-  <script type="text/javascript" src="/js/admin/lecture.index.js"></script>
-  <script type="text/javascript" src="/js/admin/lecture.form.js"></script>
-<!--   <script type="text/javascript" src="/adminjs/timetable.index.js"></script> -->
- <!--  <script type="text/javascript" src="/adminjs/timetable.subjects.js"></script> -->
 </head>
 <body>
 <nav>

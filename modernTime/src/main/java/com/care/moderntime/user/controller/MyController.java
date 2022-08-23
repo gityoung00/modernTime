@@ -61,6 +61,7 @@ public class MyController {
 	@ResponseBody
 	@PostMapping("my/auth/freshman")
 	public String myAuthFresh(@RequestParam("picture") MultipartFile picture) throws IOException {
+		System.out.println(picture);
 		String result = myService.sendCertification(picture, "freshmen");
 		return result;
 	}

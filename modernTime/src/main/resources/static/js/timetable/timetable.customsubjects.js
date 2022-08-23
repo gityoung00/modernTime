@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $().ready(function () {
 	var $container = $('#container');
 	var $customsubjects;
@@ -109,6 +50,7 @@ $().ready(function () {
 			_fn.resize();
 		},
 		openToEdit: function (id) {
+			
 			var $timeplaces = $customsubjects.find('dd.timeplaces');
 			var $tbody = $container.find('table.tablebody');
 			var $subjectDivs = $tbody.find('div.subject').filter(function () {

@@ -1,62 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if (!_gfn) var _gfn = {};
 _gfn = _.extend(_gfn, {
 	save: function (tableId, tableName, callback) {
@@ -74,9 +15,9 @@ _gfn = _.extend(_gfn, {
 			subjects += subjectId + '/';
 		});
 		data = tableName + '/' + _set.year + '/' + _set.semester + '/' + tableId + '/' + subjects;
+		console.log(data)
 		$.ajax({
-			url: _apiServerUrl + '/save/timetable/table',
-			xhrFields: {withCredentials: true},
+			url: '/timetable/lecture/add',
 			type: 'POST',
 			data: {
 				data: data
@@ -84,7 +25,7 @@ _gfn = _.extend(_gfn, {
 			async: false,
 			success: function (data) {
 				if (callback) {
-					var responseCode = Number($(data).find('response').text());
+					var responseCode = data;
 					if (responseCode > 0) {
 						callback(responseCode);
 					} else {
@@ -100,28 +41,28 @@ _gfn = _.extend(_gfn, {
 		});
 	},
 	remove: function (tableId, callback) {
-		$.ajax({
-			url: _apiServerUrl + '/remove/timetable/table',
-			xhrFields: {withCredentials: true},
-			type: 'POST',
-			data: {
-				id: tableId
-			},
-			async: false,
-			success: function (data) {
-				var responseCode = $(data).find('response').text();
-				if (responseCode === '-1') {
-					alert('시간표를 삭제할 수 없습니다.');
-				}
-				if (callback) {
-					callback();
-				}
-			},
-			statusCode: {
-				401: function () {
-					alert('로그인 후 이용해주세요!');
-				}
-			}
-		});
+//		$.ajax({
+//			url: _apiServerUrl + '/remove/timetable/table',
+//			xhrFields: {withCredentials: true},
+//			type: 'POST',
+//			data: {
+//				id: tableId
+//			},
+//			async: false,
+//			success: function (data) {
+//				var responseCode = $(data).find('response').text();
+//				if (responseCode === '-1') {
+//					alert('시간표를 삭제할 수 없습니다.');
+//				}
+//				if (callback) {
+//					callback();
+//				}
+//			},
+//			statusCode: {
+//				401: function () {
+//					alert('로그인 후 이용해주세요!');
+//				}
+//			}
+//		});
 	}
 });
