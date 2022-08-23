@@ -47,4 +47,5 @@ public interface INoticeDAO {
 	LectureRegistDTO lectureSel(String id);
 
 	void lectureUpdate(LectureRegistDTO dto);
+
 }

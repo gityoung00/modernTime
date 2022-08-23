@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.admin.dao.INoticePictureDAO">
+
+	<insert id="savePicture" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.care.moderntime.admin.dto.PictureDTO">
+		INSERT INTO picture (picture, comment) VALUES(#{picture}, #{comment})
+	</insert>
+	
+</mapper>
