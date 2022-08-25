@@ -6,27 +6,43 @@ public class BookStoreDTO {
 	private String author;
 	private String publisher;
 	private String publication_date;
-	private String price;
+	private int price;
 	private String comment;
 	private String create_date;
-	private int isSold;
+	private int is_sold;
 	private String user_id;
+	private String picture;
+	private String viewP;
 
-
-
-	public int getIsSold() {
-		return isSold;
+	public String getViewP() {
+		return viewP;
 	}
 
-	public void setIsSold(int isSold) {
-		this.isSold = isSold;
+	public void setViewP(String viewP) {
+		this.viewP = viewP;
 	}
 
-	public String getPrice() {
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public int getIs_sold() {
+		return is_sold;
+	}
+
+	public void setIs_sold(int is_sold) {
+		this.is_sold = is_sold;
+	}
+
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 

@@ -313,7 +313,7 @@ input::placeholder, textarea::placeholder {
     position: static;
   }
   #container div.side.article {
-    float: left; width: 640px;
+    float: left; width: 620px;
   }
   #container div.side.exam {
     float: right; margin-left: 0; width: 484px;

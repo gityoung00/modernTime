@@ -181,24 +181,26 @@ var bookstore = {
 }
       });
     },
+    //코멘트 수정
     saveItemComment: function (data, callback) {
       $.ajax({
-        url: '/save/itemcomment',
+        url: '/book/commentChange',
         type: 'POST',
-        dataType: 'json',
         data: data,
         success: function (response) {
           callback(response);
         }
       });
     },
+    //가격 수정
     saveItemPrice: function (data, callback) {
+	console.log("saveItemPrice")
       $.ajax({
-        url: '/save/itemprice',
+        url: '/book/priceChange',
         type: 'POST',
-        dataType: 'json',
         data: data,
         success: function (response) {
+			console.log(response);
           callback(response);
         }
       });
@@ -213,13 +215,14 @@ var bookstore = {
         }
       });
     },
+    //판매 완료로 변경
     saveSoldout: function (data, callback) {
       $.ajax({
-        url: '/save/soldout',
+        url: '/book/soldout',
         type: 'POST',
-        dataType: 'json',
         data: data,
         success: function (response) {
+	console.log(response)
           callback(response);
         }
       });

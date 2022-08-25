@@ -29,5 +29,11 @@ public interface IBookStoreDAO {
 	ArrayList<BookPictureDTO> loadPicture(int id);
 
 	String pictureUrl(int i);
+
+	int soldOut(String id);
+
+	int priceChange(@Param("id")String id, @Param("price")int price);
+
+	int commentChange(@Param("id")String id, @Param("comment")String comment);
 	
 }

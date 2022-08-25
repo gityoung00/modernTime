@@ -22,14 +22,25 @@ bookstore.my = {
 				var asd = "<div class='header'><h1>최근 올라온 책</h1><div class='filter'><a class='campus'><span class='text'>KG IT대</span><span class='icons arrowdown - gray - 14'></span></a></div></div>";
 				var list = "";
 				for (i = 0; i < jsonDatas.cd.length; i++) {
-					list = list + "<a class='item' href='/bookStoreView?id=" + jsonDatas.cd[i].id + "'>";
-					list = list + "<div class='thumb' style='background-image: url()'></div>";
-					list = list + "<h2>" + jsonDatas.cd[i].title + "</h2>";
-					list = list + "<p class='details author'>" + jsonDatas.cd[i].author + "</p>";
-					list = list + "<p class='details publisher'><span>" + jsonDatas.cd[i].publisher + "</span></p>";
-					list = list + "<p class='price'><span class='selling'>" + jsonDatas.cd[i].price + "원</span></p>";
-					list = list + "<hr>";
-					list += "</a>";
+					if(jsonDatas.cd[i].isSold == 0){
+						list = list + "<a class='item' href='/bookStoreView?id=" + jsonDatas.cd[i].id + "'>";
+						list = list + "<div class='thumb' style='background-image: url(" + jsonDatas.cd[i].picture + ")'></div>";
+						list = list + "<h2>" + jsonDatas.cd[i].title + "</h2>";
+						list = list + "<p class='details author'>" + jsonDatas.cd[i].author + "</p>";
+						list = list + "<p class='details publisher'><span>" + jsonDatas.cd[i].publisher + "</span></p>";
+						list = list + "<p class='price'><span class='selling'>" + jsonDatas.cd[i].price + "원</span></p>";
+						list = list + "<hr>";
+						list += "</a>";
+					}else{
+						list = list + "<a class='item soldout' href='/bookStoreView?id=" + jsonDatas.cd[i].id + "'>";
+						list = list + "<div class='thumb' style='background-image: url(" + jsonDatas.cd[i].picture + ")''></div>";
+						list = list + "<h2>" + jsonDatas.cd[i].title + "</h2>";
+						list = list + "<p class='details author'>" + jsonDatas.cd[i].author + "</p>";
+						list = list + "<p class='details publisher'><span>" + jsonDatas.cd[i].publisher + "</span></p>";
+						list = list + "<p class='price'><span class='selling'>" + jsonDatas.cd[i].price + "원</span></p>";
+						list = list + "<hr>";
+						list += "</a>";
+					}
 				}
 				$("#items").html(list);
 
