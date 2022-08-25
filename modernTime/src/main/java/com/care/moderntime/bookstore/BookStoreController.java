@@ -21,6 +21,11 @@ import com.care.moderntime.bookstore.service.BookStoreService;
 public class BookStoreController {
 	@Autowired BookStoreService bss;
 	
+	@RequestMapping("evalView")
+	public String evalView() {
+		return "lecture/evaluateView";
+	}
+	
 	@RequestMapping("bookstore")
 	public String bookstore() {
 		return "bookstore/bookStoreIndex";
@@ -50,7 +55,7 @@ public class BookStoreController {
 	@PostMapping("bookSell")
 	public String bookSell(BookStoreDTO dto) {
 		BookStoreDTO tmp = bss.bookSell(dto);
-		bss.insertPicture(tmp);
+//		bss.insertPicture(tmp);
 		return "성공";
 	}
 	
@@ -86,4 +91,32 @@ public class BookStoreController {
 		return "bookstore/messageBox";
 	}
 	
+	@ResponseBody
+	@PostMapping("/book/soldout")
+	public String soldout(@RequestParam String id) {
+		System.out.println(id);
+		String result = bss.soldOut(id);
+		System.out.println(result);
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("/book/priceChange")
+	public String priceChange(@RequestParam String id, @RequestParam int price) {
+		System.out.println(id);
+		System.out.println(price);
+		String result = bss.priceChange(id,price);
+		System.out.println(result);
+		return result;
+	}
+	
+	@ResponseBody
+	@PostMapping("/book/commentChange")
+	public String commentChange(@RequestParam String id, @RequestParam String comment) {
+		System.out.println(id);
+		System.out.println(comment);
+		String result = bss.commentChange(id,comment);
+		System.out.println(result);
+		return result;
+	}
 }

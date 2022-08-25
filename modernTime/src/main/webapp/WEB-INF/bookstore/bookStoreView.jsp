@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="ko">
 <head>
 <title>${bookstoreview.title }</title>
@@ -44,27 +44,63 @@
 				<dd>${bookstoreview.publication_date }</dd>
 			</dl>
 			<p class="price">
-				<span class="selling">${bookstoreview.price }원</span>
+				<span class="selling">${bookstoreview.viewP }원</span>
 			</p>
 		</div>
 		<div class="group group-item">
-			<p class="comment">${bookstoreview.comment }</p>
-			<time>${bookstoreview.create_date }</time>
-			<p class="buttons">
-				<a class="red message" href="#"><span
-					class="icons message-white-16"></span><span class="text">판매자에게
-						쪽지 보내기</span></a>
-			</p>
+			
+			<c:choose>
+				<c:when test="${bookstoreview.is_sold==1 }">
+					<time>${bookstoreview.create_date }</time>
+					<p class="soldout">이 책은 판매가 완료되었습니다.</p>
+				</c:when>
+				<c:when test="${sessionScpoe.id } == ${ bookstoreview.id}">
+					<p class="comment">${bookstoreview.comment }</p>
+					<time>${bookstoreview.create_date }</time>
+					<p class="buttons">
+						<a class="red soldout"> <span class="icons soldout-white-16"></span>
+							<span class="text">판매 완료하기</span>
+						</a> <a class="white price"> <span class="icons price-gray-16"></span>
+							<span class="text">가격 수정</span>
+						</a> <a class="white edit"> <span class="icons edit-gray-16"></span>
+							<span class="text">설명 수정</span>
+						</a>
+					</p>
+				</c:when>
+				<c:otherwise>
+					<p class="comment">${bookstoreview.comment }</p>
+					<time>${bookstoreview.create_date }</time>
+					<p class="buttons">
+					<!-- 확인 후 삭제 -->
+					<a class="red soldout"> <span class="icons soldout-white-16"></span>
+							<span class="text">판매 완료하기</span>
+						</a> <a class="white price"> <span class="icons price-gray-16"></span>
+							<span class="text">가격 수정</span>
+						</a> <a class="white edit"> <span class="icons edit-gray-16"></span>
+							<span class="text">설명 수정</span>
+						</a>
+						<!--  -->
+						<a class="red message" href="#"> <span
+							class="icons message-white-16"></span> <span class="text">판매자에게
+								쪽지 보내기</span>
+						</a>
+					</p>
+				</c:otherwise>
+			</c:choose>
 		</div>
-			<div class="images">
-				<div class="wrap" style="width: 260px;">
-				<c:forEach items="${pictureUrl }" var="url">
-					<div class="image"
-						style="background-image: url(${url}); background-size:auto;"></div>
-				</c:forEach>
-					<hr>
+		<c:if test="${!empty pictureUrl }">
+			<div class="group group-status">
+				<div class="images">
+					<div class="wrap" style="width: 260px">
+						<c:forEach items="${pictureUrl }" var="url">
+							<div class="image"
+								style="background-image: url('${url}');"></div>
+						</c:forEach>
+						<hr>
+					</div>
 				</div>
 			</div>
+		</c:if>
 		<div class="group group-means">
 			<h2>거래 수단</h2>
 			<dl>
@@ -81,29 +117,29 @@
 		</div>
 	</article>
 	<script type="text/javascript">
-// 		bookstore.data.item = {
-// 			id : 'aa3d248aee42d5',
-// 			soldout : 0,
-// 			status_note : '1010',
-// 			status_damage : '1111',
-// 			price : 13000,
-// 			means_delivery : 1,
-// 			means_direct : 0,
-// 			comment : '택배비 포함 가격입니다!',
-// 			created_at : '2022-08-18 10:44:45',
-// 			book : {
-// 				id : 188669,
-// 				isbn : '9791130333403',
-// 				title : '상법총칙 상행위법(7판)(양장본 HardCover)',
-// 				author : '안강현',
-// 				publisher : '박영사',
-// 				pubdate : '2019-01-30',
-// 				price : 29000
-// 			},
-// 			is_mine : false,
-// 			cover_image : 'https://cf-cii.everytime.kr/87f0e34ba8cda30edf211a49197038152e0ab5d7bc9cb18209d9398e6f0bf478/1660787051115_0.jpg',
-// 			images : [ "https://cf-cii.everytime.kr/87f0e34ba8cda30edf211a49197038152e0ab5d7bc9cb18209d9398e6f0bf478/1660787055433_1.jpg" ]
-// 		};
+		// 		bookstore.data.item = {
+		// 			id : 'aa3d248aee42d5',
+		// 			soldout : 0,
+		// 			status_note : '1010',
+		// 			status_damage : '1111',
+		// 			price : 13000,
+		// 			means_delivery : 1,
+		// 			means_direct : 0,
+		// 			comment : '택배비 포함 가격입니다!',
+		// 			created_at : '2022-08-18 10:44:45',
+		// 			book : {
+		// 				id : 188669,
+		// 				isbn : '9791130333403',
+		// 				title : '상법총칙 상행위법(7판)(양장본 HardCover)',
+		// 				author : '안강현',
+		// 				publisher : '박영사',
+		// 				pubdate : '2019-01-30',
+		// 				price : 29000
+		// 			},
+		// 			is_mine : false,
+		// 			cover_image : 'https://cf-cii.everytime.kr/87f0e34ba8cda30edf211a49197038152e0ab5d7bc9cb18209d9398e6f0bf478/1660787051115_0.jpg',
+		// 			images : [ "https://cf-cii.everytime.kr/87f0e34ba8cda30edf211a49197038152e0ab5d7bc9cb18209d9398e6f0bf478/1660787055433_1.jpg" ]
+		// 		};
 	</script>
 	<div id="bar">
 		<nav class="trisection">
@@ -123,7 +159,21 @@
 		</ul>
 
 	</div>
-<!-- 	<script type="text/javascript">
+<!-- 	<div class="popup popup-price"
+		style="margin-left: -200px; margin-top: -83.5px; display: none;">
+		<h2>가격 수정</h2>
+		<input class="textfield" type="number" placeholder="(단위: 원)"><input
+			class="button submit" type="button" value="저장"><input
+			class="button close" type="button" value="취소">
+	</div>
+	<div class="popup popup-edit"
+		style="margin-left: -200px; margin-top: -115.5px; display: none;">
+		<h2>설명 수정</h2>
+		<textarea placeholder="(500자 이내)"></textarea>
+		<input class="button submit" type="button" value="저장"><input
+			class="button close" type="button" value="취소">
+	</div> -->
+	<!-- 	<script type="text/javascript">
 		bookstore.data.user = {
 			id : 937760,
 			nickname : 'Minesia',

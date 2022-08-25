@@ -25,20 +25,30 @@
 		SELECT picture FROM picture WHERE id=${i}
 	</select>
 	<select id="bookSellList" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
-		SELECT * FROM bookpost ORDER BY id DESC;
+		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture from bookpost b ORDER BY id DESC;
 	</select>
 	
 	<select id="bookSellListSearch" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
-		SELECT * FROM bookpost WHERE title like CONCAT('%', #{keyword}, '%') ORDER BY id DESC
+		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture from bookpost b WHERE title like CONCAT('%', #{keyword}, '%') ORDER BY id DESC
 	</select>
 	
 	<select id="bookSellListMy" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
-		SELECT * FROM bookpost WHERE user_id like CONCAT('%', #{userId}, '%') ORDER BY id DESC
+		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture from bookpost b WHERE user_id like CONCAT('%', #{userId}, '%') ORDER BY id DESC
 	</select>
 	
 	<select id="bookstoreview" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
 		SELECT * FROM bookpost WHERE id=${id}
 	</select>
 	
+	<update id="soldOut">
+		UPDATE bookpost SET is_sold=1 WHERE id=${id}
+	</update>
 	
+	<update id="priceChange">
+		UPDATE bookpost SET price = #{price} WHERE id=#{id}
+	</update>
+	
+	<update id="commentChange">
+		UPDATE bookpost SET comment = #{comment} WHERE id=#{id}
+	</update>
 </mapper>

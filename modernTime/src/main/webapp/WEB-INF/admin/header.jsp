@@ -58,9 +58,9 @@
       </div>
       <ul id="menu">
         <li class="active"><a href="/admin">게시판</a></li>
-        <li><a href="/notice">공지사항 등록</a></li>
-        <li><a href="/lectureRegist">강의 등록</a></li>
-        <li><a href="/schoolAuth">학교인증 확인</a></li>
+        <li><a href="/admin/notice">공지사항 등록</a></li>
+        <li><a href="/lecture/regist">강의 등록</a></li>
+        <li><a href="/school/auth">학교인증 확인</a></li>
         <li><a href="/bookstore">책방</a></li>
       </ul>
     </div>
