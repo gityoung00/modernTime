@@ -3,6 +3,7 @@ package com.care.moderntime.admin.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -47,61 +48,28 @@ public class ALectureController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "admin/lectureList", produces = "application/json; charset=UTF-8")
-	public String lectureList() {
-
-		String data = lectureService.lectureList();
-		return data;
+	@PostMapping(value = "lecture/list", produces = "application/json; charset=UTF-8")
+	public Map<String, Object> lectureList() {
+		return lectureService.lectureList();
 	}
 
 	@ResponseBody
-	@PostMapping(value = "lectureFilterKeyword", produces = "application/json; charset=UTF-8")
-	public String lectureFilterKeyword(@RequestParam(required = false) HashMap<String, String> map) {
-		String type = map.get("type");
-		String search = map.get("search");
-		String data = lectureService.lectureFilterKeyword(type, search);
-//		System.out.println(data);
-		return data;
+	@PostMapping(value="lecture/filter", produces = "application/json; charset=UTF-8")
+	public Map<String, Object> lectureFilter(@RequestBody HashMap<String, Object> filter) {
+		System.out.println("lecture filter");
+		return lectureService.lectureFilter(filter);
 	}
 
 	@ResponseBody
-	@PostMapping(value = "lectureFilterOrder", produces = "application/json; charset=UTF-8")
-	public String lectureFilterOrder(@RequestParam(required = false) String orderId) {
-		String data = lectureService.lectureFilterOrder(orderId);
-
-		return data;
+	@PostMapping("lecture/delete")
+	public String lectureDelete(@RequestBody HashMap<String, Object> res) {
+		return lectureService.lectureDelete((List<String>)res.get("ids"));
 	}
 
 	@ResponseBody
-	@PostMapping(value = "lectureFilterType", produces = "application/json; charset=UTF-8")
-	public String lectureFilterType(@RequestParam(required = false) String type) {
-		String data = lectureService.lectureFilterType(type);
-
-		return data;
-	}
-
-	@ResponseBody
-	@PostMapping(value = "lectureFilterCredit", produces = "application/json; charset=UTF-8")
-	public String lectureFilterCredit(@RequestParam(required = false) String credit) {
-		String data = lectureService.lectureFilterCredit(credit);
-		
-		return data;
-	}
-
-	@ResponseBody
-	@PostMapping(value = "lectureDelete", produces = "application/json; charset=UTF-8")
-	public String lectureDelete(@RequestParam(required = false) HashMap<String, String> map) {
-		String data = lectureService.lectureDelete(map.get("id"));
-
-		return data;
-	}
-
-	@ResponseBody
-	@PostMapping(value = "lectureUpdate", produces = "application/json; charset=UTF-8")
-	public String lectureUpdate(@RequestParam(required = false) String id) {
-		String data = id;
-		
-		return data;
+	@PostMapping("lecture/update")
+	public String lectureUpdate(@RequestBody LectureRegistDTO lecture) {
+		return lectureService.lectureUpdate(lecture);
 	}
 
 	@GetMapping(value = "/lectureUpdateSite")

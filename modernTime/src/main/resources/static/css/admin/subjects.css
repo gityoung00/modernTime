@@ -42,7 +42,7 @@ div.lectureRegist>h2 {
 	font-weight: bold;
 	margin-bottom: 10px;
 }
-div.lectureRegist>a {
+div.lectureRegist>a{
 	float: right;
 	display: inline-block;
 	padding: 0 16px;
@@ -66,6 +66,7 @@ div.lectureRegist>a {
 	background-color: #fff;
 	margin: auto;
 	margin-top:35px;
+/* 	margin-bottom:35px; */
 }
 
 #subjects>div.filter {
@@ -289,4 +290,24 @@ div.lectureRegist>a {
 	background-color: #c62917;
 	cursor: pointer;
 }
+
+#buttons{
+	margin-bottom: 35px;
+}
+
+#buttons>a {
+	float: left;
+	margin-top: 6px;
+	margin-right: 3px;
+	display: inline-block;
+	padding: 0 10px;
+	line-height: 30px;
+	border-radius: 15px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: #c62917;
+	cursor: pointer;
+}
+
 

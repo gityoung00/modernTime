@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+@Getter 
 @Setter
 public class NoticeViewDTO {
 	private int id;

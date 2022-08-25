@@ -8,14 +8,23 @@ import lombok.Setter;
 public class PictureDTO {
 	private int id;
 	private String picture;
-	private String comment;
+	private String caption;
 	
 	public PictureDTO() {}
-	
-	public PictureDTO(String picture,String comment) {
+
+	public PictureDTO(int id, String picture, String caption) {
+		super();
+		this.id = id;
+		this.picture = picture;
+		this.caption = caption;
+	}
+
+	public PictureDTO(String picture) {
 		super();
 		this.picture = picture;
-		this.comment = comment;
 	}
+	
+	
+	
 	
 }

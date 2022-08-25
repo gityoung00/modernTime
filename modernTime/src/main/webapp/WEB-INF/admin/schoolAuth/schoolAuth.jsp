@@ -1,7 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ include file="adminHeader.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+  <link type="text/css" href="/css/common.css" rel="stylesheet">
+  <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.article.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.community.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/container.article.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/container.lecture.form.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/subjects.css" rel="stylesheet">
+<!--   <link type="text/css" href="/adminjs/lectureRegist.css" rel="stylesheet"> -->
+  <link href="/favicon.ico" rel="shortcut icon">
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/community.side.js"></script>
+  
+  <script type="text/javascript" src="/js/admin/extensions.canvas-to-blob.min.js"></script>
+  <script type="text/javascript" src="/js/admin/extensions.load-image.all.min.js"></script>
+  
+  <script type="text/javascript" src="/js/admin/schoolAuth.js"></script>
+  <script type="text/javascript" src="/js/admin/message.send.js"></script>
+</head>
+<body>
+<c:import url="../header.jsp" />
 <div id="submenu">
 	<div class="wrap">
 	</div>
@@ -178,4 +202,4 @@
 		<input type="submit" value="전송" class="button">
 	</form>
 </div>
-<%@ include file="adminFooter.jsp"%>
+<c:import url="../footer.jsp" />

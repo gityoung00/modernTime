@@ -1,16 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:import url="listHeader.jsp" />
+<!DOCTYPE html>
+  <link type="text/css" href="/css/common.css" rel="stylesheet">
+  <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.article.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.community.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/container.article.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/container.lecture.form.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/subjects.css" rel="stylesheet">
+<!--   <link type="text/css" href="/adminjs/lectureRegist.css" rel="stylesheet"> -->
+  <link href="/favicon.ico" rel="shortcut icon">
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/community.side.js"></script>
+  <script type="text/javascript" src="/js/admin/board.index.js"></script>
+  <script type="text/javascript" src="/js/admin/extensions.canvas-to-blob.min.js"></script>
+  <script type="text/javascript" src="/js/admin/extensions.load-image.all.min.js"></script>
+  <script type="text/javascript" src="/js/admin/message.send.js"></script>
+</head>
+<body>
+<c:import url="../header.jsp" />
 <div id="submenu">
 	<div class="wrap">
 	<font color="red" id = "msg"></font>
-		<ul>
-			<li><a href="/393862" data-id="393862" class="new">자유게시판</a></li>
-			<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
-			<li><a href="/420831" data-id="420831" class="new">졸업생게시판</a></li>
-			<li><a href="/412735" data-id="412735" class="new">새내기게시판</a></li>
-			<li><a href="/community/search" class="search">게시판 찾기</a></li>
-		</ul>
 		<hr>
 	</div>
 <!-- 	<input type="hidden" id="communityCampusId" value="349"> -->

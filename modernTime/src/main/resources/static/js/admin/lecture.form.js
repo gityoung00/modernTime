@@ -3,6 +3,22 @@ $().ready(function() {
 	var $lectureRegistDiv = $('div.lectureRegist');
 	var $articleForm = $container.find('form.lecture-write');
 	var $tbody = $('#tbody');
+	var _origin = {
+		type: '교양',
+		lecture_id: '',
+		name: '',
+		teacher: '',
+		credit: 3,
+		week1: 0,
+		starttime1: 108,
+		endtime1: 120,
+		week2: 0,
+		starttime2: 108,
+		endtime2: 120,
+		place: '',
+		lecture_time: 1,
+		max_student: 1,
+	};
 	var _params = {
 		type: '교양',
 		lecture_id: '',
@@ -19,6 +35,11 @@ $().ready(function() {
 		lecture_time: 1,
 		max_student: 1,
 	};
+	const type={
+		'교양': '1',
+		'전공': '2',
+		
+	}
 	const weekday = {
 		0: '월',
 		1: '화',
@@ -47,7 +68,7 @@ $().ready(function() {
 			});
 			// 과목 구분
 			$articleForm.on('change', 'select.type', function(event) {
-				_params.type = event.target.value
+				_params.type = event.target.value == '교양' ? '1': '2'
 			});
 
 			// 과목 번호
@@ -100,7 +121,7 @@ $().ready(function() {
 					_params[`starttime${idx + 1}`] = starthour + startminute;
 
 				});
-				console.log(_params)
+				
 			});
 			// 시간 클릭(startminute)
 			$articleForm.on('change', 'select.startminute', function(event) {
@@ -167,18 +188,77 @@ $().ready(function() {
 		},
 		showArticleForm: function() {
 			$articleForm.show();
+			_params = {..._origin};
+			$articleForm.find('h2').text('새 강의 등록');
+			$articleForm.find('select[name="type"]').val(_params.type)
+			$articleForm.find('input[name="lecture_id"]').val(_params.id).removeAttr("readonly");
+			$articleForm.find('input[name="name"]').val(_params.name)
+			$articleForm.find('input[name="teacher"]').val(_params.teacher)
+			$articleForm.find('select[name="credit"]').val(_params.credit)
+			
+			// 날짜
+			let dweek = [_params.week1, _params.week2];
+			let dstarthour = [Number(_params.starttime1 / 12), Number(_params.starttime2 / 12)];
+			let dstartminute = [(_params.starttime1 % 12) * 5, (_params.starttime2 % 12) * 5];
+			let dendhour = [Number(_params.endtime1 / 12), Number(_params.endtime2 / 12)];
+			let dendminute = [(_params.endtime1 % 12) * 5, (_params.endtime2 % 12) * 5];
+			
+			$("ol.weeks").each(function(idx, weeks){
+				$(weeks).find('li.active').removeClass("active");
+				$(weeks).find('li').filter(function(data){
+					return data == dweek[idx]
+				}).addClass("active");
+			})
+			$("select.starthour").each(function(idx, starthour){
+				$(starthour).find('option').prop("selected", false);
+				$(starthour).find('option').filter(function(data){
+					return data == dstarthour[idx]
+				}).prop("selected", true);
+			})
+			$("select.startminute").each(function(idx, startminute){
+				$(startminute).find('option').prop("selected", false);
+				$(startminute).find('option').filter(function(data){
+					return data == dstartminute[idx]
+				}).prop("selected", true);
+			})
+			$("select.endhour").each(function(idx, endhour){
+				$(endhour).find('option').prop("selected", false);
+				$(endhour).find('option').filter(function(data){
+					return data == dendhour[idx]
+				}).prop("selected", true);
+			})
+			$("select.endminute").each(function(idx, endminute){
+				$(endminute).find('option').prop("selected", false);
+				$(endminute).find('option').filter(function(data){
+					return data == dendminute[idx]
+				}).prop("selected", true);
+			})
+			
+			
+			
+			$articleForm.find('input[name="place"]').val(_params.place)
+			$articleForm.find('input[name="lecture_time"]').val(_params.lecture_time)
+			$articleForm.find('input[name="max_student"]').val(_params.max_student)
+
+			
+			$articleForm.find('input[type="submit"]').val("작성하기").off("click").on('click', function(event) {
+				event.preventDefault();
+				console.log("testsetse")
+				_gn.writeArticle();
+				});
 		},
 		hideArticleForm: function() {
 			$articleForm.hide();
 		},
 		writeArticle: function() {
+			console.log("Dddd")
 			if (!_params.type || !_params.lecture_id || !_params.name || !_params.teacher ||
 				!_params.place) {
 				alert('모든 값을 정확히 입력해주세요.')
 				return;
 			}
 			$.ajax({
-				url: 'lecture/regist',
+				url: '/lecture/regist',
 				xhrFields: { withCredentials: true },
 				type: 'POST',
 				contentType: 'application/json; charset=UTF-8',
@@ -203,7 +283,37 @@ $().ready(function() {
 		addLecture: function(lecture) {
 			var percent = lecture.score / 5 * 100 + '%'
 			var $tr = $('<tr></tr>')
-			$('<td></td>').text(lecture.type).appendTo($tr)
+			
+			var $checkbox = $('<td></td>').appendTo($tr);
+			$('<input type="checkbox">').data({
+				id: lecture.lecture_id,
+				type: lecture.type == '1' ? '교양' : '전공',
+				name: lecture.name,
+				teacher: lecture.teacher,
+				credit: lecture.credit,
+				place: lecture.place,
+				lecture_time: lecture.lecture_time,
+				max_student: lecture.max_student,
+				week1: lecture.week1,
+				starttime1: lecture.starttime1,
+				endtime1: lecture.endtime1,
+				week2: lecture.week2,
+				starttime2: lecture.starttime2,
+				endtime2: lecture.endtime2,
+
+			}).appendTo($checkbox).on('click', function(event) {
+				const lecture_id = $(this).data('id')
+				if ($(this).is(':checked')){
+					_set.checkedSubject.push($(this).data());
+				}else {
+					_set.checkedSubject = _set.checkedSubject.filter(function(data){
+						return data.id != lecture_id
+					})
+					
+				}
+				_fn.showButtons();
+			});
+			$('<td></td>').text(lecture.type == '1' ? '교양' : '전공').appendTo($tr)
 			$('<td></td>').text(_gn.getLectureTime(lecture)).appendTo($tr)
 			$('<td></td>').text(lecture.name).addClass('bold').appendTo($tr)
 			$('<td></td>').text(lecture.teacher).appendTo($tr)

@@ -1,6 +1,8 @@
 package com.care.moderntime.admin.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -15,18 +17,11 @@ public class SchoolAuthService {
 	
 	private final ISchoolAuthDAO authDao;
 	
-	public String schoolAuth() {
+	public Map<String, Object> schoolAuth() {
+		Map<String, Object> res = new HashMap<String, Object>();
 		ArrayList<SchoolAuthDTO> list = authDao.schoolAuth();
-		String data = "{\"cd\" : [";
-		for (SchoolAuthDTO tmp : list) {
-			data += "{ \"id\" : \"" + tmp.getId() + "\",";
-			data += " \"type\" : \"" + tmp.getType() + "\",";
-			data += " \"picture\" : \"" + tmp.getPicture() + "\",";
-			data += " \"userId\" : \"" + tmp.getUser_id() + "\" },";
-		}
-		data = data.substring(0, data.length() - 1);
-		data += "]}";
-		return data;
+		res.put("data", list);
+		return res;
 	}
 	public SchoolAuthDTO schoolAuthView(String id) {
 		SchoolAuthDTO view = authDao.schoolAuthView(id);

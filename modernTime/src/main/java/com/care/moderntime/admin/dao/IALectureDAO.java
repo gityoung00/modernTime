@@ -1,6 +1,7 @@
 package com.care.moderntime.admin.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,13 +18,7 @@ public interface IALectureDAO {
 
 	LectureRegistDTO lectureSel(String id);
 
-	ArrayList<LectureRegistDTO> lectureFilterKeyword(@Param("keywordType") String keywordType, @Param("keyword") String keyword);
-
-	ArrayList<LectureRegistDTO> lectureFilterOrder(@Param("orderId") String orderId);
-
-	ArrayList<LectureRegistDTO> lectureFilterType(@Param("type") String type);
-
-	ArrayList<LectureRegistDTO> lectureFilterCredit(@Param("credit1") String credit1, @Param("credit2") String credit2);
+	ArrayList<LectureRegistDTO> lectureFilter(Map<String, Object> filter);
 
 	int lectureDelete(String id);
 

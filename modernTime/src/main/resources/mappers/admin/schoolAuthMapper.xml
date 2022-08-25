@@ -4,11 +4,11 @@
 <mapper namespace="com.care.moderntime.admin.dao.ISchoolAuthDAO">
 
 	<select id="schoolAuth" resultType="com.care.moderntime.admin.dto.SchoolAuthDTO">
-		SELECT * FROM certification ORDER BY id DESC;
+		SELECT c.*, (select is_certificate from user where c.user_id=user.id) as is_checked FROM certification c order by is_checked, id desc;
 	</select>
 	
 	<select id="schoolAuthView" resultType="com.care.moderntime.admin.dto.SchoolAuthDTO">
-		SELECT * FROM certification WHERE id=${id}
+		SELECT c.*, (select is_certificate from user where c.user_id=user.id) as is_checked FROM certification c WHERE id=${id}
 	</select>
 	
 	<update id="schoolAuthCheck">

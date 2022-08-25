@@ -64,7 +64,6 @@
 				<li><a href="/timetable">시간표</a></li>
 				<li><a href="/lecture">강의평가</a></li>
 				<li><a href="/calculator">학점계산기</a></li>
-				<li><a href="/friend">친구</a></li>
 				<li><a href="https://bookstore.everytime.kr/">책방</a></li>
 				<li><a href="https://www.campuspick.com/">캠퍼스픽</a></li>
 			</ul>

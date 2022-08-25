@@ -50,7 +50,7 @@ public class NoticeController {
 	}
 
 	@ResponseBody
-	@PostMapping("admin/upload")
+	@PostMapping("admin/save/picture")
 	public int adminImage(@RequestParam("file") MultipartFile picture) throws IOException {
 		System.out.println(picture);
 		int pictureId = noticeService.imageUpload(picture);
@@ -66,9 +66,26 @@ public class NoticeController {
 		return noticeService.list(conditions);
 	}
 
-	@RequestMapping("noticeView")
-	public String noticeView(String id, HttpSession session, Model model) {
-		model.addAttribute("noticeView", noticeService.noticeView(id));
+	// 공감하기
+	@ResponseBody
+	@PostMapping("notice/vote")
+	public int voteNotice(@RequestParam(name="id") int noticeId) {
+		return noticeService.voteNotice(noticeId);
+	}
+	
+	// 스크랩하기
+	@ResponseBody
+	@PostMapping("notice/scrap")
+	public int scrapNotice(@RequestParam(name="id") int noticeId) {
+		System.out.println("scrapNotice");
+		return noticeService.scrapNotice(noticeId);
+	}
+	
+	
+	@GetMapping("noticeView")
+	public String noticeView(@RequestParam(name="id") int noticeId, Model model) {
+//		System.out.println("notice id: " + noticeId);
+		model.addAttribute("noticeView", noticeService.noticeView(noticeId));
 		return "admin/notice/noticeView";
 	}
 

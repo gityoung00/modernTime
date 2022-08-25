@@ -3,9 +3,8 @@ if (!_set) var _set = {};
 $().ready(function() {
 	var $subjects, $filterItems;
 	var $tbody = $('#tbody');
+	var $articleForm = $('#container').find('form.lecture-write');
 	_set = _.extend(_set, {
-		subjectSchoolId: 0,
-		subjectCampusId: 0,
 		subjectColumnInfo: [],
 		hasCapacity: 0,
 		hasCredit: 0,
@@ -16,9 +15,18 @@ $().ready(function() {
 		isSubjectLoadCompleted: false,
 		subjectLimitNum: 50,
 		subjectStartNum: 0,
+		subjectCount: 0,
+		checkedSubject: [],
 		subjectFilter: {},
 		id: [1, 2],
 		text: ['전공', '교양'],
+		filter: {
+			keywordType: '',
+			keyword: '',
+			order: '',
+			type: [1, 2],
+			credit: [1, 2, 3],
+		}
 	});
 	const weekday = {
 		0: '월',
@@ -42,6 +50,8 @@ $().ready(function() {
 				e.preventDefault();
 				_fn.updateLecture();
 			});
+
+			// 검색어
 			$('#subjectKeywordFilter').on('submit', function(e) {
 				e.preventDefault();
 				_fn.onSubmitKeywordFilter();
@@ -51,6 +61,7 @@ $().ready(function() {
 				$('#subjectKeywordFilter').hide();
 			});
 
+			// 과목명 정렬
 			$('#subjectOrderFilter').on('submit', function(e) {
 				e.preventDefault();
 				_fn.onSubmitOrderFilter();
@@ -59,6 +70,7 @@ $().ready(function() {
 				$('#subjectOrderFilter').hide();
 			});
 
+			// 교양, 전공 구분
 			$('#subjectTypeFilter').on('submit', function(event) {
 				event.preventDefault();
 				_fn.onSubmitTypeFilter();
@@ -71,6 +83,7 @@ $().ready(function() {
 				$('#subjectTypeFilter').find('input[type="checkbox"]:checked').trigger('click');
 			});
 
+			// 학점 필터
 			$('#subjectCreditFilter').on('submit', function(event) {
 				event.preventDefault();
 				_fn.onSubmitCreditFilter();
@@ -82,6 +95,7 @@ $().ready(function() {
 			}).on('click', 'input[data-action="deselect"]', function() {
 				$('#subjectCreditFilter').find('input[type="checkbox"]:checked').trigger('click');
 			});
+
 		},
 		loadLecture: function() {
 			var scores = [];
@@ -92,47 +106,24 @@ $().ready(function() {
 				limitNum: _set.subjectLimitNum,
 				startNum: _set.subjectStartNum
 			});
-			console.log("start")
 			$.ajax({
-				url: 'admin/lectureList',
+				url: '/lecture/list',
 				type: 'POST',
 				data: params,
 				contentType: 'application/json; charset=UTF-8',
 				success: function(data) {
-					var jsonDatas = data;//JSON.parse(data);
-					var list = "";
-					$(jsonDatas.cd).each((idx, lecture) => {
-						_fn.addLecture(lecture);
+					console.log(data)
+					$tbody.empty();
+					_set.subjectCount = data.data.length;
+					$("#totalLectureCount").text(`총 강의: ${data.data.length}개`);
+					$(data.data).each((idx, lecture) => {
+						_fn.addLecture(idx, lecture);
 
 
 					})
-					//					for (i = 0; i < jsonDatas.cd.length; i++) {
-					//						list += "<tr>";
-					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-					//						} else {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-					//						}
-					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
-					//						list += "</tr>";
-					//					}
-					//					$("#tbody").html(list);
-					//
-					//var $star = $('<a></a>');
-					//$star.addClass('star').appendTo($td);
-
 					for (i = 0; i < scores.length; i++) {
 						var percent = scores[i] / 5 * 100 + '%';
 						console.log(percent);
-						//$('<span></span>').addClass('on').width(percent).appendTo($star);
 					}
 
 					//
@@ -140,11 +131,40 @@ $().ready(function() {
 			});
 
 		},
-		addLecture: function(lecture) {
-			console.log(_fn.getLectureTime(lecture))
+		addLecture: function(idx, lecture) {
+
 			var percent = lecture.score / 5 * 100 + '%'
-			var $tr = $('<tr></tr>')
-			$('<td></td>').text(lecture.type).appendTo($tr)
+			var $tr = $('<tr></tr>');
+			var $checkbox = $('<td></td>').appendTo($tr);
+			$('<input type="checkbox">').data({
+				id: lecture.lecture_id,
+				type: lecture.type == '1' ? '교양' : '전공',
+				name: lecture.name,
+				teacher: lecture.teacher,
+				credit: lecture.credit,
+				place: lecture.place,
+				lecture_time: lecture.lecture_time,
+				max_student: lecture.max_student,
+				week1: lecture.week1,
+				starttime1: lecture.starttime1,
+				endtime1: lecture.endtime1,
+				week2: lecture.week2,
+				starttime2: lecture.starttime2,
+				endtime2: lecture.endtime2,
+
+			}).appendTo($checkbox).on('click', function(event) {
+				const lecture_id = $(this).data('id')
+				if ($(this).is(':checked')) {
+					_set.checkedSubject.push($(this).data());
+				} else {
+					_set.checkedSubject = _set.checkedSubject.filter(function(data) {
+						return data.id != lecture_id
+					})
+
+				}
+				_fn.showButtons();
+			});
+			$('<td></td>').text(lecture.type == '1' ? '교양' : '전공').appendTo($tr)
 			$('<td></td>').text(_fn.getLectureTime(lecture)).appendTo($tr)
 			$('<td></td>').text(lecture.name).addClass('bold').appendTo($tr)
 			$('<td></td>').text(lecture.teacher).appendTo($tr)
@@ -160,6 +180,8 @@ $().ready(function() {
 
 			$('<td></td>').text(lecture.listen_student).addClass('small').appendTo($tr)
 			$('<td></td>').text(lecture.max_student).addClass('small').appendTo($tr)
+
+
 			$tr.appendTo($tbody);
 		},
 		getLectureTime: function(lecture) {
@@ -169,8 +191,8 @@ $().ready(function() {
 			var week2 = parseInt(lecture.week2);
 			var starttime2 = lecture.starttime2;
 			var endtime2 = lecture.endtime2;
-			console.log(week1, week2)
-			time = `${weekday[week1]} ${_fn.getTime(starttime1)}-${_fn.getTime(endtime1)}, ${weekday[week2]} ${_fn.getTime(starttime2)}-${_fn.getTime(endtime2)}`;
+			time = `${weekday[week1]} ${_fn.getTime(starttime1)}-${_fn.getTime(endtime1)}, \n
+			 ${weekday[week2]} ${_fn.getTime(starttime2)}-${_fn.getTime(endtime2)}`;
 			return time;
 		},
 		getTime: function(time) {
@@ -185,26 +207,6 @@ $().ready(function() {
 			//			var $close = $('<a></a>').addClass('close').text('닫기').appendTo($filterItems);
 			var $reset = $('<a></a>').addClass('reset hide').text('초기화').appendTo($filterItems);
 
-			//      $list = $('<div></div>').addClass('list').appendTo($subjects);
-			//      $('<div></div>').addClass('thead').appendTo($list);
-			//      var $listTable = $('<table></table>').appendTo($list);
-			//      $listThead = $('<thead></thead>').appendTo($listTable);
-			//      _fn.appendListThead();
-			//      $listTbody = $('<tbody></tbody>').appendTo($listTable);
-			//      $listTfoot = $('<tfoot></tfoot>').appendTo($listTable);
-			//      var $listTfootTr = $('<tr></tr>').appendTo($listTfoot);
-			//      $('<td></td>').attr('colspan', $listThead.find('tr > th').length).appendTo($listTfootTr);
-			_fn.loadFilter(function(data) {
-				_fn.appendFilter(data);
-				//        _fn.loadSubjects(true, function (data) {
-				//          _fn.appendSubjects(data);
-				//        });
-			});
-
-
-			//      $close.on('click', function () {
-			//        _fn.close();
-			//      });
 			$reset.on('click', function() {
 				_fn.reset();
 			});
@@ -309,77 +311,32 @@ $().ready(function() {
 			$keyword.focus();
 		},
 		resetKeywordFilter: function() {
-			_set.subjectFilter.keyword = undefined;
+			_set.filter.keywordType = '';
+			_set.filter.keyword = '';
 			_fn.resetFilterItem('keyword');
-			_fn.loadLecture();
-			//      _fn.loadSubjects(true, function (data) {
-			//        _fn.appendSubjects(data);
-			//      });
+			_fn.sendFilter();
 		},
 		onSubmitKeywordFilter: function() {
 			var $radios = $('#subjectKeywordFilter').find('input[type="radio"]');
 			var $keyword = $('#subjectKeywordFilter').find('input[name="keyword"]');
 			var keywordType = $radios.filter(':checked').data('keywordType');
+
 			var keyword = $keyword.val().trim();
+
 			if (keyword.replace(/\s/g, '').length < 2) {
 				alert('검색어를 두 글자 이상 입력해주세요.');
 				return;
 			}
-			_set.subjectFilter.keyword = JSON.stringify({ type: keywordType.id, keyword: keyword });
-			//    {type: keywordType.id, keyword: keyword};
-			var params = {
-				type: keywordType.text,
-				search: keyword
-
-			};
-			console.log(params);
-			$.ajax({
-				url: '/lectureFilterKeyword',
-				type: 'POST',
-				data: params,
-				success: function(data) {
-					console.log(data);
-					var jsonDatas = data;//JSON.parse(data);
-					var list = "";
-					$(jsonDatas.cd).each((idx, lecture) => {
-						_fn.addLecture(lecture);
-
-
-					})
-					//					for (i = 0; i < jsonDatas.cd.length; i++) {
-					//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-					//						list += "<tr>";
-					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-					//						} else {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-					//						}
-					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
-					//						list += "</tr>";
-					//					}
-					//					$("#tbody").html(list);
-				}
-			})
 			var $filterItem = $filterItems.find('a.item[data-id="keyword"]').addClass('active');
 			$filterItem.find('span.key').html(keywordType.text + ':');
 			$filterItem.find('span.value').html(keyword);
 			$('#subjectKeywordFilter').hide();
-			//      _fn.loadSubjects(true, function (data) {
-			//        _fn.appendSubjects(data);
-			//      });
+
+			_set.filter.keywordType = keywordType.id;
+			_set.filter.keyword = keyword;
+			_fn.sendFilter();
 		},
 		showOrderFilter: function() {
-			//      if (_set.isSubjectRendered === false) {
-			//        return;
-			//      }
 			var $filter = $('#subjectOrderFilter').find('div.filter');
 			$filter.empty();
 			var orders = [
@@ -390,10 +347,6 @@ $().ready(function() {
 				{ id: 'popularDesc', text: '담은인원 많은순' },
 				{ id: 'popularAsc', text: '담은인원 적은순' }
 			];
-			if (_set.hasCapacity === true) {
-				orders.push({ id: 'competitionDesc', text: '경쟁률 높은순' });
-				orders.push({ id: 'competitionAsc', text: '경쟁률 낮은순' });
-			}
 			_.each(orders, function(order) {
 				var $label = $('<label></label>').appendTo($filter);
 				var $radio = $('<input>').attr({ type: 'radio', name: 'order' }).data('order', order).appendTo($label);
@@ -405,10 +358,10 @@ $().ready(function() {
 			$('#subjectOrderFilter').show();
 		},
 		resetOrderFilter: function() {
-			_set.subjectFilter.order = undefined;
+			_set.filter.order = '';
 			_fn.resetFilterItem('order');
 			$('#subjectOrderFilter').hide();
-			_fn.loadLecture();
+			_fn.sendFilter();
 			//      _fn.loadSubjects(true, function (data) {
 			//        _fn.appendSubjects(data);
 			//      });
@@ -420,50 +373,14 @@ $().ready(function() {
 				_fn.resetOrderFilter();
 				return;
 			}
-			_set.subjectFilter.order = order.id;
+
 			var $filterItem = $filterItems.find('a.item[data-id="order"]').addClass('active');
 			$filterItem.find('span.value').html(order.text);
 			$('#subjectOrderFilter').hide();
-			var params = {
-				orderId: order.id
-			}
-			console.log(params);
-			$.ajax({
-				url: '/lectureFilterOrder',
-				type: 'POST',
-				data: params,
-				success: function(data) {
-					console.log(data);
-					var jsonDatas = data;//JSON.parse(data);
-					var list = "";
-					$(jsonDatas.cd).each((idx, lecture) => {
-						_fn.addLecture(lecture);
-					})
-					//					for (i = 0; i < jsonDatas.cd.length; i++) {
-					//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-					//						list += "<tr>";
-					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-					//						} else {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-					//						}
-					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
-					//						list += "</tr>";
-					//					}
-					//					$("#tbody").html(list);
-				}
-			});
-			//      _fn.loadSubjects(true, function (data) {
-			//        _fn.appendSubjects(data);
-			//      });
+
+			_set.filter.order = order.id;
+			_fn.sendFilter();
+
 		},
 		showTypeFilter: function() {
 			//      if (_set.isSubjectRendered === false) {
@@ -502,15 +419,13 @@ $().ready(function() {
 			$('#subjectTypeFilter').show();
 		},
 		resetTypeFilter: function() {
-			_set.subjectFilter.type = undefined;
+			_set.filter.type = '';
 			_fn.resetFilterItem('type');
 			$('#subjectTypeFilter').hide();
-			_fn.loadLecture();
-			//      _fn.loadSubjects(true, function (data) {
-			//        _fn.appendSubjects(data);
-			//      });
+			_fn.sendFilter();
 		},
 		onSubmitTypeFilter: function() {
+			console.log("onSubmitTypeFilter")
 			var $checkboxes = $('#subjectTypeFilter').find('input[type="checkbox"]');
 			var types = $checkboxes.filter(':checked').map(function() {
 				return $(this).data('type') || $(this).data('type');
@@ -521,9 +436,8 @@ $().ready(function() {
 			}
 			if ($checkboxes.length === types.length) {
 				_fn.resetTypeFilter();
-				return;
+				//				return;
 			}
-			_set.subjectFilter.type = JSON.stringify(_.pluck(types, 'id'));
 			var value = _.pluck(types, 'text').slice(0, 2).join(', ');
 			if (types.length >= 3) {
 				value += ' 외 ' + (types.length - 2) + '개';
@@ -531,49 +445,12 @@ $().ready(function() {
 			var $filterItem = $filterItems.find('a.item[data-id="type"]').addClass('active');
 			$filterItem.find('span.value').html(value);
 			$('#subjectTypeFilter').hide();
-			console.log(value)
-			$.ajax({
-				url: '/lectureFilterType',
-				type: 'POST',
-				data: { type: value },
-				success: function(data) {
-					console.log(data)
-					var jsonDatas = data;//JSON.parse(data);
-					var list = "";
-					$(jsonDatas.cd).each((idx, lecture) => {
-						_fn.addLecture(lecture);
-					})
-					//					for (i = 0; i < jsonDatas.cd.length; i++) {
-					//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-					//						list += "<tr>";
-					//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-					//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-					//						} else {
-					//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-					//						}
-					//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-					//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-					//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-					//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-					//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-					//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
-					//						list += "</tr>";
-					//					}
-					//					$("#tbody").html(list);
 
-				}
-			})
-			//      _fn.loadSubjects(true, function (data) {
-			//        _fn.appendSubjects(data);
-			//      });
+
+			_set.filter.type = _.pluck(types, 'id');
+			_fn.sendFilter();
 		},
 		showCreditFilter: function() {
-			//      if (_set.isSubjectRendered === false) {
-			//        return;
-			//      }
 			var $filter = $('#subjectCreditFilter').find('div.filter');
 			$filter.empty();
 			var setCreditFilter;
@@ -597,10 +474,10 @@ $().ready(function() {
 			$('#subjectCreditFilter').show();
 		},
 		resetCreditFilter: function() {
-			_set.subjectFilter.credit = undefined;
+			_set.filter.credit = '';
 			_fn.resetFilterItem('credit');
 			$('#subjectCreditFilter').hide();
-			_fn.loadLecture();
+			_fn.sendFilter();
 			//      _fn.loadSubjects(true, function (data) {
 			//        _fn.appendSubjects(data);
 			//      });
@@ -616,55 +493,40 @@ $().ready(function() {
 			}
 			if ($checkboxes.length === credits.length) {
 				_fn.resetCreditFilter();
-				return;
+				//				return;
 			}
-			_set.subjectFilter.credit = JSON.stringify(_.pluck(credits, 'id'));
+			//			_set.subjectFilter.credit = JSON.stringify(_.pluck(credits, 'id'));
 			var value = _.pluck(credits, 'shortText').slice(0, 2).join(',');
 			if (credits.length >= 3) {
 				value += ' 외 ' + (credits.length - 2) + '개';
 			}
-			console.log(value);
+
 			var $filterItem = $filterItems.find('a.item[data-id="credit"]').addClass('active');
 			$filterItem.find('span.value').html(value);
 			$('#subjectCreditFilter').hide();
+
+			_set.filter.credit = _.pluck(credits, 'id');
+			_fn.sendFilter();
+
+		},
+		sendFilter: function() {
+			console.log(_set.filter);
+			let params = JSON.stringify(_set.filter);
 			$.ajax({
-				url: '/lectureFilterCredit',
+				url: '/lecture/filter',
 				type: 'POST',
-				data: {
-					credit: value
-				},
+				contentType: 'application/JSON; charset=utf-8;',
+				data: params,
 				success: function(data) {
 					console.log(data)
-					var jsonDatas = data;//JSON.parse(data);
-					var list = "";
-					$(jsonDatas.cd).each((idx, lecture) => {
-						_fn.addLecture(lecture);
+					$tbody.empty();
+					_set.subjectCount = data.data.length;
+					$("#totalLectureCount").text(`총 강의: ${data.data.length}개`);
+					$(data.data).each((idx, lecture) => {
+						_fn.addLecture(idx, lecture);
 					})
-//					for (i = 0; i < jsonDatas.cd.length; i++) {
-//						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-//						list += "<tr>";
-//						list = list + "<td>" + jsonDatas.cd[i].type + "</td>";
-//						if (jsonDatas.cd[i].time2 === 'null' || jsonDatas.cd[i].time2 === "") {
-//							list = list + "<td>" + jsonDatas.cd[i].time1 + "</td>";
-//						} else {
-//							list = list + "<td>" + jsonDatas.cd[i].time1 + jsonDatas.cd[i].time2 + "</td>";
-//						}
-//						list = list + "<td class='bold'>" + jsonDatas.cd[i].name + "</td>";
-//						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td>";
-//						list = list + "<td>" + jsonDatas.cd[i].credit + "</td>";
-//						list = list + "<td>" + jsonDatas.cd[i].place, jsonDatas.cd[i].lectureTime + "</td>";
-//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";//jsonDatas.cd[i].score
-//						list = list + "<td>" + jsonDatas.cd[i].listenStudent + "</td>";
-//						list = list + "<td class='small'>" + jsonDatas.cd[i].maxStudent + "</td>";
-//						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='" + jsonDatas.cd[i].lectureId + "' type='checkbox' /></td>"
-//						list += "</tr>";
-//					}
-//					$("#tbody").html(list);
 				}
 			})
-			//      _fn.loadSubjects(true, function (data) {
-			//        _fn.appendSubjects(data);
-			//      });
 		},
 		appendListThead: function() {
 			var $tr = $('<tr></tr>');
@@ -677,27 +539,6 @@ $().ready(function() {
 				$('<div></div>').text(item.value).appendTo($th);
 			});
 			$tr.appendTo($listThead);
-		},
-		loadFilter: function(callback) {
-			//      $.ajax({
-			//        url: _apiServerUrl + '/find/timetable/subject/filter/list',
-			//        xhrFields: {withCredentials: true},
-			//        type: 'POST',
-			//        data: {
-			//          year: _set.year,
-			//          semester: _set.semester
-			//        },
-			//        success: function (data) {
-			//          var responseCode;
-			//          if (!$(data).find('response').children().length) {
-			//            responseCode = $(data).find('response').text();
-			//          }
-			//          if (responseCode === '-1') {
-			//            return;
-			//          }
-			//          callback(data);
-			//        }
-			//      });
 		},
 		loadSubjects: function(isClear, callback) {
 			if (isClear === true) {
@@ -715,24 +556,6 @@ $().ready(function() {
 				limitNum: _set.subjectLimitNum,
 				startNum: _set.subjectStartNum
 			});
-			//      $.ajax({
-			//        url: _apiServerUrl + '/find/timetable/subject/list',
-			//        xhrFields: {withCredentials: true},
-			//        type: 'POST',
-			//        data: params,
-			//        success: function (data) {
-			//          var responseCode;
-			//          if (!$(data).find('response').children().length) {
-			//            responseCode = $(data).find('response').text();
-			//          }
-			//          if (responseCode === '-1') {
-			//            return;
-			//          }
-			//          setTimeout(function () {
-			//            callback(data);
-			//          }, 1000);
-			//        }
-			//      });
 			if (isClear === true && typeof gtag === 'function') {
 				var gtagEventParams = JSON.parse(JSON.stringify({
 					'event_category': 'Timetable',
@@ -765,75 +588,159 @@ $().ready(function() {
 			}
 		},
 		deleteLecture: function() {
-			//			
-			var checkBox = $("#tbody").find('input:checkbox[name="chkbox"]:checked');
-			//			console.log(checkBox)
-			//			var check = $("#tbody").find("#chkbox");
-			// 			 ==  true
-			var cnt = checkBox.length;
-			//			console.log(checkBox);
-			var arr = checkBox.map(function() {
-				return $(this).attr('value');
-			});
-			var tmp = arr.get();
-			var map = JSON.stringify(tmp);
-			console.log(map)
-			console.log(tmp)
-			if (cnt == 0) {
-				alert("선택된 글이 없습니다.");
-			}
-			else {
+			if (confirm("정말로 삭제하시겠습니까?")) {
+				console.log(_set.checkedSubject)
+				lectureIds = _set.checkedSubject.map(row => row.id)
+				console.log(lectureIds)
 				$.ajax({
 					type: "POST",
-					url: "/lectureDelete",
-					data: {
-						id: map
-					},
+					url: "/lecture/delete",
+					contentType: "application/json; charset=utf-8;",
+					data: JSON.stringify({ ids: lectureIds }),
 					success: function(data) {
 						console.log(data);
 						alert("강의를 삭제했습니다.");
-						location.href = "/lectureRegist";
+						location.reload();
 					},
 					error: function() {
 						alert("삭제 실패");
 					}
 
 				});
-
+				//				
 			}
+
+			//
 		},
-		updateLecture: function() {
-			var checkBox = $("#tbody").find('input:checkbox[name="chkbox"]:checked');
-			var cnt = checkBox.length;
-			var arr = checkBox.map(function() {
-				return $(this).attr('value');
+		showUpdateForm: function(data) {
+			console.log("data", data)
+			$articleForm.show();
+			$articleForm.find('h2').text('강의 수정');
+			$articleForm.find('select[name="type"]').val(data.type).on('change', function(e) {
+				data.type = e.target.value;
+			})
+			$articleForm.find('input[name="lecture_id"]').val(data.id).attr("readonly",true).on('change', function(e) {
+				data.id = e.target.value;
+			})
+			$articleForm.find('input[name="name"]').val(data.name).on('change', function(e) {
+				data.name = e.target.value;
+			})
+			$articleForm.find('input[name="teacher"]').val(data.teacher).on('change', function(e) {
+				data.teacher = e.target.value;
+			})
+			$articleForm.find('select[name="credit"]').val(data.credit).on('change', function(e) {
+				data.credit = e.target.value;
+			})
+
+			// 날짜
+			let dweek = [data.week1, data.week2];
+			let dstarthour = [Number(data.starttime1 / 12), Number(data.starttime2 / 12)];
+			let dstartminute = [(data.starttime1 % 12) * 5, (data.starttime2 % 12) * 5];
+			let dendhour = [Number(data.endtime1 / 12), Number(data.endtime2 / 12)];
+			let dendminute = [(data.endtime1 % 12) * 5, (data.endtime2 % 12) * 5];
+
+			$("ol.weeks").each(function(idx, weeks) {
+				$(weeks).find('li.active').removeClass("active");
+				$(weeks).find('li').filter(function(data) {
+					return data == dweek[idx]
+				}).addClass("active");
+			})
+			$("select.starthour").each(function(idx, starthour) {
+				$(starthour).find('option').prop("selected", false);
+				$(starthour).find('option').filter(function(data) {
+					return data == dstarthour[idx]
+				}).prop("selected", true);
+			})
+			$("select.startminute").each(function(idx, startminute) {
+				$(startminute).find('option').prop("selected", false);
+				$(startminute).find('option').filter(function(data) {
+					return data == dstartminute[idx]
+				}).prop("selected", true);
+			})
+			$("select.endhour").each(function(idx, endhour) {
+				$(endhour).find('option').prop("selected", false);
+				$(endhour).find('option').filter(function(data) {
+					return data == dendhour[idx]
+				}).prop("selected", true);
+			})
+			$("select.endminute").each(function(idx, endminute) {
+				$(endminute).find('option').prop("selected", false);
+				$(endminute).find('option').filter(function(data) {
+					return data == dendminute[idx]
+				}).prop("selected", true);
+			})
+
+
+			$articleForm.find('input[name="place"]').val(data.place).on('change', function(e) {
+				data.place = e.target.value;
+			})
+			$articleForm.find('input[name="lecture_time"]').val(data.lecture_time).on('change', function(e) {
+				data.lecture_time = e.target.value;
+			})
+			$articleForm.find('input[name="max_student"]').val(data.max_student).on('change', function(e) {
+				data.max_student = e.target.value;
+			})
+
+
+
+			$articleForm.find('input[type="submit"]').val("수정하기").off("click").on('click', function(event) {
+				event.preventDefault();
+				_fn.updateLecture(data);
 			});
-			if (cnt == 0) {
-				alert("선택된 강의가 없습니다.");
-			}
-			else if (cnt != 1) {
-				alert("강의는 하나씩만 수정가능합니다.");
-			}
-			else {
-				$.ajax({
-					type: "POST",
-					url: "/lectureUpdate",
-					data: {
-						id: arr.get()
-					},
-					success: function(data) {
-						console.log(data);
-						var uri = '/lectureUpdateSite?id=' + arr.get()
-						location.replace(uri);
-					},
-					error: function() {
-						alert("삭제 실패");
-					}
 
-				});
-
+		},
+		updateLecture: function(data) {
+			data.lecture_id = data.id;
+			console.log(data);
+			if (!data.type || !data.lecture_id || !data.name || !data.teacher ||
+				!data.place) {
+				alert('모든 값을 정확히 입력해주세요.')
+				return;
 			}
-		}
+			$.ajax({
+				type: "POST",
+				url: "/lecture/update",
+				contentType: "application/json; charset=utf-8;",
+				data: JSON.stringify(data),
+				success: function(data) {
+					alert("강의 수정이 완료되었습니다.")
+					location.reload();
+				},
+				error: function() {
+					alert("수정 실패");
+				}
+
+			});
+//			//
+		},
+		showButtons: function() {
+			// 전체 버튼 해제
+			$('input[name="allCheck"]').prop('checked', false);
+			// 버튼 다 지우기
+			$buttons = $("#buttons");
+			$buttons.empty();
+			console.log(_set.checkedSubject)
+			if (_set.checkedSubject.length == 1) {
+				$("<a></a>").text("수정").appendTo($buttons).on('click', function(event) {
+					_fn.showUpdateForm(_set.checkedSubject[0]);
+
+				})
+				$("<a></a>").text("삭제").appendTo($buttons).on('click', function() {
+					_fn.deleteLecture();
+				})
+			} else if (_set.checkedSubject.length > 0) {
+				// 삭제 버튼만 보여주기 , 수정 버튼은 안보이기
+				$("<a></a>").text("삭제").appendTo($buttons).on('click', function() {
+					_fn.deleteLecture();
+				})
+			}
+
+			// 전체 버튼 체크
+			if (_set.checkedSubject.length == _set.subjectCount) {
+				$('input[name="allCheck"]').prop('checked', false);
+			}
+
+		},
 	}
 
 

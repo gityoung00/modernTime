@@ -41,12 +41,10 @@ public class SchoolAuthController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "schoolAuth", produces = "application/json; charset=UTF-8")
-	public String schoolAuthPost() {
-
-		String data = authService.schoolAuth();
-//		System.out.println(data);
-		return data;
+	@PostMapping("school/auth")
+	public Map<String, Object> schoolAuthPost() {
+		System.out.println("schoolauth");
+		return authService.schoolAuth();
 	}
 
 	@RequestMapping("schoolAuthView")
@@ -55,9 +53,10 @@ public class SchoolAuthController {
 		return "admin/schoolAuth/schoolAuthView";
 	}
 
-	@RequestMapping("schoolAuthCheck")
-	public String schoolAuthCheck(String id) {
-		authService.schoolAuthCheck(id);
-		return "admin/schoolAuth/schoolAuth";
+	@ResponseBody
+	@RequestMapping("school/auth/check")
+	public String schoolAuthCheck(@RequestParam String userId) {
+		authService.schoolAuthCheck(userId);
+		return "success";
 	}
 }

@@ -1,94 +1,6 @@
 $().ready(function() {
 	var $container = $('#container');
 	var $title, $containerTitle, $articles;
-	var _component = {
-		Gallery: (function() {
-			var _props = {
-				data: []
-			};
-			var _refs = {
-				isMounted: false
-			};
-			function _getHls(callback) {
-				if (window.Hls === undefined) {
-					var script = document.createElement('script');
-					script.src = '/js/extensions.hls.light.min.js';
-					script.addEventListener('load', function() {
-						callback(null, window.Hls);
-					});
-					document.head.appendChild(script);
-				} else {
-					callback(null, window.Hls);
-				}
-			}
-			function _handleHls(url) {
-				var video = document.createElement('video');
-				var errorHandler = function() {
-					if ([MediaError.MEDIA_ERR_DECODE, MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED].indexOf(video.error.code) !== -1) {
-						_getHls(function(err, Hls) {
-							var hls = new Hls({
-								xhrSetup: function(xhr) {
-									xhr.withCredentials = true;
-								}
-							});
-							hls.loadSource(url);
-							hls.attachMedia(video);
-						});
-					}
-				};
-				video.addEventListener('error', errorHandler);
-				video.autoplay = true;
-				video.controls = true;
-				video.crossOrigin = 'use-credentials';
-				video.muted = true;
-				video.src = url;
-				return video;
-			}
-			function _handleImage(src, extension) {
-				var $image = $('<div></div>');
-				$('<img>').attr('src', src).appendTo($image);
-				if (extension === 'mp4') {
-					$image.addClass('uploading')
-					$('<p></p>').text('동영상이 업로드되고 있어요').appendTo($image);
-				}
-				return $image;
-			}
-			return {
-				props: _props,
-				destroy: function() {
-					_refs.isMounted = false;
-					$('#gallery').remove();
-				},
-				isMounted: function() {
-					return _refs.isMounted;
-				},
-				mount: function(attachIndex) {
-					var row = _props.data[attachIndex];
-					if (!row) {
-						return;
-					}
-					_refs.isMounted = true;
-					var $gallery = $('<div></div>').attr('id', 'gallery');
-					$('<div></div>')
-						.addClass('backdrop')
-						.on('click', function() {
-							history.back();
-						})
-						.appendTo($gallery);
-					var inner;
-					if (row.hlsUrl) {
-						inner = _handleHls(row.hlsUrl);
-					} else {
-						inner = _handleImage(row.imageUrl || row.fileurl, row.extension);
-					}
-					$(inner)
-						.addClass('content')
-						.appendTo($gallery);
-					$gallery.appendTo($container);
-				}
-			};
-		})()
-	};
 	var _set = {
 		limitNum: 20,
 		startNum: 0,
@@ -131,44 +43,7 @@ $().ready(function() {
 			_set.boardId = $container.find('#boardId').val();
 
 			_fn.initiateContent();
-			$(window).on('load', function() { // Fix popstate issue in Safari
-				setTimeout(function() {
-					$(window).on('popstate', function(event) {
-						var params = _fn.parseParams(window.location.pathname);
-						if (params.v) {
-							var state = event.originalEvent.state;
-							if (_component.Gallery.isMounted()) {
-								_component.Gallery.destroy();
-								return;
-							} else if (state && state['gallery-attach-index'] !== undefined) {
-								_component.Gallery.mount(state['gallery-attach-index']);
-								return;
-							}
-						}
-						_fn.initiateContent();
-					});
-				}, 0);
-			});
-			$containerTitle.on('click', '#manageMoim', function() {
-				_fn.manageMoim();
-			});
-			$container.on('click', '#writeArticleButton', function() {
-				_fn.showWriteArticleForm();
-			});
-			$container.on('change', '#searchArticleForm > select[name="search_type"]', function() {
-				var $form = $container.find('#searchArticleForm');
-				var $keyword = $form.find('input[name="keyword"]');
-				if ($(this).val() === '3') {
-					$keyword.attr('placeholder', '#에브리타임');
-				} else {
-					$keyword.attr('placeholder', '검색어를 입력하세요.');
-				}
-				$keyword.val('');
-			});
-			$container.on('submit', '#searchArticleForm', function() {
-				_fn.searchArticle();
-				return false;
-			});
+			
 			$container.on('click', '#goListButton', function() {
 				if (_set.boardPage > 1) {
 					history.go(-1);
@@ -180,6 +55,7 @@ $().ready(function() {
 			$articles.on('click', 'a[href]', function(event) {
 				_fn.goLinkContent(this, event);
 			});
+			
 			$articles.on('click', '> article > a.article > ul.status > li.update', function() {
 				var $article = $(this).parents('article');
 				_fn.showWriteArticleForm($article);
@@ -191,10 +67,6 @@ $().ready(function() {
 					_fn.removeArticle();
 				}
 				return false;
-			});
-			$articles.on('click', '> article > a.article > ul.status > li.abuse', function() {
-				var $article = $(this).parents('article');
-				_fn.showAbuseForm($article, 'article');
 			});
 			$articles.on('click', '> article > a.article > ul.status > li.removescrap', function() {
 				var $article = $(this).parents('article');
@@ -220,10 +92,30 @@ $().ready(function() {
 				}
 				return false;
 			});
+			$articles.on('click', '> article > a.article > div.attaches.multiple > figure.attach > img', function() {
+				console.log(this)
+//				var $img = $(this);
+//				history.pushState({ 'gallery-attach-index': 0 }, null, window.location.pathname);
+//				var $gallery = $('<div></div>').attr('id', 'gallery');
+//				$('<div></div>').addClass('backdrop').on('click', function() {
+//						history.back();
+//				}).appendTo($gallery);
+//				
+//				var $image = $('<div></div>');
+//				$('<img>').attr('src', $img.attr("src")).appendTo($image);
+//				$image.addClass('content').appendTo($gallery);
+//				$gallery.appendTo($container);
+				
+			});
+			
+			// 공감
 			$articles.on('click', '> article > a.article > div.buttons > span.posvote', function() {
 				var $article = $(this).parents('article');
+				console.log($article, $article[0])
 				_fn.voteArticle($article);
 			});
+			
+			// 스크랩
 			$articles.on('click', '> article > a.article > div.buttons > span.scrap', function() {
 				var $article = $(this).parents('article');
 				_fn.scrapArticle($article);
@@ -253,23 +145,6 @@ $().ready(function() {
 			});
 			$articles.on('click', '> form.write > ol.thumbnails > li.thumbnail.attached', function() {
 				_fn.showAttachThumbnailForm($(this));
-			});
-			$articles.on('click', '> form.write > ul.option > li.anonym', function() {
-				if ($(this).hasClass('active')) {
-					$(this).removeClass('active');
-				} else {
-					$(this).addClass('active');
-				}
-			});
-			$articles.on('click', '> form.write > ul.option > li.question', function() {
-				var $question = $articles.find('form.write p.question');
-				if ($(this).hasClass('active')) {
-					$question.hide();
-					$(this).removeClass('active');
-				} else {
-					$question.show();
-					$(this).addClass('active');
-				}
 			});
 			$articles.on('click', '> form.write > ul.option > li.hashtag', function() {
 				_fn.addHashtagOnWriteArticleForm();
@@ -317,20 +192,10 @@ $().ready(function() {
 					_fn.removeComment($comment);
 				}
 			});
-			$articles.on('click', '> article > div.comments > article > ul.status > li.abuse', function() {
-				var $comment = $(this).parent().parent();
-				_fn.showAbuseForm($comment, 'comment');
-			});
 			$articles.on('click', '> article > div.comments > article > ul.status > li.managedel', function() {
 				var $comment = $(this).parent().parent();
 				if (confirm('[삭제]는 관리하시는 게시판의 주제 및 규칙에 맞지 않는 게시물을 삭제하기 위한 기능입니다.\n\n확인을 누를 경우 게시물이 즉시 삭제됩니다.\n\n욕설, 음란물 등 에브리타임 커뮤니티 이용규칙에 어긋나는 게시물은 [삭제 및 이용 제한]을 해주시기 바랍니다.')) {
 					_fn.removeComment($comment);
-				}
-			});
-			$articles.on('click', '> article > div.comments > article > ul.status > li.manageabuse', function() {
-				var $comment = $(this).parent().parent();
-				if (confirm('[삭제 및 이용 제한]은 욕설, 음란물 등 에브리타임 커뮤니티 이용규칙에 어긋나는 게시물을 삭제하고, 이용 제한을 하기 위한 기능입니다.\n\n확인을 누를 경우 게시물이 즉시 삭제되며, 작성자는 일정 기한 동안 이 게시판을 이용할 수 없습니다.\n\n단순히 주제 및 규칙에 맞지 않는 게시물의 경우 [삭제]를 해주시기 바랍니다.')) {
-					_fn.abuseComment($comment, 0);
 				}
 			});
 		},
@@ -1296,71 +1161,51 @@ $().ready(function() {
 			});
 		},
 		voteArticle: function($article) {
+			if (!confirm('이 글을 공감하시겠습니까?')) {
+				return false;
+			}
 			var $vote = $article.find('a.article > ul.status > li.vote');
-			if ($article.data('is_mine') === '1') {
-				alert('자신의 글을 공감할 수 없습니다.');
-				return false;
-			}
-			if (!confirm('이 글에 공감하십니까?')) {
-				return false;
-			}
-			if (!_set.isUser) {
-				alert('로그인 후 가능합니다.');
-				return false;
-			}
-			//			$.ajax({
-			//				url: '/save/board/article/vote',
-			//				xhrFields: {withCredentials: true},
-			//				type: 'POST',
-			//				data: {
-			//					id: $article.data('id'),
-			//					vote: '1'
-			//				},
-			//				success: function (data) {
-			//					var response = Number($('response', data).text());
-			//					if (response === 0) {
-			//						alert('공감할 수 없습니다.');
-			//					} else if (response === -1) {
-			//						alert('이미 공감하였습니다.');
-			//					} else if (response === -2) {
-			//						alert('오래된 글은 공감할 수 없습니다.');
-			//					} else {
-			//						$vote.text(response);
-			//					}
-			//				}
-			//			});
+			console.log($article.data("id"))
+			$.ajax({
+				url: '/notice/vote',
+				type: 'POST',
+				data: {
+					id: $article.data('id'),
+				},
+				success: function (data) {
+					var response = Number(data);
+					if (response === -2) {
+						alert('본인의 글에는 공감할 수 없습니다.');
+					} else if (response === -1) {
+						alert('이미 공감하였습니다.');
+					} else {
+						$vote.text(response);
+					}
+				}
+			});
 		},
 		scrapArticle: function($article) {
 			var $scrap = $article.find('ul.status > li.scrap');
 			if (!confirm('이 글을 스크랩하시겠습니까?')) {
 				return false;
 			}
-			if (!_set.isUser) {
-				alert('로그인 후 가능합니다.');
-				return false;
-			}
-			//			$.ajax({
-			//				url: '/save/board/article/scrap',
-			//				xhrFields: {withCredentials: true},
-			//				type: 'POST',
-			//				data: {
-			//					article_id: $article.data('id')
-			//				},
-			//				success: function (data) {
-			//					var response = Number($('response', data).text());
-			//					if (response === 0) {
-			//						alert('스크랩할 수 없습니다.');
-			//					} else if (response === -1) {
-			//						alert('존재하지 않는 글입니다.');
-			//					} else if (response === -2) {
-			//						alert('이미 스크랩하였습니다.');
-			//					} else if (response === -3) {
-			//						alert('내가 쓴 글은 스크랩할 수 없습니다.');
-			//					} else {
-			//						$scrap.text(response);
-			//					}
-			//				}
-			//			});
+			$.ajax({
+				url: '/notice/scrap',
+				type: 'POST',
+				data: {
+					id: $article.data('id')
+				},
+				success: function(data) {
+					var response = Number(data);
+					if (response === -2) {
+						alert('본인의 글은 스크랩할 수 없습니다.');
+					} else if (response === -1) {
+						alert('이미 스크랩하였습니다.');
+					} else {
+						$scrap.text(response);
+					}
+				}
+			});
 		},
 		removeScrap: function($article) {
 			if (!confirm('스크랩을 취소하시겠습니까?')) {

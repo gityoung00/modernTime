@@ -1,6 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="adminHeader.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+  <link type="text/css" href="/css/common.css" rel="stylesheet">
+  <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.community.css" rel="stylesheet">
+  <link type="text/css" href="/css/container.modal.css" rel="stylesheet">
+  <link type="text/css" href="/css/admin/school.auth.css" rel="stylesheet">
+
+  <link href="/favicon.ico" rel="shortcut icon">
+  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script type="text/javascript" src="/js/community.side.js"></script>
+  <script type="text/javascript" src="/js/admin/board.index.js"></script>
+  <script type="text/javascript" src="/js/admin/extensions.canvas-to-blob.min.js"></script>
+  <script type="text/javascript" src="/js/admin/extensions.load-image.all.min.js"></script>
+  <script type="text/javascript" src="/js/admin/message.send.js"></script>
+  <script type="text/javascript" src="/js/admin/school.auth.detail.js"></script>
+</head>
+<body>
+<c:import url="../header.jsp" />
 <div id="submenu">
 	<div class="wrap">
 		<ul>
@@ -35,12 +55,12 @@
 			<a class="article">
 			<img src="https://cf-fpi.everytime.kr/5/1579249303.png"	class="picture large">
 			<div class="profile">
-					<h3 class="admin large">에브리타임</h3>
-					<time class="large">${schoolAuthView.user_id}</time>
-				</div>
+					<h3 class="admin large">${schoolAuthView.user_id}</h3>
+					<time class="large"></time>
+			</div>
 				<hr>
-				<h2 class="large">${schoolAuthView.type }</h2>
-				<p class="large">
+					<h2 class="large">${schoolAuthView.type == 'freshmen' ? '합격자 인증' : (schoolAuthView.type == 'student' ? '재학생 인증' : '졸업생 인증')}</h2>
+					<p class="large">
 <%-- 					<img src=${schoolAuthView.picture }> --%>
 				</p>
 				<div class="attaches multiple">
@@ -56,10 +76,14 @@
 		</article>
 		<div class="clearBothOnly"></div>
 		<div class="pagination">
-			<a id="goListButton" class="list" href="schoolAuth">글 목록</a>
+			<a id="goListButton" class="list" href="/school/auth">글 목록</a>
 			<!-- article.css 관리자만 보이게 -->
-			<a id="deleteButton" href="schoolAuthDelete?id=${schoolAuthView.id}">글 삭제</a>
-			<a id="updateButton" href="schoolAuthCheck?id=${schoolAuthView.user_id}">인증하기</a>
+			<c:if test="${schoolAuthView.is_checked == 0 }">
+				<a id="AuthButton" class="before">인증하기</a>
+			</c:if>
+			<c:if test="${schoolAuthView.is_checked == 1 }">
+				<a id="AuthButton" class="complete">인증하기</a>
+			</c:if>
 		</div>
 	</div>
 	<hr>
@@ -199,4 +223,4 @@
 		<input type="submit" value="전송" class="button">
 	</form>
 </div>
-<%@ include file="adminFooter.jsp"%>
+<c:import url="../footer.jsp" />

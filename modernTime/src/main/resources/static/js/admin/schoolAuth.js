@@ -95,6 +95,10 @@ $().ready(function () {
 			_set.boardId = $container.find('#boardId').val();
 			
 			_fn.initiateContent();
+			
+			$("#AuthButton.before").on('click', function(){
+				console.log("test");
+			});
 			$(window).on('load', function () { // Fix popstate issue in Safari
 				setTimeout(function () {
 					$(window).on('popstate', function (event) {
@@ -116,55 +120,37 @@ $().ready(function () {
 			
 		},
 		initiateContent: function () {
-			_set.categoryId = _set.categoryId || 0;
-			var url = window.location.pathname;
-			var params = _fn.parseParams(url);
-			_fn.loadContent(params);
+			_fn.loadSchoolAuth();
 		},
-		loadContent: function (params) {
-			if (params.v) {
-				$container.find('div.seasons, div.categories').addClass('none');
-				_fn.loadComments(params.v);
-			} else {
-				_set.boardPage = 1;
-				_set.searchType = 0;
-				_set.keyword = '';
-				if (params.p) {
-					_set.boardPage = Number(params.p);
+		loadSchoolAuth: function() {
+			$.ajax({
+				url: '/school/auth',
+				type: 'post',
+				data: { boardid: 9999 },
+				success: function(data) {
+					console.log(data);
+					$("#schoolAuthList").empty();
+					$(data.data).each(function(_, auth) {
+						var type = auth.type == 'freshmen' ? '합격자 인증' : (auth.type == 'student' ? '재학생 인증' : '졸업생 인증');
+						
+						if (auth.is_checked){
+							$article = $("<article></article>").addClass("complete").css("background-color", "#e9e9e9").appendTo($("#schoolAuthList"));
+							
+						} else {
+							$article = $("<article></article>").addClass("before").appendTo($("#schoolAuthList"));
+							
+						}
+						$("<div></div>").attr("id", "schoolAuthId").css("display", "none").text(auth.id).appendTo($article);
+						$aArticle = $("<a></a>").addClass("article").attr("href", `/schoolAuthView?id=${auth.id}`).appendTo($article);
+						$("<h2></h2>").addClass("medium").text(type).appendTo($aArticle);
+						$("<h3></h3>").addClass("admin").addClass("small").text(`${auth.user_id}`).appendTo($aArticle);
+						$("<hr>").appendTo($aArticle);
+					});
 				}
-				if (params.hashtag) {
-					_set.searchType = 3;
-					_set.keyword = params.hashtag;
-				} else if (params.title) {
-					_set.searchType = 2;
-					_set.keyword = params.title;
-				} else if (params.text) {
-					_set.searchType = 1;
-					_set.keyword = params.text;
-				} else if (params.all) {
-					_set.searchType = 4;
-					_set.keyword = params.all;
-				}
-				$container.find('div.seasons, div.categories').removeClass('none');
-				_fn.loadArticles();
-			}
+			});
 		},
-		parseParams: function (url) {
-			var params = {};
-			var paths = url.split('/').slice(2);
-			for (var i = 0; i < paths.length; i += 2) {
-				var key = paths[i];
-				var value = paths[i + 1];
-				if (/^\d+$/.test(value)) {
-					value = Number(value);
-				} else {
-					value = decodeURI(value);
-				}
-				params[key] = value;
-			}
-			return params;
-		},
+
 		
-			};
+	};
 	_fn.initiate();
 });

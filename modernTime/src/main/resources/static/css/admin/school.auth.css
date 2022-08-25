@@ -729,8 +729,8 @@
 #container>div.articles>article div.attaches.multiple>figure.attach {
 	display: inline-block;
 	margin: 0 5px 5px 0;
-	width: 183px;
-	height: 183px;
+/* 	width: 183px; */
+/* 	height: 183px; */
 }
 
 #container>div.articles>article div.attaches.multiple>figure.attach>img {
@@ -958,6 +958,19 @@
 	background-size: 10px 10px;
 	cursor: pointer;
 }
+#AuthButton.before{
+	float: right;
+	padding: 0 10px !important;
+	background-color: #c62917;
+	color: #fff !important;
+}
+#AuthButton.complete{
+	float: right;
+	padding: 0 10px !important;
+	background-color: #d9d9d9;
+	border: none !important;
+	color: #fff !important;
+}
 
 #container>div.articles>div.pagination>a.list {
 	float: left;
@@ -1149,4 +1162,5 @@
 	#container>div.articles>article div.attaches.multiple::-webkit-scrollbar {
 		display: none;
 	}
+	
 }

@@ -3,36 +3,71 @@
 
 <mapper namespace="com.care.moderntime.admin.dao.INoticeDAO">
 
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
-		parameterType="com.care.moderntime.admin.dto.NoticeDTO">
-		INSERT INTO notice (title, content, create_date) VALUES(#{title}, #{content}, NOW())
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.admin.dto.NoticeDTO">
+		INSERT INTO notice (title, content, create_date) VALUES(#{title}, #{content},
+		NOW())
 	</insert>
-	<select id="list" resultType="com.care.moderntime.admin.dto.NoticeDTO">
-		SELECT * FROM notice ORDER BY id DESC limit #{startNum}, #{count}
+	<select id="list" resultType="com.care.moderntime.admin.dto.NoticeListDTO">
+		select id, title, create_date,
+		(select count(*) from notice_picture where notice_id=id) as picture_count,
+		(select count(*) from notice_user_like where notice_id=id) as like_count
+		from notice
+		ORDER BY
+		id DESC limit #{startNum}, #{count}
 	</select>
-	<select id="noticeView" resultType="com.care.moderntime.admin.dto.NoticeDTO">
-		SELECT * FROM notice WHERE id=${id}
+	<select id="noticeView" parameterType="int" resultType="com.care.moderntime.admin.dto.NoticeListDTO">
+		select id, title, content, create_date,
+		(select count(*) from notice_picture where notice_id=id) as picture_count,
+		(select count(*) from notice_user_like where notice_id=id) as like_count,
+		(select count(*) from notice_scrap where notice_id=id) as scrap_count
+		from notice where id=#{id}
 	</select>
-	
+
 	<update id="noticeUpdate" parameterType="com.care.moderntime.admin.dto.NoticeDTO">
 		update notice set title=#{title}, content=#{content} where id=#{id}
 	</update>
-	
+
 	<delete id="noticeDelete">
-	DELETE FROM notice WHERE id=${id}
+		DELETE FROM notice WHERE id=${id}
 	</delete>
-	
+
 	<select id="noticeCount" resultType="int">
 		SELECT count(*) FROM notice
 	</select>
 	
-	<insert id="savePicture" useGeneratedKeys="true" keyProperty="id"
-		parameterType="com.care.moderntime.admin.dto.PictureDTO">
-		INSERT INTO picture (picture, comment) VALUES(#{picture}, #{comment})
-	</insert>
-	
-	<select id="getNoticePictures" parameterType="int" resultType="com.care.moderntime.admin.dto.PictureDTO">
-		select * from picture where id in (select picture_id from notice_pictrue where notice_id=#{noticeId})
+	<select id="checkVote" resultType="int">
+		select count(*) from notice_user_like where notice_id=#{noticeId} and user_id=#{userId}
 	</select>
 	
+	<select id="checkScrap" resultType="int">
+		select count(*) from notice_scrap where notice_id=#{noticeId} and user_id=#{userId}
+	</select>
+
+	<insert id="saveVote">
+		insert into notice_user_like values(#{noticeId}, #{userId})
+	</insert>
+
+	<insert id="saveScrap">
+		insert into notice_scrap values(#{noticeId}, #{userId})
+	</insert>
+
+	<insert id="savePicture" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.admin.dto.PictureDTO">
+		INSERT INTO picture (picture, caption) VALUES(#{picture}, #{caption})
+	</insert>
+
+	<update id="updateCaption">
+		update picture set caption=#{caption} where id=#{id}
+	</update>
+
+	<insert id="saveNoticePicture">
+		insert into notice_picture values(#{noticeId}, #{pictureId})
+	</insert>
+
+	<select id="getNoticePictures" parameterType="int" resultType="com.care.moderntime.admin.dto.PictureDTO">
+		select * from picture where id in (select picture_id from notice_picture where
+		notice_id=#{noticeId})
+	</select>
+	
+	
+
 </mapper>

@@ -2,6 +2,7 @@ package com.care.moderntime.admin.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -71,70 +72,48 @@ public class ALectureService {
 
 		data = data.substring(0, data.length() - 1);
 		data += "]}";
-		System.out.println(data);
+//		System.out.println(data);
 		return data;
 	}
 
 	// 강의 전체 불러오기
-	public String lectureList() {
+	public Map<String, Object> lectureList() {
+		Map<String, Object> res = new HashMap<String, Object>();
+		
 		ArrayList<LectureRegistDTO> lectureList = lectureDao.lectureList();
-		String data = lectureListString(lectureList);
+//		System.out.println("lectureList: " + lectureList);
+		res.put("data", lectureList);
 
-		return data;
+		return res;
 	}
 
-	public String lectureFilterKeyword(String keywordType, String keyword) {
-		System.out.println(keywordType + " " + keyword);
-		ArrayList<LectureRegistDTO> list = lectureDao.lectureFilterKeyword(keywordType, keyword);
-		String data = lectureListString(list);
-
-		return data;
-
+	public Map<String, Object> lectureFilter(HashMap<String, Object> filter){
+		Map<String, Object> res = new HashMap<String, Object>();
+		
+		
+		String keywordType = (String) filter.get("keywordType");
+		String keyword = (String) filter.get("keyword");
+		String order = (String) filter.get("order");
+		List<Integer> type = (List<Integer>) filter.get("type");
+		List<Integer> credit = (List<Integer>) filter.get("credit");
+		
+		System.out.println("keywordType: " + keywordType);
+		System.out.println("keyword: " + keyword);
+		System.out.println("order: " + order);
+		System.out.println("type: " + type);
+		System.out.println("credit: " + credit);
+		
+		ArrayList<LectureRegistDTO> lectures = lectureDao.lectureFilter(filter);
+		
+		res.put("data", lectures);
+		
+		return res;
+		
 	}
-
-	public String lectureFilterOrder(String orderId) {
-		ArrayList<LectureRegistDTO> list = lectureDao.lectureFilterOrder(orderId);
-		String data = lectureListString(list);
-		return data;
-	}
-
-	public String lectureFilterType(String type) {
-		ArrayList<LectureRegistDTO> list = lectureDao.lectureFilterType(type);
-		String data = lectureListString(list);
-		return data;
-	}
-
-	public String lectureFilterCredit(String credit) {
-		String credit1 = "";
-		String credit2 = "";
-		String[] array = credit.split(",");
-		if (credit.length() > 1) {
-			System.out.println(array[0]);
-			System.out.println(array[1]);
-			credit1 = array[0];
-			credit2 = array[1];
-		} else {
-			credit1 = array[0];
-		}
-		ArrayList<LectureRegistDTO> list = lectureDao.lectureFilterCredit(credit1, credit2);
-		String data = lectureListString(list);
-		return data;
-	}
-
-	public String lectureDelete(String asd) {
-		System.out.println(asd);
-		String[] tmp = asd.split("\"");
-		String tmp2 = "";
-		int cnt = 0;
-		for (int i = 0; i < tmp.length; i++) {
-			tmp2 += tmp[i];
-		}
-//		tmp = tmp2.split(",");
-		tmp2 = tmp2.substring(1, tmp2.length() - 1);
-		tmp = tmp2.split(",");
-		cnt = tmp.length;
-		System.out.println(tmp);
-		for (String m : tmp) {
+	
+	public String lectureDelete(List<String> ids) {
+		System.out.println(ids);
+		for (String m : ids) {
 			System.out.println(m);
 			int i = lectureDao.lectureDelete(m);
 			System.out.println(i);
@@ -155,13 +134,6 @@ public class ALectureService {
 
 	public String lectureUpdate(LectureRegistDTO dto) {
 
-		String lecture_id = (String) session.getAttribute("lecture_id");
-		System.out.println(lecture_id);
-		if (dto.getType() == null || dto.getType() == "" || dto.getName() == null || dto.getName() == "" || dto.getTeacher() == null || dto.getTeacher() == ""
-				|| dto.getPlace() == null || dto.getPlace() == "") {
-			return "필수요소입니다.";
-		}
-		dto.setLecture_id(lecture_id);
 		lectureDao.lectureUpdate(dto);
 		return "수정 완료";
 	}
