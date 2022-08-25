@@ -24,14 +24,6 @@
 <link type="text/css" href="/css/common.partial.css" rel="stylesheet">
 <link type="text/css" href="/css/container.community.css" rel="stylesheet">
 <link href="/favicon.ico" rel="shortcut icon">
-<!--[if lt IE 9]>
-  <script src="/js/extensions.html5shiv.js"></script>
-  <script src="/js/extensions.respond.min.js"></script>
-  <script src="/js/extensions.excanvas.min.js"></script>
-  <![endif]-->
-<!--[if lt IE 8]>
-  <script src="/js/extensions.json3.min.js"></script>
-  <![endif]-->
 <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
 <script type="text/javascript" src="/js/common.js"></script>
@@ -100,6 +92,7 @@
 				href="https://ad.everytime.kr/adClick?adToken=lxpDJl6bItihsyBdi7K8d7WP9Y%2BShBPaK0pXpv4jPIeg4aPIFoZhEXOr8oemGJqt%2FZJ2tXr7smLnXaMBSYN8ff33nOXAj1s16DFnso85wxs8Wf2uKdOZ12Mk4kUa3VC3Xjx6qibIKEKjhR0MkYs9DE%2Bs1IZOR1HHQKGT9m7lA%2FRG2VxE1aJBhdIGTOv%2BT1q1aJz52Mlg%2BUDFG5PEHfdu7krr8zFDd5UgTlixNPESlI0%2Fxk3aphAcITbufrf4wLzX"><img
 				src="https://cf-eba.everytime.kr/20220801_SAMSUNG_GalaxyStudio_CampusCurator_home.jpg"></a>
 		</div>
+		<!-- leftSide -->
 		<div class="leftside">
 			<div class="card pconly">
 				<form class="logged">
@@ -150,7 +143,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="rightside"></div>
+		<!-- //leftSide -->
+		<c:import url="rightSide.jsp" />
 		<div class="main"></div>
 	</div>
 	<div id="bottom">
