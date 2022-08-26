@@ -170,18 +170,23 @@ var bookstore = {
     saveItem: function (data, callback) {
 		console.log(data);
       $.ajax({
-        url: '/bookSell',
+        url: '/book/sell',
         type: 'POST',
         contentType: "application/json; charset=utf-8;",
         data: JSON.stringify(data),
+        complete: function(res){
+			console.log(res)
+		},
         success: function (response) {
 //			console.log(response);
           callback(response);
         },
-        error : function(){
-			console.log(data)
+        error : function(xhr, status, error){
+			console.log(xhr, status, error)
 		}
       });
+      
+      console.log('complete??');
     },
     //코멘트 수정
     saveItemComment: function (data, callback) {
@@ -214,6 +219,9 @@ var bookstore = {
         type: 'POST',
         contentType: "application/json; charset=utf-8;",
         data: JSON.stringify(data),
+        complete: function(res){
+			console.log(res)
+		},	
         success: function (response) {
           callback(response);
         }

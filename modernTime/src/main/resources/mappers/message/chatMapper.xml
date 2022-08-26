@@ -3,7 +3,10 @@
 
 <mapper namespace="com.care.moderntime.message.dao.ChatDAO">
 	<select id="findMessageList" parameterType="String" resultType="com.care.moderntime.message.dto.ChatListDTO">
-		select r.room_id, r.is_anonym, c.message, c.create_date, c.count, (select nickname from user where user.id=#{id}) as nickname
+		select r.room_id as roomId, r.is_anonym as isAnonym, c.message as message,
+		(select nickname from user where user.id=#{id}) as nickname,
+		 c.create_date as createDate, c.count as unreadCount
+		  
 		from (select room_id, is_anonym from room where type='chat' and part_user=#{id}) r
 		join
 		(select ch.*, cc.count from chat ch join 

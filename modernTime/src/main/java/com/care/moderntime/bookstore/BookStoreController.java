@@ -2,6 +2,7 @@ package com.care.moderntime.bookstore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -54,13 +55,16 @@ public class BookStoreController {
 //	}
 	
 	@ResponseBody
-	@PostMapping("bookSell")
-	public String bookSell(@RequestBody BookStoreDTO dto) {
+	@PostMapping("book/sell")
+	public Map<String, Object> bookSell(@RequestBody BookStoreDTO dto) {
 		System.out.println("bookesell");
 		System.out.println(dto.getPictures());
 		BookStoreDTO tmp = bss.bookSell(dto);
 		bss.insertPicture(tmp);
-		return "성공";
+		System.out.println("success bookSell");
+		Map<String, Object> res = new HashMap<String, Object>();
+		res.put("response", 1);
+		return res;
 	}
 	
 	@ResponseBody

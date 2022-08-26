@@ -29,7 +29,8 @@ public class ChatService {
 //		if (id == null || id.isEmpty()) return null;
 
 		ArrayList<ChatListDTO> chatList = chatDao.findMessageList(id);
-		System.out.println("chatlist");
+		System.out.println("chatlistsdfs");
+		System.out.println(chatList.get(0).getCreateDate().getClass());
 		System.out.println(chatList);
 		return chatList;
 	}
