@@ -19,8 +19,8 @@ _gfn = _.extend(_gfn, {
 		}else {
 			$('<p></p>').html(data.content).appendTo($a);
 		}
-		if (data.board_name) {
-			$('<h4></h4>').html(data.board_name).appendTo($a);
+		if (data.board_title) {
+			$('<h4></h4>').html(data.board_title).appendTo($a);
 		} else if (data.create_date) {
 			$('<time></time>').text(_gfn.formatRelativeDate(data.create_date)).appendTo($a);
 		}

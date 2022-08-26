@@ -66,14 +66,11 @@ public class BookStoreService {
 		System.out.println(data);
 		return data;
 	}
-//	public void insertPicture(BookStoreDTO dto) {
-//		for(int j=0;j<num.size();j++) {
-//			System.out.println(dto.getId());
-//			System.out.println(num.get(j));
-//			dao.insertPicture(dto.getId(),num.get(j));
-//		}
-//		tmp.getNum().clear();
-//	}
+	public void insertPicture(BookStoreDTO dto) {
+		for(BookPictureDTO picture : dto.getPictures()) {
+			dao.insertPicture(dto.getId(), picture.getId());
+		}
+	}
 	//전체 리스트
 	public String bookSellList() {
 		ArrayList<BookStoreDTO> list = dao.bookSellList();
@@ -94,20 +91,19 @@ public class BookStoreService {
 	}
 	//책보기
 	public BookStoreDTO bookstoreview(String id) {
+		
+		// bookstore 정보 불러오고
 		BookStoreDTO dto = dao.bookstoreview(id);
-		String str = dto.getComment().replace("\n","<br>"); 
-		dto.setComment(str);
+		// comment는 개행시키기
+		dto.setComment(dto.getComment().replace("\n","<br>"));
+		
+		// 가격 정보 천단위 콤마
 		DecimalFormat decFormat = new DecimalFormat("###,###");
-		String price = decFormat.format(dto.getPrice());
-		dto.setViewP(price);
+		dto.setViewP(decFormat.format(dto.getPrice()));
+		
 		System.out.println(dto.getId());
-		ArrayList<BookPictureDTO> tmp = dao.loadPicture(dto.getId());
-		ArrayList<String>s = new ArrayList<>();
-		for(BookPictureDTO b : tmp) {
-			System.out.println(b.getPicture_id());
-			s.add(dao.pictureUrl(b.getPicture_id()));
-		}
-		session.setAttribute("pictureUrl", s);
+		// 사진 불러오기
+		dto.setPictures(dao.loadPicture(dto.getId()));
 		return dto;
 	}
 

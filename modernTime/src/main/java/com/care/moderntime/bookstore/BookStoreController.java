@@ -10,11 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.care.moderntime.bookstore.dto.BookStoreDTO;
+import com.care.moderntime.bookstore.service.BookStoreChatService;
 import com.care.moderntime.bookstore.service.BookStoreService;
 
 @Controller
@@ -53,9 +55,11 @@ public class BookStoreController {
 	
 	@ResponseBody
 	@PostMapping("bookSell")
-	public String bookSell(BookStoreDTO dto) {
+	public String bookSell(@RequestBody BookStoreDTO dto) {
+		System.out.println("bookesell");
+		System.out.println(dto.getPictures());
 		BookStoreDTO tmp = bss.bookSell(dto);
-//		bss.insertPicture(tmp);
+		bss.insertPicture(tmp);
 		return "성공";
 	}
 	
@@ -84,11 +88,6 @@ public class BookStoreController {
 	@RequestMapping("myBook")
 	public String myBook() {
 		return "bookstore/myBook";
-	}
-	
-	@RequestMapping("messagebox")
-	public String messagebox() {
-		return "bookstore/messageBox";
 	}
 	
 	@ResponseBody

@@ -16,10 +16,9 @@
 	</select>
 	
 	<select id="findPopularPost" resultType="com.care.moderntime.dto.AsidePostListDTO">
-		select id, title, content, create_date, like_count, board_id, like_count, 
-		(select count(*) from comment c where c.post_id=p.id) as comment_count,
-		(select name from board where p.board_id=board.id) as board_name
-		 from post p order by id limit 2
+		select p.id, p.title, content, create_date, like_count, board_id, b.name as board_id, b.title as board_title, like_count, 
+		(select count(*) from comment c where c.post_id=p.id) as comment_count
+		 from post p join board b on p.board_id=b.id order by id limit 2;
 	</select>
 	
 	<select id="findEvaluation" resultType="com.care.moderntime.dto.AsideEvalDTO">

@@ -3,10 +3,12 @@
 
 <mapper namespace="com.care.moderntime.message.dao.ChatDAO">
 	<select id="findMessageList" parameterType="String" resultType="com.care.moderntime.message.dto.ChatListDTO">
-		select r.room_id, r.is_anonym, c.message, r.nickname, c.create_date, c.count
-		from (select room_id, is_anonym, nickname from room join user on room.part_user=user.id where part_user=#{id}) r
+		select r.room_id, r.is_anonym, c.message, c.create_date, c.count, (select nickname from user where user.id=#{id}) as nickname
+		from (select room_id, is_anonym from room where type='chat' and part_user=#{id}) r
 		join
-		(select ch.*, cc.count from chat ch join (select room_id, count(case when (is_readed=0 and sender &lt;&gt; #{id}) then 1 end) as count from chat group by room_id) cc on ch.room_id=cc.room_id
+		(select ch.*, cc.count from chat ch join 
+		(select room_id, count(case when (is_readed=0 and sender &lt;&gt; #{id}) then 1 end) as count 
+		from chat group by room_id) cc on ch.room_id=cc.room_id
 		where id in (select max(id) from chat group by room_id) order by ch.room_id desc) c
 		on r.room_id=c.room_id;
 	</select>
@@ -27,7 +29,7 @@
 	</select>
 
 	<insert id="makeChatRoom" parameterType="com.care.moderntime.message.dto.RoomDTO">
-		insert into room(room_id, part_user, is_anonym) values(#{roomId}, #{partUser}, #{isAnonym});
+		insert into room(type, room_id, part_user, is_anonym) values(#{type}, #{roomId}, #{partUser}, #{isAnonym});
 	</insert>
 
 	<select id="getCommentChatInfo" parameterType="int" resultType="com.care.moderntime.message.dto.ChatInfoDTO">
@@ -55,8 +57,14 @@
 
 
 	<update id="updateIsReaded">
-		update chat set is_readed=1 where room_id=#{roomId} and sender &lt;&gt; #{id} and is_readed=0
+		update chat set is_readed=1 where room_id=#{roomId} and is_readed=0
 	
 	</update>
+	
+	<select id="getMyBookChatList" resultType="com.care.moderntime.bookstore.dto.BookChatListDTO">
+		select room_id, message, create_date from chat 
+		where room_id in (select room_id from room where type='book' and part_user=#{id}) 
+		and id in (select max(id) from chat group by room_id);
+	</select>
 
 </mapper>

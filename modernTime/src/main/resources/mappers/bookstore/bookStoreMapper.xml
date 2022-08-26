@@ -13,27 +13,30 @@
 		VALUES(#{title},#{author},#{publisher},#{publication_date},#{price},#{comment},NOW(),0,#{user_id})
 	</insert>
 	
-	<insert id="insertPicture" >
+	<insert id="insertPicture">
 		INSERT INTO book_picture VALUES(#{bookPicId},#{bookId})
 	</insert>
 	
 	<select id="loadPicture" resultType="com.care.moderntime.bookstore.dto.BookPictureDTO">
-		SELECT * FROM book_picture WHERE bookpost_id=${id}
+		SELECT * FROM picture WHERE id in (select picture_id from book_picture where bookpost_id=#{id})
 	</select>
 	
 	<select id="pictureUrl" parameterType="int" resultType="String">
 		SELECT picture FROM picture WHERE id=${i}
 	</select>
 	<select id="bookSellList" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
-		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture from bookpost b ORDER BY id DESC;
+		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture 
+		from bookpost b ORDER BY is_sold, id DESC;
 	</select>
 	
 	<select id="bookSellListSearch" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
-		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture from bookpost b WHERE title like CONCAT('%', #{keyword}, '%') ORDER BY id DESC
+		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture 
+		from bookpost b WHERE title like CONCAT('%', #{keyword}, '%') ORDER BY is_sold, id DESC
 	</select>
 	
 	<select id="bookSellListMy" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
-		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture from bookpost b WHERE user_id like CONCAT('%', #{userId}, '%') ORDER BY id DESC
+		select b.*, (select p.picture from picture p where p.id = (select picture_id from book_picture where b.id=bookpost_id limit 1)) as picture 
+		from bookpost b WHERE user_id like CONCAT('%', #{userId}, '%') ORDER BY is_sold, id DESC
 	</select>
 	
 	<select id="bookstoreview" resultType="com.care.moderntime.bookstore.dto.BookStoreDTO">
@@ -51,4 +54,8 @@
 	<update id="commentChange">
 		UPDATE bookpost SET comment = #{comment} WHERE id=#{id}
 	</update>
+
+	<select id="getReceiver" parameterType="int" resultType="String">
+		select user_id from bookpost where id=#{id}
+	</select>	
 </mapper>

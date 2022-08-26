@@ -287,7 +287,7 @@ $().ready(function() {
 			//			console.log($items)
 			data.forEach(function(chat) {
 				//				console.log(chat)
-				var message = chat.message;
+				var message = chat.message.replace(/(\n|\r\n)/g, '<br>');;
 				console.log(chat.flag, myId, chat.sender)
 				var type = (chat.flag == 0) ? 0 : ((myId == chat.sender) ? 2 : 1);
 				var createDate = `${chat.createDate[0]}-${(chat.createDate[1]).toString().padStart(2, '0')}-${(chat.createDate[2]).toString().padStart(2, '0')}T${(chat.createDate[3]).toString().padStart(2, '0')}:${(chat.createDate[4]).toString().padStart(2, '0')}:${(chat.createDate[5]).toString().padStart(2, '0')}`;
@@ -302,6 +302,7 @@ $().ready(function() {
 				} else {
 					$('<p></p>').addClass('type type0').text('안내').appendTo($item);
 				}
+				
 				$('<p></p>').addClass('text').html(message).appendTo($item);
 				$item.appendTo($items);
 			});

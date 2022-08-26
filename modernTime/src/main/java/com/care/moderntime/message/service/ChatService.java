@@ -80,8 +80,8 @@ public class ChatService {
 		int roomId = chatDao.getRoomId();
 		System.out.println("roomId: " + roomId);
 		// 두 유저간 연결
-		RoomDTO sendRoom = new RoomDTO(roomId, sender, isAnonym);
-		RoomDTO receiveRoom = new RoomDTO(roomId, info.getUserId(), isAnonym);
+		RoomDTO sendRoom = new RoomDTO(roomId, "chat", sender, isAnonym);
+		RoomDTO receiveRoom = new RoomDTO(roomId, "chat", info.getUserId(), isAnonym);
 		chatDao.makeChatRoom(sendRoom);
 		chatDao.makeChatRoom(receiveRoom);
 

@@ -36,4 +36,6 @@ public interface IBookStoreDAO {
 
 	int commentChange(@Param("id")String id, @Param("comment")String comment);
 	
+	// 판매글 올린 사람(책방 쪽지에 사용)
+	String getReceiver(int id);
 }

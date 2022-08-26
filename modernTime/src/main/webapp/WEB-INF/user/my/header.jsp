@@ -25,13 +25,7 @@
 					<a data-v-5dfb409d="" href="/calculator"> 학점계산기 </a>
 				</div>
 				<div data-v-5dfb409d="" class="">
-					<a data-v-5dfb409d="" href="/friend"> 친구 </a>
-				</div>
-				<div data-v-5dfb409d="" class="">
-					<a data-v-5dfb409d="" href="https://bookstore.everytime.kr"> 책방 </a>
-				</div>
-				<div data-v-5dfb409d="" class="">
-					<a data-v-5dfb409d="" href="https://www.campuspick.com"> 캠퍼스픽 </a>
+					<a data-v-5dfb409d="" href="/bookstore"> 책방 </a>
 				</div>
 			</nav>
 			<div data-v-5dfb409d="" class="account">

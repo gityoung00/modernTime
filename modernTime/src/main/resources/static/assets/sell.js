@@ -1,5 +1,6 @@
 bookstore.sell = {
   saving: false,
+  sell_picture: [],
   elements: {},
   scrollToDiv: function ($sellForm, $div) {
     $('html, body').stop().delay(100).animate({
@@ -8,23 +9,12 @@ bookstore.sell = {
   },
   init: function ($sellForm) {
     $sellForm.find('div.group-book').remove();
-//    if (typeof window.BarcodeScanner === 'undefined') {
-//      bookstore.sell.showSearchDiv($sellForm);
-//      return false;
-//    }
 
 //  제 1화면 책 검색방법 선택(수동으로만 할것)
     var $container = $('<div></div>').addClass('group group-init');
     $('<h2></h2>').text('어떤 책을 판매하실 건가요?').appendTo($container);
     var $buttonWrap = $('<p></p>').appendTo($container);
-//    $('<input>').addClass('button block barcode').attr({
-//      type: 'button',
-//      value: '카메라로 바코드 스캔'
-//    }).appendTo($buttonWrap);
-//    $('<input>').addClass('button block search').attr({
-//      type: 'button',
-//      value: 'ISBN 혹은 책 이름으로 검색'
-//    }).appendTo($buttonWrap);
+
     $('<input>').addClass('button block manual').attr({
       type: 'button',
       value: '수동으로 정보 입력'
@@ -33,63 +23,6 @@ bookstore.sell = {
     $container.appendTo($sellForm);
   },
   
-  	//책 검색 화면 DB가 없으므로 사용하지 않을 예정
-//  showSearchDiv: function ($sellForm) {
-//    $sellForm.find('div.group-init').remove();
-//    var $container = $('<div></div>').addClass('group group-search');
-//    $('<h2></h2>').text('판매하실 책을 검색하세요.').appendTo($container);
-//    var $keywordWrap = $('<p></p>').appendTo($container);
-//    $('<input>').addClass('text search').attr({
-//      type: 'text',
-//      name: 'keyword',
-//      placeholder: 'ISBN 혹은 책 이름'
-//    }).appendTo($keywordWrap);
-//    var $buttonWrap = $("<span></span>").addClass('searchbutton').appendTo($keywordWrap);
-//    $('<span></span>').addClass('icons search-gray-16').appendTo($buttonWrap);
-//    $('<hr>').appendTo($container);
-//    $container.appendTo($sellForm);
-//  },
-
-	//검색결과 화면
-//  showResultDiv: function ($sellForm, keyword) {
-//    $sellForm.find('div.group-search > p > input[name="keyword"]').blur();
-//    $sellForm.find('div.group-result').remove();
-//    var $container = $('<div></div>').addClass('group group-result').appendTo($sellForm);
-//    var $loading = $('<div></div>').addClass('loading').text('검색 중입니다...').appendTo($container);
-//    bookstore.fn.findBookList(keyword, function (response) {
-//      $container.find('div.loading').remove();
-//      var $bookWrap = $('<ol></ol>');
-//      if (!response || !response.length) {
-//        $('<div></div>').addClass('empty').text('검색 결과가 없습니다.').appendTo($container);
-//      }
-//      _.each(response, function (book) {
-//        var $bookLi = $('<li></li>').data('book', book).appendTo($bookWrap);
-//        $('<div></div>').addClass('image').css({
-//          'background-image': 'url("' + book.image + '")'
-//        }).appendTo($bookLi);
-//        $('<h3></h3>').html(bookstore.fn.decodeHtmlSpecialChars(book.title)).appendTo($bookLi);
-//        var $bookInfoDl = $('<dl></dl>').appendTo($bookLi);
-//        $('<dt></dt>').text('ISBN').appendTo($bookInfoDl);
-//        $('<dd></dd>').html(bookstore.fn.decodeHtmlSpecialChars(book.isbn)).appendTo($bookInfoDl);
-//        $('<dt></dt>').text('저자').appendTo($bookInfoDl);
-//        $('<dd></dd>').html(bookstore.fn.decodeHtmlSpecialChars(book.author)).appendTo($bookInfoDl);
-//        $('<dt></dt>').text('출판사').appendTo($bookInfoDl);
-//        $('<dd></dd>').html(bookstore.fn.decodeHtmlSpecialChars(book.publisher)).appendTo($bookInfoDl);
-//        $('<dt></dt>').text('출판일').appendTo($bookInfoDl);
-//        $('<dd></dd>').html(bookstore.fn.formatDate(book.pubdate)).appendTo($bookInfoDl);
-//        $('<dt></dt>').text('정가').appendTo($bookInfoDl);
-//        $('<dd></dd>').html(bookstore.fn.formatPrice(book.price)).appendTo($bookInfoDl);
-//        $('<hr>').appendTo($bookLi);
-//      });
-//      var $manualLi = $('<li></li>').addClass('manual').data('book', {
-//        title: '', author: '', publisher: '', pubdate: '', price: '', isbn: ''
-//      }).appendTo($bookWrap);
-//      $('<p></p>').text('수동으로 정보 입력하기').appendTo($manualLi);
-//      $bookWrap.appendTo($container);
-//      bookstore.sell.scrollToDiv($sellForm, $container);
-//    });
-//  },
-
 	// 수동 정보 입력 폼
   showBookDiv: function ($sellForm, book) {
     $sellForm.find('div.group-init').remove();
@@ -131,18 +64,8 @@ bookstore.sell = {
       placeholder: '출판일 (ex. 20160101)',
       value: book.pubdate
     }).appendTo($pubdateWrap);
-//    $('<input>').addClass('text').attr({
-//      type: 'number',
-//      name: 'book-price',
-//      placeholder: '정가 (ex. 17000)',
-//      value: book.price
-//    }).appendTo($priceWrap);
     $('<hr>').appendTo($container);
     var $buttonWrap = $('<p></p>').appendTo($container);
-//    $('<input>').addClass('button retry').attr({
-//      type: 'button',
-//      value: '다시 검색'
-//    }).appendTo($buttonWrap);
     var $nextButton = $('<input>').addClass('button next disabled').attr({
       type: 'button',
       value: '다음'
@@ -353,7 +276,7 @@ bookstore.sell = {
       $('<span></span>').addClass('remove').text('삭제').appendTo($image);
       $('<span></span>').addClass('icons image-gray-32').appendTo($image);
       $('<p></p>').text(imageItem).appendTo($image);
-      var $imgForm = $('<form enctype="multipart/form-data"></form>').addClass('imageForm');
+      var $imgForm = $('<form enctype="multipart/form-data"></form>').addClass('imageForm').appendTo($imagesWrap);
       $('<input>').addClass('file').attr({accept: 'image/*', type: 'file', name:'file'}).appendTo($imgForm);
     });
     $('<hr>').appendTo($imagesWrap);
@@ -529,21 +452,7 @@ bookstore.sell = {
       longitude: bookstore.data.user.campus_longitude
     });
   },
-//  putMeansDirectCurrentData: function ($sellForm) {
-//    $('<div></div>').html('<p>현재 위치를 불러오는 중입니다...</p>').addClass('toast').appendTo($sellForm);
-//    bookstore.fn.findCurrentLocation(function (err, result) {
-//      $sellForm.find('div.toast').remove();
-//      if (err) {
-//        alert('현재 위치를 불러올 수 없습니다!');
-//        return false;
-//      }
-//      bookstore.sell.putMeansDirectData($sellForm, {
-//        name: result.name,
-//        latitude: result.latitude,
-//        longitude: result.longitude
-//      });
-//    });
-//  },
+
   putMeansDirectData: function ($sellForm, data) {
     var $meansDirectInput = $sellForm.find('div.group-means-direct input[name="means-direct"]');
     $meansDirectInput.val(data.name).data({
@@ -658,31 +567,18 @@ bookstore.sell = {
     }
     bookstore.sell.saving = true;
     var data = {};
-    data['book-isbn'] = $sellForm.find('input[name="book-isbn"]').val();
     data['title'] = $sellForm.find('input[name="book-title"]').val();
     data['author'] = $sellForm.find('input[name="book-author"]').val();
     data['publisher'] = $sellForm.find('input[name="book-publisher"]').val();
     data['publication_date'] = $sellForm.find('input[name="book-pubdate"]').val();
     data['price'] = $sellForm.find('input[name="book-price"]').val();
-    data['user_id'] ="test123";
-
+    data['user_id'] =bookstore.data.user.id;
+	data['pictures'] = bookstore.sell.sell_picture
 
     console.log(data)
     if ($sellForm.is(':has(div.group-lecture)')) {
       data['lecture-id'] = $sellForm.find('input[name="lecture"]').data('id');
     }
-    data['status-note'] = $sellForm.find('div.group-status-note > ol.select-checkbox > li').map(function () {
-      return $(this).hasClass('checked') ? '1' : '0';
-    }).get().join('');
-    data['status-damage'] = $sellForm.find('div.group-status-damage > ol.select-checkbox > li').map(function () {
-      return $(this).hasClass('checked') ? '1' : '0';
-    }).get().join('');
-    data['status-image'] = JSON.stringify($sellForm.find('div.group-status-image > div.images div.image').map(function (index) {
-      return {
-        cover: (index === 0) ? 1 : 0,
-        url: $(this).data('url')
-      };
-    }).get());
     data['price'] = $sellForm.find('input[name="price"]').val();
     if (bookstore.data.defaultLocation) {
       data['means-delivery'] = 0;
@@ -703,51 +599,32 @@ bookstore.sell = {
     if ($sellForm.is(':has(div.group-comment)')) {
       data['comment'] = $sellForm.find('textarea[name="comment"]').val();
     }
+    console.log(data)
     bookstore.fn.saveItem(data, function (response) {
       if (response.error) {
         alert('오류가 발생하였습니다!');
       } else {
+		console.log("test")
+		console.log(response)
         location.href = '/bookstore';
       }
     });
   },
-  uploadS3: function ($sellForm, index, canvas, timestamp, thumb, callback) {
-	var $form = $('.imageForm');
-//    canvas.toBlob(function (blob) {
-	console.log($form);
-	var $file = $(".file");
+  uploadS3: function ($input, callback) {
+	var $form = $input.parent('.imageForm');
 	console.log($form[0])
-	console.log($($form[0]).find('input[type="file"]').val());
 	var formData = new FormData($form[0]);
-	console.log(formData)
-	console.log(formData[0])
-//      var formData = new FormData();
-      var fileName = bookstore.data.s3.key + '/' + timestamp + '_' + index.toString();
-      if (thumb) {
-        fileName += '_thumb';
-      }
-      fileName += '.jpg';
-//      formData.append('Content-Type', 'image/jpeg');
-//      formData.append('acl', bookstore.data.s3.provider['acl']);
-//      formData.append('policy', bookstore.data.s3.provider['policy']);
-//      formData.append('X-amz-algorithm', bookstore.data.s3.provider['X-amz-algorithm']);
-//      formData.append('X-amz-credential', bookstore.data.s3.provider['X-amz-credential']);
-//      formData.append('X-amz-date', bookstore.data.s3.provider['X-amz-date']);
-//      formData.append('X-amz-expires', bookstore.data.s3.provider['X-amz-expires']);
-//      formData.append('X-amz-signature', bookstore.data.s3.provider['X-amz-signature']);
-//      formData.append('key', fileName);
-//      formData.append('file', blob);
-//        console.log(fileName),
       $.ajax({
-        url: 'admin/upload',
+        url: '/admin/save/picture',
         enctype: 'multipart/form-data',
         type: 'POST',
         data: formData,
         contentType: false,
         processData: false,
         success: function (response) {
+			bookstore.sell.sell_picture.push({id: response})
           if (callback) {
-            callback(fileName);
+            callback(response);
           }
         }
       });
@@ -824,6 +701,7 @@ $().ready(function () {
       bookstore.sell.showSearchDiv($sellForm);
     })
     .on('click', '> div.group-init input.button.manual', function () {
+	console.log("test2")
       bookstore.sell.showBookDiv($sellForm, {
         title: '', author: '', publisher: '', publication_date: '', price: '', isbn: ''
       });
@@ -846,70 +724,9 @@ $().ready(function () {
       $buttonWrap.remove();
       bookstore.sell.showStatusImageDiv($sellForm);
     })
-    .on('focus', '> div.group-lecture input[name="lecture"]:not([readonly])', function () {
-      bookstore.sell.showLecturePopup($sellForm);
-      $(this).blur();
-    })
-    .on('change', '> div.group-lecture input[name="lecture"]', function () {
-      var $lectureDiv = $sellForm.find('> div.group-lecture');
-      bookstore.sell.validateLectureDiv($lectureDiv);
-    })
-    .on('click', '> div.group-lecture input.button.skip', function () {
-      $sellForm.find('> div.group-lecture').remove();
-      bookstore.sell.showStatusNoteDiv($sellForm);
-    })
-    .on('click', '> div.group-lecture input.button.next:not(.disabled)', function () {
-      var $buttonWrap = $(this).parent();
-      $buttonWrap.remove();
-      bookstore.sell.showStatusImageDiv($sellForm);
-    })
-    .on('click', '> div.group-lecture-result > ol > li', function () {
-      if ($(this).hasClass('retry')) {
-        $sellForm.find('div.group-lecture-result').remove();
-        bookstore.sell.showLecturePopup($sellForm);
-      } else {
-        bookstore.sell.putLectureData($sellForm, $(this).data('lecture'));
-      }
-    })
-    .on('click', '> div.group-status-note input.button.skip', function () {
-      var $buttonWrap = $(this).parent();
-      $buttonWrap.remove();
-      var $statusNoteDiv = $sellForm.find('> div.group-status-note');
-      $statusNoteDiv.find('> ol.select-checkbox > li.checked').each(function () {
-        $(this).click();
-      });
-      bookstore.sell.showStatusDamageDiv($sellForm);
-    })
-    .on('click', '> div.group-status-note input.button.next:not(.disabled)', function () {
-      var $buttonWrap = $(this).parent();
-      $buttonWrap.remove();
-      bookstore.sell.showStatusDamageDiv($sellForm);
-    })
-    .on('click', '> div.group-status-note > ol.select-checkbox > li', function () {
-      var $checkboxItem = $(this);
-      var $statusNoteDiv = $sellForm.find('> div.group-status-note');
-      bookstore.sell.validateStatusDiv($statusNoteDiv);
-    })
-    .on('click', '> div.group-status-damage input.button.skip', function () {
-      var $buttonWrap = $(this).parent();
-      $buttonWrap.remove();
-      var $statusDamageDiv = $sellForm.find('> div.group-status-damage');
-      $statusDamageDiv.find('> ol.select-checkbox > li.checked').each(function () {
-        $(this).click();
-      });
-      bookstore.sell.showStatusImageDiv($sellForm);
-    })
-    .on('click', '> div.group-status-damage input.button.next:not(.disabled)', function () {
-      var $buttonWrap = $(this).parent();
-      $buttonWrap.remove();
-      bookstore.sell.showStatusImageDiv($sellForm);
-    })
-    .on('click', '> div.group-status-damage > ol.select-checkbox > li', function () {
-      var $checkboxItem = $(this);
-      var $statusDamageDiv = $sellForm.find('> div.group-status-damage');
-      bookstore.sell.validateStatusDiv($statusDamageDiv);
-    })
-    .on('click', '> div.group-status-image > div.images:not(.locked) div.image', function () {
+    // 무한 루프
+    .on('click', '> div.group-status-image > div.images:not(.locked) div.image', function (e) {
+		e.stopPropagation();
       if (typeof window.FileReader === 'undefined' || !document.createElement('canvas').getContext) {
         alert('사진 첨부를 위해 최신 브라우저를 이용해주세요.');
         return false;
@@ -929,14 +746,15 @@ $().ready(function () {
         }
         $image.removeClass('attached').css('background-image', 'none').removeData('url');
         $input.val('');
-      } else {
-        $input.click();
+      }else {
+        $input.trigger("click");
       }
       bookstore.sell.validateStatusImageDiv($statusImageDiv);
     })
+    // 사진 첨부
     .on('change', '> div.group-status-image > div.images input.file', function () {
       var $statusImageDiv = $sellForm.find('> div.group-status-image');
-      var input = this;
+      var input = this
       var $input = $(input);
       var index = $statusImageDiv.find('> div.images input.file').index($input);
       var $image = $statusImageDiv.find('> div.images div.image').eq(index);
@@ -970,22 +788,13 @@ $().ready(function () {
           'background-image': 'url("' + canvas.toDataURL('image/jpeg') + '")'
         });
         
-        bookstore.sell.uploadS3($sellForm, index, canvas, timestamp, false, function (response) {
+        bookstore.sell.uploadS3($input, function (response) {
+		  console.log("test")
           $image.data('url', response);
           bookstore.sell.validateStatusImageDiv($statusImageDiv);
         });
         
       }, loadImageOptions);
-      
-      
-//      if (index === 0) {
-//        loadImage(file, function (canvas) {
-//          if (!canvas.toDataURL || !canvas.toBlob) {
-//            return false;
-//          }
-//          bookstore.sell.uploadS3($sellForm, index, canvas, timestamp, true);
-//        }, loadThumbImageOptions);
-//      }
       
       
     })

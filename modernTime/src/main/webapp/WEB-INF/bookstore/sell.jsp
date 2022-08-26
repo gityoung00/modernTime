@@ -84,33 +84,12 @@
 			}
 		}
 	</script>
-	<div id="bar" style="">
-		<nav class="trisection">
-			<a href="/admin" class="home"><span class="icons home-darkgray-16"></span><span
-				class="text">홈</span></a> <a href="/sell" class="sell"><span
-				class="icons sell-darkgray-16"></span><span class="text">판매하기</span></a>
-			<a href="/myBook" class="my"><span class="icons my-darkgray-16"></span><span
-				class="text">마이페이지</span></a>
-		</nav>
-	</div>
-	<div id="bottom"></div>
+	<c:import url="footer.jsp" />
 	<script type="text/javascript">
 		bookstore.data.user = {
-			id : 1666766,
-			nickname : '이익며러언d',
-			school_id : 116,
-			campus_id : 405,
-			campus_full_name : '경북대 대구캠',
-			campus_latitude : 35.890025,
-			campus_longitude : 128.611351
+			id : "${sessionScope.id }",
+			nickname : "${sessionScope.nickname }",
 		};
-		bookstore.data.campuses = [ {
-			id : 405,
-			full_name : '경북대 대구캠'
-		}, {
-			id : 406,
-			full_name : '경북대 상주캠'
-		} ];
 	</script>
 	<script type="text/javascript">
 		(function(i, s, o, g, r, a, m) {

@@ -1,17 +1,15 @@
 bookstore.messagebox = {
   loadMessageBoxes: function ($boxesDiv) {
     bookstore.fn.findMessageBoxes(function (response) {
-      var boxes = $(response).find('box').map(function () {
-        var $data = $(this);
+		console.log(response)
+      var boxes = $(response.data).map(function () {
+		console.log(this)
         return {
-          id: $data.attr('id'),
-          text: $data.attr('last_message_text'),
-          date: bookstore.fn.formatDate($data.attr('last_message_created_at')),
-          unreadCount: Number($data.attr('unread_count')),
-          updatedTime: Number($data.attr('updated_time'))
+          id: this.room_id,
+          text: this.message,
+          date: this.create_date,
         };
       }).get();
-      boxes = _.sortBy(boxes, 'updatedTime').reverse();
       if (!boxes.length) {
         $('<a></a>').addClass('box empty').text('아직 주고 받은 쪽지가 없습니다.').appendTo($boxesDiv);
         return false;

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -51,24 +52,7 @@
 	<div id="loading" style="display: none;">
 		<img src="/assets/loading.svg">
 	</div>
-	<div id="bar">
-		<nav class="trisection">
-			<a href="/bookstore" class="home"><span
-				class="icons home-darkgray-16"></span><span class="text">홈</span></a> <a
-				href="/sell" class="sell"><span class="icons sell-darkgray-16"></span><span
-				class="text">판매하기</span></a> <a href="/myBook" class="my"><span
-				class="icons my-darkgray-16"></span><span class="text">마이페이지</span></a>
-		</nav>
-	</div>
-	<div id="bottom">
-		<ul class="links">
-			<li class="copyright"><a href="https://everytime.kr">에브리타임</a></li>
-			<li><a href="https://everytime.kr/page/faq">문의하기</a></li>
-			<li><a href="https://everytime.kr/page/rules">커뮤니티이용규칙</a></li>
-			<li><a href="https://everytime.kr/page/privacy">개인정보처리방침</a></li>
-		</ul>
-
-	</div>
+	<c:import url="footer.jsp" />
 	<script type="text/javascript">
 		bookstore.data.user = {
 			id : 937760,

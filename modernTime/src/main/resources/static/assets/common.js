@@ -110,7 +110,7 @@ var bookstore = {
     },
     findMessageBoxes: function (callback) {
       $.ajax({
-        url: '/find/messageboxes.xml',
+        url: '/find/messageboxes',
         type: 'GET',
         success: function (response) {
           callback(response);
@@ -119,7 +119,7 @@ var bookstore = {
     },
     findMessages: function (data, callback) {
       $.ajax({
-        url: '/find/messages.xml',
+        url: '/find/messages',
         type: 'GET',
         data: data,
         success: function (response) {
@@ -168,17 +168,19 @@ var bookstore = {
       };
     },
     saveItem: function (data, callback) {
+		console.log(data);
       $.ajax({
         url: '/bookSell',
         type: 'POST',
-        dataType: 'json',
-        data: data,
+        contentType: "application/json; charset=utf-8;",
+        data: JSON.stringify(data),
         success: function (response) {
+//			console.log(response);
           callback(response);
         },
         error : function(){
-	console.log(data)
-}
+			console.log(data)
+		}
       });
     },
     //코멘트 수정
@@ -206,10 +208,12 @@ var bookstore = {
       });
     },
     saveMessage: function (data, callback) {
+	console.log(data)
       $.ajax({
-        url: '/save/message',
+        url: '/book/save/message',
         type: 'POST',
-        data: data,
+        contentType: "application/json; charset=utf-8;",
+        data: JSON.stringify(data),
         success: function (response) {
           callback(response);
         }

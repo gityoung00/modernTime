@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.care.moderntime.bookstore.dto.BookChatListDTO;
 import com.care.moderntime.message.dto.ChatDTO;
 import com.care.moderntime.message.dto.ChatInfoDTO;
 import com.care.moderntime.message.dto.ChatListDTO;
@@ -13,9 +14,12 @@ import com.care.moderntime.message.dto.RoomDTO;
 @Mapper
 public interface ChatDAO {
 	
-	// 채팅방 목록 생성
+	// 채팅방 목록 생성(쪽지)
 	ArrayList<ChatListDTO> findMessageList(String id);
 
+	// 채팅방 목록(책방)
+	public ArrayList<BookChatListDTO> getMyBookChatList(String id);
+	
 	// 채팅방 만들기
 	int getRoomId();
 	int makeChatRoom(RoomDTO room);

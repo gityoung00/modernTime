@@ -54,7 +54,7 @@
 					<time>${bookstoreview.create_date }</time>
 					<p class="soldout">이 책은 판매가 완료되었습니다.</p>
 				</c:when>
-				<c:when test="${sessionScpoe.id } == ${ bookstoreview.id}">
+				<c:when test="${sessionScope.id eq bookstoreview.user_id}">
 					<p class="comment">${bookstoreview.comment }</p>
 					<time>${bookstoreview.create_date }</time>
 					<p class="buttons">
@@ -72,14 +72,6 @@
 					<time>${bookstoreview.create_date }</time>
 					<p class="buttons">
 					<!-- 확인 후 삭제 -->
-					<a class="red soldout"> <span class="icons soldout-white-16"></span>
-							<span class="text">판매 완료하기</span>
-						</a> <a class="white price"> <span class="icons price-gray-16"></span>
-							<span class="text">가격 수정</span>
-						</a> <a class="white edit"> <span class="icons edit-gray-16"></span>
-							<span class="text">설명 수정</span>
-						</a>
-						<!--  -->
 						<a class="red message" href="#"> <span
 							class="icons message-white-16"></span> <span class="text">판매자에게
 								쪽지 보내기</span>
@@ -88,19 +80,17 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:if test="${!empty pictureUrl }">
-			<div class="group group-status">
-				<div class="images">
-					<div class="wrap" style="width: 260px">
-						<c:forEach items="${pictureUrl }" var="url">
-							<div class="image"
-								style="background-image: url('${url}');"></div>
-						</c:forEach>
-						<hr>
-					</div>
+		<div class="group group-status">
+			<div class="images">
+				<div class="wrap" style="width: 260px">
+					<c:forEach items="${bookstoreview.pictures }" var="picture">
+						<div class="image"
+							style="background-image: url('${picture.picture}');"></div>
+					</c:forEach>
+					<hr>
 				</div>
 			</div>
-		</c:if>
+		</div>
 		<div class="group group-means">
 			<h2>거래 수단</h2>
 			<dl>
@@ -141,24 +131,7 @@
 		// 			images : [ "https://cf-cii.everytime.kr/87f0e34ba8cda30edf211a49197038152e0ab5d7bc9cb18209d9398e6f0bf478/1660787055433_1.jpg" ]
 		// 		};
 	</script>
-	<div id="bar">
-		<nav class="trisection">
-			<a href="/admin" class="home"><span
-				class="icons home-darkgray-16"></span><span class="text">홈</span></a> <a
-				href="/sell" class="sell"><span class="icons sell-darkgray-16"></span><span
-				class="text">판매하기</span></a> <a href="/myBook" class="my"><span
-				class="icons my-darkgray-16"></span><span class="text">마이페이지</span></a>
-		</nav>
-	</div>
-	<div id="bottom">
-		<ul class="links">
-			<li class="copyright"><a href="https://everytime.kr">에브리타임</a></li>
-			<li><a href="https://everytime.kr/page/faq">문의하기</a></li>
-			<li><a href="https://everytime.kr/page/rules">커뮤니티이용규칙</a></li>
-			<li><a href="https://everytime.kr/page/privacy">개인정보처리방침</a></li>
-		</ul>
-
-	</div>
+	<c:import url="footer.jsp" />
 <!-- 	<div class="popup popup-price"
 		style="margin-left: -200px; margin-top: -83.5px; display: none;">
 		<h2>가격 수정</h2>

@@ -5,11 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookPictureDTO {
-	private int id;
-	private String picture;
-	
-	
-	
+public class BookChatListDTO {
+	private int room_id;
+	private String message;
+	private String create_date;
 	
 }
