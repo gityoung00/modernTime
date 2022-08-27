@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="ko">
 <head>
 <title>모던타임</title>
@@ -36,33 +37,7 @@ var myId = '${sessionScope.id }';
 <script type="text/javascript" src="/js/message/message.send.js"></script>
 </head>
 <body style="">
-
-	<nav>
-		<div class="wrap">
-			<div id="logo">
-				<a href="/"><img src="/images/new/nav.logo.png"></a>
-				<p>
-					<span class="name multiple">모던타임</span><span class="subname">경북대</span>
-				</p>
-			</div>
-			<div id="account">
-				<a href="/message" title="쪽지함" class="icon message">쪽지함
-<!-- 				<span class="badge">1</span> -->
-				</a> <a href="/my" title="내 정보" class="icon my">내 정보</a> <input
-					type="hidden" id="userUserid" value="jiyoung1329"> <input type="hidden" id="userSchool" value="116"> <input type="hidden" id="userCampus"
-					value="405">
-			</div>
-			<ul id="menu">
-				<li><a href="/">게시판</a></li>
-				<li><a href="/timetable">시간표</a></li>
-				<li><a href="/lecture">강의평가</a></li>
-				<li><a href="/calculator">학점계산기</a></li>
-				<li><a href="/friend">친구</a></li>
-				<li><a href="https://bookstore.everytime.kr/">책방</a></li>
-				<li><a href="https://www.campuspick.com/">캠퍼스픽</a></li>
-			</ul>
-		</div>
-	</nav>
+	<c:import url="../header.jsp" />
 	<div id="container" class="message" data-box-id="0">
 		<aside class="none">
 			<div class="title">

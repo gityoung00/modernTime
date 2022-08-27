@@ -40,31 +40,7 @@
 <script type="text/javascript" src="/js/timetable/timetable.tablesave.js"></script>
 </head>
 <body>
-
-	<nav>
-		<div class="wrap">
-			<div id="logo">
-				<a href="/"><img src="/images/new/nav.logo.png"></a>
-				<p>
-					<span class="name multiple">에브리타임</span><span class="subname">광운대</span>
-				</p>
-			</div>
-			<div id="account">
-				<a href="/message" title="쪽지함" class="icon message">쪽지함</a>
-				</li> <a href="/my" title="내 정보" class="icon my">내 정보</a> <input type="hidden" id="userUserid" value="slayers504"> <input type="hidden" id="userSchool"
-					value="7"> <input type="hidden" id="userCampus" value="11">
-			</div>
-			<ul id="menu">
-				<li><a href="/">게시판</a></li>
-				<li class="active"><a href="/timetable">시간표</a></li>
-				<li><a href="/lecture">강의평가</a></li>
-				<li><a href="/calculator">학점계산기</a></li>
-				<li><a href="/friend">친구</a></li>
-				<li><a href="https://bookstore.everytime.kr/">책방</a></li>
-				<li><a href="https://www.campuspick.com/">캠퍼스픽</a></li>
-			</ul>
-		</div>
-	</nav>
+	<c:import url="header.jsp" />
 	<script type="text/javascript">
 		var _timetableGridInfo = [];
 	</script>
