@@ -24,11 +24,6 @@ import com.care.moderntime.bookstore.service.BookStoreService;
 public class BookStoreController {
 	@Autowired BookStoreService bss;
 	
-	@RequestMapping("evalView")
-	public String evalView() {
-		return "lecture/evaluateView";
-	}
-	
 	@RequestMapping("bookstore")
 	public String bookstore() {
 		return "bookstore/bookStoreIndex";
