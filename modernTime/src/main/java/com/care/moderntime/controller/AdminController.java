@@ -95,6 +95,7 @@ public class AdminController {
 	
 	@PostMapping("lectureRegist")
 	public String lectureRegistPost(LectureRegistDTO dto,HttpSession session){
+		System.out.println("list:cont = " + dto.getName());
 		String result = nsv.lectureRegist(dto);
 		if(result.equals("등록완료")) {
 			return "redirect:/lectureRegist";			

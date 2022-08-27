@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.lecture.repository.IExamDAO">
+
+	<insert id="examRegist" useGeneratedKeys="true" keyProperty="id"
+				parameterType="com.care.moderntime.lecture.dto.ExamDTO">
+		INSERT INTO examinfo(nth,strategy, type, user_id, lecture_lecture_id) 
+		VALUES (#{nth},#{strategy}, #{type}, #{user_id}, #{lecture_lecture_id})
+	
+	</insert>
+	<select id="examSel" resultType="com.care.moderntime.lecture.dto.ExamDTO">
+		SELECT * FROM examinfo WHERE user_id=#{userId} AND lecture_lecture_id=#{lectureId}
+	</select>
+	<select id="examList" resultType="com.care.moderntime.lecture.dto.ExamDTO">
+		SELECT * FROM examinfo WHERE lecture_lecture_id=#{lectureId}
+	</select>
+</mapper>

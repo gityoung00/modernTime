@@ -399,7 +399,7 @@ $().ready(function() {
 						list = list + "<td><input id='chkbox' class='chkbox' name='chkbox' value='"+jsonDatas.cd[i].lectureId+"' type='checkbox' /></td>"
 						list += "</tr>";
 					}
-					$("#tbody").html(list);
+					$("#tbody").html(list);	
 				}});
 			//      _fn.loadSubjects(true, function (data) {
 			//        _fn.appendSubjects(data);

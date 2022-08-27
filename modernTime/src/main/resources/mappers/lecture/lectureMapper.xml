@@ -1,14 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.care.moderntime.lecture.dao.LectureDAO">
-<!-- 	<select id="search" parameterType="String" resultType="com.care.moderntime.lecture.dto.LectureDTO"> -->
-<!-- 		SELECT * FROM lecture WHERE name LIKE '%',#{search},'%' or teacher LIKE '%',#{search},'%' ORDER BY no DESC  -->
-<!-- 	</select> -->
-		
-<select id="list" parameterType="String" resultType="com.care.modertime.lecture.dto.LectureDTO">
-	SELECT * FROM lecture ORDER BY lecture_id DESC
-</select>
+<mapper
+	namespace="com.care.moderntime.lecture.repository.ILectureDAO">
+	<!-- 검색 -->
+	<!-- <select id="search" -->
+	<!-- resultType="com.care.moderntime.lecture.dto.LectureDTO"> -->
+	<!-- SELECT * FROM lecture WHERE name LIKE CONCAT('%', #{keyword}, '%') 
+		or CONCAT('%', #{keyword}, '%') -->
+	<!-- ORDER BY lecture_id DESC -->
+	<!-- </select> -->
 
+
+	<select id="lecturelist" parameterType="String"
+		resultType="com.care.moderntime.lecture.dto.LectureDTO">
+		SELECT * FROM lecture ORDER BY lecture_id DESC
+	</select>
+	<select id="evaluationlist" parameterType="String"
+		resultType="com.care.moderntime.lecture.dto.EvaluationDTO">
+		SELECT * FROM evaluation ORDER BY id DESC
+	</select>
+	<insert id="evaluationRegist" useGeneratedKeys="true"
+		keyProperty="id"
+		parameterType="com.care.moderntime.lecture.dto.EvaluationDTO">
+		INSERT INTO evaluation(practice, project, grade, attend,
+		exam, score, comment, lecture_lecture_id,user_id)
+		VALUES(#{practice},#{project},#{grade},#{attend},#{exam},#{score},#{comment},#{lecture_lecture_id},#{user_id})
+	</insert>
+	<select id="evalSel"
+		resultType="com.care.moderntime.lecture.dto.EvaluationDTO">
+		SELECT * FROM evaluation WHERE lecture_lecture_id=#{lectureId} AND user_id=#{userId}
+	</select>
+	<!-- 시간표 -->
+	<select id="lecturetime" resultType="String">
+		SELECT lecture_id FROM
+		timetable_lecture where timetable_id=#{timetable_id}
+	</select>
+	<!-- 시간표안 강의 -->
+	<select id="lectureSel"
+		resultType="com.care.moderntime.lecture.dto.LectureDTO">
+		SELECT * FROM lecture WHERE lecture_id =#{string}
+	</select>
+
+	<select id="scoreavg" resultType="_double">
+		select avg(score) from evaluation where lecture_lecture_id=#{lecture_id}
+	</select>
+<update id="scoreup">
+update lecture set score=#{avg}
+</update>
+
+
+
+	<select id="idjoin"
+		resultType="com.care.moderntime.lecture.dto.TimetableDTO">
+		select user_id, timetable_id, lecture_id from timetable
+		inner join
+		timetable_lecture on
+		timetable.id=timetable_lecture.timetable_id;
+	</select>
+	
+	
+
+	<!-- 평가한최근리스트 -->
+	<select id="showcomment"
+		resultType="com.care.moderntime.lecture.dto.ShowcommentDTO">
+		select lecture_id, name, teacher, lecture.score, comment,
+		lecture_lecture_id
+		from lecture inner join evaluation on
+		lecture.lecture_id=evaluation.lecture_lecture_id;
+	</select>
+
+	<select id="search"
+		resultType="com.care.moderntime.lecture.dto.ShowcommentDTO">
+		SELECT lecture_id, name, teacher, lecture.score, comment,
+		lecture_lecture_id from lecture inner join evaluation on
+		lecture.lecture_id=evaluation.lecture_lecture_id WHERE name LIKE
+		CONCAT('%', #{keyword}, '%') or teacher LIKE CONCAT('%', #{keyword},
+		'%')
+		ORDER BY lecture_id DESC
+	</select>
+
+	<select id="evaluationCount" resultType="int">
+		SELECT * FROM evaluation
+		WHERE user_id=#{user_id} AND lecture_lecture_id=#{lecture_id}
+	</select>
+
+
+	<!-- 강의평 -->
+	<select id="viewjoin"
+		resultType="com.care.moderntime.lecture.dto.ViewDTO">
+		SELECT e.*, l.type, l.score as lscore, l.teacher,l.name
+		FROM lecture l
+		inner join evaluation e on
+		e.lecture_lecture_id=l.lecture_id WHERE
+		l.lecture_id=#{lecture_id} order by id DESC;
+	</select>
+
+	<!-- max카운터 -->
+	<select id="maxAttend" resultType="String">
+		SELECT attend FROM evaluation
+		WHERE lecture_lecture_id=#{lecture_id} GROUP
+		BY grade ORDER BY count(*)
+		DESC limit 1;
+	</select>
+	<select id="maxPro" resultType="String">
+		SELECT project FROM evaluation
+		WHERE
+		lecture_lecture_id=#{lecture_id} GROUP BY grade ORDER BY count(*)
+		DESC
+		limit 1;
+	</select>
+	<select id="maxGra" resultType="String">
+		SELECT grade FROM evaluation
+		WHERE
+		lecture_lecture_id=#{lecture_id} GROUP BY grade ORDER BY count(*)
+		DESC
+		limit 1;
+	</select>
+	<select id="maxEx" resultType="String">
+		SELECT exam FROM evaluation WHERE
+		lecture_lecture_id=#{lecture_id} GROUP BY grade ORDER BY count(*) DESC
+		limit 1;
+	</select>
+	<select id="maxPrac" resultType="String">
+		SELECT practice FROM evaluation
+		WHERE
+		lecture_lecture_id=#{lecture_id} GROUP BY grade ORDER BY count(*)
+		DESC
+		limit 1;
+	</select>
 
 </mapper>

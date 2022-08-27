@@ -83,12 +83,22 @@ input::-webkit-search-cancel-button {
   margin-left: 8px; color: #a6a6a6; font-size: 12px;
 }
 #container div.section div.mylectures a.lecture span.button {
-  position: absolute; right: 8px; top: 12px; display: inline-block; padding: 0 8px; line-height: 24px; border-radius: 12px; font-size: 12px;
+  position: absolute; right: 8px; top: 7px; display: inline-block; padding: 0 8px; line-height: 24px; border-radius: 12px; font-size: 12px;
 }
 #container div.section div.mylectures a.lecture span.button.write {
-  color: #fff; background-color: #c62917;
+  color: #fff; background-color: #c62917; width : 70px;  text-align: center;
 }
 #container div.section div.mylectures a.lecture span.button.completed {
+  color: #a6a6a6; background-color: #f2f2f2; width : 70px; text-align: center;
+}
+
+#container div.section div.mylectures .bodys3 tr td a.lecture span.button {
+  position: absolute; right: 8px; top: 7px; display: inline-block; padding: 0 8px; line-height: 24px; border-radius: 12px; font-size: 12px;
+}
+#container div.section div.mylectures .bodys3 tr td a.lecture span.button.write {
+  color: #fff; background-color: #c62917;
+}
+#container div.section div.mylectures .bodys3 tr td a.lecture span.button.completed {
   color: #a6a6a6; background-color: #f2f2f2;
 }
 
