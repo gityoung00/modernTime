@@ -334,7 +334,7 @@ input::placeholder, textarea::placeholder {
     position: absolute; display: inline-block; width: 72px; line-height: 30px;
   }
   #container form.write div.wrap dd {
-    padding-left: 72px;
+    padding-left: 72px; display: inline-block;
   }
   #container form.write div.wrap input.submit {
     padding: 0 16px; width: auto;

@@ -2,7 +2,6 @@ $().ready(function () {
 	var $container = $('#container');
 	var $tab = $container.find('div.tab');
 	var $head = $container.find('div.side.head');
-	var $bookSide = $container.find('div.side.book');
 	var $articleSide = $container.find('div.side.article');
 	var $examSide = $container.find('div.side.exam');
 	var $writeForm = $container.find('form.write');
@@ -22,7 +21,6 @@ $().ready(function () {
 			_set.lectureId = Number($container.find('input[name="lecture_id"]').val());
 			_set.subjectId = Number($container.find('input[name="subject_id"]').val());
 			_set.authToWrite = Number($container.find('input[name="auth_to_write"]').val());
-			_fn.loadBooks();
 			_fn.loadArticles();
 			_fn.loadExams();
 			$(window).on('scroll', function () {
@@ -51,15 +49,6 @@ $().ready(function () {
 			$articleForm.on('submit', function () {
 				_fn.writeArticle();
 				return false;
-			});
-			$examSide.on('click', 'div.exams article a.posvote', function () {
-				_fn.voteExam($(this));
-			});
-			$examSide.on('click', 'div.exams article a.abuse', function () {
-				_fn.abuseExam($(this));
-			});
-			$examSide.on('click', 'div.exams article div.pay a.pay', function () {
-				_fn.payExam($(this));
 			});
 			$examSide.on('click', 'a.writebutton', function () {
 				_fn.showExamForm();
@@ -96,75 +85,34 @@ $().ready(function () {
 					$siblings.removeClass('active');
 				}
 			});
-		},
-		loadBooks: function () {
-			_fn.ajaxBooks(function (data) {
-				if (!data) {
-					return false;
-				}
-				_fn.createBooks(data);
-			});
-		},
-		ajaxBooks: function (callback) {
-			var conditions = {
-				school_id: _set.schoolId
-			};
-			if (_set.subjectId) {
-				conditions.subject_id = _set.subjectId;
-			} else {
-				conditions.lecture_id = _set.lectureId;
-			}
-			$.ajax({
-				url: _apiServerUrl + '/find/lecture/book/list',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: conditions,
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '0' || responseCode === '-1' || responseCode === '-2' || responseCode === '-4') {
-						callback();
+			$articleForm.find('a[data-name]').on('click', function () {
+				var $a = $(this);
+				if ($a.data('type')) {
+					if ($a.hasClass('active')) {
+						$a.removeClass('active');
 					} else {
-						callback(data);
+						$a.addClass('active');
 					}
+				} else {
+					var $siblings = $a.siblings();
+					$a.addClass('active');
+					$siblings.removeClass('active');
 				}
 			});
-		},
-		createBooks: function (data) {
-			var $response = $(data).find('response');
-			var bookstoreUrl = 'https://bookstore.everytime.kr/?utm_source=everytime&utm_medium=' + (_set.subjectId > 0 ? 'subject' : 'lecture');
-			if ($response.find('books > book').length > 0) {
-				var $books = $('<div></div>').addClass('books');
-				var $booksWrap = $('<div></div>').addClass('wrap').appendTo($books);
-				$response.find('books > book').each(function () {
-					var $this = $(this);
-					var url = bookstoreUrl + '&keyword=' + $this.attr('bookIsbn');
-					var $book = $('<a></a>').addClass('book').attr('href', url).appendTo($booksWrap);
-					$('<figure></figure>').css('background-image', 'url("' + $this.attr('coverImage') + '")').appendTo($book);
-					$('<h3></h3>').text($this.attr('bookTitle')).appendTo($book);
-					$('<p></p>').addClass('detail').text($this.attr('bookAuthor')).appendTo($book);
-					$('<p></p>').addClass('detail').text($this.attr('bookPublisher')).appendTo($book);
-					var $price = $('<p></p>').addClass('price').appendTo($book);
-					if ($this.attr('price') !== '0') {
-						$('<span></span>').addClass('selling').text(_fn.formatPrice($this.attr('price'))).appendTo($price);
-						$('<span></span>').addClass('original').text(_fn.formatPrice($this.attr('bookPrice'))).appendTo($price);
+			$examForm.find('a[data-name]').on('click', function () {
+				var $a = $(this);
+				if ($a.data('type')) {
+					if ($a.hasClass('active')) {
+						$a.removeClass('active');
 					} else {
-						$('<span></span>').addClass('selling').text(_fn.formatPrice($this.attr('bookPrice'))).appendTo($price);
+						$a.addClass('active');
 					}
-				});
-				$books.appendTo($bookSide);
-			} else if ($response.text() === '-3') {
-				var $empty = $('<div></div>').addClass('empty');
-				$('<p></p>').html('학교 인증 후 교재 정보를 확인할 수 있습니다.').appendTo($empty);
-				$empty.appendTo($bookSide);
-			} else {
-				var $empty = $('<div></div>').addClass('empty');
-				$('<p></p>').html('등록된 교재 정보가 없습니다.<br>찾으시는 책이 있다면 <strong>책방</strong>에서 저렴하게 구매하세요!').appendTo($empty);
-				$('<a></a>').attr('href', bookstoreUrl).text('책방 바로가기').appendTo($empty);
-				$empty.appendTo($bookSide);
-			}
+				} else {
+					var $siblings = $a.siblings();
+					$a.addClass('active');
+					$siblings.removeClass('active');
+				}
+			});
 		},
 		loadArticles: function () {
 			_fn.ajaxArticles(function (data) {
@@ -184,26 +132,26 @@ $().ready(function () {
 			} else {
 				conditions.lecture_id = _set.lectureId;
 			}
-			$.ajax({
-				url: _apiServerUrl + '/find/lecture/article/list',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: conditions,
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '-3') {
-						window.alert('접근 권한이 없습니다.');
-						history.go(-1);
-					} else if (responseCode === '0' || responseCode === '-1' || responseCode === '-2') {
-						callback();
-					} else {
-						callback(data);
-					}
-				}
-			});
+//			$.ajax({
+//				url: _apiServerUrl + '/find/lecture/article/list',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: conditions,
+//				success: function (data) {
+//					var responseCode;
+//					if (!$(data).find('response').children().length) {
+//						responseCode = $(data).find('response').text();
+//					}
+//					if (responseCode === '-3') {
+//						window.alert('접근 권한이 없습니다.');
+//						history.go(-1);
+//					} else if (responseCode === '0' || responseCode === '-1' || responseCode === '-2') {
+//						callback();
+//					} else {
+//						callback(data);
+//					}
+//				}
+//			});
 		},
 		createArticles: function (data) {
 			var $response = $(data).find('response');
@@ -363,18 +311,6 @@ $().ready(function () {
 			}
 			$rating.appendTo($articleSide);
 		},
-		createSemesters: function ($response) {
-			var $writeFormSemesters = $writeForm.find('select[name="semesters"]');
-			var texts = new Array();
-			$response.find('semesters > semester').each(function () {
-				var $this = $(this);
-				var value = $this.attr('year') + '/' + $this.attr('semester');
-				var text = $this.attr('year') + '년 ' + $this.attr('semester') + '학기';
-				var shortText = $this.attr('year') + '-' + $this.attr('semester');
-				texts.push(shortText);
-				$('<option></option>').val(value).text(text).appendTo($writeFormSemesters);
-			});
-		},
 		formatPrice: function (text) {
 			return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
 		},
@@ -383,13 +319,20 @@ $().ready(function () {
 				if (!data) {
 					return false;
 				}
-				_fn.createExams(data);
+//				_fn.createExams(data);
 			});
 		},
+		
+		//시험정보 불러오기 ajax
 		ajaxExams: function (callback) {
+			const urlParams = new URL(location.href).searchParams;
+			const id = urlParams.get('id');
+			console.log(id)
 			var conditions = {
-				school_id: _set.schoolId,
-				limit_num: 200
+//				school_id: _set.schoolId,
+//				lecture_lecture_id : id,
+				lecture_lecture_id : "1",
+				limit_num: 20
 			};
 			if (_set.subjectId) {
 				conditions.subject_id = _set.subjectId;
@@ -397,21 +340,31 @@ $().ready(function () {
 				conditions.lecture_id = _set.lectureId;
 			}
 			$.ajax({
-				url: _apiServerUrl + '/find/lecture/exam/list',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: conditions,
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '0' || responseCode === '-1' || responseCode === '-2' || responseCode === '-3') {
-						callback();
-					} else {
-						callback(data);
-					}
-				}
+				url : "exam/list",
+				type:"POST",
+				data : {
+					id : "1",
+					limit_num: 20
+				},
+				success : function(data){
+					console.log(data)
+					var jsonDatas = data;
+				
+//				JSON.parse(str);
+				var list = "";
+				for (i = 0; i < jsonDatas.cd.length; i++) {
+						list = list + "<article class='exam'>";
+						list = list + "<h3>"+jsonDatas.cd[i].nth+"</h3>";
+						list = list + "<h4>시험전략</h4>";
+						list = list + "<p class='text'>"+jsonDatas.cd[i].strategy+"</p>";
+						list = list + "<h4>문제유형</h4>";
+						list = list + "<p class='types'>"+jsonDatas.cd[i].type+"</p>";
+						list += "</article>";
+						list = list + "<hr>";
+
+			}
+				$(".exams").html(list);
+			}
 			});
 		},
 		createExams: function (data) {
@@ -424,16 +377,6 @@ $().ready(function () {
 				$response.find('exams > exam').each(function () {
 					var $this = $(this);
 					var $exam = $('<article></article>').appendTo($exams);
-					if ($this.attr('isPaid') === '0') {
-						$exam.addClass('unread');
-						var $pay = $('<div></div>').addClass('pay').appendTo($exam);
-						var $payWrap = $('<div></div>').addClass('wrap').appendTo($pay);
-						$('<p></p>').html('이 정보를 읽기 위해 <strong>5포인트</strong>가 차감됩니다.<br>1회 차감 후에는 다시 읽을 수 있습니다.').appendTo($payWrap);
-						$('<a></a>').addClass('pay').text('포인트 사용').data('id', $this.attr('id')).appendTo($payWrap);
-					} else if ($this.attr('isMine') !== '1') {
-						$('<a></a>').addClass('button abuse').text('신고').data('id', $this.attr('id')).appendTo($exam);
-						$('<a></a>').addClass('button posvote').text('추천').data('id', $this.attr('id')).appendTo($exam);
-					}
 					$('<h3></h3>').text($this.attr('nth')).appendTo($exam);
 					var $info = $('<p></p>').addClass('info').appendTo($exam);
 					if ($this.attr('year') && $this.attr('semester')) {
@@ -505,152 +448,12 @@ $().ready(function () {
 				}, 10);
 			});
 		},
-		voteArticle: function ($button) {
-			if (!confirm('이 강의평을 추천하시겠습니까?')) {
-				return false;
-			}
-			$.ajax({
-				url: _apiServerUrl + '/save/lecture/article/vote',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: {
-					articleId: $button.data('id'),
-					vote: 1
-				},
-				success: function (data) {
-					var responseCode = $(data).find('response').text();
-					if (responseCode === '-2') {
-						alert('학교 인증 후 추천할 수 있습니다.');
-					} else if (responseCode === '-4') {
-						alert('이미 추천하였습니다.');
-					} else if (responseCode === '-1' || responseCode === '-3') {
-						alert('추천할 수 없습니다.');
-					} else {
-						var $info = $button.parent('article').find('p.info');
-						if ($info.is(':has(span.posvote)')) {
-							$info.find('span.posvote').html(responseCode);
-						} else {
-							$('<span></span>').addClass('posvote').html(responseCode).appendTo($info);
-						}
-					}
-				},
-				statusCode: {
-					401: function () {
-						alert('로그인 후 이용해주세요!');
-					}
-				}
-			});
-		},
-		voteExam: function ($button) {
-			if (!confirm('이 시험 정보를 추천하시겠습니까?')) {
-				return false;
-			}
-			$.ajax({
-				url: _apiServerUrl + '/save/lecture/exam/vote',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: {
-					examId: $button.data('id'),
-					vote: 1
-				},
-				success: function (data) {
-					var responseCode = $(data).find('response').text();
-					if (responseCode === '-2') {
-						alert('학교 인증 후 추천할 수 있습니다.');
-					} else if (responseCode === '-4') {
-						alert('이미 추천하였습니다.');
-					} else if (responseCode === '-5') {
-						alert('읽지 않은 시험 정보는 추천할 수 없습니다.');
-					} else if (responseCode === '-1' || responseCode === '-3') {
-						alert('추천할 수 없습니다.');
-					} else {
-						var $info = $button.parent('article').find('p.info');
-						if ($info.is(':has(span.posvote)')) {
-							$info.find('span.posvote').html(responseCode);
-						} else {
-							$('<span></span>').addClass('posvote').html(responseCode).appendTo($info);
-						}
-					}
-				},
-				statusCode: {
-					401: function () {
-						alert('로그인 후 이용해주세요!');
-					}
-				}
-			});
-		},
-		abuseArticle: function ($button) {
-			if (!confirm('허위/중복/저작권침해/성의없는 정보일 경우 신고해주세요.\n\n부적절한 정보로 판단되면 삭제 처리되며, 신고자에게 보상 포인트 1점이 지급됩니다.\n\n허위 신고를 남용하는 이용자 또한 제재가 가해질 수 있습니다.')) {
-				return false;
-			}
-			_fn.abuseReport({
-				article_id: $button.data('id')
-			});
-		},
-		abuseExam: function ($button) {
-			if (!confirm('허위/중복/저작권침해/성의없는 정보일 경우 신고해주세요.\n\n부적절한 정보로 판단되면 삭제 처리되며, 신고자에게 차감 포인트 회복 및 보상 포인트 1점이 지급됩니다.\n\n허위 신고를 남용하는 이용자 또한 제재가 가해질 수 있습니다.')) {
-				return false;
-			}
-			_fn.abuseReport({
-				exam_id: $button.data('id')
-			});
-		},
-		abuseReport: function (params) {
-			$.ajax({
-				url: _apiServerUrl + '/save/lecture/abuse',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: params,
-				success: function (data) {
-					var responseCode = $(data).find('response').text();
-					if (responseCode === '-1') {
-						alert('신고할 수 없습니다.');
-					} else if (responseCode === '-2') {
-						alert('이미 신고하였습니다.');
-					}
-				},
-				statusCode: {
-					401: function () {
-						alert('로그인 후 이용해주세요!');
-					}
-				}
-			});
-		},
-		payExam: function ($button) {
-			if (!confirm('5포인트를 차감하시겠습니까?')) {
-				return false;
-			}
-			$.ajax({
-				url: _apiServerUrl + '/save/lecture/exam/pay',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: {
-					exam_id: $button.data('id')
-				},
-				success: function (data) {
-					var responseCode = $(data).find('response').text();
-					if (responseCode === '-1' || responseCode === '-2') {
-						alert('포인트를 사용할 수 없습니다.');
-					} else if (responseCode === '-3') {
-						alert('포인트가 부족합니다.\n먼저 강의평이나 시험 정보를 공유해주세요 :D');
-					} else if (responseCode === '-4') {
-						alert('학교 인증 후 읽을 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
-					} else {
-						location.reload();
-					}
-				},
-				statusCode: {
-					401: function () {
-						alert('로그인 후 이용해주세요!');
-					}
-				}
-			});
-		},
 		showArticleForm: function () {
-			if (_set.authToWrite === 1) {
-				alert('학교 인증 후 강의평을 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
-				return;
-			}
+
+//			if (_set.authToWrite === 1) {
+//				alert('학교 인증 후 강의평을 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
+//				return;
+//			}
 			$articleForm.show();
 			$articleSide.find('a.writebutton').hide();
 			var scrollTop = $articleForm.offset().top - $head.offset().top - 16;
@@ -666,80 +469,89 @@ $().ready(function () {
 			$articleSide.find('a.writebutton').show();
 		},
 		writeArticle: function () {
+			const urlParams = new URL(location.href).searchParams;
+			const id = urlParams.get('id');
+			console.log(id)
 			var $textarea = $articleForm.find('textarea[name="text"]');
-			var $semesters = $articleForm.find('select[name="semesters"]');
 			if ($textarea.val().replace(/ /gi, '').length < 20) {
 				alert('좀 더 성의있는 내용 작성을 부탁드립니다 :)');
 				$textarea.focus();
-				return false;
-			}
-			if (!$semesters.val()) {
-				alert('이 과목을 수강하신 학기를 선택해주세요!');
 				return false;
 			}
 			if (!confirm('강의평을 등록하시겠습니까?\n\n※ 등록 후에는 수정하거나 삭제할 수 없습니다.\n\n※ 허위/중복/저작권침해/성의없는 정보를 작성할 경우, 서비스 이용이 제한될 수 있습니다.')) {
 				return false;
 			}
 			_fn.showLoadingDialog();
-			var semesters = $semesters.val().split("/");
-			var year = semesters[0];
-			var semester = semesters[1];
 			var rate = $articleForm.find('a[data-name="rate"].active').data('value');
 			var detail_assessment_grade = $articleForm.find('a[data-name="assessment_grade"].active').data('value');
 			var detail_assessment_homework = $articleForm.find('a[data-name="assessment_homework"].active').data('value');
 			var detail_assessment_team = $articleForm.find('a[data-name="assessment_team"].active').data('value');
 			var detail_assessment_attendance = $articleForm.find('a[data-name="assessment_attendance"].active').data('value');
 			var detail_exam_times = $articleForm.find('a[data-name="exam_times"].active').data('value');
-			$.ajax({
-				url: _apiServerUrl + '/save/lecture/article',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: {
-					id: _set.lectureId,
-					text: $textarea.val(),
-					year: year,
-					semester: semester,
-					rate: rate,
+			
+			var data={
+//					lecture_lecture_id: id,
+					comment: $textarea.val(),
+					score: rate,
 					is_detail: 'true',
-					detail_assessment_grade: detail_assessment_grade,
-					detail_assessment_homework: detail_assessment_homework,
-					detail_assessment_team: detail_assessment_team,
-					detail_assessment_attendance: detail_assessment_attendance,
-					detail_exam_times: detail_exam_times
-				},
-				success: function (data) {
-					var responseCode = $(data).find('response').text();
-					if (responseCode === '0' || responseCode === '-1' || responseCode === '-3') {
-						alert('강의평을 등록할 수 없습니다. (' + responseCode + ')');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-2') {
-						alert('이미 강의평을 등록한 과목입니다.\n한 과목당 한 개의 강의평만 등록할 수 있습니다.');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-4') {
-						alert('하루에 5개 이상 등록할 수 없습니다.\n내일 더 공유 부탁드러요 :D');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-5') {
-						alert('학교 인증 후 강의평을 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-6') {
-						alert('강의평 작성 권한이 없습니다.');
-						_fn.hideLoadingDialog();
-					} else {
-						location.reload();
-					}
-				},
-				statusCode: {
-					401: function () {
-						alert('로그인 후 이용해주세요!');
-					}
-				}
-			});
+					grade: detail_assessment_grade,
+					practice: detail_assessment_homework,
+					project: detail_assessment_team,
+					attend: detail_assessment_attendance,
+					exam: detail_exam_times
+			}
+			console.log(data);
+
+//			$.ajax({
+//				url: _apiServerUrl + '/save/lecture/article',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: {
+//					id: _set.lectureId,
+//					text: $textarea.val(),
+//					year: year,
+//					semester: semester,
+//					rate: rate,
+//					is_detail: 'true',
+//					detail_assessment_grade: detail_assessment_grade,
+//					detail_assessment_homework: detail_assessment_homework,
+//					detail_assessment_team: detail_assessment_team,
+//					detail_assessment_attendance: detail_assessment_attendance,
+//					detail_exam_times: detail_exam_times
+//				},
+//				success: function (data) {
+//					var responseCode = $(data).find('response').text();
+//					if (responseCode === '0' || responseCode === '-1' || responseCode === '-3') {
+//						alert('강의평을 등록할 수 없습니다. (' + responseCode + ')');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-2') {
+//						alert('이미 강의평을 등록한 과목입니다.\n한 과목당 한 개의 강의평만 등록할 수 있습니다.');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-4') {
+//						alert('하루에 5개 이상 등록할 수 없습니다.\n내일 더 공유 부탁드러요 :D');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-5') {
+//						alert('학교 인증 후 강의평을 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-6') {
+//						alert('강의평 작성 권한이 없습니다.');
+//						_fn.hideLoadingDialog();
+//					} else {
+//						location.reload();
+//					}
+//				},
+//				statusCode: {
+//					401: function () {
+//						alert('로그인 후 이용해주세요!');
+//					}
+//				}
+//			});
 		},
 		showExamForm: function () {
-			if (_set.authToWrite === 1) {
-				alert('학교 인증 후 시험 정보를 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
-				return;
-			}
+//			if (_set.authToWrite === 1) {
+//				alert('학교 인증 후 시험 정보를 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
+//				return;
+//			}
 			$examForm.show();
 			$examSide.find('a.writebutton').hide();
 			var scrollTop = $examForm.offset().top - $head.offset().top - 16;
@@ -755,30 +567,18 @@ $().ready(function () {
 			$examSide.find('a.writebutton').show();
 		},
 		writeExam: function () {
-			var $semesters = $examForm.find('select[name="semesters"]');
+			const urlParams = new URL(location.href).searchParams;
+				const id = urlParams.get('id');
+				console.log(id)
 			var $nth = $examForm.find('select[name="nth"]');
-			var $types = $examForm.find('a[data-name="type"]');
+			var $types = $examForm.find('a[data-name="type"].active').data('value');
 			var $questions = $examForm.find('input[name="question"]');
 			var $knowhow = $examForm.find('textarea[name="knowhow"]');
-			if (!$semesters.val()) {
-				alert('이 과목을 수강하신 학기를 선택해주세요!');
-				return false;
-			}
-			var semesters = $semesters.val().split('/');
-			var year = semesters[0];
-			var semester = semesters[1];
 			var nth = $nth.val();
-			var type = $types.map(function () {
-				return $(this).is('.active') ? 1 : 0;
-			}).get();
 			var questions = _.compact($questions.map(function () {
 				return $(this).val().trim();
 			}).get());
 			var knowhow = $knowhow.val().trim();
-			if (questions.length === 0) {
-				alert('문제 예시를 적어주세요!');
-				return false;
-			}
 			if (knowhow.replace(/ /gi, '').length < 20) {
 				alert('시험 전략에 대해 좀 더 성의있는 작성을 부탁드립니다 :)');
 				$knowhow.focus();
@@ -787,51 +587,62 @@ $().ready(function () {
 			if (!confirm('시험 정보를 공유하시겠습니까?\n\n※ 등록 후에는 수정하거나 삭제할 수 없습니다.\n\n※ 허위/중복/저작권침해/성의없는 정보를 작성할 경우, 서비스 이용이 제한될 수 있습니다.')) {
 				return false;
 			}
-			_fn.showLoadingDialog();
+			
 			var params = {
-				id: _set.lectureId,
-				year: year,
-				semester: semester,
+//				확인 되면 주석 풀것
+//				lecture_lecture_id: id,
 				nth: nth,
-				type: JSON.stringify(type),
-				knowhow: knowhow
+				type: $types,
+				strategy: knowhow
 			};
+			console.log(params)
 			if (questions.length > 0) {
 				params.question = JSON.stringify(questions);
 			}
 			$.ajax({
-				url: _apiServerUrl + '/save/lecture/exam',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: params,
-				success: function (data) {
-					var responseCode = $(data).find('response').text();
-					if (responseCode === '0' || responseCode === '-1' || responseCode === '-2') {
-						alert('시험 정보를 등록할 수 없습니다.');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-3') {
-						alert('이미 등록한 시험입니다.\n한 시험에 한 번만 등록할 수 있습니다.');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-6') {
-						alert('하루에 5개 이상 등록할 수 없습니다.\n내일 더 공유 부탁드러요 :D');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-7') {
-						alert('학교 인증 후 시험 정보를 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
-						_fn.hideLoadingDialog();
-					} else if (responseCode === '-8') {
-						alert('시험 정보 작성 권한이 없습니다.');
-						_fn.hideLoadingDialog();
-					} else {
-						location.reload();
-					}
-				},
-				statusCode: {
-					401: function () {
-						alert('로그인 후 이용해주세요!');
-						_fn.hideLoadingDialog();
-					}
+				url : "exam/regist",
+				type:"POST",
+				contentType : "application/json",
+				data:JSON.stringify(params),
+				success : function(data){
+					console.log(data);
+					
 				}
 			});
+			location.reload();
+//			$.ajax({
+//				url: _apiServerUrl + '/save/lecture/exam',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: params,
+//				success: function (data) {
+//					var responseCode = $(data).find('response').text();
+//					if (responseCode === '0' || responseCode === '-1' || responseCode === '-2') {
+//						alert('시험 정보를 등록할 수 없습니다.');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-3') {
+//						alert('이미 등록한 시험입니다.\n한 시험에 한 번만 등록할 수 있습니다.');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-6') {
+//						alert('하루에 5개 이상 등록할 수 없습니다.\n내일 더 공유 부탁드러요 :D');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-7') {
+//						alert('학교 인증 후 시험 정보를 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
+//						_fn.hideLoadingDialog();
+//					} else if (responseCode === '-8') {
+//						alert('시험 정보 작성 권한이 없습니다.');
+//						_fn.hideLoadingDialog();
+//					} else {
+//						location.reload();
+//					}
+//				},
+//				statusCode: {
+//					401: function () {
+//						alert('로그인 후 이용해주세요!');
+//						_fn.hideLoadingDialog();
+//					}
+//				}
+//			});
 		},
 		showLoadingDialog: function () {
 			$('<div></div>').addClass('loadingdialog').html('<p>등록 중입니다...</p>').appendTo($container);

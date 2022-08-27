@@ -61,86 +61,189 @@
 		</div>
 	</nav>
 	<div id="container" class="lectureview">
+
 		<div class="tab">
 		</div>
 		<div class="side">
 		<h2>사이드H2</h2>
-		<a class = "writebutton">사이드글쓰기버튼</a>
+<!-- 		<a class = "writebutton">새 강의평 쓰기</a> -->
 <!-- 		<div class="empty"><p>사이드<strong>스트롱</strong> 엡티<p></div> -->
-		
+		<!-- 강의정보  -->
 			<div class="side head"> 
+			<h2>정보</h2>
 			<p>
-			<label>사이드헤드라벨</label><span>사이드헤드스팬</span>
+			<label>학기</label><span>뭔가텍스트</span>
 			</p>
-			</div>
-			<div class="side book">
-				<div class="books">
-					<div class="wrap">
-						<a class="book">북북스랩a북
-						<figure>a북피겨</figure>
-						<h3>a북 H3</h3>
-						<p class = "detail">a북 p디테일</p>
-						<p class = "price">a북 p프라이스
-						<span class="selling">a북 스팬셀링</span>
-						<span class="original">a북 스팬오리지날</span>
-						</p>
-						</a>
-					</div>
-				</div>
+			<p><label>교수명</label><span>프로페서</span></p>
+			<hr>
 			</div>
 			<div class="side article">
+			<a class="writebutton">강의평 쓰기</a>
 				<div class="rating">
 					<div class="rate">
+					<span>
+					<span class="value">레이트밸류</span>
 						<span class ="star"><span class="on" width="70%"></span></span>
+					</span>
+					<hr>
 					</div>
 					<div class="details">
 						<p>
-						<label>레이팅라벨</label>
+						<label>과제</label>
+						<span>레이팅스팬</span>
+						</p>
+						<p>
+						<label>조모임</label>
+						<span>레이팅스팬</span>
+						</p>
+						<p>
+						<label>성적</label>
+						<span>레이팅스팬</span>
+						</p>
+						<p>
+						<label>출결</label>
+						<span>레이팅스팬</span>
+						</p>
+						<p>
+						<label>시험횟수</label>
 						<span>레이팅스팬</span>
 						</p>
 					</div>
 				</div>
+				<!-- 해당 강의평 리스트 -->
 				<div class="articles">
 					<article>
+					
 						<div class="confirm">
-						컨펌?
 						</div>
-						<a class="button">등록</a>
-						<a class="button posvote">추천</a>
-						<p class="rate"><span class ="star"><span class="on" width="70%"></span></span></p>
-						<p class="info"><span class="semester">아티클인포p스팬</span><span class="posvote">추천</span></p>
+						<p class="rate"><span class ="star"><span class="on" style="width:70%"></span></span></p>
+						<p class="info"><span class="semester">아티클인포p스팬</span></p>
 						<p class="text">아티클 p텍스트</p>
 					</article>
 				</div>
 			</div>
+			<!-- 시험정보 공유 -->
 			<div class="side exam">
 				<h2>이그젬H2</h2>
+				<a class= "writebutton">시험 정보 공유</a>
 				<div class="exams">
-				<article class="exams">
-				<a class= "writebutton">시험공유</a>
-				<a class= "writebutton posvote">추천</a>
-					<h3></h3>
-					<p class="info">
-					<span class = "semester">시험학기</span>
-					<span class = "posvote">??학기</span>
-					</p>
-					<h4>시험전략</h4>
-					<p class="text">떽스트삐</p>
-					<p class="types"></p>
-					<h4>문제예시</h4>
-					<ol class = "questions">
-						<li>이게</li>
-						<li>머선</li>
-						<li>일이고</li>
-					</ol>
-<!-- 					<div class="pay"> -->
-<!-- 						<div class="wrap"><p><strong>스트롱</strong></p><a class="pay"></a></div> -->
-<!-- 					</div> -->
-				</article>
-				<hr>
+<!-- 				<article class="exams"> -->
+<!-- 					<h3>중간,기말</h3> -->
+<!-- 					<p class="info"> -->
+<!-- 					</p> -->
+<!-- 					<h4>시험전략</h4> -->
+<!-- 					<p class="text">노하우?</p> -->
+<!-- 					<h4>문제유형</h4> -->
+<!-- 					<p class="types">단답형</p> -->
+<!-- 				</article> -->
+<!-- 				<hr> -->
 			</div>
 			</div>
 			</div>
+			<!-- 시험정보 등록 폼 -->
+				<form class="write exam">
+					<div class="wrap">
+						<h2>시험 정보 공유</h2>
+						<a class="close"></a>
+						<h3>교수명</h3>
+						<p class = "description">시험 정보 공유 페이지입니다.</p>
+						<hr>
+						<h3>시험 선택</h3>
+						<dl>
+							<dd>
+							<select name="nth">
+								<option value="중간고사">중간고사</option>
+								<option value="기말고사">기말고사</option>
+								<option value="기타">기타</option>
+							</select>
+							</dd>
+						</dl>
+						<dl>
+							<dt>문제 유형</dt>
+							<dd>
+								<a data-name="type" data-value="객관식">객관식</a>
+								<a data-name="type" data-value="단답형">단답형</a>
+								<a data-name="type" data-value="서술형">서술형</a>
+								<a data-name="type" data-value="논술형">논술형</a>
+<!-- 								<a data-name="type" data-type="multiple">객관식</a> -->
+<!-- 								<a data-name="type" data-type="multiple">단답형</a> -->
+<!-- 								<a data-name="type" data-type="multiple">서술형</a> -->
+<!-- 								<a data-name="type" data-type="multiple">논술형</a> -->
+							</dd>
+						</dl>
+						<h3>시험 전략</h3>
+						<textarea class = "text" name="knowhow">시험전략</textarea>
+						<input class="submit" type="submit">
+					</div>
+				</form>
+				
+				<!-- 강의평 등록 폼 -->
+				<form class="write article">
+					<div class="wrap">
+						<h2>강의평 등록</h2>
+						<a class="close">닫기</a>
+						<hr>
+						<div class = "details">
+						<dl>
+							<dt>성적</dt>
+							<dd>
+								<a data-name="assessment_grade" data-value="너그러움">너그러움</a>
+								<a data-name="assessment_grade" data-value="보통">보통</a>
+								<a data-name="assessment_grade" data-value="깐깐함">깐깐함</a>
+							</dd>
+						</dl>
+						<dl>
+							<dt>과제</dt>
+								<dd>
+									<a data-name="assessment_homework" data-value="많음">많음</a>
+									<a data-name="assessment_homework" data-value="보통">보통</a>
+									<a data-name="assessment_homework" data-value="없음">없음</a>
+								</dd>
+						</dl>
+						<dl>
+							<dt>출결</dt>
+								<dd>
+									<a data-name="assessment_attendance" data-value="혼용">혼용</a>
+									<a data-name="assessment_attendance" data-value="직접호명">직접호명</a>
+									<a data-name="assessment_attendance" data-value="지정좌석">지정좌석</a>
+									<a data-name="assessment_attendance" data-value="전자출결">전자출결</a>
+									<a data-name="assessment_attendance" data-value="반영안함">반영안함</a>
+								</dd>
+						</dl>
+						<dl>
+							<dt>시험횟수</dt>
+								<dd>
+									<a data-name="exam_times" data-value="없음">없음</a>
+									<a data-name="exam_times" data-value="한번">한번</a>
+									<a data-name="exam_times" data-value="두번">두번</a>
+									<a data-name="exam_times" data-value="세번">세번</a>
+									<a data-name="exam_times" data-value="도망쳐">도망쳐</a>
+								</dd>
+						</dl>
+						<dl>
+							<dt>조모임</dt>
+								<dd>
+									<a data-name="assessment_team" data-value="많음">많음</a>
+									<a data-name="assessment_team" data-value="보통">보통</a>
+									<a data-name="assessment_team" data-value="없음">없음</a>
+								</dd>
+						</dl>
+						<dl>
+							<dt>총점</dt>
+								<dd>
+									<a data-name="rate" data-value="5">5점</a>
+									<a data-name="rate" data-value="4">4점</a>
+									<a data-name="rate" data-value="3">3점</a>
+									<a data-name="rate" data-value="2">2점</a>
+									<a data-name="rate" data-value="1">1점</a>
+								</dd>
+						</dl>
+						</div>
+						<h4>강의평</h4>
+						<textarea name="text" class="text"></textarea>
+						<input class="submit" type="submit">
+					</div>
+				</form>
 	</div>
 	<div id="bottom">
 		<ul class="links">
