@@ -131,6 +131,10 @@ public class PostController {
 
 	
 	
+	@GetMapping("hotarticle")
+	public String hotarticle() {
+		return "post/hotarticle";
+	}
 	@GetMapping("secret")
 	public String secret() {
 		return "post/secret";

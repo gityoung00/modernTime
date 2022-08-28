@@ -17,9 +17,9 @@
 				value="316"> <input type="hidden" id="userCampus" value="349">
 		</div>
 		<ul id="menu">
-			<li class="active"><a href="/">게시판</a></li>
+			<li><a href="/">게시판</a></li>
 			<li><a href="/timetable">시간표</a></li>
-			<li><a href="/lecture">강의평가</a></li>
+			<li class="active"><a href="/lecture">강의평가</a></li>
 			<li><a href="/calculator">학점계산기</a></li>
 			<li><a href="/bookstore">책방</a></li>
 		</ul>

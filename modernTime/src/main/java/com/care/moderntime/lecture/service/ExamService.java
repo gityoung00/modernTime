@@ -1,6 +1,8 @@
 package com.care.moderntime.lecture.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,23 +31,12 @@ public class ExamService {
 		}
 		return "등록 실패";
 	}
-	public String examList(String lectureId) {
-		ArrayList<ExamDTO> list = examDao.examList(lectureId);
+	public Map<String, Object> examList(String lectureId) {
+		Map<String, Object> res = new HashMap<String, Object>();
 		
-		String data = "{\"cd\" : [";
-		for (ExamDTO tmp : list) {
-			String str = tmp.getStrategy().replace("\n","<br>"); 
-			data += "{ \"id\" : \"" + tmp.getId() + "\",";
-			data += " \"nth\" : \"" + tmp.getNth() + "\",";
-			data += " \"strategy\" : \"" + str + "\",";
-			data += " \"type\" : \"" + tmp.getType() + "\",";
-			data += " \"lectureId\" : \"" + tmp.getLecture_lecture_id() + "\",";
-			data += " \"userId\" : \"" + tmp.getUser_id() + "\" },";
-		}
-		data = data.substring(0, data.length() - 1);
-		data += "]}";
-		System.out.println(data);
-		return data;
+		ArrayList<ExamDTO> list = examDao.examList(lectureId);
+		res.put("data", list);
+		return res;
 	}
 	
 }

@@ -2,7 +2,7 @@ package com.care.moderntime.post.dto;
 
 public class PostDTO {
 	private int id, is_anonym, like_count, board_id, scrap_count;
-	private String user_id, title, content, create_date;
+	private String user_id, title, content, create_date, board_name, board_title;
 	
 	private int post_id, comment_count;
 	
@@ -95,6 +95,18 @@ public class PostDTO {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getBoard_name() {
+		return board_name;
+	}
+	public void setBoard_name(String board_name) {
+		this.board_name = board_name;
+	}
+	public String getBoard_title() {
+		return board_title;
+	}
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
 	}
 	
 	

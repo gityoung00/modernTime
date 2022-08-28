@@ -38,82 +38,62 @@
   <script type="text/javascript" src="/js/common.js"></script>
   <script type="text/javascript" src="/js/extensions.canvas-to-blob.min.js"></script>
   <script type="text/javascript" src="/js/extensions.load-image.all.min.js"></script>
-  <script type="text/javascript" src="/js/post/board.freedomContent.js"></script>
+  <script type="text/javascript" src="/js/board.index.js"></script>
   <script type="text/javascript" src="/js/community.side.js"></script>
   <script type="text/javascript" src="/js/message.send.js"></script>
 </head>
 <body style="">
+
 <c:import url="header.jsp" />
+
 <!-- 게시판 시작 -->
 <div id="container" class="article">
 	<input type="hidden" id="isUser" value="1"> 
-	<input type="hidden" id="boardId" value="${post.id }">
-	<input type="hidden" id="commentId" value="${comment.id }">
-	<input type="hidden" id="postTitle" value="${post.title }">
-	<input type="hidden" id="postContent" value="${post.content }">
+	<input type="hidden" id="boardId" value="freedom">
 	<aside class="none">
 		<div class="title">
 			<a class="hamburger"></a>
 			<h1>
-				<a href="/${post.board_name }">${post.board_title }</a>
+				<a href="/hotarticle">Hot 게시판</a>
 			</h1>
 		</div>
 	</aside>
 	<div class="wrap title">
 		<h1>
-			<a href="/${post.board_name }">${post.board_title }</a>
+			<a href="/hotarticle">HOT 게시판</a>
 		</h1>
+		<p>공감 10개를 받으면 HOT 게시물로 자동 선정됩니다.</p>
 		<hr>
 	</div>
 	<div class="wrap articles">
+		
 		<!-- 글 시작 -->
-		<article>
-			<a class="article"> 
-			<img src="https://cf-fpi.everytime.kr/0.png" class="picture large">
-				<div class="profile">
-					<c:choose>
-						<c:when test="${post.is_anonym == 1 }">
-							<h3 class="large">익명</h3>
-						</c:when>
-						<c:otherwise>
-							<h3 class="large">${post.user_id }</h3>
-						</c:otherwise>
-					</c:choose>
-					<time class="large">${post.create_date }</time>
-				</div>
+		<c:forEach var="post" items="${sessionScope.listProc }">
+			<article>
+			<a class="article" href="/freedomContent?id=${post.id }">
+				<h2 class="medium">${post.title }</h2>
+				<p class="small">${post.content }</p>
+				<time class="small">${post.create_date }</time>
+				<h3 class="small">${post.is_anonym }</h3>
 				<ul class="status">
-					<li class="update">수정</li>
-					<li class="del">삭제</li>
-					<li class="messagesend" data-modal="messageSend" data-article-id="${post.id }" data-is-anonym="1">쪽지</li>
-					<!-- <li class="abuse">신고</li> -->
-				</ul>
-				<hr>
-				<h2 class="large">${post.title }</h2>
-				<p class="large">${post.content }</p>
-				<ul class="status left">
 					<li title="공감" class="vote">${post.like_count }</li>
-					<li title="댓글" class="comment">${post.comment_count }</li>
-					<li title="스크랩" class="scrap">${post.scrap_count }</li>
+					<li title="댓글" class="comment">2</li>
 				</ul>
 				<hr>
-				<div class="buttons">
-					<span class="posvote">공감</span><span class="scrap">스크랩</span>
-				</div> <input type="hidden" name="262053749_comment_anonym" value="0">
+				<input type="hidden" name="262053749_comment_anonym" value="0">
 			</a>
-
-			<!-- 댓글 시작 -->
-			<div class="comments" style="display: block;">
-			</div>
-		</article>
-
-
+			<div class="comments"></div>
+			</article>
+		</c:forEach>
+		
 		<div class="clearBothOnly"></div>
-		<div class="pagination">
-			<a id="goListButton" class="list" href="freedom">글 목록</a>
-		</div>
+		
+		<!-- 검색과 페이지 -->
+
 	</div>
 	<hr>
-
+	
+	<!-- 오른쪽 HOT 게시물(공감 10개)  -->
 	<c:import url="../rightSide.jsp" />
 	
 	<form id="abuseForm" class="modal">
@@ -136,11 +116,11 @@
 			<label>소개</label> <input type="text" name="info" class="text">
 		</p>
 		<p class="hide">
-			<label>인기 글 금지</label> <input type="checkbox"
-				id="manageMoimForm_is_not_selected_hot_article"
-				name="is_not_selected_hot_article"><label
-				for="manageMoimForm_is_not_selected_hot_article" class="checkbox">글이
-				공감을 받아도 인기 글 및 HOT 게시물에 선정되지 않음</label>
+			<label>인기 글 금지</label> 
+			<input type="checkbox" id="manageMoimForm_is_not_selected_hot_article" name="is_not_selected_hot_article">
+			<label for="manageMoimForm_is_not_selected_hot_article" class="checkbox">
+				글이 공감을 받아도 인기 글 및 HOT 게시물에 선정되지 않음
+			</label>
 		</p>
 		<input type="button" value="게시판 양도" class="button light floatLeft">
 		<input type="button" value="게시판 삭제" class="button light floatLeft">

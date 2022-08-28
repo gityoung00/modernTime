@@ -11,8 +11,13 @@
 		SELECT * FROM post WHERE board_id = (select id as board_id from board where name=#{name}) ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	
+   <select id="hotArticleProc" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post WHERE like_count > 10 ORDER BY id DESC limit #{start_num}, 10;
+	</select>
+	
 	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
-		SELECT * FROM post WHERE id=#{id}
+<!-- 		SELECT * FROM post WHERE id=#{id} -->
+		SELECT p.*, b.name as board_name, b.title as board_title  FROM post p join board b on p.board_id=b.id WHERE p.id=#{id};
 	</select>
 	
 	<update id="modifyProc" parameterType="com.care.moderntime.post.dto.PostDTO" >

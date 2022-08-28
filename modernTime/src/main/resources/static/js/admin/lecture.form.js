@@ -36,8 +36,8 @@ $().ready(function() {
 		max_student: 1,
 	};
 	const type={
-		'교양': '1',
-		'전공': '2',
+		'교양': '2',
+		'전공': '1',
 		
 	}
 	const weekday = {
@@ -68,7 +68,7 @@ $().ready(function() {
 			});
 			// 과목 구분
 			$articleForm.on('change', 'select.type', function(event) {
-				_params.type = event.target.value == '교양' ? '1': '2'
+				_params.type = event.target.value == '교양' ? '2': '1'
 			});
 
 			// 과목 번호
@@ -287,7 +287,7 @@ $().ready(function() {
 			var $checkbox = $('<td></td>').appendTo($tr);
 			$('<input type="checkbox">').data({
 				id: lecture.lecture_id,
-				type: lecture.type == '1' ? '교양' : '전공',
+				type: lecture.type == '2' ? '교양' : '전공',
 				name: lecture.name,
 				teacher: lecture.teacher,
 				credit: lecture.credit,
@@ -313,7 +313,7 @@ $().ready(function() {
 				}
 				_fn.showButtons();
 			});
-			$('<td></td>').text(lecture.type == '1' ? '교양' : '전공').appendTo($tr)
+			$('<td></td>').text(lecture.type == '2' ? '교양' : '전공').appendTo($tr)
 			$('<td></td>').text(_gn.getLectureTime(lecture)).appendTo($tr)
 			$('<td></td>').text(lecture.name).addClass('bold').appendTo($tr)
 			$('<td></td>').text(lecture.teacher).appendTo($tr)

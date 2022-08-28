@@ -1,6 +1,7 @@
 package com.care.moderntime.lecture.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
@@ -32,38 +33,14 @@ public class LectureController {
 
 	@GetMapping("lecture")
 	public String lecture() {
-//		String lecture_id = "2";
-//		service.getuser(lecture_id);
-//		model.addAttribute("user", service.getuser(lecture_id));
 		return "lecture/lecture";
 	}
-	
-//	@PostMapping("lecturewrite")
-//	public String lectureWrite(EvaluationDTO dto, HttpSession session) {
-//		String id = (String)session.getAttribute("id");
-////		System.out.println("전달한 아이디 : " + session.getAttribute("lecture_lecture_id"));
-//		dto.setLecture_lecture_id((String)session.getAttribute("lecture_lecture_id"));
-////		dto.setUser_id(id);
-//		dto.setUser_id("jiyoung1329");
-//		
-////		System.out.println(dto.getLecture_lecture_id());
-//	
-//		String result = service.evaluationRegist(dto);
-//		if(result.equals("등록완료")) {
-//			return "lecture/lecture";
-//			
-//		}
-//		session.setAttribute("result",result);
-//		return "lecture/lecture";
-//	}
 	
 
 	@ResponseBody
 	@PostMapping(value = "EvaluationRegist", produces = "application/json; charset=UTF-8")
 	public String lectureRegistPost(@RequestBody EvaluationDTO dto){
-//		System.out.println("list:cont = " + dto);
-//		String userId = (String)session.getAttribute("id");
-		String userId = "dddddd";
+		String userId = (String)session.getAttribute("id");
 		dto.setUser_id(userId);
 		System.out.println(dto.getAttend());
 		String result = service.evaluationRegist(dto);
@@ -73,47 +50,25 @@ public class LectureController {
 		return result;
 	}
 	
-	@GetMapping("evaluation")
-	public String evaluation(String id, HttpSession session) {
-		
-		session.setAttribute("lecture_lecture_id", id);
-		
-//		String data = service.lectureList();
-		return "lecture/evaluation";
-	}
-
+	// 내 강의평
 	@ResponseBody
 	@PostMapping(value = "lecture/list", produces = "application/json; charset=UTF-8")
-	public String lectureList() {
-//		String data = service.lectureList();
-
-//		String result = service.timetable(1);
-		String result = service.idjoin("jiyoung1329");
-//		System.out.println(result);
-//		System.out.println("list:cont = " + data);
-		return result;
+	public Map<String, Object> lectureList() {
+		String userId = (String)session.getAttribute("id");
+		
+		return service.idjoin(userId);
 	}
+	
+	// 최근 강의평
 	@ResponseBody
 	@PostMapping(value = "lecture/alllist", produces = "application/json; charset=UTF-8")
-	public String lecturealllist() {
-		String data = service.Showcomment();
-//		String result = service.timetable(1); 
-//		System.out.println(result);
-//		System.out.println("list:cont = " + data);
-		return data;
+	public Map<String, Object> lecturealllist() {
+		
+		return service.Showcomment();
 	}
 	
 
-	@ResponseBody
-	@PostMapping(value = "comment/list", produces = "application/json; charset=UTF-8")
-	public String commentlist() {
-		String comment = service.idjoin("jiyoung1329");
-//		System.out.println("list:cont = " + comment);
-//		System.out.println(comment);
-		return comment;
-	}
-	
-	//강의평
+	//강의평 상세
 	@RequestMapping("evalview")
 	public String evaluationview(String id, HttpSession session) {
 //		session.setAttribute("lecture_id", id);
@@ -130,23 +85,18 @@ public class LectureController {
 	@ResponseBody
 	@PostMapping(value="search", produces="text/html; charset:UTF-8;")
 	public String search(@RequestParam String keyword) {
-//		System.out.println("전달한 아이디 : " + keyword);
 		String result = service.search(keyword);
-//		System.out.println("전달한 검색 : " + session.getAttribute("keyword"));
-//		dto.setKeyword((String)session.getAttribute("keyword"));
-//		service.search(keyword);
 
 		return result;
 		
 	}
 	
+	// 강의평 상세 - 강의평 조회
 	@ResponseBody
-	@PostMapping(value="evaluation/list", produces="text/html; charset:UTF-8;")
-	public String evaluationList(@RequestParam String lecture_id) {
-//		System.out.println(lecture_id);
-		String data = service.view(lecture_id);
-//		System.out.println(data);
-		return data;
+	@PostMapping(value="evaluation/list")
+	public Map<String, Object> evaluationList(@RequestParam String lecture_id) {
+		
+		return service.view(lecture_id);
 	}
 	
 }

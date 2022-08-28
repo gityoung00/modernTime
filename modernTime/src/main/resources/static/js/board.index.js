@@ -119,10 +119,14 @@ $().ready(function () {
 		attaches: [],
 		removeAttachIds: [],
 		attachDragHoverCount: 0,
-		attachUploadingStatus: []
+		attachUploadingStatus: [],
+		
 	};
 	var _fn = {
 		initiate: function () {
+			urlPath = location.href.split("/");
+			_set.boardName = urlPath[urlPath.length - 1];
+			
 			//주석
 //			if (!$container.is(':has(#boardId)')) {
 //				location.href = '/';
@@ -809,7 +813,9 @@ $().ready(function () {
 					
 //					var jsonDatas = JSON.parse(data);
 //					console.log(jsonDatas);
-					$('<a></a>').attr('id', 'writeArticleButton').text('새 글을 작성해주세요!').appendTo($articles);
+					if (_set.boardName != 'hotarticle'){
+						$('<a></a>').attr('id', 'writeArticleButton').text('새 글을 작성해주세요!').appendTo($articles);
+					}
 					$(data.data).each((_, post) => {
 						
 						var str = post.content.trim().replaceAll("<br>","\n");

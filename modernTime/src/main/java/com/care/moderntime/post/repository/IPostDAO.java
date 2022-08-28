@@ -48,6 +48,8 @@ public interface IPostDAO {
 	public int tableCountScrap(PostDTO post);
 	
 	//
+	public ArrayList<PostDTO> hotArticleProc(@Param("start_num") int start_num);
+
 	public ArrayList<PostDTO> listProc(@Param("start_num") int start_num, @Param("name") String name);
 
 	public ArrayList<PostDTO> searchProc(@Param("search_type") int search_type, @Param("keyword") String keyword);

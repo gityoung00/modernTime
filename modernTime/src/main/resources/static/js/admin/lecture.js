@@ -138,7 +138,7 @@ $().ready(function() {
 			var $checkbox = $('<td></td>').appendTo($tr);
 			$('<input type="checkbox">').data({
 				id: lecture.lecture_id,
-				type: lecture.type == '1' ? '교양' : '전공',
+				type: lecture.type == '2' ? '교양' : '전공',
 				name: lecture.name,
 				teacher: lecture.teacher,
 				credit: lecture.credit,
@@ -164,7 +164,7 @@ $().ready(function() {
 				}
 				_fn.showButtons();
 			});
-			$('<td></td>').text(lecture.type == '1' ? '교양' : '전공').appendTo($tr)
+			$('<td></td>').text(lecture.type == '2' ? '교양' : '전공').appendTo($tr)
 			$('<td></td>').text(_fn.getLectureTime(lecture)).appendTo($tr)
 			$('<td></td>').text(lecture.name).addClass('bold').appendTo($tr)
 			$('<td></td>').text(lecture.teacher).appendTo($tr)

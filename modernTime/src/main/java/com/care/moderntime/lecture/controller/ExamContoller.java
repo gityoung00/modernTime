@@ -1,5 +1,7 @@
 package com.care.moderntime.lecture.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +25,9 @@ public class ExamContoller {
 	@PostMapping(value = "exam/regist", produces="application/json; charset:UTF-8;")
 	public String examInfoRegist(@RequestBody ExamDTO dto) {
 //		유저 아이디 등록
-//		String userId = (String)session.getAttribute("id");
-//		if(userId == null || userId == "") {
-//			return "로그인이 필요합니다.";
-//		}
-		//삭제할것
-		dto.setLecture_lecture_id("1");
+		String userId = (String)session.getAttribute("id");
 		//
 		System.out.println(dto.getStrategy());
-		String userId = "jiyoung1329";
 		dto.setUser_id(userId);
 		String result = es.examRegist(dto);
 		if (result.equals("등록 완료")) {
@@ -40,16 +36,13 @@ public class ExamContoller {
 		return "등록 실패";
 	}
 	
+	// 시험정보 리스트
 	@ResponseBody
 	@PostMapping(value="exam/list", produces="application/json; charset:UTF-8;")
-	public String examList(@RequestParam String id, @RequestParam int limit_num) {
-		System.out.println(id);
-		String data = es.examList(id);
-		return data;
+	public Map<String, Object> examList(@RequestParam String id) {
+		
+		return es.examList(id);
 	}
-	@GetMapping("evalView")
-	public String evalView() {
-		return "lecture/evaluateView";
-	}
+	
 	
 }

@@ -63,7 +63,15 @@ public class PostServiceImpl implements IPostService{
 		System.out.println("(ser)post start_num : " + post.getStart_num());
 		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> listProc = mapper.listProc(start_num, name);
+		ArrayList<PostDTO> listProc;
+		if (name.equals("hotarticle")) {
+			 listProc = mapper.hotArticleProc(start_num);
+			 System.out.println(listProc);
+			
+		}else {
+			listProc = mapper.listProc(start_num, name);
+			
+		}
 		
 		res.put("data", listProc);
 		return res;
