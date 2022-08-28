@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.post.repository.IMySelectDAO">
+
+	<select id="myarticle" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post WHERE user_id=#{user_id} ORDER BY id DESC limit #{start_num}, 10;
+	</select>
+	
+	<select id="mycommentarticle" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post p INNER JOIN comment c ON p.id=c.post_id WHERE c.user_id=#{user_id} GROUP BY c.post_id ORDER BY p.id DESC limit #{start_num}, 10;
+	</select>
+	
+	<select id="myscrap" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post p INNER JOIN user_scrap u ON p.id=u.post_id WHERE u.user_id=#{user_id} AND scrap_count >= 1 ORDER BY p.id DESC limit #{start_num}, 10;
+	</select>
+	
+	<!-- 스크랩 취소 -->
+	<delete id="removeScrap" parameterType="int">
+		DELETE FROM user_scrap WHERE post_id=#{post_id}
+	</delete>
+	
+	<update id="deleteScrap" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET scrap_count=scrap_count-1 WHERE id=#{id}
+	</update>
+	
+	
+	<!-- 댓글 수 -->
+	<select id="commentCount" parameterType="com.care.moderntime.post.dto.PostDTO" resultType="int">
+		SELECT count(*) FROM comment WHERE post_id=${id}
+	</select>
+   
+</mapper>

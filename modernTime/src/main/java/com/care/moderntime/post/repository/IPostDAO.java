@@ -2,6 +2,7 @@ package com.care.moderntime.post.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ import com.care.moderntime.post.dto.PostLikeDTO;
 
 @Mapper
 public interface IPostDAO {
-	
+	//게시판
 	public void writeProc(PostDTO postDto);
 	
 	public ArrayList<PostDTO> listProc();
@@ -21,11 +22,8 @@ public interface IPostDAO {
 	public void modifyProc(PostDTO post);
 
 	public void deleteProc(PostDTO post);
-
-	public int postCount(HashMap<String, Object> map);
-
-	public ArrayList<PostDTO> searchProc(@Param("b") int begin, @Param("e")int end,  @Param("sel")String sel, @Param("search") String search);
-
+	
+	//기능
 	public void likeProc(PostDTO post);
 
 	public void insertLike(PostLikeDTO postlike);
@@ -42,12 +40,24 @@ public interface IPostDAO {
 	
 	public int countScrap(PostDTO post);
 
-	public void tableCountLike(PostLikeDTO postlike);
-
 	public int tableCountLike(PostDTO post);
 
 	public int tableCountScrap(PostDTO post);
 	
+	//
+	public ArrayList<PostDTO> listProc(@Param("start_num") int start_num, @Param("board_id") int board_id);
+
+	public ArrayList<PostDTO> searchProc(@Param("search_type") int search_type, @Param("keyword") String keyword);
+
+	public int commentCount(int id);
+
+	public PostDTO writeProc(int post_id);
+
+	public void commentCnt(PostDTO post);
+
+
+
+
 
 
 }

@@ -108,8 +108,7 @@
 		<div class="group">
 			<ul>
 				<li><a href="/462203" data-id="462203" class="new">간호학과 게시판</a></li>
-				<li><a href="/465278" data-id="465278" class="new">치위생학과
-						게시판</a></li>
+				<li><a href="/465278" data-id="465278" class="new">치위생학과 게시판</a></li>
 				<li><a href="/455159" data-id="455159" class="new">퀴어</a></li>
 				<li><a href="/455305" data-id="455305">애니/만화 게시판</a></li>
 				<li><a href="/community/search" class="search">게시판 찾기</a></li>
@@ -124,6 +123,9 @@
 <div id="container" class="article">
 	<input type="hidden" id="isUser" value="1"> 
 	<input type="hidden" id="boardId" value="${post.id }">
+	<input type="hidden" id="commentId" value="${comment.id }">
+	<input type="hidden" id="postTitle" value="${post.title }">
+	<input type="hidden" id="postContent" value="${post.content }">
 	<aside class="none">
 		<div class="title">
 			<a class="hamburger"></a>
@@ -221,7 +223,7 @@
 				<p class="large">${post.content }</p>
 				<ul class="status left">
 					<li title="공감" class="vote">${post.like_count }</li>
-					<li title="댓글" class="comment">${post.commentCount }</li>
+					<li title="댓글" class="comment">${post.comment_count }</li>
 					<li title="스크랩" class="scrap">${post.scrap_count }</li>
 				</ul>
 				<hr>
@@ -232,8 +234,7 @@
 
 			<!-- 댓글 시작 -->
 			<div class="comments" style="display: block;">
-			<%-- <c:forEach var="comment" items="${commentList }"> --%>
-				<article class="parent">
+				<%-- <article class="parent">
 					<img src="https://cf-fpi.everytime.kr/0.png" class="picture medium">
 					<h3 class="medium">익명${comment.p_comment_id }</h3>
 					<ul class="status">
@@ -252,11 +253,10 @@
 					<ul class="status commentvotestatus">
 						<li class="vote commentvote" style="display: list-item;">1</li>
 					</ul>
-				</article>
-			<%-- </c:forEach>  --%>
+				</article> --%>
 
 				<!-- 대댓글 -->
-				<article class="child">
+				<%-- <article class="child">
 					<img src="https://cf-fpi.everytime.kr/0.png" class="picture medium">
 					<h3 class="medium writer">익명(글쓴이)</h3>
 					<ul class="status">
@@ -272,7 +272,7 @@
 						<li class="vote commentvote" style="display: none;">0</li>
 					</ul>
 					<!-- ::after -->
-				</article>
+				</article> --%>
 				
 				<!-- 대댓글 입력 부분 -->
 <!-- 				<form class="writecomment child">
@@ -286,15 +286,15 @@
 				</form> -->
 
 				<!-- 댓글 입력 부분 -->
-				<form class="writecomment">
-					<input type="text" name="text" maxlength="300" autocomplete="off"
+				<!-- <form class="writecomment"> -->
+					<!-- <input type="text" name="text" maxlength="300" autocomplete="off"
 						placeholder="댓글을 입력하세요." class="text">
 					<ul class="option">
 						<li title="익명" class="anonym"></li>
 						<li title="완료" class="submit"></li>
 					</ul>
-					<div class="clearBothOnly"></div>
-				</form>
+					<div class="clearBothOnly"></div> 
+				</form>-->
 			</div>
 		</article>
 

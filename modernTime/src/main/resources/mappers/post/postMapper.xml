@@ -8,7 +8,7 @@
    </insert>
    
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
-		SELECT * FROM post ORDER BY id DESC
+		SELECT * FROM post WHERE board_id=#{board_id} ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	
 	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
@@ -26,9 +26,10 @@
 	<select id="searchProc" resultType="com.care.moderntime.post.dto.PostDTO">
 		SELECT * FROM post
 		<choose>
-			<!-- <when test="sel == '3'">WHERE hashtag LIKE '%'||#{search}||'%'</when> -->
-			<when test="sel == '2'">WHERE title LIKE "%",#{search},"%"</when>
-			<when test="sel == '1'">WHERE content LIKE "%",#{search},"%"</when>
+			<when test="search_type == 4">WHERE title LIKE CONCAT('%',#{keyword},'%') OR content LIKE CONCAT('%',#{keyword},'%')</when>
+			<!-- <when test="sel == '3'">WHERE hashtag LIKE '%',#{search},'%'</when> -->
+			<when test="search_type == 2">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>
+			<when test="search_type == 1">WHERE content LIKE CONCAT('%',#{keyword},'%')</when>
 		</choose>
 		 ORDER BY id DESC 
 	</select>
@@ -67,6 +68,12 @@
 		SELECT count(*) FROM user_scrap WHERE post_id=#{post_id}
 	</select>
 	
-   
-   
+   <!-- 댓글 수 -->
+	<select id="commentCount" parameterType="com.care.moderntime.post.dto.PostDTO" resultType="int">
+		SELECT count(*) FROM comment WHERE post_id=#{id}
+	</select>
+	<update id="commentCnt" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET comment_count=#{comment_count} WHERE id=#{id}
+	</update>
+	
 </mapper>
