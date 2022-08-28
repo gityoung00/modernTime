@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.care.moderntime.admin.service.NoticeService;
 import com.care.moderntime.post.dto.CommentDTO;
 import com.care.moderntime.post.dto.PostDTO;
 import com.care.moderntime.post.dto.PostLikeDTO;
@@ -35,6 +36,7 @@ public class PostController {
 
 	@Autowired IPostService service;
 	@Autowired ICommentService Comservice;
+	@Autowired NoticeService noticeService;
 	
 	int outId = 0;
 	
@@ -130,6 +132,18 @@ public class PostController {
 	
 
 	
+	
+	@GetMapping("notice")
+	public String notice() {
+		return "post/notice";
+	}
+	
+	@GetMapping("notice/view")
+	public String noticeView(@RequestParam(name="id") int noticeId, Model model) {
+//		System.out.println("notice id: " + noticeId);
+		model.addAttribute("noticeView", noticeService.noticeView(noticeId));
+		return "post/noticeView";
+	}
 	
 	@GetMapping("hotarticle")
 	public String hotarticle() {

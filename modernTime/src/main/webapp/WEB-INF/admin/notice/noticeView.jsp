@@ -119,71 +119,7 @@ pageContext.setAttribute("replaceChar", "\n");
 			</div>
 		</div>
 		<hr>
-		<div class="rightside">
-			<div class="card">
-				<div class="board">
-					<h3>
-						<a>실시간 인기 글</a>
-					</h3>
-					<a class="article" href="/370443/v/262015479">
-						<p class="title">탈광운충들 특</p>
-						<p class="small">내용</p>
-						<h4>자유게시판</h4>
-						<ul class="status">
-							<li class="vote active">19</li>
-							<li class="comment active">9</li>
-						</ul>
-						<hr>
-					</a>
-				</div>
-			</div>
-			<div class="card">
-				<div class="board">
-					<h3>
-						<a href="/hotarticle">HOT 게시물<span>더 보기</span></a>
-					</h3>
-					<a class="list" href="/370443/v/262015479"> <time>08/03 10:00</time>
-						<p>탈광운 충들 특</p>
-						<hr>
-					</a> <a class="list" href="/370443/v/261797452"> <time>08/01 12:03</time>
-						<p>의외로 알바한테 하면 실례인 행동</p>
-						<hr>
-					</a> <a class="list" href="/370443/v/261738330"> <time>07/31 20:47</time>
-						<p>오늘의 일기</p>
-						<hr></a> <a class="list" href="/370443/v/261529808"> <time>07/29 13:27</time>
-						<p>에타 시간표 뜸</p>
-						<hr>
-					</a>
-				</div>
-			</div>
-			<div class="card">
-				<div class="board">
-					<h3>
-						<a href="/bestarticle">BEST 게시판<span>더 보기</span></a>
-					</h3>
-				</div>
-			</div>
-			<div class="card">
-				<div class="board">
-					<h3>
-						<a href="/lecture">최근 강의평<span>더 보기</span></a>
-					</h3>
-					<a class="article" href="/lecture/view/2086682"><span class="star"><span class="on" style="width: 100%;"></span></span>
-						<p class="title">머신러닝 : 정한울</p>
-						<p class="small">학교 인증 후 확인할 수 있습니다.</p>
-						<hr></a><a class="article" href="/lecture/view/1936809"><span class="star"><span class="on" style="width: 60%;"></span></span>
-						<p class="title">문화기술과사회변동 : 한양대학교 두일철</p>
-						<p class="small">학교 인증 후 확인할 수 있습니다.</p>
-						<hr></a><a class="article" href="/lecture/view/41339"><span class="star"><span class="on" style="width: 60%;"></span></span>
-						<p class="title">교양음악실기1(바이올린) : 배윤진</p>
-						<p class="small">학교 인증 후 확인할 수 있습니다.</p>
-						<hr></a><a class="article" href="/lecture/view/41759"><span class="star"><span class="on" style="width: 80%;"></span></span>
-						<p class="title">중국어청취연습</p>
-						<p class="small">학교 인증 후 확인할 수 있습니다.</p>
-						<hr></a>
-				</div>
-			</div>
-		</div>
+		<c:import url="../../rightSide.jsp" />
 		<form id="abuseForm" class="modal">
 			<a title="닫기" class="close"></a>
 			<h3>신고 사유 선택</h3>

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script>
-
-</script>
+<c:import url="../common/loginRequired.jsp" />
+<c:import url="../common/authRequired.jsp" />
 <nav>
 	<div class="wrap">
 		<div id="logo">

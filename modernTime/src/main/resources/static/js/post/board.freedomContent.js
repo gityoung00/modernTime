@@ -353,16 +353,6 @@ $().ready(function () {
 							alert('수정이 완료되었습니다.');
 							location.reload();
 							
-//							$(data.data).each((_, post) => {
-//								$article = $("<form></form>").addClass('write');
-//								
-//								$inputTitle = $("<p></p>").appendTo($article);
-//								$("<input></input>").addClass("title").text(post.title).appendTo($inputTitle);
-//						
-//								$inputText = $("<p></p>").appendTo($article);
-//								$("<textarea></textarea>").addClass("smallplaceholder").text(post.content).appendTo($inputText);
-//								
-//							});
 						}
 					});
 				}
@@ -1144,81 +1134,8 @@ $().ready(function () {
 			});
 			
 			
-//					$(data.data).each((_, comment) => {
-//						
-//						$fdiv = $("<div></div>").addClass("comments").css("display", "block");
-//						
-//						$article = $("<article></article>").addClass("parent");
-//						$("<img>").attr("src", "https://cf-fpi.everytime.kr/0.png").addClass("picture medium").appendTo($article);
-//						if(comment.is_anonym == 1) {
-//							$("<h3></h3>").addClass("medium").text('익명').appendTo($article);
-//						}else{
-//							$("<h3></h3>").addClass("medium").text(comment.user_id).appendTo($article);
-//						}
-//						$ul = $("<ul></ul>").addClass("status");
-//						$("<li></li>").addClass("childcomment").text("대댓글").appendTo($ul);
-//						$("<li></li>").addClass("commentvote").text("공감").appendTo($ul);
-//						$('<li></li>').text('쪽지').addClass('messagesend').attr({'data-modal': 'messageSend', 'data-article-id': comment.id, 'data-is-anonym': comment.is_anonym}).appendTo($ul);
-//						$ul.appendTo($article);
-//						$("<hr>").appendTo($article)
-//						$("<p></p>").addClass("large").text(comment.comment).appendTo($article);
-//						$("<time></time>").addClass("medium").text(comment.create_date).appendTo($article);
-//						$ul = $("<ul></ul>").addClass("status commentvotestatus");
-//						$("<li></li>").addClass("vote commentvote").css("display", "list-item").text(comment.like_count).appendTo($ul);
-//						$ul.appendTo($article);
-//						
-//						$article.appendTo($fdiv);
-//						$fdiv.appendTo($articles);
-//					});
-//					$articles.find('div.loading').hide();
-				
-//			});
-			
-			
-			//댓글 검색
-//			$.ajax({
-//				url: 'freedomContent/commentList',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				contentType: "application/json; charset=UTF-8",
-//				data: JSON.stringify({
-//					post_id: _set.boardId
-//				}),
-//				success: function (data) {
-//					console.log(data);
-//					var responseCode;
-//					if (!$(data).find('response').children().length) {
-//						responseCode = $(data).find('response').text();
-//					}
-//					if (responseCode === '0') {
-//						location.href = '/login?redirect=' + location.pathname;
-//					} else if (responseCode === '-1') {
-//						if (_set.isUser) {
-//							_fn.createDialog('글이 존재하지 않습니다.');
-//						} else {
-//							location.href = '/login?redirect=' + location.pathname;
-//						}
-//					} else if (responseCode === '-100') {
-//						if (confirm('학교인증 회원만 볼 수 있습니다. 학교인증을 하시겠습니까?')) {
-//							location.href = '/auth';
-//						} else {
-//							history.go(-1);
-//						}
-//					} else if (responseCode === '-200') {
-//						alert('비밀번호 필요');
-//					} else if (responseCode === '-300' || responseCode === '-400') {
-//						_fn.createDialog('접근 권한이 없습니다.');
-//					} else {
-//						callback(data);
-//					}
-//				}
-//			});
 		},
 		createComments: function (data) {
-//			$articles.empty();
-//			_fn.createArticles(data, false);
-//			_fn.hideWriteArticleButton();
-//			$articles.find('ul.hashtags').remove();
 			var $article = $articles.find('> article').first();
 			var $comments = $article.find('div.comments');
 			
@@ -1227,7 +1144,6 @@ $().ready(function () {
 				var $comment = $('<article></article>').data({
 					id: comment.id,
 					parentId: comment.p_comment_id,
-					'is_mine': 0,
 				}).attr("id",comment.id).attr("parentId",comment.p_comment_id).appendTo($comments);
 				if (comment.p_comment_id !== 0) {
 					$comment.addClass('child');
@@ -1251,19 +1167,14 @@ $().ready(function () {
 						$('<li></li>').text('대댓글').addClass('childcomment').appendTo($status);
 					}
 					//공감
-					$('<li></li>').text('공감').addClass('commentvote').appendTo($status);
 					//삭제
-//					if ($this.attr('is_mine') === '1') {
+					if (comment.user_id == _user_id) {
 						$('<li></li>').text('삭제').addClass('del').appendTo($status);
-//					} else {
+					} else {
+						$('<li></li>').text('공감').addClass('commentvote').appendTo($status);
 						//쪽지
-//						$('<li></li>').text('쪽지').addClass('messagesend').attr({'data-modal': 'messageSend', 'data-comment-id': $this.attr('id'), 'data-is-anonym': Number($this.attr('user_id') === '0')}).appendTo($status);
 						$('<li></li>').text('쪽지').addClass('messagesend').attr({'data-modal': 'messageSend', 'data-article-id': comment.id, 'data-is-anonym': comment.is_anonym}).appendTo($status);
-//						if (_set.isManageable) {
-//							$('<li></li>').text('삭제').addClass('managedel').appendTo($status);
-//							$('<li></li>').text('삭제 및 이용 제한').addClass('manageabuse').appendTo($status);
-//						}
-//					}
+					}
 				}
 				$('<hr>').appendTo($comment);
 				$('<p></p>').html(comment.comment).addClass('large').appendTo($comment);

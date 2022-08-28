@@ -37,7 +37,7 @@ var myId = '${sessionScope.id }';
 <script type="text/javascript" src="/js/message/message.send.js"></script>
 </head>
 <body style="">
-	<c:import url="../header.jsp" />
+	<c:import url="header.jsp" />
 	<div id="container" class="message" data-box-id="0">
 		<aside class="none">
 			<div class="title">

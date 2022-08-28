@@ -130,7 +130,7 @@ $().ready(function () {
 				campus_id: $('#communityCampusId').val()
 			};
 			$.ajax({
-				url: 'find/aside/list',
+				url: '/find/aside/list',
 				type: 'GET',
 				success: function (data) {
 					callback(data);

@@ -39,6 +39,7 @@ public class ChatService {
 	public int makeInfoChat(Map<String, Object> params) {
 		String sender = (String) session.getAttribute("id");
 		
+		
 		String type = (String) params.get("type");
 		int typeId = (int) params.get("typeId");
 		int isAnonym = (int) params.get("isAnonym");
@@ -64,7 +65,12 @@ public class ChatService {
 		// userId가 없다면 -> 올바르지 않은 쪽지 상대입니다(responseCode = -3)
 		if (info.getUserId() == null || info.getUserId().isEmpty())
 			return -3;
-
+		
+		// userId가 내 아이디와 같으면 return -5
+		if (info.getUserId().equals(sender)){
+			return -5;
+		}
+		
 		// 게시글or댓글 작성자 == sender(나)
 		if (info.getUserId() == sender) {
 			infoMsg = info.getBName() + "에 작성된 " + ((type.equals("post")) ? "" : "댓")

@@ -16,7 +16,8 @@
 	</select>
 
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
-		SELECT * FROM post WHERE board_id = (select id as board_id from board where name=#{name}) 
+		SELECT *, (select count(*) from post_picture where post_id=p.id) as picture_count FROM post p 
+		WHERE board_id = (select id as board_id from board where name=#{name}) 
 		ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	

@@ -388,33 +388,6 @@ $().ready(function () {
 				var $form = $container.find('form.writecomment');
 				var $text = $form.find('input[name="text"]');
 				
-				//댓글 작성
-//				$.ajax({
-//					url: 'freedomContent/commentWrite',
-//					xhrFields: {withCredentials: true},
-//					type: 'POST',
-//					contentType: "application/json; charset=UTF-8",
-//					data: JSON.stringify({
-//						comment: $text.val(),
-//						user_id: 'test123',
-//						post_id: _set.boardId,
-//						p_comment_id: 0
-//						
-//					}),
-//					success: function (data) {
-//						console.log(data);
-//						var responseCode = $(data).find('response').text();
-//						if (responseCode === '0' || responseCode === '-3') {
-//							alert('댓글을 작성할 수 없습니다.');
-//						} else if (responseCode == '-1') {
-//							alert('너무 자주 댓글을 작성할 수 없습니다.');
-//						} else if (responseCode === '-2') {
-//							alert('내용을 입력해 주세요.');
-//						} else {
-//							location.reload();
-//						}
-//					}
-//				});
 				
 			});
 			//대댓글 버튼
@@ -766,21 +739,6 @@ $().ready(function () {
 				_fn.createBestarticleSeasons();
 			}
 			_fn.ajaxArticles();
-//				if (_set.moiminfo) {
-//					var $responseXml = $(data).find('response');
-//					if ($responseXml.is(':has(categories)')) {
-//						_fn.createCategories($responseXml.find('categories'));
-//					}
-//					_set.moiminfo = false;
-//					_fn.createMoimInfo(data);
-//				}
-//				_fn.createArticles(data, true);
-//				$container.find('div.seasons div.season').each(function (idx, elem) {
-//					$(elem)[$(elem).data('value') === _set.bestarticleSeason ? 'addClass' : 'removeClass']('selected');
-//				});
-//				$container.find('div.categories div.category').each(function (idx, elem) {
-//					$(elem)[Number($(elem).data('id')) === _set.categoryId ? 'addClass' : 'removeClass']('selected');
-//				});
 		},
 		ajaxArticles: function (callback) {
 			var urls = location.href.split("/")
@@ -839,6 +797,9 @@ $().ready(function () {
 							$("<h3></h3>").addClass("small").text(post.user_id).appendTo($aTitle);
 						}
 						$ul = $("<ul></ul>").addClass("status")
+						if (post.picture_count > 0){
+							$("<li></li>").addClass("attach").text(post.picture_count).appendTo($ul)
+						}
 						$("<li></li>").attr("title", "공감").addClass("vote").text(post.like_count).appendTo($ul)
 						$("<li></li>").attr("title", "댓글").addClass("comment").text(post.comment_count).appendTo($ul)
 						$ul.appendTo($aTitle);

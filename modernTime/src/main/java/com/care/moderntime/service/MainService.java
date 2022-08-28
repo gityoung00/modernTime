@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 
 import com.care.moderntime.dao.MainDAO;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class MainService {
 	
 	private final MainDAO mainDao;
+	private final HttpSession session;
 
 	public Map<String, Object> findMainBoard() {
 		Map<String, Object> res = new HashMap<String, Object>();
@@ -48,6 +51,13 @@ public class MainService {
 		res.put("evals", evals);
 		
 		return res;
+	}
+	
+	public int AuthCheck() {
+		String userId = (String) session.getAttribute("id");
+		int res = mainDao.CheckAuth(userId);
+		return res;
+		
 	}
 	
 	

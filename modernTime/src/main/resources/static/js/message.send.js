@@ -4,6 +4,9 @@ $().ready(function() {
 	var _set = {};
 	var _fn = {
 		init: function() {
+			
+			
+			
 			$container.on('click', '[data-modal="messageSend"]', function() {
 				_fn.openMessageSend($(this).data());
 			});
@@ -40,6 +43,7 @@ $().ready(function() {
 				return;
 			}
 			var confirmMessage;
+			_set.isAnonym = _is_Anonym;
 			if (_set.isAnonym === 1) {
 				confirmMessage = '상대방에게 익명으로 쪽지가 보내집니다.\n쪽지를 보내시겠습니까?';
 			} else {

@@ -21,5 +21,7 @@ public interface MainDAO {
 	ArrayList<AsidePostListDTO> findPopularPost();
 	
 	ArrayList<AsideEvalDTO> findEvaluation();
+	
+	int CheckAuth(String userId);
 
 }

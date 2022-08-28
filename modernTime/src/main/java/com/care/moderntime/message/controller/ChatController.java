@@ -72,6 +72,7 @@ public class ChatController {
 	public void sendMsg(@DestinationVariable Integer id, @RequestBody Map<String, String> data) {
 		String message = data.get("message");
 		String sender = data.get("sender");
+		
 		ChatDTO chat = new ChatDTO(id, message, sender, 0, 1);
 		chatService.sendChat(chat);
 		

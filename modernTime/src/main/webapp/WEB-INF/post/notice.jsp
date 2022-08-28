@@ -15,20 +15,13 @@
   <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
   <script type="text/javascript" src="/js/common.js"></script>
   <script type="text/javascript" src="/js/community.side.js"></script>
-  <script type="text/javascript" src="/js/admin/board.index.js"></script>
+  <script type="text/javascript" src="/js/post/board.index.js"></script>
   <script type="text/javascript" src="/js/admin/extensions.canvas-to-blob.min.js"></script>
   <script type="text/javascript" src="/js/admin/extensions.load-image.all.min.js"></script>
   <script type="text/javascript" src="/js/admin/message.send.js"></script>
 </head>
 <body>
 <c:import url="../header.jsp" />
-<div id="submenu">
-	<div class="wrap">
-	<font color="red" id = "msg"></font>
-		<hr>
-	</div>
-<!-- 	<input type="hidden" id="communityCampusId" value="349"> -->
-</div>
 <div id="container" class="article">
 	<input type="hidden" id="isUser" value="1"> <input
 		type="hidden" id="boardId" value="1">
@@ -40,13 +33,13 @@
 			</h1>
 		</div>
 	</aside>
-	<div class="wrap title" style="margin: auto; margin-top: 25px;">
+	<div class="wrap title">
 		<h1>
 			<a href="/notice">공지사항</a>
 		</h1>
 		<hr>
 	</div>
-	<div class="wrap articles" style="margin: auto; margin-top: 25px;">
+	<div class="wrap articles">
 
 		<a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a>
 	<div id="noticeList">	
@@ -60,7 +53,7 @@
 		</div>
 	</div>
 	<hr>
-	<c:import url="../../rightSide.jsp" />
+	<c:import url="../rightSide.jsp" />
 	<form id="abuseForm" class="modal">
 		<a title="닫기" class="close"></a>
 		<h3>신고 사유 선택</h3>

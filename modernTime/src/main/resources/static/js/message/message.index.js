@@ -41,7 +41,7 @@ $().ready(function() {
 
 			// 채팅방 클릭했을때
 			$messageBoxes.find('div.items').on('scroll', function() {
-				_fn.onMessageBoxesScroll();
+//				_fn.onMessageBoxesScroll();
 			}).on('click', 'a.item', function() {
 				console.log("this: ", this)
 				//				console.log("a.item. click", _set.isMessagesRendered)

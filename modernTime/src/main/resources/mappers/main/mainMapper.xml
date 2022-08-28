@@ -27,6 +27,10 @@
 		 from evaluation e order by id desc limit 4
 	</select>
 	
+	<select id="CheckAuth" parameterType="String" resultType="int">
+		select is_certificate from user where id=#{userId}
+	
+	</select>
    
    
 </mapper>

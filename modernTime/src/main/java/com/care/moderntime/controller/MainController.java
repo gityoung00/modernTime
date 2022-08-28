@@ -2,6 +2,8 @@ package com.care.moderntime.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,15 @@ public class MainController {
 	public Map<String, Object> getAsideBoard(){
 		return mainService.findAsideBoard();
 	}
+	
+	// 인증 여부 확인
+	@ResponseBody
+	@GetMapping("auth/check")
+	public int CheckAuth() {
+		return mainService.AuthCheck();
+		
+	}
+	
 	
 	
 }

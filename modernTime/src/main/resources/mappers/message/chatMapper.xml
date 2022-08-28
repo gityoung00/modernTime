@@ -13,7 +13,7 @@
 		(select room_id, count(case when (is_readed=0 and sender &lt;&gt; #{id}) then 1 end) as count 
 		from chat group by room_id) cc on ch.room_id=cc.room_id
 		where id in (select max(id) from chat group by room_id) order by ch.room_id desc) c
-		on r.room_id=c.room_id;
+		on r.room_id=c.room_id  order by roomId desc;
 	</select>
 
 

@@ -13,7 +13,7 @@ public class PostDTO {
 	private int id, is_anonym, like_count, board_id, scrap_count;
 	private String user_id, title, content, create_date, board_name, board_title;
 	
-	private int post_id, comment_count;
+	private int post_id, comment_count, picture_count;
 	
 	private int start_num, search_type;
 	
