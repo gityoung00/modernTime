@@ -33,9 +33,12 @@ public interface IPostService {
 	public String insertScrap(PostLikeDTO postlike);
 	
 	//게시판 검색
-	public Map<String, Object> listProc(int start_num);
+	public Map<String, Object> listProc(int start_num, int board_id);
 
 	public Map<String, Object> searchProc(int search_type, String keyword);
+
+
+
 
 
 }

@@ -39,10 +39,13 @@ public class PostServiceImpl implements IPostService{
 			return "내용을 입력하세요.";
 		
 		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		post.setCreate_date(sdf.format(date));
 		
 		post.setBoard_id(1);
+		
+		String str = post.getContent().replace("\n","<br>");
+		post.setContent(str);
 		
 		mapper.writeProc(post);
 		
@@ -76,15 +79,16 @@ public class PostServiceImpl implements IPostService{
 //	}
 	
 	@Override
-	public Map<String, Object> listProc(int start_num) {
+	public Map<String, Object> listProc(int start_num, int board_id) {
 		System.out.println("\n(ser)start_num : " + start_num);
+		System.out.println("(ser)board_id : " + board_id);
 		
 		PostDTO post = new PostDTO();
 		post.setStart_num(start_num);
 		System.out.println("(ser)post start_num : " + post.getStart_num());
 		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> listProc = mapper.listProc(start_num);
+		ArrayList<PostDTO> listProc = mapper.listProc(start_num, board_id);
 		
 		res.put("data", listProc);
 		return res;
@@ -111,6 +115,11 @@ public class PostServiceImpl implements IPostService{
 	public PostDTO viewProc(int id) {
 		System.out.println("view(service) id : " + id);
 		PostDTO post = mapper.viewProc(id);
+		
+		int comCnt = mapper.commentCount(id);
+		post.setComment_count(comCnt);
+		mapper.commentCnt(post);
+		
 		session.setAttribute("post", post);
 		return post;
 	}
@@ -118,6 +127,10 @@ public class PostServiceImpl implements IPostService{
 	@Override
 	public String modifyProc(PostDTO post) {
 		System.out.println("modify(service) id : " + post.getId());
+		
+		String str = post.getContent().replace("\n","<br>");
+		post.setContent(str);
+		
 		mapper.modifyProc(post);
 		return null;
 	}
@@ -138,7 +151,6 @@ public class PostServiceImpl implements IPostService{
 		
 		int tmp = mapper.countLike(post);
 		int addLike = mapper.tableCountLike(post) + 1;
-		System.out.println("tmp : " + tmp + " /addLike : " + addLike);
 		if(tmp == 0) {
 			post.setLike_count(addLike);
 			mapper.likeProc(post);
@@ -164,10 +176,11 @@ public class PostServiceImpl implements IPostService{
 	@Override
 	public String scrapProc(PostDTO post) {
 		System.out.println("scrapProc(service) id : " + post.getId());
+		System.out.println("scrapProc(service) scrap_count : " + post.getScrap_count());
 		
 		int tmp = mapper.countScrap(post);
 		int addScrap = mapper.tableCountScrap(post) + 1;
-		System.out.println("tmp : " + tmp + " /addScrap : " + addScrap);
+		System.out.println("addScrap : " + addScrap);
 		if(tmp == 0) {
 			post.setScrap_count(addScrap);
 			mapper.scrapProc(post);
@@ -189,7 +202,9 @@ public class PostServiceImpl implements IPostService{
 			return "실패";
 	}
 
-	
+
+
+
 }
 
 

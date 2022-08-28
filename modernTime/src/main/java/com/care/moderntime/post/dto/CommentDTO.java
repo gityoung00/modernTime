@@ -8,6 +8,10 @@ public class CommentDTO {
 	private int post_id;
 	private String user_id;
 	private int p_comment_id;
+	private int comment_like;
+	private int comment_id;
+	private int commentCount;
+	private int start_num;
 	
 	public int getId() {
 		return id;
@@ -51,6 +55,36 @@ public class CommentDTO {
 	public void setP_comment_id(int p_comment_id) {
 		this.p_comment_id = p_comment_id;
 	}
+	public int getComment_like() {
+		return comment_like;
+	}
+	public void setComment_like(int comment_like) {
+		this.comment_like = comment_like;
+	}
+	
+	public int getComment_id() {
+		return id;
+	}
+	public void setComment_id(int id) {
+		this.id = id;
+	}
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	public int getStart_num() {
+		return start_num;
+	}
+	public void setStart_num(int start_num) {
+		this.start_num = start_num;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

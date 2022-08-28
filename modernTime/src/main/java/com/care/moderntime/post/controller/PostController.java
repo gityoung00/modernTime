@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,14 +61,14 @@ public class PostController {
 	
 	//
 	//freedom
-	@GetMapping("freedom")
-	public String freedom() {
+	@GetMapping(value = {"{freedom}", "freedom)"})
+	public String freedom(@PathVariable("freedom") String freedom) {
 		return "post/freedom";
 	}
 	//게시글 넣기 write
 	@ResponseBody
-	@PostMapping("freedom")
-	public String freedom(@RequestBody PostDTO post, RedirectAttributes ra) {
+	@PostMapping(value = {"{freedom}", "freedom"})
+	public String freedom(@PathVariable(value="freedom", required=false) String freedom, @RequestBody PostDTO post, RedirectAttributes ra) {
 		System.out.println("write(con) id : " + post.getId());
 		System.out.println("write(con) is_anonym : " + post.getIs_anonym());
 
@@ -79,13 +80,13 @@ public class PostController {
 	//게시글 전체, 검색, 페이징
 	@ResponseBody
 	@PostMapping(value="listProc", produces="application/json; charset=UTF-8")
-	public Map<String, Object> listProc(@RequestParam int start_num, @RequestParam int search_type, @RequestParam String keyword, HttpServletRequest req) {
+	public Map<String, Object> listProc(@RequestParam int start_num, @RequestParam int search_type, @RequestParam int board_id, @RequestParam String keyword, HttpServletRequest req) {
 		System.out.println("\n(con)start_num : " + start_num);
 		System.out.println("(con)search_type : " + search_type);
 		System.out.println("(con)keyword : " + keyword);
 	
 		if(search_type == 0)
-			return service.listProc(start_num);
+			return service.listProc(start_num, board_id);
 		else
 			return service.searchProc(search_type, keyword);
 		
@@ -97,6 +98,9 @@ public class PostController {
 	public String viewProc(int id, Model model) {
 		System.out.println("view(con) id : " + id);
 		PostDTO post = service.viewProc(id);
+		
+		System.out.println("댓글 수 : " + post.getComment_count());
+		
 		model.addAttribute("post", post);
 		outId = id;
 		return "post/freedomContent";
@@ -166,6 +170,8 @@ public class PostController {
 			return result;
 		return result;
 	}
+	
+
 	
 	
 	

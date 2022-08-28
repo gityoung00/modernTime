@@ -8,7 +8,7 @@
    </insert>
    
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
-		SELECT * FROM post ORDER BY id DESC limit #{start_num}, 10;
+		SELECT * FROM post WHERE board_id=#{board_id} ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	
 	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
@@ -68,6 +68,12 @@
 		SELECT count(*) FROM user_scrap WHERE post_id=#{post_id}
 	</select>
 	
-   
-   
+   <!-- 댓글 수 -->
+	<select id="commentCount" parameterType="com.care.moderntime.post.dto.PostDTO" resultType="int">
+		SELECT count(*) FROM comment WHERE post_id=#{id}
+	</select>
+	<update id="commentCnt" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET comment_count=#{comment_count} WHERE id=#{id}
+	</update>
+	
 </mapper>

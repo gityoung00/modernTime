@@ -778,8 +778,10 @@ $().ready(function () {
 				limit_num: _set.limitNum,
 				start_num: _set.startNum,
 				search_type: _set.searchType,
-				keyword: _set.keyword
+				keyword: _set.keyword,
+				board_id: 1
 			};
+			console.log(_set.startNum)
 			if (_set.moiminfo) {
 				conditions.moiminfo = 'true';
 			}
@@ -811,32 +813,30 @@ $().ready(function () {
 //					console.log(jsonDatas);
 					$('<a></a>').attr('id', 'writeArticleButton').text('새 글을 작성해주세요!').appendTo($articles);
 					$(data.data).each((_, post) => {
-//						console.log(post)
+						
+						var str = post.content.trim().replaceAll("<br>","\n");
+						
 						$article = $("<article></article>")
 						
 						$aTitle = $("<a></a>").addClass("article").attr("href", `/freedomContent?id=${post.id}`)
 						
 						$("<h2></h2>").addClass("medium").text(post.title).appendTo($aTitle);
-						$("<p></p>").addClass("small").text(post.content).appendTo($aTitle);
+						$("<p></p>").addClass("small").text(str).appendTo($aTitle);
 						$("<time></time>").addClass("small").text(post.create_date).appendTo($aTitle);
 						if(post.is_anonym == 1) {
 							$("<h3></h3>").addClass("small").text('익명').appendTo($aTitle);
 						}else{
 							$("<h3></h3>").addClass("small").text(post.user_id).appendTo($aTitle);
 						}
-						
-						
 						$ul = $("<ul></ul>").addClass("status")
 						$("<li></li>").attr("title", "공감").addClass("vote").text(post.like_count).appendTo($ul)
-						$("<li></li>").attr("title", "댓글").addClass("comment").text(0).appendTo($ul)
+						$("<li></li>").attr("title", "댓글").addClass("comment").text(post.comment_count).appendTo($ul)
 						$ul.appendTo($aTitle);
 						$("<hr>").appendTo($aTitle);
 						
 						$aTitle.appendTo($article);
 						$article.appendTo($articles);
 //						console.log($articles.html())
-						
-						
 						
 					});
 					$articles.find('div.loading').hide();
@@ -885,9 +885,56 @@ $().ready(function () {
 //					}
 				}
 			});
+			
+//			$.ajax({
+//				url: '/myScrap',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				data: conditions,
+//				success: function (data) {
+//					console.log(data);
+//					console.log(conditions);
+//					console.log(_set.boardPage);
+//					
+//					$(data.data).each((_, post) => {
+//						$article = $("<article></article>");
+//						
+//						$aTag = $("<a></a>").addClass("article").attr("href", `/freedomContent?id=${post.id}`);
+//						$("<img>").attr("src", "https://cf-fpi.everytime.kr/0.png").addClass("picture medium").appendTo($aTag);
+//						if(post.is_anonym == 1) {
+//							$("<h3></h3>").addClass("medium").text('익명').appendTo($aTag);
+//						}else{
+//							$("<h3></h3>").addClass("medium").text(post.user_id).appendTo($aTag);
+//						}
+//						$("<time></time>").addClass("medium").text(post.create_date).appendTo($aTag);
+//						$("<hr>").appendTo($aTag);
+//						$("<h2></h2>").addClass("medium bold").text(post.title).appendTo($aTag);
+//						$("<p></p>").addClass("medium").text(post.content).appendTo($aTag);
+//						$("<span></span>").addClass("more").text('...더 보기').appendTo($aTag);
+//						$ul = $("<ul></ul>").addClass("status")
+//						$("<li></li>").addClass("removescrap").text("스크랩 취소").appendTo($ul);
+//						$("<li></li>").attr("title", "공감").addClass("vote").text(post.like_count).appendTo($ul);
+//						$("<li></li>").attr("title", "댓글").addClass("comment").text('댓글 수').appendTo($ul);
+//						$("<hr>").appendTo($ul);
+//						
+//						$ul.appendTo($aTag);
+//						
+//						$aTag.appendTo($article);
+//						$article.appendTo($articles);
+//						
+//					});
+//					$articles.find('div.loading').hide();
+//					
+//					_fn.makePagination();
+//				
+//				}
+//			});
 			return function(){
 				console.log("tst");
 			};
+			
+			
+			
 		},
 		//글 작성부분?
 		createArticles: function (data, isListItem) {
@@ -1150,7 +1197,7 @@ $().ready(function () {
 				
 				//검색 옵션
 				$('<option></option>').val('4').text('전체').appendTo($searchType);
-				$('<option></option>').val('3').text('해시태그').appendTo($searchType);
+//				$('<option></option>').val('3').text('해시태그').appendTo($searchType);
 //				if (_set.type === 2) {
 					$('<option></option>').val('2').text('글 제목').appendTo($searchType);
 //				}

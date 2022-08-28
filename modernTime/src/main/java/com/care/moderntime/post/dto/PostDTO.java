@@ -4,7 +4,7 @@ public class PostDTO {
 	private int id, is_anonym, like_count, board_id, scrap_count;
 	private String user_id, title, content, create_date;
 	
-	private int post_id, commentCount;
+	private int post_id, comment_count;
 	
 	private int start_num, search_type;
 	private String keyword;
@@ -71,13 +71,12 @@ public class PostDTO {
 	public void setPost_id(int id) {
 		this.id = id;
 	}
-	public int getCommentCount() {
-		return commentCount;
+	public int getComment_count() {
+		return comment_count;
 	}
-	public void setCommentCount(int commentCount) {
-		this.commentCount = commentCount;
+	public void setComment_count(int comment_count) {
+		this.comment_count = comment_count;
 	}
-	
 	
 	public int getStart_num() {
 		return start_num;

@@ -45,9 +45,17 @@ public interface IPostDAO {
 	public int tableCountScrap(PostDTO post);
 	
 	//
-	public ArrayList<PostDTO> listProc(@Param("start_num") int start_num);
+	public ArrayList<PostDTO> listProc(@Param("start_num") int start_num, @Param("board_id") int board_id);
 
 	public ArrayList<PostDTO> searchProc(@Param("search_type") int search_type, @Param("keyword") String keyword);
+
+	public int commentCount(int id);
+
+	public PostDTO writeProc(int post_id);
+
+	public void commentCnt(PostDTO post);
+
+
 
 
 
