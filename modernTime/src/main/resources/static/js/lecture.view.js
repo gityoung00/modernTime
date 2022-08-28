@@ -164,7 +164,7 @@ $().ready(function () {
 					$rating.find("span.star > span").addClass("on").css("width", percent);
 					
 					// 강의평 요약
-					$details = $("div.details")
+					$details = $rating.find("div.details")
 					$details.empty();
 					$("<h2></h2>").text("강의평").prependTo($("div.side.article"));
 					

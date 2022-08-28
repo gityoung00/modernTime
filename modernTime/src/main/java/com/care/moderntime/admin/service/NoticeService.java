@@ -35,18 +35,20 @@ public class NoticeService {
 			return "내용은 필수요소입니다.";
 		}
 		noticeDao.insert(notice);
-		
-		// 사진들 notice와 연결
-		for (PictureDTO picture: notice.getPictures()) {
-			// 사진 caption update하고
-			noticeDao.updateCaption(picture.getCaption(), picture.getId());
+		if(notice.getPictures() != null) {
+			// 사진들 notice와 연결
+			for (PictureDTO picture: notice.getPictures()) {
+				// 사진 caption update하고
+				noticeDao.updateCaption(picture.getCaption(), picture.getId());
+				
+				// notice와 연결
+				noticeDao.saveNoticePicture(notice.getId(), picture.getId());
+			}
 			
-			// notice와 연결
-			noticeDao.saveNoticePicture(notice.getId(), picture.getId());
-		}
-		
-		
-		return "등록 완료";
+			return "등록 완료";
+		}else {
+			return "등록 완료";
+		}		
 	}
 
 	// 공지 전체 불러오기

@@ -34,7 +34,7 @@ _gfn = _.extend(_gfn, {
 	createListItem: function ($target, data, boardName) {
 		var $a = $('<a></a>').addClass('list').appendTo($target);
 		if (boardName && data.id) {
-			$a.attr('href', '/' + boardName + '/content?id=' + data.id);
+			$a.attr('href', '/freedomContent?id=' + data.id);
 		}
 		console.log("time", _gfn.formatRelativeDate(data.create_date))
 		$('<time></time>').text(_gfn.formatRelativeDate(data.create_date)).appendTo($a);
