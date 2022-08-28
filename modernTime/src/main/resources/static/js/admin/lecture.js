@@ -380,7 +380,6 @@ $().ready(function() {
 
 			_set.filter.order = order.id;
 			_fn.sendFilter();
-
 		},
 		showTypeFilter: function() {
 			//      if (_set.isSubjectRendered === false) {

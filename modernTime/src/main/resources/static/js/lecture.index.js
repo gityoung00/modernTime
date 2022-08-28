@@ -1,4 +1,4 @@
-$().ready(function () {
+$().ready(function() {
 	var $container = $('#container');
 	var $search = $container.find('form.search');
 	var $mypoint = $container.find('div.mypoint');
@@ -12,7 +12,7 @@ $().ready(function () {
 		offset: 0
 	};
 	var _fn = {
-		init: function () {
+		init: function() {
 			var pageCache;
 			if (typeof Storage !== 'undefined') {
 				var previouspageCache = sessionStorage.getItem('previouspage');
@@ -31,45 +31,46 @@ $().ready(function () {
 				_fn.loadMyPoint();
 				_fn.loadMyLectures();
 				_fn.loadAllArticles();
-				setTimeout(function () {
+				setTimeout(function() {
 					$(window).scrollTop(0);
 				}, 10);
 			}
-			$(window).on('scroll', function () {
+			$(window).on('scroll', function() {
 				_fn.onScroll();
 			});
-			$search.on('submit', function () {
-				_fn.searchLectures();
+			$search.on('submit', function() {
+				_fn.ajaxsearch();
 				return false;
 			});
-			$search.on('focus', 'input[name="keyword"]', function () {
-				var startScrollTop = $(window).scrollTop();
-				setTimeout(function () {
-					var endScrollTop = $(window).scrollTop();
-					if (startScrollTop !== endScrollTop) {
-						$search.css('transform', 'translateY(' + (endScrollTop - startScrollTop) + 'px)');
-					}
-				}, 0);
-			});
-			$search.on('blur', 'input[name="keyword"]', function () {
-				$search.css('transform', 'none');
-			});
+//			$search.on('focus', 'input[name="keyword"]', function() {
+//				var startScrollTop = $(window).scrollTop();
+//				setTimeout(function() {
+//					var endScrollTop = $(window).scrollTop();
+//					if (startScrollTop !== endScrollTop) {
+//						$search.css('transform', 'translateY(' + (endScrollTop - startScrollTop) + 'px)');
+//					}
+//				}, 0);
+//			});
+//			$search.on('blur', 'input[name="keyword"]', function() {
+//				$search.css('transform', 'none');
+//			});
 		},
-		createFromCache: function (pageCache) {
+		createFromCache: function(pageCache) {
 			$container.html(pageCache.container);
 			_set.isRendered = true;
 			_set.offset = pageCache.offset;
 		},
-		loadAllArticles: function () {
+		loadAllArticles: function() {
 			$articles.find('div.loading').show();
-			_fn.ajaxAllArticles(function (data) {
+			_fn.ajaxAllArticles(function(data) {
 				if (!data) {
 					return false;
 				}
-				_fn.createAllArticles(data);
+				//				_fn.createAllArticles(data);
 			});
 		},
-		ajaxAllArticles: function (callback) {
+
+		ajaxAllArticles: function(callback) {
 			var params = {
 				limit_num: _set.limit,
 				start_num: _set.offset
@@ -77,143 +78,206 @@ $().ready(function () {
 			if ($articles.data('campus-id') > 0) {
 				params.campus_id = $articles.data('campus-id');
 			}
-			$.ajax({
-				url: _apiServerUrl + '/find/lecture/article/list/recent',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				data: params,
-				success: function (data) {
-					var responseCode;
-					if (!$(data).find('response').children().length) {
-						responseCode = $(data).find('response').text();
-					}
-					if (responseCode === '-1') {
-						window.alert('접근 권한이 없습니다.');
-						history.go(-1);
-					} else {
-						callback(data);
-					}
-				}
-			});
+			//			$.ajax({
+			//				url: _apiServerUrl + '/find/lecture/article/list/recent',
+			//				xhrFields: {withCredentials: true},
+			//				type: 'POST',
+			//				data: params,
+			//				success: function (data) {
+			//					var responseCode;
+			//					if (!$(data).find('response').children().length) {
+			//						responseCode = $(data).find('response').text();
+			//					}
+			//					if (responseCode === '-1') {
+			//						window.alert('접근 권한이 없습니다.');
+			//						history.go(-1);
+			//					} else {
+			//						callback(data);
+			//					}
+			//				}
+			//			});
 		},
-		createAllArticles: function (data) {
-			var $loading = $articles.find('div.loading');
-			var $articlesData = $(data).find('response > article');
-			if ($articlesData.length === 0) {
-				if (_set.offset === 0) {
-					$('<div></div>').addClass('empty').html('<p>아직 등록된 강의평이 없습니다.<br>수강했던 과목에 대한 정보를 공유해주세요!</p>').insertBefore($loading);
-				}
-				_set.isLoadCompleted = true;
-			} else {
-				$articlesData.each(function () {
-					var $this = $(this);
-					var $article = $('<a></a>').addClass('article').attr('href', '/lecture/view/' + $this.attr('lecture_id'));
-					if ($this.attr('isConfirmed') === '0') {
-						$article.addClass('notconfirmed');
-						var $confirm = $('<div></div>').addClass('confirm').appendTo($article);
-						$('<p></p>').html('학교 인증 후 강의평을 확인할 수 있습니다.').appendTo($confirm);
-					}
-					var name = $this.attr('lecture_name');
-					var professor = $this.attr('lecture_professor_name');
-					if (professor) {
-						name += ' : ' + professor;
-					}
-					$('<h3></h3>').html(name).appendTo($article);
-					var $rate = $('<p></p>').addClass('rate').appendTo($article);
-					var $star = $('<span></span>').addClass('star').appendTo($rate);
-					var percent = Number($this.attr('rate')) / 5 * 100 + '%';
-					$('<span></span>').addClass('on').width(percent).appendTo($star);
-					var $info = $('<p></p>').addClass('info').appendTo($article);
-					if ($this.attr('year') && $this.attr('semester')) {
-						$('<span></span>').addClass('semester').html($this.attr('year').substr(2) + '년 ' + $this.attr('semester') + '학기 수강자').appendTo($info);
-					}
-					if (Number($this.attr('posvote')) > 0) {
-						$('<span></span>').addClass('posvote').html($this.attr('posvote')).appendTo($info);
-					}
-					var text = _.escape(_.unescape($this.attr('text'))).replace(/\n\n+/g, '\n\n').replace(/\n/g, '<br>');
-					$('<p></p>').addClass('text').html(text).appendTo($article);
-					$article.insertBefore($loading);
-				});
-			}
-			$loading.hide();
-			_set.isRendered = true;
-			_set.offset += _set.limit;
-			setTimeout(function () {
-				_gfn.setPageCache(location, {
-					offset: _set.offset,
-					container: $container.html()
-				});
-			}, 10);
-		},
-		loadMyPoint: function () {
-			_fn.ajaxMyPoint(function (data) {
+
+		loadMyPoint: function() {
+			_fn.ajaxMyPoint(function(data) {
 				if (!data) {
 					return false;
 				}
 				_fn.createMyPoint(data);
 			});
 		},
-		ajaxMyPoint: function (callback) {
-			$.ajax({
-				url: _apiServerUrl + '/find/lecture/point',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				success: function (data) {
-					callback(data);
-				}
-			});
+		ajaxMyPoint: function(callback) {
+			//			$.ajax({
+			//				url: _apiServerUrl + '/find/lecture/point',
+			//				xhrFields: {withCredentials: true},
+			//				type: 'POST',
+			//				success: function (data) {
+			//					callback(data);
+			//				}
+			//			});
 		},
-		createMyPoint: function (data) {
+		createMyPoint: function(data) {
 			var point = $(data).find('response').text();
 			$mypoint.find('span.value').text(point + 'P');
 		},
-		loadMyLectures: function () {
+		loadMyLectures: function() {
 			$mylectures.find('div.loading').show();
-			_fn.ajaxMyLectures(function (data) {
+			_fn.ajaxMyLectures(function(data) {
 				if (!data) {
 					return false;
 				}
 				_fn.createMyLectures(data);
 			});
 		},
-		ajaxMyLectures: function (callback) {
+		ajaxMyLectures: function() {
+
 			$.ajax({
-				url: _apiServerUrl + '/find/lecture/list/mine',
-				xhrFields: {withCredentials: true},
+				url: 'lecture/list',
 				type: 'POST',
-				success: function (data) {
-					callback(data);
+				success: function(data) {
+					//										alert('asd');
+					//					console.log(data)
+					var jsonDatas = data;//JSON.parse(data);
+					var list = "";
+					var list2 = "";
+					for (i = 0; i < jsonDatas.cd.length; i++) {
+						//						var lectureid = jsonDatas.cd[i].lecture_id;
+						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+						list = list + "<a class='lecture' href='evalview?id=" + jsonDatas.cd[i].lectureId + "'>";
+						list = list + "<h3><span class='name'>" + jsonDatas.cd[i].name + "</span> : ";
+//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";
+						list = list + "<span class='professor'>" + jsonDatas.cd[i].teacher + "</span></h3>";
+						//						console.log(jsonDatas.cd[i].userEval)
+						if (jsonDatas.cd[i].userEval == 0) {
+							list = list + "<span class= 'button'><span class='button write' >평가하기</span></span></a>";
+//							list2 = list2 + "<span><a href = 'evaluation?id=" + jsonDatas.cd[i].lectureId + "'><button>평가하기</button></a></span></h3></th></tr>";
+						} else {
+							list = list + "<span class= 'button'><span class='button completed' >평가완료</span></span></a>";
+//							 style='float; font-weight: bold; right; height: 22.67px; box-sizing: border-box;  border-radius: 12px;' 
+						}
+					}
+					$(".mylectures").html(list);
+//					$("#bodys3").html(list2);
+					//					callback(data);
+					_fn.ajaxnewLectures();
+				},
+
+				error: function() {
+					console.log("에러")
 				}
 			});
 		},
-		createMyLectures: function (data) {
-			var $loading = $mylectures.find('div.loading');
-			var $lecturesData = $(data).find('lecture');
-			if ($lecturesData.length === 0) {
-				$('<div></div>').addClass('empty').html('<p>아직 확인할 수 있는 과목이 없습니다.</p>').insertBefore($loading);
-			} else {
-				$lecturesData.each(function () {
-					var $this = $(this);
-					var name = $this.attr('name');
-					var professor = $this.attr('professor_name');
-					var isWritten = Number($this.attr('is_written'));
-					var $a = $('<a></a>').addClass('lecture').attr('href', '/lecture/view/' + $this.attr('id'));
-					var $h3 = $('<h3></h3>').appendTo($a);
-					$('<span></span>').addClass('name').html(name).appendTo($h3);
-					if (professor) {
-						$('<span></span>').addClass('professor').html(professor).appendTo($h3);
-					}
-					if (isWritten) {
-						$('<span></span>').text('평가 완료').addClass('button completed').appendTo($a);
-					} else {
-						$('<span></span>').text('평가하기').addClass('button write').appendTo($a);
-					}
-					$a.insertBefore($loading);
-				});
-			}
-			$loading.hide();
+
+		ajaxnewLectures: function() {
+			$.ajax({
+				url: 'lecture/alllist',
+				type: 'POST',
+				success: function(data) {
+					//										alert('asd');
+					//					console.log(data)
+					var jsonDatas = data;//JSON.parse(data);
+					var list = "";
+					for (i = 0; i < jsonDatas.cd.length; i++) {
+						//						var lectureid = jsonDatas.cd[i].lecture_id;
+						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+						list = list + "<a class='article' href = 'evalview?id=" + jsonDatas.cd[i].lecture_id + "'><h2><tr>"
+						list = list + "<th>" + jsonDatas.cd[i].name + " : </th>";
+						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td></tr></h2>";
+						list = list + "<tr><p class='rate'><span class='star'><span class='on' style='width:" + percent + "'></span></span></p></tr>";
+						//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";
+						list = list + "<p class='info'><span class='semester'>" + jsonDatas.cd[i].listen_date + " </span></p>";
+						list = list + "<p class='text'>" + jsonDatas.cd[i].comment + " </p>";
+						list = list + "</tr></a>"
+					}				//"<a href = 'evaluation?id=" + jsonDatas.cd[i].lectureId + "'><button style='float: right;' >평가하기</button></a>"
+					$(".articles").html(list);
+					//					callback(data);
+//					_fn.ajaxesearch();
+				},
+				error: function() {
+					console.log("에러")
+				}
+			});
+
+
 		},
-		onScroll: function () {
+
+		ajaxsearch: function() {
+			var $keyword = $search.find('input[name="keyword"]');
+			var $keywords = $search.find('input[name="keyword"]').val();
+			console.log($keywords)
+			var keyword = $keyword.val().trim();
+			if (keyword.replace(/\s/g, '').length < 2) {
+				alert('검색어를 두 글자 이상 입력해주세요.');
+			};
+			console.log(keyword)
+			var data = {
+				keyword : $keywords
+			}
+			console.log(data)
+			
+			$.ajax({
+				url: 'search',
+				type: 'POST',
+				data : {
+				keyword : $keywords
+			},
+//				dataType:"text",
+//				contentType: "text/html; charset=UTF-8;",
+//				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				success: function(data) {
+					console.log(data)
+					var list = "";
+					if(data == '{"cd" : ]}'){
+						list = list + "<a class='article'></article>"
+						$(".articles").html(list);
+					}else{
+						var jsonDatas = JSON.parse(data);
+					for (i = 0; i < jsonDatas.cd.length; i++) {
+						//						var lectureid = jsonDatas.cd[i].lecture_id;
+						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+						list = list + "<a class='article' href = 'evalview?id=" + jsonDatas.cd[i].lecture_id + "'><h2><tr>"
+						list = list + "<th>" + jsonDatas.cd[i].name + " : </th>";
+						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td></tr></h2>";
+						list = list + "<tr><p class='rate'><span class='star'><span class='on' style='width:" + percent + "'></span></span></p></tr>";
+						//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";
+						list = list + "<p class='info'><span class='semester'>" + jsonDatas.cd[i].listen_date + " </span></p>";
+						list = list + "<p class='text'>" + jsonDatas.cd[i].comment + " </p>";
+						list = list + "</tr></a>"
+					}				//"<a href = 'evaluation?id=" + jsonDatas.cd[i].lectureId + "'><button style='float: right;' >평가하기</button></a>"
+					$(".articles").html(list);
+					}
+					//					callback(data);
+//					_fn.ajaxevaluationview();
+				},
+				error: function() {
+					console.log("에러")
+				}
+			});
+
+
+		},
+
+		//		ajaxLectures: function(callback) {
+
+
+		ajaxval: function(callback) {
+
+		},
+		loadatricles: function() {
+			$articles.find('div.loading').show();
+			_fn.ajaxarticels(function(data) {
+				if (!data) {
+					return false;
+				}
+				_fn.createarticles(data);
+			});
+		},
+
+
+		createMyLectures: function(data) {
+
+		},
+		onScroll: function() {
 			if (_set.isRendered === false || _set.isLoadCompleted === true) {
 				return;
 			}
@@ -225,15 +289,15 @@ $().ready(function () {
 			_set.isRendered = false;
 			_fn.loadAllArticles();
 		},
-		searchLectures: function () {
-			var $keyword = $search.find('input[name="keyword"]');
-			var keyword = $keyword.val().trim();
-			if (keyword.replace(/\s/g, '').length < 2) {
-				alert('검색어를 두 글자 이상 입력해주세요.');
-			} else {
-				location.href = 'lecture'+"?keyword="+keyword;
-			}
-		}
+//		searchLectures: function() {
+//			var $keyword = $search.find('input[name="keyword"]');
+//			var keyword = $keyword.val().trim();
+//			if (keyword.replace(/\s/g, '').length < 2) {
+//				alert('검색어를 두 글자 이상 입력해주세요.');
+//			} else {
+//				location.href = 'search' + "?keyword=" + keyword;
+//			}
+//		}
 	};
 	_fn.init();
 });

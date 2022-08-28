@@ -65,14 +65,12 @@
 		<div class="tab">
 		</div>
 		<div class="side">
-		<h2>사이드H2</h2>
-<!-- 		<a class = "writebutton">새 강의평 쓰기</a> -->
-<!-- 		<div class="empty"><p>사이드<strong>스트롱</strong> 엡티<p></div> -->
+		<h2>강의평</h2>
 		<!-- 강의정보  -->
 			<div class="side head"> 
 			<h2>정보</h2>
 			<p>
-			<label>학기</label><span>뭔가텍스트</span>
+			<label>전공</label><span>뭔가텍스트</span>
 			</p>
 			<p><label>교수명</label><span>프로페서</span></p>
 			<hr>
@@ -113,18 +111,12 @@
 				<!-- 해당 강의평 리스트 -->
 				<div class="articles">
 					<article>
-					
-						<div class="confirm">
-						</div>
-						<p class="rate"><span class ="star"><span class="on" style="width:70%"></span></span></p>
-						<p class="info"><span class="semester">아티클인포p스팬</span></p>
-						<p class="text">아티클 p텍스트</p>
 					</article>
 				</div>
 			</div>
 			<!-- 시험정보 공유 -->
 			<div class="side exam">
-				<h2>이그젬H2</h2>
+				<h2>시험 정보</h2>
 				<a class= "writebutton">시험 정보 공유</a>
 				<div class="exams">
 <!-- 				<article class="exams"> -->

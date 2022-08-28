@@ -123,15 +123,128 @@ $().ready(function () {
 			});
 		},
 		ajaxArticles: function (callback) {
-			var conditions = {
-				school_id: _set.schoolId,
-				limit_num: 200
-			};
-			if (_set.subjectId) {
-				conditions.subject_id = _set.subjectId;
-			} else {
-				conditions.lecture_id = _set.lectureId;
-			}
+			const urlParams = new URL(location.href).searchParams;
+			const id = urlParams.get('id');
+			console.log(id)
+//			if (_set.subjectId) {
+//				conditions.subject_id = _set.subjectId;
+//			} else {
+//				conditions.lecture_id = _set.lectureId;
+//			}
+			$.ajax({
+				url : "evaluation/list",
+				type : "post",
+//				dataType:"text",
+				data:{
+					lecture_id : id
+				},
+				success : function(data){
+					console.log(data);
+					var jsonDatas = JSON.parse(data);
+					var list = "";
+					var list2 = "";
+					var list3 = "";
+					if(jsonDatas.cd.length >= 1 && jsonDatas.cd[0].comment){
+						for (i = 0; i < jsonDatas.cd.length; i++) {
+						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
+						list = list + "<article>"
+						list = list + "<p class='rate'><span class='star'><span class='on' style='width : "+percent+"'></span></span></p>"
+						list = list + "<p class='text'>" + jsonDatas.cd[i].comment + "</p>"
+						list = list + "</article>"
+					}
+					var percent2 = jsonDatas.cd[0].lscore / 5 * 100 + '%'
+						list2 = list2 +"<div class='rate'>"
+						list2 = list2 +"<span>"
+						list2 = list2 +"<span class='value'>"+jsonDatas.cd[0].lscore+"점</span>"
+						list2 = list2 +"<span class='star'><span class='on' style='width : " + percent2 + "'></span></span>"
+						list2 = list2 +"</span>"						
+						list2 = list2 +"<hr>"						
+						list2 = list2 +"</div>"						
+						list2 = list2 +"<div class='details'>"
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>과제</label>"	
+						list2 = list2 +"<span>"+jsonDatas.cd[0].prac+"</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>조모임</label>"	
+						list2 = list2 +"<span>"+jsonDatas.cd[0].pro+"</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>성적</label>"	
+						list2 = list2 +"<span>"+jsonDatas.cd[0].gra+"</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>출결</label>"	
+						list2 = list2 +"<span>"+jsonDatas.cd[0].attend+"</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>시험횟수</label>"	
+						list2 = list2 +"<span>"+jsonDatas.cd[0].ex+"</span>"
+						list2 = list2 +"</p>"
+						list2 = list2 +"</div>"	
+						
+						list3 = list3 + "<h2>"+ jsonDatas.cd[0].name +"</h2>"
+						list3 = list3 + "<p>"
+						if(jsonDatas.cd[0].type === "1"){							
+						list3 = list3 + "<label>전공여부</label><span>전공</span>"
+						}else{
+						list3 = list3 + "<label>전공여부</label><span>교양</span>"							
+						}
+						list3 = list3 + "</p>"
+						list3 = list3 + "<p>"
+						list3 = list3 + "<label>교수명</label><span>"+jsonDatas.cd[0].teacher+"</span>"
+						list3 = list3 + "</p>"
+					}else{
+						list +="<article>평가 없음</article>"
+						var percent2 = jsonDatas.cd[0].score / 5 * 100 + '%'
+						list2 = list2 +"<div class='rate'>"
+						list2 = list2 +"<span>"
+						list2 = list2 +"<span class='value'>"+jsonDatas.cd[0].score+"점</span>"
+						list2 = list2 +"<span class='star'><span class='on' style='width : " + percent2 + "'></span></span>"
+						list2 = list2 +"</span>"						
+						list2 = list2 +"<hr>"						
+						list2 = list2 +"</div>"						
+						list2 = list2 +"<div class='details'>"
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>과제</label>"	
+						list2 = list2 +"<span>평가 없음</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>조모임</label>"	
+						list2 = list2 +"<span>평가 없음</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>성적</label>"	
+						list2 = list2 +"<span>평가 없음</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>출결</label>"	
+						list2 = list2 +"<span>평가 없음</span>"
+						list2 = list2 +"</p>"	
+						list2 = list2 +"<p>"
+						list2 = list2 +"<label>시험횟수</label>"	
+						list2 = list2 +"<span>평가 없음</span>"
+						list2 = list2 +"</p>"
+						list2 = list2 +"</div>"
+						
+						list3 = list3 + "<h2>"+ jsonDatas.cd[0].name +"</h2>"
+						list3 = list3 + "<p>"
+						if(jsonDatas.cd[0].type === "1"){							
+						list3 = list3 + "<label>전공여부</label><span>전공</span>"
+						}else{
+						list3 = list3 + "<label>전공여부</label><span>교양</span>"							
+						}
+						list3 = list3 + "</p>"
+						list3 = list3 + "<p>"
+						list3 = list3 + "<label>교수명</label><span>"+jsonDatas.cd[0].teacher+"</span>"
+						list3 = list3 + "</p>"
+					}
+					$(".articles").html(list);
+					$(".rating").html(list2);
+					$(".side.head").html(list3);
+									
+				},
+			})
 //			$.ajax({
 //				url: _apiServerUrl + '/find/lecture/article/list',
 //				xhrFields: {withCredentials: true},
@@ -154,6 +267,7 @@ $().ready(function () {
 //			});
 		},
 		createArticles: function (data) {
+			
 			var $response = $(data).find('response');
 			if (_set.lectureId === 0 && isNaN($response.attr('lectureId')) === false) {
 				_set.lectureId = Number($response.attr('lectureId'));
@@ -490,10 +604,9 @@ $().ready(function () {
 			var detail_exam_times = $articleForm.find('a[data-name="exam_times"].active').data('value');
 			
 			var data={
-//					lecture_lecture_id: id,
+					lecture_lecture_id: id,
 					comment: $textarea.val(),
 					score: rate,
-					is_detail: 'true',
 					grade: detail_assessment_grade,
 					practice: detail_assessment_homework,
 					project: detail_assessment_team,
@@ -501,7 +614,25 @@ $().ready(function () {
 					exam: detail_exam_times
 			}
 			console.log(data);
-
+			$.ajax({
+				url : "EvaluationRegist",
+				type:"post",
+				contentType:"application/json; charset=utf-8;",
+				data : JSON.stringify({
+					lecture_lecture_id: id,
+					comment: $textarea.val(),
+					score: rate,
+					grade: detail_assessment_grade,
+					practice: detail_assessment_homework,
+					project: detail_assessment_team,
+					attend: detail_assessment_attendance,
+					exam: detail_exam_times
+			}),
+				success : function(data){
+				console.log(data)
+			}
+			})
+				location.reload();
 //			$.ajax({
 //				url: _apiServerUrl + '/save/lecture/article',
 //				xhrFields: {withCredentials: true},

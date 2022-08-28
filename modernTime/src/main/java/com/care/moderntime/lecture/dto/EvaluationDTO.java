@@ -9,9 +9,9 @@ public class EvaluationDTO {
 	private String exam;
 	private double score;
 	private String comment;
-	private String listen_date;
-	private String lecture_id;
+	private String lecture_lecture_id;
 	private String user_id;
+	
 	public int getId() {
 		return id;
 	}
@@ -60,17 +60,11 @@ public class EvaluationDTO {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String getListen_date() {
-		return listen_date;
+	public String getLecture_lecture_id() {
+		return lecture_lecture_id;
 	}
-	public void setListen_date(String listen_date) {
-		this.listen_date = listen_date;
-	}
-	public String getLecture_id() {
-		return lecture_id;
-	}
-	public void setLecture_id(String lecture_id) {
-		this.lecture_id = lecture_id;
+	public void setLecture_lecture_id(String lecture_lecture_id) {
+		this.lecture_lecture_id = lecture_lecture_id;
 	}
 	public String getUser_id() {
 		return user_id;
@@ -78,6 +72,7 @@ public class EvaluationDTO {
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
+
 
 
 }
