@@ -23,19 +23,22 @@ public interface IPostDAO {
 
 	public void deleteProc(PostDTO post);
 	
-	//기능
-	public void likeProc(PostDTO post);
+	// 좋아요 업데이트
+	public void likeProc(int id);
 
 	public void insertLike(PostLikeDTO postlike);
 	
+	// 스크랩 중복 확인
 	public int countLike(PostLikeDTO postlike);
 	
 	public int countLike(PostDTO post);
 	
-	public void scrapProc(PostDTO post);
+	// 스크랩 수 업데이트
+	public void scrapProc(int id);
 	
 	public void insertScrap(PostLikeDTO postlike);
 
+	// 
 	public int countScrap(PostLikeDTO postlike);
 	
 	public int countScrap(PostDTO post);
@@ -45,7 +48,7 @@ public interface IPostDAO {
 	public int tableCountScrap(PostDTO post);
 	
 	//
-	public ArrayList<PostDTO> listProc(@Param("start_num") int start_num, @Param("board_id") int board_id);
+	public ArrayList<PostDTO> listProc(@Param("start_num") int start_num, @Param("name") String name);
 
 	public ArrayList<PostDTO> searchProc(@Param("search_type") int search_type, @Param("keyword") String keyword);
 

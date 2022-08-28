@@ -53,42 +53,17 @@ public class PostServiceImpl implements IPostService{
 	}
 	
 	
-	public String listData(ArrayList<PostDTO> listProc) {
-		String data = "{\"cd\" : [";
-		for(PostDTO tmp : listProc) {
-			data += "{ \"start_num\" : \"" + tmp.getStart_num() + "\",";
-			data +=	 " \"search_type\" : \"" + tmp.getSearch_type()+ "\",";
-			data += " \"keyword\" : \"" + tmp.getKeyword()+"\" },";
-		}
-		data = data.substring(0, data.length()-1);
-		data += "]}";
-		return data;
-	}
-	
-	
-	
-
-//	@Override
-//	public Map<String, Object> listProc() {
-//		Map<String, Object> res = new HashMap<String, Object>();
-//		ArrayList<PostDTO> listProc = mapper.listProc();
-//		
-//		res.put("data", listProc);
-//		
-//		return res;
-//	}
-	
 	@Override
-	public Map<String, Object> listProc(int start_num, int board_id) {
+	public Map<String, Object> listProc(int start_num, String name) {
 		System.out.println("\n(ser)start_num : " + start_num);
-		System.out.println("(ser)board_id : " + board_id);
+		System.out.println("(ser)board_id : " + name);
 		
 		PostDTO post = new PostDTO();
 		post.setStart_num(start_num);
 		System.out.println("(ser)post start_num : " + post.getStart_num());
 		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> listProc = mapper.listProc(start_num, board_id);
+		ArrayList<PostDTO> listProc = mapper.listProc(start_num, name);
 		
 		res.put("data", listProc);
 		return res;
@@ -143,60 +118,35 @@ public class PostServiceImpl implements IPostService{
 		
 	}
 
-	//공감
-	@Override
-	public String likeProc(PostDTO post) {
-		System.out.println("likeProc(service) id : " + post.getId());
-		System.out.println("likeProc(service) like_count : " + post.getLike_count());
-		
-		int tmp = mapper.countLike(post);
-		int addLike = mapper.tableCountLike(post) + 1;
-		if(tmp == 0) {
-			post.setLike_count(addLike);
-			mapper.likeProc(post);
-			return "+1";
-		}else {
-			return "그대로";
-		}
-	}
 	@Override
 	public String insertLike(PostLikeDTO postlike) {
+		String userId = (String) session.getAttribute("id");
+		postlike.setUser_id(userId);
+		
 		System.out.println("insertLike(service) userId : " + postlike.getUser_id());
 		System.out.println("insertLike(service) postId : " + postlike.getPost_id());
 		
 		int tmp = mapper.countLike(postlike);
 		if(tmp == 0) {
 			mapper.insertLike(postlike);
+			mapper.likeProc(postlike.getPost_id());
+			
 			return "성공";
 		}else
 			return "실패";
 	}
 	
-	//스크랩
-	@Override
-	public String scrapProc(PostDTO post) {
-		System.out.println("scrapProc(service) id : " + post.getId());
-		System.out.println("scrapProc(service) scrap_count : " + post.getScrap_count());
-		
-		int tmp = mapper.countScrap(post);
-		int addScrap = mapper.tableCountScrap(post) + 1;
-		System.out.println("addScrap : " + addScrap);
-		if(tmp == 0) {
-			post.setScrap_count(addScrap);
-			mapper.scrapProc(post);
-			return "+1";
-		}else {
-			return "그대로";
-		}
-	}
 	@Override
 	public String insertScrap(PostLikeDTO postlike) {
+		String userId = (String) session.getAttribute("id");
+		postlike.setUser_id(userId);
 		System.out.println("insertScrap(service) userId : " + postlike.getUser_id());
 		System.out.println("insertScrap(service) postId : " + postlike.getPost_id());
 		
 		int tmp = mapper.countScrap(postlike);
 		if(tmp == 0) {
 			mapper.insertScrap(postlike);
+			mapper.scrapProc(postlike.getPost_id());
 			return "성공";
 		}else 
 			return "실패";

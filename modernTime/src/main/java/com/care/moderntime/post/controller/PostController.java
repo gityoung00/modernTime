@@ -59,13 +59,13 @@ public class PostController {
 	//게시글 전체, 검색, 페이징
 	@ResponseBody
 	@PostMapping(value="listProc", produces="application/json; charset=UTF-8")
-	public Map<String, Object> listProc(@RequestParam int start_num, @RequestParam int search_type, @RequestParam int board_id, @RequestParam String keyword, HttpServletRequest req) {
+	public Map<String, Object> listProc(@RequestParam int start_num, @RequestParam int search_type, @RequestParam String name, @RequestParam String keyword, HttpServletRequest req) {
 		System.out.println("\n(con)start_num : " + start_num);
 		System.out.println("(con)search_type : " + search_type);
 		System.out.println("(con)keyword : " + keyword);
 	
 		if(search_type == 0)
-			return service.listProc(start_num, board_id);
+			return service.listProc(start_num, name);
 		else
 			return service.searchProc(search_type, keyword);
 		
@@ -84,6 +84,7 @@ public class PostController {
 		outId = id;
 		return "post/freedomContent";
 	}
+	
 	//게시글 수정
 	@ResponseBody
 	@PostMapping("freedomContent")
@@ -91,7 +92,6 @@ public class PostController {
 		System.out.println("modify(con) id : " + post.getId());
 		System.out.println("modify(con) is_anonym : " + post.getIs_anonym());
 		
-		post.setId(outId);
 		ra.addFlashAttribute("id", post.getId());
 		service.modifyProc(post);
 		return "freedomContent";
@@ -106,17 +106,6 @@ public class PostController {
 		return "freedomContent";
 	}
 	
-	//공감
-	@ResponseBody
-	@PostMapping("freedomContent/likeProc")
-	public String likeProc(@RequestBody PostDTO post, RedirectAttributes ra) {
-		System.out.println("likeProc(con) id : " + post.getId());
-		post.setId(outId);
-		ra.addFlashAttribute("id", post.getId());
-		service.likeProc(post);
-		return "freedomContent";
-	}
-	
 	//like테이블에 insert
 	@ResponseBody
 	@PostMapping("freedomContent/insertLike")
@@ -128,25 +117,14 @@ public class PostController {
 			return result;
 		return result;
 	}
-	
-	//스크랩
-	@ResponseBody
-	@PostMapping("freedomContent/scrapProc")
-	public String scrapProc(@RequestBody PostDTO post, RedirectAttributes ra) {
-		System.out.println("scrapProc(con) id : " + post.getId());
-		post.setId(outId);
-		ra.addFlashAttribute("id", post.getId());
-		service.scrapProc(post);
-		return "freedomContent";
-	}
+
 	@ResponseBody
 	@PostMapping("freedomContent/insertScrap")
 	public String insertScrap(@RequestBody PostLikeDTO postlike) {
 		System.out.println("insertScrap(con) userId : " + postlike.getUser_id());
 		System.out.println("insertScrap(con) postId : " + postlike.getPost_id());
 		String result = service.insertScrap(postlike);
-		if(result.equals("성공"))
-			return result;
+
 		return result;
 	}
 	
@@ -184,6 +162,10 @@ public class PostController {
 	@GetMapping("promotional")
 	public String promotional() {
 		return "post/promotional";
+	}
+	@GetMapping("club")
+	public String club() {
+		return "post/club";
 	}
 
 }

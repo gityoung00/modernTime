@@ -20,6 +20,7 @@ public class MySelectServiceImpl {
 	@Autowired HttpSession session;
 
 	public Map<String, Object> myscrap(int start_num, String user_id) {
+		String userId = (String) session.getAttribute("id");
 		System.out.println("\nmyscrap(ser) start_num : " + start_num);
 		System.out.println("myscrap(ser) user_id : " + user_id);
 		
@@ -28,13 +29,14 @@ public class MySelectServiceImpl {
 		System.out.println("myscrap(ser) get-start_num : " + post.getStart_num());
 		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> myscrap = mapper.myscrap(start_num, user_id);
+		ArrayList<PostDTO> myscrap = mapper.myscrap(start_num, userId);
 		
 		res.put("data", myscrap);
 		return res;
 	}
 
 	public Map<String, Object> myarticle(int start_num, String user_id) {
+		String userId = (String) session.getAttribute("id");
 		System.out.println("\nmyarticle(ser) start_num : " + start_num);
 		System.out.println("myarticle(ser) user_id : " + user_id);
 		
@@ -43,13 +45,14 @@ public class MySelectServiceImpl {
 		System.out.println("myarticle(ser) get-start_num : " + post.getStart_num());
 		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> myarticle = mapper.myarticle(start_num, user_id);
+		ArrayList<PostDTO> myarticle = mapper.myarticle(start_num, userId);
 		
 		res.put("data", myarticle);
 		return res;
 	}
 
 	public Map<String, Object> mycommentarticle(int start_num, String user_id) {
+		String userId = (String) session.getAttribute("id");
 		System.out.println("\nmycommentarticle(ser) start_num : " + start_num);
 		System.out.println("mycommentarticle(ser) user_id : " + user_id);
 		
@@ -58,7 +61,7 @@ public class MySelectServiceImpl {
 		System.out.println("myarticle(ser) get-start_num : " + post.getStart_num());
 		
 		Map<String, Object> res = new HashMap<String, Object>();
-		ArrayList<PostDTO> mycommentarticle = mapper.mycommentarticle(start_num, user_id);
+		ArrayList<PostDTO> mycommentarticle = mapper.mycommentarticle(start_num, userId);
 		
 		res.put("data", mycommentarticle);
 		return res;

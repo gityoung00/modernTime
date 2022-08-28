@@ -24,16 +24,12 @@ public interface IPostService {
 	public String deleteProc(PostDTO post);
 	
 	//게시글 기능
-	public String likeProc(PostDTO post);
-
 	public String insertLike(PostLikeDTO postlike);
-
-	public String scrapProc(PostDTO post);
 
 	public String insertScrap(PostLikeDTO postlike);
 	
 	//게시판 검색
-	public Map<String, Object> listProc(int start_num, int board_id);
+	public Map<String, Object> listProc(int start_num, String name);
 
 	public Map<String, Object> searchProc(int search_type, String keyword);
 

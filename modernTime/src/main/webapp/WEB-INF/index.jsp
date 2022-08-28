@@ -39,17 +39,6 @@
 		}
 	</script>
 	<c:import url="header.jsp" />
-	<div id="submenu">
-		<div class="wrap">
-			<ul>
-				<li><a href="/freedom" data-id="393862" class="new">자유게시판</a></li>
-				<li><a href="/259677" data-id="259677" class="new">비밀게시판</a></li>
-				<li><a href="/community/search" class="search">게시판 찾기</a></li>
-			</ul>
-			<hr>
-		</div>
-		<input type="hidden" id="communityCampusId" value="349">
-	</div>
 	<div id="container" class="community">
 		<aside class="none">
 			<form class="search">

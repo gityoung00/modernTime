@@ -25,6 +25,9 @@ public class CommentServiceImpl implements ICommentService{
 
 	@Override
 	public String commentWrite(CommentDTO comment) {
+		String userId = (String) session.getAttribute("id");
+		comment.setUser_id(userId);
+		
 		if(comment.getComment() == null || comment.getComment().isEmpty())
 			return "댓글을 입력하세요.";
 		
@@ -33,8 +36,6 @@ public class CommentServiceImpl implements ICommentService{
 		comment.setCreate_date(sdf.format(date));
 		
 		mapper.commentWrite(comment);
-		
-		session.setAttribute("id", comment.getId());
 		
 		return null;
 	}
@@ -80,11 +81,13 @@ public class CommentServiceImpl implements ICommentService{
 
 	@Override
 	public String likeCommentProc(CommentDTO comment) {
+		String userId = (String) session.getAttribute("id");
 		System.out.println("likeCommentProc(service) id : " + comment.getId());
 		System.out.println("likeCommentProc(service) like_count : " + comment.getComment_like());
 		
 		int tmp = mapper.countCommentLike(comment);
 		int addLike = mapper.tableCountLike(comment) + 1;
+		System.out.println("mapper.tableCountLike(comment)"  + mapper.tableCountLike(comment));
 		if(tmp == 0) {
 			comment.setComment_like(addLike);
 			mapper.likeCommentProc(comment);
@@ -97,6 +100,7 @@ public class CommentServiceImpl implements ICommentService{
 
 	@Override
 	public String insertCommentLike(CommentLikeDTO commentLike) {
+		String userId = (String) session.getAttribute("id");
 		System.out.println("insertCommentLike(service) userId : " + commentLike.getUser_id());
 		System.out.println("insertCommentLike(service) commentId : " + commentLike.getComment_id());
 		

@@ -8,7 +8,7 @@
    </insert>
    
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
-		SELECT * FROM post WHERE board_id=#{board_id} ORDER BY id DESC limit #{start_num}, 10;
+		SELECT * FROM post WHERE board_id = (select id as board_id from board where name=#{name}) ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	
 	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
@@ -36,7 +36,7 @@
 	
 	<!-- 공감 -->
 	<update id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
-		UPDATE post SET like_count=#{like_count} WHERE id=#{id}
+		UPDATE post SET like_count=like_count+1 WHERE id=#{id}
 	</update>
 	
 	<insert id="insertLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO">
@@ -52,8 +52,8 @@
 	</select>
 	
 	<!-- 스크랩 -->
-	<update id="scrapProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
-		UPDATE post SET scrap_count=#{scrap_count} WHERE id=#{id}
+	<update id="scrapProc" parameterType="int" >
+		UPDATE post SET scrap_count=scrap_count+1 WHERE id=#{id}
 	</update>
 	
 	<insert id="insertScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO">

@@ -773,8 +773,9 @@ $().ready(function () {
 //				});
 		},
 		ajaxArticles: function (callback) {
+			var urls = location.href.split("/")
 			var conditions = {
-				id: _set.boardId,
+				name: urls[urls.length -1],
 				limit_num: _set.limitNum,
 				start_num: _set.startNum,
 				search_type: _set.searchType,
@@ -804,9 +805,6 @@ $().ready(function () {
 				type: 'POST',
 				data: conditions,
 				success: function (data) {
-					console.log(data);
-					console.log(conditions);
-					console.log(_set.boardPage);
 					
 					
 //					var jsonDatas = JSON.parse(data);

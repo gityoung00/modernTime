@@ -321,7 +321,6 @@ $().ready(function () {
 						type: 'POST',
 						contentType: "application/json; charset=UTF-8",
 						data: JSON.stringify({
-//							user_id: 'test123',
 							title: $freedomTitle.val(),
 							content: $freedomContent.val(),
 						}), 
@@ -411,7 +410,6 @@ $().ready(function () {
 						contentType: "application/json; charset=UTF-8",
 						data: JSON.stringify({
 							comment: $text.val(),
-							user_id: 'test1234',
 							post_id: _set.boardId,
 							p_comment_id: 0,
 							is_anonym: isAnonym,
@@ -440,7 +438,6 @@ $().ready(function () {
 						contentType: "application/json; charset=UTF-8",
 						data: JSON.stringify({
 							comment: $text.val(),
-							user_id: 'test1234',
 							post_id: _set.boardId,
 							p_comment_id: $pCommentId,
 							is_anonym: isAnonym
@@ -2179,35 +2176,6 @@ $().ready(function () {
 			}
 			
 			
-			//글 공감
-			$.ajax({
-				url: 'freedomContent/likeProc',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify({
-					like_count: '1',
-					user_id: 'jiyoung1329',
-					post_id: _set.boardId
-				}),
-				success: function (data) {
-//					var response = Number($('response', data).text());
-					var response = $(data).find('response').text();
-					console.log(response)
-					console.log(_set.isUser)
-					
-					if (response === 0) {
-						alert('공감할 수 없습니다.');
-					} else if (response === -1) {
-						alert('이미 공감하였습니다.');
-					} else if (response === -2) {
-						alert('오래된 글은 공감할 수 없습니다.');
-					} else {
-						$vote.text(response);
-					}
-					location.reload();
-				}
-			});
 			//테이블에 들어가는
 			$.ajax({
 				url: 'freedomContent/insertLike',
@@ -2215,7 +2183,6 @@ $().ready(function () {
 				type: 'POST',
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
-					user_id: 'jiyoung1329',
 					post_id: _set.boardId
 				}),
 				success: function (data) {
@@ -2223,6 +2190,11 @@ $().ready(function () {
 					console.log(_set.isUser)
 					if(data === '실패')
 						alert('이미 공감하였습니다.')
+					else {
+						$likeCount = $("#container > div.wrap.articles > article > a > ul.status.left > li.vote")
+						$likeCount.text(Number($likeCount.text()) + 1)
+					}
+					
 				},
 			});
 		},
@@ -2236,35 +2208,35 @@ $().ready(function () {
 				return false;
 			}
 			
-			//스크랩
-			$.ajax({
-				url: 'freedomContent/scrapProc',
-				xhrFields: {withCredentials: true},
-				type: 'POST',
-				contentType: "application/json; charset=UTF-8",
-				data: JSON.stringify({
-					scrap_count: '1',
-					user_id: 'test123',
-					post_id: _set.boardId
-				}),
-				success: function (data) {
-//					var response = Number($('response', data).text());
-					console.log(_set.isUser)
-					var response = $(data).find('response').text();
-					if (response === 0) {
-						alert('스크랩할 수 없습니다.');
-					} else if (response === -1) {
-						alert('존재하지 않는 글입니다.');
-					} else if (response === -2) {
-						alert('이미 스크랩하였습니다.');
-					} else if (response === -3) {
-						alert('내가 쓴 글은 스크랩할 수 없습니다.');
-					} else {
-						$scrap.text(response);
-					}
-					location.reload();
-				}
-			});
+			//스크랩 => 0 -> 1
+//			$.ajax({
+//				url: 'freedomContent/scrapProc',
+//				xhrFields: {withCredentials: true},
+//				type: 'POST',
+//				contentType: "application/json; charset=UTF-8",
+//				data: JSON.stringify({
+//					scrap_count: '1',
+//					user_id: 'test123',
+//					post_id: _set.boardId
+//				}),
+//				success: function (data) {
+////					var response = Number($('response', data).text());
+//					console.log(_set.isUser)
+//					var response = $(data).find('response').text();
+//					if (response === 0) {
+//						alert('스크랩할 수 없습니다.');
+//					} else if (response === -1) {
+//						alert('존재하지 않는 글입니다.');
+//					} else if (response === -2) {
+//						alert('이미 스크랩하였습니다.');
+//					} else if (response === -3) {
+//						alert('내가 쓴 글은 스크랩할 수 없습니다.');
+//					} else {
+//						$scrap.text(response);
+//					}
+//					location.reload();
+//				}
+//			});
 			//테이블에 들어가는
 			$.ajax({
 				url: 'freedomContent/insertScrap',
@@ -2272,7 +2244,6 @@ $().ready(function () {
 				type: 'POST',
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
-					user_id: 'test123',
 					post_id: _set.boardId
 				}),
 				success: function (data) {
@@ -2280,6 +2251,11 @@ $().ready(function () {
 					console.log(_set.isUser)
 					if(data === '실패')
 						alert('이미 스크랩하였습니다.')
+					else {
+						$scrapNum = $("#container > div.wrap.articles > article > a > ul.status.left > li.scrap")
+						$scrapNum.text(Number($scrapNum.text()) + 1);
+							
+					}
 				},
 			});
 		},
@@ -2461,22 +2437,10 @@ $().ready(function () {
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
 					comment_like: '1',
-					user_id: 'jiyoung1329',
 					id: $comment.data('id')
 				}),
 				success: function (data) {
 					location.reload();
-//					var response = Number($('response', data).text());
-//					var response = $(data).find('response').text();
-//					if (response === -1) {
-//						alert('이미 공감한 댓글입니다.');
-//					} else if (response === -2) {
-//						alert('오래된 댓글은 공감할 수 없습니다.');
-//					} else if (response <= 0) {
-//						alert('공감할 수 없습니다.');
-//					} else {
-//						$vote.text(response).show();
-//					}
 				}
 			});
 			
@@ -2487,7 +2451,6 @@ $().ready(function () {
 				type: 'POST',
 				contentType: "application/json; charset=UTF-8",
 				data: JSON.stringify({
-					user_id: 'jiyoung1329',
 					comment_id: $comment.data('id')
 				}),
 				success: function (data) {
