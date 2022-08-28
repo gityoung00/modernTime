@@ -258,7 +258,7 @@ $().ready(function() {
 				return;
 			}
 			$.ajax({
-				url: '/lecture/regist',
+				url: '/admin/lecture/regist',
 				xhrFields: { withCredentials: true },
 				type: 'POST',
 				contentType: 'application/json; charset=UTF-8',

@@ -107,7 +107,7 @@ $().ready(function() {
 				startNum: _set.subjectStartNum
 			});
 			$.ajax({
-				url: '/lecture/list',
+				url: '/admin/lecture/list',
 				type: 'POST',
 				data: params,
 				contentType: 'application/json; charset=UTF-8',
@@ -512,7 +512,7 @@ $().ready(function() {
 			console.log(_set.filter);
 			let params = JSON.stringify(_set.filter);
 			$.ajax({
-				url: '/lecture/filter',
+				url: '/admin/lecture/filter',
 				type: 'POST',
 				contentType: 'application/JSON; charset=utf-8;',
 				data: params,
@@ -593,7 +593,7 @@ $().ready(function() {
 				console.log(lectureIds)
 				$.ajax({
 					type: "POST",
-					url: "/lecture/delete",
+					url: "/admin/lecture/delete",
 					contentType: "application/json; charset=utf-8;",
 					data: JSON.stringify({ ids: lectureIds }),
 					success: function(data) {
@@ -698,7 +698,7 @@ $().ready(function() {
 			}
 			$.ajax({
 				type: "POST",
-				url: "/lecture/update",
+				url: "/admin/lecture/update",
 				contentType: "application/json; charset=utf-8;",
 				data: JSON.stringify(data),
 				success: function(data) {

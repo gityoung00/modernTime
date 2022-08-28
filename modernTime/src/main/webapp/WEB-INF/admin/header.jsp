@@ -14,7 +14,7 @@
       </div>
       <ul id="menu">
         <li><a href="/admin/notice">공지사항 관리</a></li>
-        <li><a href="/lecture/regist">강의 관리</a></li>
+        <li><a href="/admin/lecture/regist">강의 관리</a></li>
         <li><a href="/school/auth">학교인증 관리</a></li>
       </ul>
     </div>

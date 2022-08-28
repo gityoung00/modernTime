@@ -37,27 +37,6 @@ public class PostController {
 	int outId = 0;
 	
 	//
-	@GetMapping("index")
-	public String index() {
-		return "index";
-	}
-	
-	@GetMapping("header")
-	public String header() {
-		return "header";
-	}
-	
-	@GetMapping("footer")
-	public String footer() {
-		return "footer";
-	}
-	@GetMapping("main")
-	public String main() {
-		return "post/main";
-	}
-	
-	
-	//
 	//freedom
 	@GetMapping("freedom")
 	public String freedom() {
@@ -169,12 +148,6 @@ public class PostController {
 			return result;
 		return result;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	@GetMapping("secret")

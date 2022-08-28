@@ -35,39 +35,39 @@ public class ALectureController {
 
 	private final ALectureService lectureService;
 	
-	@GetMapping("lecture/regist")
+	@GetMapping("admin/lecture/regist")
 	public String lectureRegist() {
 		return "admin/lecture/lectureRegist";
 	}
 
 	@ResponseBody
-	@PostMapping("lecture/regist")
+	@PostMapping("admin/lecture/regist")
 	public Map<String, Object> lectureRegistPost(@RequestBody LectureRegistDTO dto){
 		Map<String, Object> result = lectureService.lectureRegist(dto);
 		return result;
 	}
 
 	@ResponseBody
-	@PostMapping(value = "lecture/list", produces = "application/json; charset=UTF-8")
+	@PostMapping(value = "admin/lecture/list", produces = "application/json; charset=UTF-8")
 	public Map<String, Object> lectureList() {
 		return lectureService.lectureList();
 	}
 
 	@ResponseBody
-	@PostMapping(value="lecture/filter", produces = "application/json; charset=UTF-8")
+	@PostMapping(value="admin/lecture/filter", produces = "application/json; charset=UTF-8")
 	public Map<String, Object> lectureFilter(@RequestBody HashMap<String, Object> filter) {
 		System.out.println("lecture filter");
 		return lectureService.lectureFilter(filter);
 	}
 
 	@ResponseBody
-	@PostMapping("lecture/delete")
+	@PostMapping("admin/lecture/delete")
 	public String lectureDelete(@RequestBody HashMap<String, Object> res) {
 		return lectureService.lectureDelete((List<String>)res.get("ids"));
 	}
 
 	@ResponseBody
-	@PostMapping("lecture/update")
+	@PostMapping("admin/lecture/update")
 	public String lectureUpdate(@RequestBody LectureRegistDTO lecture) {
 		return lectureService.lectureUpdate(lecture);
 	}
