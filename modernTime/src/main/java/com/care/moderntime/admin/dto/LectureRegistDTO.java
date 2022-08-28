@@ -16,7 +16,6 @@ public class LectureRegistDTO {
 	private int max_student;
 	private int listen_student;
 	private double score;
-	private int is_wrtten;
 	
 	private int week1;
 	private int starttime1;
@@ -28,7 +27,7 @@ public class LectureRegistDTO {
 	
 	
 	public LectureRegistDTO(String lecture_id, String type, String name, String teacher, String place, int credit, int lecture_time, int max_student,
-			int listen_student, double score, int is_wrtten, int week1, int starttime1, int endtime1, int week2, int starttime2, int endtime2) {
+			int listen_student, double score, int week1, int starttime1, int endtime1, int week2, int starttime2, int endtime2) {
 		super();
 		this.lecture_id = lecture_id;
 		this.type = type;
@@ -40,7 +39,6 @@ public class LectureRegistDTO {
 		this.max_student = max_student;
 		this.listen_student = listen_student;
 		this.score = score;
-		this.is_wrtten = is_wrtten;
 		this.week1 = week1;
 		this.starttime1 = starttime1;
 		this.endtime1 = endtime1;

@@ -104,7 +104,7 @@ public class NoticeController {
 	public String noticeDelete(String id) {
 		String result = noticeService.delete(id);
 		if (result.equals("삭제 완료")) {
-			return "redirect:notice";
+			return "redirect:admin/notice";
 		}
 		return "admin/notice/noticeView";
 	}
