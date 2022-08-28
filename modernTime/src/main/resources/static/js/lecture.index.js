@@ -228,30 +228,25 @@ $().ready(function() {
 //				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				success: function(data) {
 					console.log(data)
-					var list = "";
-					if(data == '{"cd" : ]}'){
-						list = list + "<a class='article'></article>"
-						$(".articles").html(list);
-					}else{
-						var jsonDatas = JSON.parse(data);
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						//						var lectureid = jsonDatas.cd[i].lecture_id;
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list = list + "<a class='article' href = 'evalview?id=" + jsonDatas.cd[i].lecture_id + "'><h2><tr>"
-						list = list + "<th>" + jsonDatas.cd[i].name + " : </th>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td></tr></h2>";
-						list = list + "<tr><p class='rate'><span class='star'><span class='on' style='width:" + percent + "'></span></span></p></tr>";
-						//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";
-						list = list + "<p class='info'><span class='semester'>" + jsonDatas.cd[i].listen_date + " </span></p>";
-						list = list + "<p class='text'>" + jsonDatas.cd[i].comment + " </p>";
-						list = list + "</tr></a>"
-					}				//"<a href = 'evaluation?id=" + jsonDatas.cd[i].lectureId + "'><button style='float: right;' >평가하기</button></a>"
-					$(".articles").html(list);
-					}
-					//					callback(data);
-//					_fn.ajaxevaluationview();
+					$articles = $(".articles")
+					$articles.empty();
+					
+					$(data.data).each(function(_, lecture){
+						console.log(lecture)
+						var percent = lecture.score / 5 * 100 + '%'
+						$article = $("<a></a>").addClass("article").attr("href", `evalview?id=${lecture.lecture_id}`).appendTo($articles);
+						$("<h3></h3>").text(`${lecture.name} : ${lecture.teacher}`).appendTo($article);
+						
+						$pRate = $("<p></p>").addClass("rate").appendTo($article);
+						$spanRate = $("<span></span>").addClass("star").appendTo($pRate);
+						$("<span></span>").addClass("on").css("width", percent).appendTo($spanRate);
+						
+						$("<p></p>").addClass("text").text(lecture.comment.replace(/<br \/>/gi, '\n')).appendTo($article);
+						
+					});
 				},
-				error: function() {
+				error: function(err) {
+					console.log(err)
 					console.log("에러")
 				}
 			});

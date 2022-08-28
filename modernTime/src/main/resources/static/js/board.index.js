@@ -246,8 +246,10 @@ $().ready(function () {
 				var $article = $(this).parents('article');
 				_fn.scrapArticle($article);
 			});
-			$articles.on('submit', '> form.write', function () {
+			$articles.on('submit', '> form.write', function (e) {
+				e.preventDefault();
 				_fn.writeArticle();
+				console.log("test")
 				return false;
 			});
 			$articles.on('drag dragstart dragend dragover dragenter dragleave drop', '> form.write', function (event) {
@@ -309,19 +311,23 @@ $().ready(function () {
 					//freedom
 					var $freedomTitle = $container.find('input[name="title"]');
 					var $freedomContent = $container.find('textarea[name="text"]');
-					
+					parameters = {
+						board_name: _set.boardName,
+						title: $freedomTitle.val(),
+						content: $freedomContent.val(),
+						is_anonym: isAnonym,
+					}
+					if (_set.attaches.length > 0) {
+						parameters.pictures = _set.attaches;
+					}
+					console.log(parameters);
 					//게시글 작성
 					$.ajax({
 						url: '/freedom',
 						xhrFields: {withCredentials: true},
 						type: 'POST',
 						contentType: "application/json; charset=UTF-8",
-						data: JSON.stringify({
-							user_id: 'test123',
-							title: $freedomTitle.val(),
-							content: $freedomContent.val(),
-							is_anonym: isAnonym
-						}), 
+						data: JSON.stringify(parameters), 
 						success: function (data) {
 							console.log(data)
 							alert('작성이 완료되었습니다.');
@@ -1668,7 +1674,6 @@ $().ready(function () {
 					type: 'hidden',
 					name: 'article_id'
 				}).val(_set.boardId).appendTo($form);
-				console.log(_set.boardId)
 //				if ($articleData.find('attach').length > 0) {
 //					$thumbnails.show();
 //					$articleData.find('attach').each(function () {
@@ -1810,7 +1815,6 @@ $().ready(function () {
 					type: 'hidden',
 					name: 'article_id'
 				}).val(_set.boardId).appendTo($form);
-				console.log(_set.boardId)
 //				if ($articleData.find('attach').length > 0) {
 //					$thumbnails.show();
 //					$articleData.find('attach').each(function () {
@@ -1965,6 +1969,7 @@ $().ready(function () {
 		//업로드?
 		uploadAttachOnWriteArticleForm: function (index, file, filename, $thumbnail, thumbnail) {
 			var $writeForm = $articles.find('form.write');
+			
 			if (_.indexOf(_set.attachUploadingStatus.slice(0, index), 0) !== -1) {
 				setTimeout(function () {
 					_fn.uploadAttachOnWriteArticleForm(index, file, filename, $thumbnail, thumbnail);
@@ -1984,75 +1989,28 @@ $().ready(function () {
 				$thumbnail.removeClass('loading').addClass('attached').data('id', attachId).css('background-image', 'url("' + thumbnail + '")');
 				$writeForm.find('input[name="file"]').val('');
 			}
-//			$.ajax({
-//				url: '/save/board/article/attach',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: {
-//					board_id: _set.boardId,
-//					file_name: filename,
-//					file_size: file.size
-//				},
-//				success: function (data) {
-//					var responseCode = $(data).find('response').text();
-//					if (responseCode === '0' || responseCode === '-21' || responseCode === '-22') {
-//						uploadFail();
-//						return;
-//					}
-//					var $attach = $(data).find('attach');
-//					var $s3Provider = $(data).find('s3Provider');
-//					var attachId = Number($attach.attr('id'));
-//					var s3Path = $attach.attr('s3_path');
-//					var s3ThumbnailPath = $attach.attr('s3_thumbnail_path');
-//					var s3Provider = JSON.parse($s3Provider.attr('s3'));
-//					var formData = new FormData();
-//					formData.append('Content-Type', file.type);
-//					formData.append('acl', s3Provider['acl']);
-//					formData.append('success_action_status', s3Provider['success_action_status']);
-//					formData.append('policy', s3Provider['policy']);
-//					formData.append('X-amz-algorithm', s3Provider['X-amz-algorithm']);
-//					formData.append('X-amz-credential', s3Provider['X-amz-credential']);
-//					formData.append('X-amz-date', s3Provider['X-amz-date']);
-//					formData.append('X-amz-expires', s3Provider['X-amz-expires']);
-//					formData.append('X-amz-signature', s3Provider['X-amz-signature']);
-//					formData.append('key', s3Path);
-//					formData.append('file', file);
-//					$.ajax({
-//						url: 'https://' + s3Provider.bucket + '.s3.' + s3Provider.region + '.amazonaws.com/',
-//						type: 'POST',
-//						data: formData,
-//						contentType: false,
-//						processData: false,
-//						success: function () {
-//							$.ajax({
-//								url: 'https://apigateway.everytime.kr/createThumbnail',
-//								data: JSON.stringify({
-//									's3': {
-//										'srcKey': s3Path,
-//										'bucket': s3Provider.bucket,
-//										'dstKey': s3ThumbnailPath
-//									}
-//								}),
-//								method: 'post',
-//								dataType: 'json',
-//								success: function (createThumbnailResponse) {
-//									if (createThumbnailResponse === 'success') {
-//										uploadSuccess(attachId);
-//									} else {
-//										uploadFail();
-//									}
-//								},
-//								error: function () {
-//									uploadFail();
-//								}
-//							});
-//						},
-//						error: function () {
-//							uploadFail();
-//						}
-//					});
-//				}
-//			});
+			// 사진폼 보내기...
+			var formData = new FormData($writeForm[0]);
+			
+			$.ajax({
+				type: "POST",
+				url: "/admin/save/picture",
+				enctype: 'multipart/form-data',
+				processData: false,
+				contentType: false,
+				data: formData,
+				cache: false,
+				timeout: 600000,
+				success: function(picture_id) {
+					console.log("picture_id: ", picture_id)
+					if (picture_id == -1) {
+						uploadFail();
+						return;
+					}
+					uploadSuccess(picture_id);
+				},
+			})
+			
 		},
 		showAttachThumbnailForm: function ($thumbnail) {
 			var attach = _.find(_set.attaches, function (attach) {
@@ -2092,30 +2050,23 @@ $().ready(function () {
 			var $option = $form.find('ul.option');
 			var isAnonym = ($option.is(':has(li.anonym)') && $option.find('li.anonym').hasClass('active')) ? 1 : 0;
 			var isQuestion = ($option.is(':has(li.question)') && $option.find('li.question').hasClass('active')) ? 1 : 0;
-				console.log($text.val());
+			var $freedomTitle = $container.find('input[name="title"]');
+			var $freedomContent = $container.find('textarea[name="text"]');
+//			
 			if ($text.val().replace(/ /gi, '') === '') {
 				alert('내용을 입력해 주세요.');
 				$text.focus();
 				return false;
 			}
+			
 			var parameters = {
-				id: _set.boardId,
-				text: $text.val(),
+				board_name: _set.boardName,
+				title: $freedomTitle.val(),
+				content: $text.val(),
 				is_anonym: isAnonym,
 				is_question: isQuestion
 			};
-			if (_set.attaches.length > 0) {
-				parameters.attaches = JSON.stringify(_set.attaches);
-			}
-//			if (_set.type === 2) {
-//				var $title = $form.find('input[name="title"]');
-//				if ($title.val().replace(/ /gi, '') === '') {
-//					alert('제목을 입력해 주세요.');
-//					$title.focus();
-//					return false;
-//				}
-//				parameters.title = $title.val();
-//			}
+			
 			if ($form.is(':has(input[name="article_id"])')) {
 				parameters.article_id = $form.find('input[name="article_id"]').val();
 				if (_set.removeAttachIds.length > 0) {
@@ -2132,58 +2083,14 @@ $().ready(function () {
 				return;
 			}
 			
-			//글 작성
-//			$.ajax({
-//				url: '/save/board/article',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: parameters,
-//				success: function (data) {
-//					var responseCode = $(data).find('response').text();
-//					if (responseCode === '0') {
-//						alert('글을 작성할 수 없습니다.');
-//					} else if (responseCode == '-1') {
-//						alert('너무 자주 글을 작성할 수 없습니다.');
-//					} else if (responseCode === '-2') {
-//						alert('내용을 입력해 주세요.');
-//					} else if (responseCode === '-3') {
-//						alert('지난 글과 다른 내용을 입력해 주세요.');
-//					} else if (responseCode === '-4') {
-//						alert('제목을 입력해 주세요.');
-//					} else if (responseCode === '-5') {
-//						alert('익명으로 글을 작성할 수 없습니다.');
-//					} else if (responseCode === '-10') {
-//						alert('게시판만 글을 수정할 수 있습니다.');
-//					} else if (responseCode === '-11') {
-//						alert('글을 수정할 수 없습니다.');
-//					} else if (responseCode === '-13') {
-//						alert('질문 글은 댓글이 달린 이후에는 수정할 수 없습니다.');
-//					} else if (responseCode === '-14') {
-//						alert('질문 글 설정은 다시 해제할 수 없습니다.');
-//					} else {
-//						_set.categoryId = 0;
-//						var boardUrl = _fn.encodeUrl({ boardId: _set.boardId });
-//						_fn.goRedirectContent(boardUrl);
-//					}
-//				}
-//			});
-
-			//freedom
-//			var $freedomTitle = $container.find('input[name="title"]');
-//			var $freedomContent = $container.find('textarea[name="text"]');
-//			
-//			//게시글 작성
+			//게시글 작성
+//			console.log(parameters)
 //			$.ajax({
 //				url: '/freedom',
 //				xhrFields: {withCredentials: true},
 //				type: 'POST',
 //				contentType: "application/json; charset=UTF-8",
-//				data: JSON.stringify({
-//					userId: 'test123',
-//					title: $freedomTitle.val(),
-//					content: $freedomContent.val(),
-//					boardId: 1
-//				}), 
+//				data: JSON.stringify(parameters), 
 //				success: function (data) {
 //					console.log(data)
 //					alert(data);

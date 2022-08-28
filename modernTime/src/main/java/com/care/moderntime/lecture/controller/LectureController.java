@@ -83,11 +83,9 @@ public class LectureController {
 	
 	//검색
 	@ResponseBody
-	@PostMapping(value="search", produces="text/html; charset:UTF-8;")
-	public String search(@RequestParam String keyword) {
-		String result = service.search(keyword);
-
-		return result;
+	@PostMapping(value="search")
+	public Map<String, Object> search(@RequestParam String keyword) {
+		return service.search(keyword);
 		
 	}
 	

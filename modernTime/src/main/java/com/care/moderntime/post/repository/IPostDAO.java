@@ -7,17 +7,24 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.care.moderntime.admin.dto.PictureDTO;
 import com.care.moderntime.post.dto.PostDTO;
 import com.care.moderntime.post.dto.PostLikeDTO;
 
 @Mapper
 public interface IPostDAO {
+	// board_name -> board_id
+	public int getboardId(String boardName);
+	
 	//게시판
 	public void writeProc(PostDTO postDto);
+	
+	public void insertPicture(@Param("pictureId") int pictureId, @Param("postId") int postId);
 	
 	public ArrayList<PostDTO> listProc();
 
 	public PostDTO viewProc(int id);
+	public ArrayList<PictureDTO> findPostPicture(int postId);
 
 	public void modifyProc(PostDTO post);
 

@@ -6,9 +6,18 @@
    <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
       INSERT INTO post (`user_id`, `title`, `content`, `is_anonym`, `create_date`, `like_count`, `board_id`, `scrap_count`) VALUES(#{user_id}, #{title}, #{content}, #{is_anonym}, #{create_date}, #{like_count}, #{board_id}, #{scrap_count})
    </insert>
+
+   <insert id="insertPicture">
+      insert into post_picture values(#{pictureId}, #{postId})
+   </insert>
    
+   <select id="getboardId" parameterType="String" resultType="int">
+		SELECT id FROM board WHERE name=#{boardName}
+	</select>
+
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
-		SELECT * FROM post WHERE board_id = (select id as board_id from board where name=#{name}) ORDER BY id DESC limit #{start_num}, 10;
+		SELECT * FROM post WHERE board_id = (select id as board_id from board where name=#{name}) 
+		ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	
    <select id="hotArticleProc" resultType="com.care.moderntime.post.dto.PostDTO">
@@ -16,8 +25,11 @@
 	</select>
 	
 	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
-<!-- 		SELECT * FROM post WHERE id=#{id} -->
 		SELECT p.*, b.name as board_name, b.title as board_title  FROM post p join board b on p.board_id=b.id WHERE p.id=#{id};
+	</select>
+	
+	<select id="findPostPicture" parameterType="int" resultType="com.care.moderntime.admin.dto.PictureDTO">
+		select id, picture from picture where id in (select picture_id from post_picture where post_id=#{postId})
 	</select>
 	
 	<update id="modifyProc" parameterType="com.care.moderntime.post.dto.PostDTO" >

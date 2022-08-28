@@ -1489,22 +1489,13 @@ $().ready(function() {
 			var parameters = {
 				id: _set.boardId,
 				content: $text.val(),
-				title: $title.val()
-				//				is_anonym: isAnonym,
-				//				is_question: isQuestion
+				title: $title.val(),
+				
 			};
 			if (_set.attaches.length > 0) {
 				parameters.pictures = _set.attaches;
 			}
-			//			if (_set.type === 2) {
-			//				var $title = $form.find('input[name="title"]');
-			//				if ($title.val().replace(/ /gi, '') === '') {
-			//					alert('제목을 입력해 주세요.');
-			//					$title.focus();
-			//					return false;
-			//				}
-			//				parameters.title = $title.val();
-			//			}
+			
 			if ($form.is(':has(input[name="article_id"])')) {
 				parameters.article_id = $form.find('input[name="article_id"]').val();
 				if (_set.removeAttachIds.length > 0) {
@@ -1520,14 +1511,6 @@ $().ready(function() {
 			if (_set.isCommercial && !confirm(_set.placeholder)) {
 				return;
 			}
-			//			$.ajax({
-			//				url: 보낼 url 주소(Spring GetMapping("url"), PostMappping("url")),
-			//				type: 'GET', 'POST', 'PUT', 'DELETE',
-			//				data: {"key": "value"},
-			//				success: fucntion(data){
-			//					console.log(data) -> controller에서 오는 return값
-			//				}
-			//			});
 			console.log(parameters);
 
 			//게시글 등록

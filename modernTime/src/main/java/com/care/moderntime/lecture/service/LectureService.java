@@ -25,36 +25,6 @@ public class LectureService {
 	@Autowired
 	HttpSession session;
 
-//	public Stridng insert(EvaluationDTO dto) {
-//		if(dto.getComment())==null || dto.getComment().isEmpty(){
-//			return "내용은 필수요소입니다.";
-//		}
-//	}
-
-	// AJAX에 쓸수 있도록 String 값의 데이터로 변환 lecture
-//	public String lectureListString(ArrayList<LectureDTO> list) {
-//		String data = "{\"cd\" : [";
-//		for (LectureDTO tmp : list) {
-//			data += "{ \"lectureId\" : \"" + tmp.getLecture_id() + "\",";
-//			data += " \"type\" : \"" + tmp.getType() + "\",";
-//			data += " \"name\" : \"" + tmp.getName() + "\",";
-//			data += " \"teacher\" : \"" + tmp.getTeacher() + "\",";
-//			data += " \"time1\" : \"" + tmp.getTime1() + "\",";
-//			data += " \"time2\" : \"" + tmp.getTime2() + "\",";
-//			data += " \"place\" : \"" + tmp.getPlace() + "\",";
-//			data += " \"credit\" : \"" + tmp.getCredit() + "\",";
-//			data += " \"lectureTime\" : \"" + tmp.getLecture_time() + "\",";
-//			data += " \"maxStudent\" : \"" + tmp.getMax_student() + "\",";
-//			data += " \"listenStudent\" : \"" + tmp.getListen_student() + "\",";
-//			data += " \"score\" : \"" + tmp.getScore() + "\",";
-//			data += " \"is_written\" : \"" + tmp.getIs_written() + "\" },";
-//
-//		}
-//
-//		data = data.substring(0, data.length() - 1);
-//		data += "]}";
-//		return data;
-//	}
 
 //	Evaluation
 	public String EvaluationListString(ArrayList<EvaluationDTO> list) {
@@ -105,17 +75,6 @@ public class LectureService {
 
 	}
 
-//	public String timetable(int a) {
-//		ArrayList<String> list = lectureDao.lecturetime(a);
-//		ArrayList<LectureDTO> tmp = new ArrayList<>();
-//		for (int i = 0; i < list.size(); i++) {
-//			LectureDTO dto = lectureDao.lectureSel(list.get(i));
-//			tmp.add(dto);
-//		}
-////		String data = lectureListString(tmp);
-////		System.out.println(data);
-//		return data;
-//	}
 	
 	// 내 강의평 들고오기
 	public Map<String, Object> idjoin(String user_id) {
@@ -169,32 +128,12 @@ public class LectureService {
 		return res;
 	}
 
-	public String search(String keyword) {
-		// TODO Auto-generated method stub
+	public Map<String, Object> search(String keyword) {
+		Map<String, Object> res = new HashMap<String, Object>();
 		lectureDao.search(keyword);
 		ArrayList<ShowcommentDTO> tmp = lectureDao.search(keyword);
-		String data2 = "{\"cd\" : [";
-		for (ShowcommentDTO tt : tmp) { // comment 작성여부
-			if (tt.getComment() != null && tt.getLecture_lecture_id() != null) {
-				int count = 0;
-					data2 += "{ \"user_id\" : \"" + tt.getUser_id() + "\",";
-					data2 += " \"comment\" : \"" + tt.getComment() + "\",";
-					data2 += " \"score\" : \"" + tt.getScore() + "\",";
-					data2 += " \"teacher\" : \"" + tt.getTeacher() + "\",";
-					data2 += " \"name\" : \"" + tt.getName() + "\",";
-					data2 += " \"lecture_id\" : \"" + tt.getLecture_id() + "\",";
-					data2 += " \"lecture_lecture_id\" : \"" + tt.getLecture_lecture_id() + "\"},";
-					count++;
-			}
-			
-		}
-		data2 = data2.substring(0, data2.length() - 1);
-		data2 += "]}";
-//		System.out.println(data2);
-		return data2;
-//		String data3 = lectureListString(search);
-//		System.out.println(data3);	
-//		return data3 ;
+		res.put("data", tmp);
+		return res;
 	}
 
 	

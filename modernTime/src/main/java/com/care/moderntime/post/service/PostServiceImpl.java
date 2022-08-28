@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.care.moderntime.admin.dto.LectureRegistDTO;
+import com.care.moderntime.admin.dto.PictureDTO;
 import com.care.moderntime.post.dto.PostDTO;
 import com.care.moderntime.post.dto.PostLikeDTO;
 import com.care.moderntime.post.repository.IPostDAO;
@@ -30,8 +31,8 @@ public class PostServiceImpl implements IPostService{
 	
 	@Override
 	public String writeProc(PostDTO post) {
-//		String userId = (String)session.getAttribute("user_id");
-//		System.out.println("write(service) userId : " + userId);
+		String userId = (String)session.getAttribute("id");
+		post.setUser_id(userId);
 		
 		if(post.getTitle() == null || post.getTitle().isEmpty())
 			return "제목을 입력하세요.";
@@ -42,12 +43,27 @@ public class PostServiceImpl implements IPostService{
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		post.setCreate_date(sdf.format(date));
 		
-		post.setBoard_id(1);
+		// board id 세팅
+		System.out.println("board_name: " + post.getBoard_name());
+		System.out.println(mapper.getboardId(post.getBoard_name()));
+		post.setBoard_id(mapper.getboardId(post.getBoard_name()));
 		
 		String str = post.getContent().replace("\n","<br>");
 		post.setContent(str);
 		
 		mapper.writeProc(post);
+
+		// picture 저장
+		System.out.println("pictures: " + post.getPictures());
+		if (post.getPictures() != null && post.getPictures().size() > 0) {
+			for(PictureDTO picture: post.getPictures()) {
+				System.out.println("picture_id : " + picture.getId());
+				System.out.println("post_id : " + post.getId());
+				mapper.insertPicture(picture.getId(), post.getId());
+			}
+			
+		}
+		
 		
 		return null;
 	}
@@ -102,8 +118,12 @@ public class PostServiceImpl implements IPostService{
 		int comCnt = mapper.commentCount(id);
 		post.setComment_count(comCnt);
 		mapper.commentCnt(post);
+
+		// 사진 불러오기
+		post.setPictures(mapper.findPostPicture(id));
 		
-		session.setAttribute("post", post);
+		
+		
 		return post;
 	}
 

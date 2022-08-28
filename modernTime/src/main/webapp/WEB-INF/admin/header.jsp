@@ -5,7 +5,7 @@
     <div class="wrap">
       <div id="logo">
         <a href="/admin"><img src="/images/new/nav.logo.png"></a>
-        <p><span class="name multiple">에브리타임</span><span class="subname">KG아이티대학교</span></p>
+        <p><span class="name multiple">에브리타임</span><span class="subname">KG IT대</span></p>
       </div>
       <div id="account">
         <input type="hidden" id="userUserid" value="diharet">
