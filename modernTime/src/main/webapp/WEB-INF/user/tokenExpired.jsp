@@ -29,7 +29,7 @@
 	src="https://www.google-analytics.com/analytics.js"></script>
 <script type="text/javascript" src="/js/extensions.jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
-<script type="text/javascript" src="/js/common.js"></script>
+<!-- <script type="text/javascript" src="/js/common.js"></script> -->
 </head>
 <body style="">
 

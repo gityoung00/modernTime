@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <html lang="ko">
 <head>
-<title>광운대 에브리타임</title>
+<title>모던타임</title>
 <meta charset="utf-8">
 <meta name="referrer" content="origin">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,8 +11,8 @@
 <meta property="og:image"
 	content="https://everytime.kr/images/og_image.png">
 <meta property="og:url" content="https://kw.everytime.kr/login">
-<meta property="og:site_name" content="광운대 에브리타임">
-<meta property="og:title" content="광운대 에브리타임">
+<meta property="og:site_name" content="모던타임">
+<meta property="og:title" content="모던타임">
 <meta property="og:description"
 	content="광운대 재학생 커뮤니티. 시간표 작성, 강의평가, 자유게시판, 비밀게시판 등 제공.">
 <meta name="description"
@@ -68,7 +68,7 @@ if (msg){
 				<a href="/forgot">아이디/비밀번호 찾기</a>
 			</p>
 			<p class="register">
-				<span>에브리타임에 처음이신가요?</span> <a href="/register/agreement">회원가입</a>
+				<span>모던타임에 처음이신가요?</span> <a href="/register/agreement">회원가입</a>
 			</p>
 		</form>
 	</div>
