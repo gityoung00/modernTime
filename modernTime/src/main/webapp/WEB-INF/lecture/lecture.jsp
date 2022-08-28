@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ include file="../header.jsp"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,8 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta property="fb:app_id" content="258676027581965">
 <meta property="og:type" content="website">
-<meta property="og:image"
-	content="https://everytime.kr/images/og_image.png">
+<meta property="og:image"content="https://everytime.kr/images/og_image.png">
 <meta property="og:url" content="https://everytime.kr/lecture">
 <meta property="og:site_name" content="에브리타임">
 <meta property="og:title" content="에브리타임">
@@ -54,7 +53,7 @@
 			<div id="logo">
 				<a href="/"><img src="/images/new/nav.logo.png"></a>
 				<p>
-					<span class="name multiple">에브리타임</span><span class="subname">광운대학교</span>
+					<span class="name multiple">에브리타임</span><span class="subname">KG IT대</span>
 				</p>
 			</div>
 			<div id="account">
@@ -131,32 +130,4 @@
 		</div>
 	</div>
 	</div>
-	<div id="bottom">
-		<ul class="links">
-			<li><a href="/page/serviceagreement">이용약관</a></li>
-			<li class="privacy"><a href="/page/privacy">개인정보처리방침</a></li>
-			<li><a href="/page/rules">커뮤니티이용규칙</a></li>
-			<li><a href="/notice">공지사항</a></li>
-			<li><a href="/page/faq">문의하기</a></li>
-			<li class="copyright"><a href="/">© 에브리타임</a></li>
-		</ul>
-	</div>
-	<script type="text/javascript">
-		var _serverTime = 1659509782761;
-		var _clientTime = new Date().getTime();
-		var _diffTime = _clientTime - _serverTime;
-		var _apiServerUrl = 'https://api.everytime.kr';
-	</script>
-	<script async=""
-		src="https://www.googletagmanager.com/gtag/js?id=UA-22022140-4"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-		gtag('config', 'UA-22022140-4');
-	</script>
-
-</body>
-</html>
+	<%@ include file="../footer.jsp"%>
