@@ -22,10 +22,15 @@ public class LoginService {
 			return "아이디 또는 비밀번호를 입력해주세요";
 		}
 		
+		
 		session.setAttribute("id", dto.getId());
 		session.setAttribute("nickname", dto.getNickname());
 		session.setAttribute("name", dto.getName());
 		session.setAttribute("email", dto.getEmail());
+		session.setAttribute("isAdmin", dto.getIsAdmin());
+		System.out.println("id: " + dto.getId() + ", name: " + dto.getName() + ", email: " + dto.getEmail() + ", point: " + dto.getPoint() + ", cert: " + dto.getIsCertificate() + ", isAdmin: " + dto.getIsAdmin());
+		if (dto.getIsAdmin() == 1) return "admin";
+		
 		return "success";
 	}
 	

@@ -1,56 +1,44 @@
 if (!_gfn) var _gfn = {};
 _gfn = _.extend(_gfn, {
-	createArticleItem: function ($target, $data) {
+	createArticleItem: function ($target, data) {
 		var $a = $('<a></a>').addClass('article').appendTo($target);
-		if ($data.attr('boardId') && $data.attr('id')) {
-			$a.attr('href', '/' + $data.attr('boardId') + '/v/' + $data.attr('id'));
-		} else if ($data.attr('lectureId')) {
-			$a.attr('href', '/lecture/view/' + $data.attr('lectureId'));
-			var rate = Number($data.attr('rate')) / 5 * 100 + '%';
+		if (data.id && data.board_name) {
+			$a.attr('href', '/' + data.board_name + '/content?id=' + data.id);
+		} else if (data.lectureName) {
+			$a.attr('href', '/lecture/view/' + data.id);
+			var rate = Number(data.score) / 5 * 100 + '%';
 			var $star = $('<span></span>').addClass('star').appendTo($a);
 			$('<span></span>').addClass('on').width(rate).appendTo($star);
 		}
-		var attachUrl;
-		if ($data.attr('attachId')) {
-			var attachId = Number($data.attr('attachId'));
-			if (attachId === -1) {
-				attachUrl = '/images/attach.unauthorized.png';
-			} else {
-				var extension = $data.attr('attachFileName').split('.').pop().toUpperCase();
-				var extensionsForImage = ['GIF', 'JPG', 'JPEG', 'PNG'];
-				if (_.indexOf(extensionsForImage, extension) > -1) {
-					attachUrl = $data.attr('attachFileUrl');
-				}
-			}
+		if (data.title) {
+			$('<p></p>').addClass('title').html(data.title).appendTo($a);
+			$('<p></p>').addClass('small').html(data.content).appendTo($a);
+		}else if (data.lectureName){
+			 $('<p></p>').addClass('title').html(data.lectureName).appendTo($a);
+			 $('<p></p>').addClass('small').html(data.comment).appendTo($a);
+		}else {
+			$('<p></p>').html(data.content).appendTo($a);
 		}
-		if (attachUrl) {
-			$('<img>').addClass('thumbnail').attr('src', attachUrl).appendTo($a);
+		if (data.board_title) {
+			$('<h4></h4>').html(data.board_title).appendTo($a);
+		} else if (data.create_date) {
+			$('<time></time>').text(_gfn.formatRelativeDate(data.create_date)).appendTo($a);
 		}
-		if ($data.attr('title')) {
-			$('<p></p>').addClass('title').html($data.attr('title')).appendTo($a);
-			$('<p></p>').addClass('small').html($data.attr('text')).appendTo($a);
-		} else {
-			$('<p></p>').html($data.attr('text')).appendTo($a);
-		}
-		if ($data.attr('boardName')) {
-			$('<h4></h4>').html($data.attr('boardName')).appendTo($a);
-		} else if ($data.attr('createdAt')) {
-			$('<time></time>').text(_gfn.formatRelativeDate($data.attr('createdAt'))).appendTo($a);
-		}
-		if ($data.attr('posvote') || $data.attr('commentCount')) {
+		if (data.like_count || data.comment_count) {
 			var $status = $('<ul></ul>').addClass('status').appendTo($a);
-			$('<li></li>').addClass('vote active').text($data.attr('posvote')).appendTo($status);
-			$('<li></li>').addClass('comment active').text($data.attr('commentCount')).appendTo($status);
+			$('<li></li>').addClass('vote active').text(data.like_count).appendTo($status);
+			$('<li></li>').addClass('comment active').text(data.like_count).appendTo($status);
 		}
 		$('<hr>').appendTo($a);
 	},
-	createListItem: function ($target, $data) {
+	createListItem: function ($target, data, boardName) {
 		var $a = $('<a></a>').addClass('list').appendTo($target);
-		if ($data.attr('boardId') && $data.attr('id')) {
-			$a.attr('href', '/' + $data.attr('boardId') + '/v/' + $data.attr('id'));
+		if (boardName && data.id) {
+			$a.attr('href', '/' + boardName + '/content?id=' + data.id);
 		}
-		$('<time></time>').text(_gfn.formatRelativeDate($data.attr('createdAt'))).appendTo($a);
-		var text = $data.attr('title') ? $data.attr('title') : $data.attr('text');
+		console.log("time", _gfn.formatRelativeDate(data.create_date))
+		$('<time></time>').text(_gfn.formatRelativeDate(data.create_date)).appendTo($a);
+		var text = data.title;
 		$('<p></p>').html(text).appendTo($a);
 		$('<hr>').appendTo($a);
 	},
@@ -101,7 +89,7 @@ $().ready(function () {
 					_fn.submitSearch(this);
 					return false;
 				});
-				var $searchForm = $('<form></form>').addClass('search').appendTo($rightside);
+				var $searchForm = $('<form></form>').addClass('search').prependTo($rightside);
 				$('<input>').attr({
 					type: 'text',
 					name: 'keyword',
@@ -141,91 +129,56 @@ $().ready(function () {
 			var condition = {
 				campus_id: $('#communityCampusId').val()
 			};
-//			$.ajax({
-//				url: _apiServerUrl + '/find/community/webside',
-//				xhrFields: {withCredentials: true},
-//				data: condition,
-//				type: 'POST',
-//				success: function (data) {
-//					var responseCode;
-//					if (!$(data).find('response').children().length) {
-//						responseCode = $(data).find('response').text();
-//					}
-//					if (responseCode === '0') {
-//						callback();
-//					} else {
-//						callback(data);
-//					}
-//				}
-//			});
+			$.ajax({
+				url: 'find/aside/list',
+				type: 'GET',
+				success: function (data) {
+					callback(data);
+				}
+			});
 		},
 		createSide: function (data) {
-			var $response = $(data).find('response');
-			if ($response.find('poparticle').length) {
-				_fn.createPopArticle($response.find('poparticle'));
+			console.log(data);
+			if (data.popularPosts.length) {
+				_fn.createPopArticle(data.popularPosts);
 			}
-			if ($response.find('hotarticle').length) {
-				_fn.createHotArticle($response.find('hotarticle'));
+			if (data.hotPosts.length) {
+				_fn.createHotArticle(data.hotPosts);
 			}
-			_fn.createBestArticle();
-			if ($response.find('news').length) {
-				_fn.createNews($response.find('news'));
-			}
-			if ($response.find('lecture').length) {
-				_fn.createLecture($response.find('lecture'));
+			if (data.evals.length) {
+				_fn.createLecture(data.evals);
 			}
 		},
-		createPopArticle: function ($data) {
+		createPopArticle: function (data) {
+			console.log(data)
 			var $card = $('<div></div>').addClass('card');
 			var $board = $('<div></div>').addClass('board').appendTo($card);
 			var $h3 = $('<h3></h3>').appendTo($board);
 			$('<a></a>').text('실시간 인기 글').appendTo($h3);
-			var $articlesData = $data.find('article');
-			$articlesData.each(function () {
-				_gfn.createArticleItem($board, $(this));
+			$(data).each(function (_, post) {
+				_gfn.createArticleItem($board, post);
 			});
 			$card.appendTo($rightside);
 		},
-		createHotArticle: function ($data) {
+		createHotArticle: function (data) {
 			var $card = $('<div></div>').addClass('card');
 			var $board = $('<div></div>').addClass('board').appendTo($card);
 			var $h3 = $('<h3></h3>').appendTo($board);
 			var $h3a = $('<a></a>').attr('href', '/hotarticle').text('HOT 게시물').appendTo($h3);
 			$('<span></span>').text('더 보기').appendTo($h3a);
-			var $articlesData = $data.find('article');
-			$articlesData.each(function () {
-				_gfn.createListItem($board, $(this));
+			$(data).each(function (_, post) {
+				_gfn.createListItem($board, post, post.board_name);
 			});
 			$card.appendTo($rightside);
 		},
-		createBestArticle: function () {
-			var $card = $('<div></div>').addClass('card');
-			var $board = $('<div></div>').addClass('board').appendTo($card);
-			var $h3 = $('<h3></h3>').appendTo($board);
-			var $h3a = $('<a></a>').attr('href', '/bestarticle').text('BEST 게시판').appendTo($h3);
-			$('<span></span>').text('더 보기').appendTo($h3a);
-			$card.appendTo($rightside);
-		},
-		createNews: function ($data) {
-			var $card = $('<div></div>').addClass('card');
-			var $board = $('<div></div>').addClass('board').appendTo($card);
-			var $h3 = $('<h3></h3>').appendTo($board);
-			$('<a></a>').text('학교 소식').appendTo($h3);
-			var $articlesData = $data.find('article');
-			$articlesData.each(function () {
-				_gfn.createArticleItem($board, $(this));
-			});
-			$card.appendTo($rightside);
-		},
-		createLecture: function ($data) {
+		createLecture: function (data) {
 			var $card = $('<div></div>').addClass('card');
 			var $board = $('<div></div>').addClass('board').appendTo($card);
 			var $h3 = $('<h3></h3>').appendTo($board);
 			var $h3a = $('<a></a>').attr('href', '/lecture').text('최근 강의평').appendTo($h3);
 			$('<span></span>').text('더 보기').appendTo($h3a);
-			var $articlesData = $data.find('article');
-			$articlesData.each(function () {
-				_gfn.createArticleItem($board, $(this));
+			$(data).each(function (_, post) {
+				_gfn.createArticleItem($board, post);
 			});
 			$card.appendTo($rightside);
 		}

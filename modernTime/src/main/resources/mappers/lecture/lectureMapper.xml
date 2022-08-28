@@ -39,15 +39,16 @@
 	<!-- 시간표안 강의 -->
 	<select id="lectureSel"
 		resultType="com.care.moderntime.lecture.dto.LectureDTO">
-		SELECT * FROM lecture WHERE lecture_id =#{string}
+		SELECT * FROM lecture WHERE lecture_id =#{lectureId}
 	</select>
 
 	<select id="scoreavg" resultType="_double">
 		select avg(score) from evaluation where lecture_lecture_id=#{lecture_id}
 	</select>
-<update id="scoreup">
-update lecture set score=#{avg}
-</update>
+	
+	<update id="scoreup" parameterType="_double">
+		update lecture set score=#{avg}
+	</update>
 
 
 
@@ -81,15 +82,19 @@ update lecture set score=#{avg}
 	</select>
 
 	<select id="evaluationCount" resultType="int">
-		SELECT * FROM evaluation
+		SELECT count(*) FROM evaluation
 		WHERE user_id=#{user_id} AND lecture_lecture_id=#{lecture_id}
 	</select>
 
-
-	<!-- 강의평 -->
-	<select id="viewjoin"
-		resultType="com.care.moderntime.lecture.dto.ViewDTO">
-		SELECT e.*, l.type, l.score as lscore, l.teacher,l.name
+	<select id="getLectureInfo" parameterType="String" resultType="com.care.moderntime.lecture.dto.EvalViewDTO">
+		select type, name, teacher, score as lscore from lecture where lecture_id=#{lectureId}
+	</select>
+	
+	
+	<!-- 강의평 불러오기 -->
+	<select id="getAllEval"
+		resultType="com.care.moderntime.lecture.dto.EvalListDTO">
+		SELECT e.score, e.comment
 		FROM lecture l
 		inner join evaluation e on
 		e.lecture_lecture_id=l.lecture_id WHERE
@@ -99,8 +104,8 @@ update lecture set score=#{avg}
 	<!-- max카운터 -->
 	<select id="maxAttend" resultType="String">
 		SELECT attend FROM evaluation
-		WHERE lecture_lecture_id=#{lecture_id} GROUP
-		BY grade ORDER BY count(*)
+		WHERE lecture_lecture_id=#{lecture_id} 
+		GROUP BY grade ORDER BY count(*)
 		DESC limit 1;
 	</select>
 	<select id="maxPro" resultType="String">

@@ -19,13 +19,9 @@ public class ChatListDTO {
 	private String message;
 	private String nickname;
 	private int unreadCount;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-	private LocalDateTime createDate;
+	private String createDate;
 
-	public ChatListDTO(int roomId, int isAnonym, String message, LocalDateTime createDate) {
+	public ChatListDTO(int roomId, int isAnonym, String message, String createDate) {
 		super();
 		this.roomId = roomId;
 		this.isAnonym = isAnonym;
@@ -33,7 +29,7 @@ public class ChatListDTO {
 		this.createDate = createDate;
 	}
 
-	public ChatListDTO(int roomId, int isAnonym, String message, String nickname, LocalDateTime createDate, int unreadCount) {
+	public ChatListDTO(int roomId, int isAnonym, String message, String nickname, String createDate, int unreadCount) {
 		super();
 		this.roomId = roomId;
 		this.isAnonym = isAnonym;

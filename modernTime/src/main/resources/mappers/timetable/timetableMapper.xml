@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.care.moderntime.timetable.dao.TimeTableDAO">
+
+	<select id="getAllLectures" resultType="com.care.moderntime.timetable.dto.LectureDTO">
+		SELECT * FROM lecture
+	</select>
+
+	<select id="getSemesterList" resultType="com.care.moderntime.timetable.dto.SemesterDTO">
+		SELECT * FROM semester;
+	</select>
+
+	<select id="getTableLastId" resultType="String">
+		select max(id) from timetable
+	</select>
+
+	<insert id="makeTimeTable" parameterType="com.care.moderntime.timetable.dto.TimeTableDTO">
+		insert into timetable(id, year, semester, name, user_id) 
+		values(#{id}, #{year}, #{semester}, #{name}, #{userId})
+	
+	</insert>
+	
+	<select id="findTable" resultType="com.care.moderntime.timetable.dto.TimeTableDTO">
+		SELECT id, year, semester, name, DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS createTime, user_id as userId FROM moderntime.timetable where user_id=#{userId} and year=#{year} and semester=#{semester};
+	</select>
+	
+	<select id="findLectureInTable" parameterType="int" resultType="com.care.moderntime.timetable.dto.LectureDTO">
+		select * from lecture where lecture_id in (select lecture_id from timetable_lecture where timetable_id=#{id})
+	</select>
+	
+	<update id="updateTableName">
+		update timetable set name=#{name} where id=#{id}
+	</update>
+
+	<delete id="deleteLecture">
+		delete from timetable_lecture where timetable_id=#{id}
+	</delete>
+	
+	<insert id="insertLecture">
+		insert into timetable_lecture values(#{timetable_id}, #{lecture_id})
+	</insert>
+
+
+</mapper>

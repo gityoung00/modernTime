@@ -5,7 +5,7 @@
 <mapper namespace="com.care.moderntime.user.dao.UserDAO">
 
 <select id="selectId" parameterType="String" resultType="com.care.moderntime.user.dto.UserDTO">
-	select * from user where id=#{id}
+	select id, pw, name, nickname, email, point, is_certificate as isCertificate, is_admin as isAdmin, nick_modify_date as nickModifyDate from user where id=#{id}
 </select>
 
 <select id="selectEmail" parameterType="String" resultType="com.care.moderntime.user.dto.UserDTO">

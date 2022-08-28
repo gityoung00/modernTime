@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.admin.dao.ISchoolAuthDAO">
+
+	<select id="schoolAuth" resultType="com.care.moderntime.admin.dto.SchoolAuthDTO">
+		SELECT c.*, (select is_certificate from user where c.user_id=user.id) as is_checked FROM certification c order by is_checked, id desc;
+	</select>
+	
+	<select id="schoolAuthView" resultType="com.care.moderntime.admin.dto.SchoolAuthDTO">
+		SELECT c.*, (select is_certificate from user where c.user_id=user.id) as is_checked FROM certification c WHERE id=${id}
+	</select>
+	
+	<update id="schoolAuthCheck">
+		UPDATE user SET is_certificate=1 WHERE id = '${id}'
+	</update>
+</mapper>

@@ -28,10 +28,14 @@ $().ready(function () {
 					type: 'POST',
 					data: {"id" : $userid.val(), "pw": $password.val()},
 					success: function(data){
+						console.log(data)
 						if (data == "success"){
 							location.href="/";
-						} else{
+						} else if (data == "admin"){
+							location.href="/admin"
+						} else {
 							alert(data);
+							
 						}
 						
 						

@@ -4,21 +4,37 @@
 <mapper namespace="com.care.moderntime.post.repository.ICommentDAO">
 	
    <insert id="commentWrite" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.CommentDTO">
-      INSERT INTO comment (`is_anonym`, `comment`, `create_date`, `post_id`, `user_id`, `p_comment_id`) VALUES(#{isAnonym}, #{comment}, #{createDate}, #{postId}, #{userId}, #{addCommentId})
+      INSERT INTO comment (`is_anonym`, `comment`, `create_date`, `post_id`, `user_id`, `p_comment_id`, comment_like) VALUES(#{is_anonym}, #{comment}, #{create_date}, #{post_id}, #{user_id}, #{p_comment_id}, #{comment_like})
    </insert>
    
    <select id="commentList" resultType="com.care.moderntime.post.dto.CommentDTO">
-		SELECT * FROM comment WHERE post_id=${postId} AND p_comment_id=0 ORDER BY id ASC
+		SELECT * FROM comment WHERE post_id=${post_id} ORDER BY p_comment_id, id
 	</select>
 	
-	<select id="commentView" resultType="com.care.moderntime.post.dto.CommentDTO" parameterType="int">
-		SELECT * FROM comment WHERE id=#{id}
-	</select>
-	
-	<delete id="commentDelete" parameterType="int">
+	<delete id="commentRemove" parameterType="int">
 		DELETE FROM comment WHERE id=#{id}
 	</delete>
 	
+	<!-- 공감 -->
+	<update id="likeCommentProc" parameterType="com.care.moderntime.post.dto.CommentDTO" >
+		UPDATE comment SET comment_like=#{comment_like} WHERE id=#{id}
+	</update>
 	
+	<insert id="insertCommentLike" parameterType="com.care.moderntime.post.dto.CommentLikeDTO">
+      INSERT INTO user_comment_like VALUES(#{user_id}, #{comment_id})
+   </insert>
+   
+   <select id="countCommentLike" parameterType="com.care.moderntime.post.dto.CommentLikeDTO" resultType="int">
+		SELECT count(*) FROM user_comment_like WHERE user_id=#{user_id} AND comment_id=#{comment_id}
+	</select>
+	<!-- 공감 카운트 -->
+	<select id="tableCountLike" parameterType="com.care.moderntime.post.dto.CommentLikeDTO" resultType="int">
+		SELECT count(*) FROM user_comment_like WHERE comment_id=#{comment_id}
+	</select>
+	
+	<!-- 댓글 수 -->
+	<select id="commentCount" parameterType="com.care.moderntime.post.dto.PostDTO" resultType="int">
+		SELECT count(*) FROM comment WHERE post_id=${id}
+	</select>
    
 </mapper>

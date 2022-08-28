@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:import url="../common/loginRequired.jsp" />
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -189,7 +190,7 @@
 				<dt>취득</dt>
 				<dd class="acquisition">0</dd>
 			</dl>
-			<a class="import">시간표 불러오기</a>
+			<a class="import" style="display: inline;">시간표 불러오기</a>
 		</caption>
 		<thead>
 			<tr>

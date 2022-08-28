@@ -134,137 +134,93 @@ $().ready(function () {
 			$.ajax({
 				url : "evaluation/list",
 				type : "post",
-//				dataType:"text",
 				data:{
 					lecture_id : id
 				},
 				success : function(data){
-					console.log(data);
-					var jsonDatas = JSON.parse(data);
-					var list = "";
-					var list2 = "";
-					var list3 = "";
-					if(jsonDatas.cd.length >= 1 && jsonDatas.cd[0].comment){
-						for (i = 0; i < jsonDatas.cd.length; i++) {
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list = list + "<article>"
-						list = list + "<p class='rate'><span class='star'><span class='on' style='width : "+percent+"'></span></span></p>"
-						list = list + "<p class='text'>" + jsonDatas.cd[i].comment + "</p>"
-						list = list + "</article>"
-					}
-					var percent2 = jsonDatas.cd[0].lscore / 5 * 100 + '%'
-						list2 = list2 +"<div class='rate'>"
-						list2 = list2 +"<span>"
-						list2 = list2 +"<span class='value'>"+jsonDatas.cd[0].lscore+"점</span>"
-						list2 = list2 +"<span class='star'><span class='on' style='width : " + percent2 + "'></span></span>"
-						list2 = list2 +"</span>"						
-						list2 = list2 +"<hr>"						
-						list2 = list2 +"</div>"						
-						list2 = list2 +"<div class='details'>"
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>과제</label>"	
-						list2 = list2 +"<span>"+jsonDatas.cd[0].prac+"</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>조모임</label>"	
-						list2 = list2 +"<span>"+jsonDatas.cd[0].pro+"</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>성적</label>"	
-						list2 = list2 +"<span>"+jsonDatas.cd[0].gra+"</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>출결</label>"	
-						list2 = list2 +"<span>"+jsonDatas.cd[0].attend+"</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>시험횟수</label>"	
-						list2 = list2 +"<span>"+jsonDatas.cd[0].ex+"</span>"
-						list2 = list2 +"</p>"
-						list2 = list2 +"</div>"	
-						
-						list3 = list3 + "<h2>"+ jsonDatas.cd[0].name +"</h2>"
-						list3 = list3 + "<p>"
-						if(jsonDatas.cd[0].type === "1"){							
-						list3 = list3 + "<label>전공여부</label><span>전공</span>"
-						}else{
-						list3 = list3 + "<label>전공여부</label><span>교양</span>"							
+					var data = data.data;
+					console.log(data)
+					$LectureInfo = $("div.side.head")
+					$LectureInfo.empty();
+					
+					$("<h2></h2>").text("개요").appendTo($LectureInfo);
+					// 강의 제목
+					$name = $("<p></p>").appendTo($LectureInfo);
+					$("<label></label>").text("강의명").appendTo($name);
+					$("<span></span>").text(data.name).appendTo($name);
+					// 강의 전공
+					$type = $("<p></p>").appendTo($LectureInfo);
+					$("<label></label>").text("전공").appendTo($type);
+					$("<span></span>").text(data.type== '2' ? '교양' : '전공').appendTo($type)
+					// 강의 교수명
+					$professor = $("<p></p>").appendTo($LectureInfo);
+					$("<label></label>").text("교수명").appendTo($professor);
+					$("<span></span>").text(data.teacher).appendTo($professor);
+					
+					// 평점
+					var percent = data.lscore / 5 * 100 + '%';
+					$rating = $("div.rating");
+					$rating.find("span.value").text(`${data.lscore}점`);
+					$rating.find("span.star > span").addClass("on").css("width", percent);
+					
+					// 강의평 요약
+					$details = $("div.details")
+					$details.empty();
+					$("<h2></h2>").text("강의평").prependTo($("div.side.article"));
+					
+					// 과제
+					$practice = $("<p></p>").appendTo($details);
+					$("<label></label>").text("과제").appendTo($practice);
+					$("<span></span>").text(data.practice ? data.practice : "평가 없음").appendTo($practice);
+					
+					// 조모임
+					$project = $("<p></p>").appendTo($details);
+					$("<label></label>").text("조모임").appendTo($project);
+					$("<span></span>").text(data.project ? data.project : "평가 없음").appendTo($project);
+					
+					// 성적
+					$grade = $("<p></p>").appendTo($details);
+					$("<label></label>").text("성적").appendTo($grade);
+					$("<span></span>").text(data.grade ? data.grade : "평가 없음").appendTo($grade);
+					
+					// 출결
+					$attend = $("<p></p>").appendTo($details);
+					$("<label></label>").text("출결").appendTo($attend);
+					$("<span></span>").text(data.attend ? data.attend : "평가 없음").appendTo($attend);
+					
+					// 시험횟수
+					$exam = $("<p></p>").appendTo($details);
+					$("<label></label>").text("시험횟수").appendTo($exam);
+					$("<span></span>").text(data.exam ? data.exam : "평가 없음").appendTo($exam);
+
+
+					// 강의평					
+					$articles = $("div.articles");
+					let evals = data.evals;
+					if(evals.length > 0){
+						for (i = 0; i < evals.length; i++) {
+							let percent = evals[i].score / 5 * 100 + '%';
+							$article = $("<article></article>").appendTo($articles);
+							// 평점
+							$pRate = $("<p></p>").addClass("rate").appendTo($article);
+							$spanRate = $("<span></span>").addClass("star").appendTo($pRate);
+							$("<span></span>").addClass("on").css("width", percent).appendTo($spanRate);
+							
+							// 강의평
+							$("<p></p>").addClass("text").text(evals[i].comment.replace(/<br \/>/gi, '\n')).appendTo($article);
 						}
-						list3 = list3 + "</p>"
-						list3 = list3 + "<p>"
-						list3 = list3 + "<label>교수명</label><span>"+jsonDatas.cd[0].teacher+"</span>"
-						list3 = list3 + "</p>"
-					}else{
-						list +="<article>평가 없음</article>"
-						var percent2 = jsonDatas.cd[0].score / 5 * 100 + '%'
-						list2 = list2 +"<div class='rate'>"
-						list2 = list2 +"<span>"
-						list2 = list2 +"<span class='value'>"+jsonDatas.cd[0].score+"점</span>"
-						list2 = list2 +"<span class='star'><span class='on' style='width : " + percent2 + "'></span></span>"
-						list2 = list2 +"</span>"						
-						list2 = list2 +"<hr>"						
-						list2 = list2 +"</div>"						
-						list2 = list2 +"<div class='details'>"
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>과제</label>"	
-						list2 = list2 +"<span>평가 없음</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>조모임</label>"	
-						list2 = list2 +"<span>평가 없음</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>성적</label>"	
-						list2 = list2 +"<span>평가 없음</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>출결</label>"	
-						list2 = list2 +"<span>평가 없음</span>"
-						list2 = list2 +"</p>"	
-						list2 = list2 +"<p>"
-						list2 = list2 +"<label>시험횟수</label>"	
-						list2 = list2 +"<span>평가 없음</span>"
-						list2 = list2 +"</p>"
-						list2 = list2 +"</div>"
-						
-						list3 = list3 + "<h2>"+ jsonDatas.cd[0].name +"</h2>"
-						list3 = list3 + "<p>"
-						if(jsonDatas.cd[0].type === "1"){							
-						list3 = list3 + "<label>전공여부</label><span>전공</span>"
-						}else{
-						list3 = list3 + "<label>전공여부</label><span>교양</span>"							
-						}
-						list3 = list3 + "</p>"
-						list3 = list3 + "<p>"
-						list3 = list3 + "<label>교수명</label><span>"+jsonDatas.cd[0].teacher+"</span>"
-						list3 = list3 + "</p>"
+					} else {
+						$emptyDiv = $("<div></div>").addClass("empty").appendTo($articles);
+						$("<p></p>").text("아직 확인할 수 있는 과목이 없습니다.").appendTo($emptyDiv);
 					}
-					$(".articles").html(list);
-					$(".rating").html(list2);
-					$(".side.head").html(list3);
+					
+					
+					
+					
+					
 									
 				},
 			})
-//			$.ajax({
-//				url: _apiServerUrl + '/find/lecture/article/list',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: conditions,
-//				success: function (data) {
-//					var responseCode;
-//					if (!$(data).find('response').children().length) {
-//						responseCode = $(data).find('response').text();
-//					}
-//					if (responseCode === '-3') {
-//						window.alert('접근 권한이 없습니다.');
-//						history.go(-1);
-//					} else if (responseCode === '0' || responseCode === '-1' || responseCode === '-2') {
-//						callback();
-//					} else {
-//						callback(data);
-//					}
-//				}
-//			});
 		},
 		createArticles: function (data) {
 			
@@ -441,44 +397,34 @@ $().ready(function () {
 		ajaxExams: function (callback) {
 			const urlParams = new URL(location.href).searchParams;
 			const id = urlParams.get('id');
-			console.log(id)
-			var conditions = {
-//				school_id: _set.schoolId,
-//				lecture_lecture_id : id,
-				lecture_lecture_id : "1",
-				limit_num: 20
-			};
-			if (_set.subjectId) {
-				conditions.subject_id = _set.subjectId;
-			} else {
-				conditions.lecture_id = _set.lectureId;
-			}
 			$.ajax({
 				url : "exam/list",
 				type:"POST",
 				data : {
-					id : "1",
-					limit_num: 20
+					id : id,
 				},
 				success : function(data){
-					console.log(data)
-					var jsonDatas = data;
+					var jsonDatas = data.data;
+					console.log("jsonDatas", jsonDatas)
 				
-//				JSON.parse(str);
-				var list = "";
-				for (i = 0; i < jsonDatas.cd.length; i++) {
-						list = list + "<article class='exam'>";
-						list = list + "<h3>"+jsonDatas.cd[i].nth+"</h3>";
-						list = list + "<h4>시험전략</h4>";
-						list = list + "<p class='text'>"+jsonDatas.cd[i].strategy+"</p>";
-						list = list + "<h4>문제유형</h4>";
-						list = list + "<p class='types'>"+jsonDatas.cd[i].type+"</p>";
-						list += "</article>";
-						list = list + "<hr>";
-
-			}
-				$(".exams").html(list);
-			}
+	//				JSON.parse(str);
+					$exams = $("div.exams");
+					
+					if (jsonDatas.length > 0){
+						for (i = 0; i < jsonDatas.length; i++) {
+							$article = $("<article></article>").addClass("exam").appendTo($exams);
+							$("<h3></h3>").text(jsonDatas[i].nth).appendTo($article);
+							$("<h4></h4>").text("시험전략").appendTo($article);
+							$("<p></p>").addClass("text").text(jsonDatas[i].strategy.replace(/<br \/>/gi, '\n')).appendTo($article);
+							$("<h4></h4>").text("문제유형").appendTo($article);
+							$("<p></p>").addClass("types").text(jsonDatas[i].type).appendTo($article);
+							$("<hr>").appendTo($exams);						
+						}
+					} else {
+						$emptyDiv = $("<div></div>").addClass("empty").appendTo($exams);
+						$("<p></p>").text("첫번 째 시험 정보를 남겨주세요!").appendTo($emptyDiv);
+					}
+				}
 			});
 		},
 		createExams: function (data) {
@@ -627,56 +573,13 @@ $().ready(function () {
 					project: detail_assessment_team,
 					attend: detail_assessment_attendance,
 					exam: detail_exam_times
-			}),
+				}),
 				success : function(data){
 				console.log(data)
-			}
-			})
-				location.reload();
-//			$.ajax({
-//				url: _apiServerUrl + '/save/lecture/article',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: {
-//					id: _set.lectureId,
-//					text: $textarea.val(),
-//					year: year,
-//					semester: semester,
-//					rate: rate,
-//					is_detail: 'true',
-//					detail_assessment_grade: detail_assessment_grade,
-//					detail_assessment_homework: detail_assessment_homework,
-//					detail_assessment_team: detail_assessment_team,
-//					detail_assessment_attendance: detail_assessment_attendance,
-//					detail_exam_times: detail_exam_times
-//				},
-//				success: function (data) {
-//					var responseCode = $(data).find('response').text();
-//					if (responseCode === '0' || responseCode === '-1' || responseCode === '-3') {
-//						alert('강의평을 등록할 수 없습니다. (' + responseCode + ')');
-//						_fn.hideLoadingDialog();
-//					} else if (responseCode === '-2') {
-//						alert('이미 강의평을 등록한 과목입니다.\n한 과목당 한 개의 강의평만 등록할 수 있습니다.');
-//						_fn.hideLoadingDialog();
-//					} else if (responseCode === '-4') {
-//						alert('하루에 5개 이상 등록할 수 없습니다.\n내일 더 공유 부탁드러요 :D');
-//						_fn.hideLoadingDialog();
-//					} else if (responseCode === '-5') {
-//						alert('학교 인증 후 강의평을 작성할 수 있습니다.\n먼저 학교 인증을 완료해주세요 :D');
-//						_fn.hideLoadingDialog();
-//					} else if (responseCode === '-6') {
-//						alert('강의평 작성 권한이 없습니다.');
-//						_fn.hideLoadingDialog();
-//					} else {
-//						location.reload();
-//					}
-//				},
-//				statusCode: {
-//					401: function () {
-//						alert('로그인 후 이용해주세요!');
-//					}
-//				}
-//			});
+				}
+			});
+			location.reload();
+
 		},
 		showExamForm: function () {
 //			if (_set.authToWrite === 1) {
@@ -721,7 +624,7 @@ $().ready(function () {
 			
 			var params = {
 //				확인 되면 주석 풀것
-//				lecture_lecture_id: id,
+				lecture_lecture_id: id,
 				nth: nth,
 				type: $types,
 				strategy: knowhow
@@ -730,10 +633,11 @@ $().ready(function () {
 			if (questions.length > 0) {
 				params.question = JSON.stringify(questions);
 			}
+			console.log("param: ", params)
 			$.ajax({
 				url : "exam/regist",
 				type:"POST",
-				contentType : "application/json",
+				contentType : "application/json; charset=utf-8;",
 				data:JSON.stringify(params),
 				success : function(data){
 					console.log(data);
@@ -784,3 +688,4 @@ $().ready(function () {
 	};
 	_fn.init();
 });
+;

@@ -1,17 +1,23 @@
 package com.care.moderntime.post.controller;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.care.moderntime.post.dto.CommentDTO;
+import com.care.moderntime.post.dto.CommentLikeDTO;
 import com.care.moderntime.post.dto.PostDTO;
+import com.care.moderntime.post.dto.PostLikeDTO;
 import com.care.moderntime.post.service.ICommentService;
 
 @Controller
@@ -20,50 +26,54 @@ public class CommentController {
 
 	@Autowired ICommentService service;
 	
-	int outId = 0;
-
 	//댓글 작성
 	@ResponseBody
-	@PostMapping("freedomContent/commentWrite")
+	@PostMapping(value="/freedomContent/commentWrite")
 	public String commentWrite(@RequestBody CommentDTO comment, RedirectAttributes ra) {
-//		System.out.println("comment con id : " + comment.getId());
-//		System.out.println("comment con comment : " + comment.getComment());
+		System.out.println("commentWrite(con) id : " + comment.getId());
+		System.out.println("commentWrite(con) post_id : " + comment.getPost_id());
 		ra.addFlashAttribute("id", comment.getId());
 		service.commentWrite(comment);
-		outId = comment.getPostId();
 		return "freedomContent";
 	}
 	
 	//댓글 리스트
-//	@ResponseBody
-//	@PostMapping(value="freedomContent/commentList", produces="application/json; charset=UTF-8")
-//	public String commentList(CommentDTO comment, Model model) {
-//		System.out.println("outId : " + outId);
-//		service.commentList(comment);
-//		model.addAttribute("comment", comment);
-//		return "freedom";
-//	}
 	@ResponseBody
-	@PostMapping("freedomContent/commentList")
-	public String commentList(@RequestBody CommentDTO comment, RedirectAttributes ra) {
-		comment.setPostId(outId);
-//		System.out.println("modify con id : " + post.getId() + ", " + outId);
-//		System.out.println("modify con title : " + post.getTitle());
-		ra.addFlashAttribute("id", comment.getPostId());
-		service.commentList(comment);
+	@PostMapping(value="/commentList", produces="application/json; charset=UTF-8")
+	public Map<String, Object> commentList(@RequestParam int post_id) {
+		System.out.println("commentList(con) post_id : " + post_id);
+		return service.commentList(post_id);
+	}
+	
+	//댓글 삭제
+	@ResponseBody
+	@PostMapping(value = "/commentRemove", produces = "text/html; charset=UTF-8")
+	public String commentRemove(@RequestParam int id) {
+		System.out.println("\ncommentRemove(con) id : " + id);
+		service.commentRemove(id);
 		return "freedomContent";
 	}
-
-	//댓글 삭제
-//	@ResponseBody
-//	@PostMapping(value = "freedomContent/commentDelete", produces = "text/html; charset=UTF-8")
-//	public String deleteProc(@RequestBody PostDTO post, RedirectAttributes ra) {
-////		post.setId(outId);
-//		System.out.println(" ");
-//		System.out.println("delete con id : " + post.getId());
-//		ra.addFlashAttribute("id", post.getId());
-//		service.deleteProc(post);
-//		return "freedomContent";
-//	}
+	
+	//공감
+	@ResponseBody
+	@PostMapping("freedomContent/likeCommentProc")
+	public String likeCommentProc(@RequestBody CommentDTO comment, RedirectAttributes ra) {
+		System.out.println("\nlikeCommentProc(con) id : " + comment.getId());
+		ra.addFlashAttribute("id", comment.getId());
+		service.likeCommentProc(comment);
+		return "freedomContent";
+	}
+	
+	//like테이블에 insert
+	@ResponseBody
+	@PostMapping("freedomContent/insertCommentLike")
+	public String insertCommentLike(@RequestBody CommentLikeDTO commentLike) {
+		System.out.println("insertCommentLike(con) userId : " + commentLike.getUser_id());
+		System.out.println("insertCommentLike(con) comment_id : " + commentLike.getComment_id());
+		String result = service.insertCommentLike(commentLike);
+		if(result.equals("성공"))
+			return result;
+		return result;
+	}
 
 }

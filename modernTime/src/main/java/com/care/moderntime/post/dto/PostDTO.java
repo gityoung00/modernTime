@@ -1,8 +1,13 @@
 package com.care.moderntime.post.dto;
 
 public class PostDTO {
-	private int id, isAnonym, likeCount, boardId;
-	private String userId, title, content, createDate;
+	private int id, is_anonym, like_count, board_id, scrap_count;
+	private String user_id, title, content, create_date, board_name, board_title;
+	
+	private int post_id, comment_count;
+	
+	private int start_num, search_type;
+	private String keyword;
 	
 	public int getId() {
 		return id;
@@ -10,23 +15,29 @@ public class PostDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getLikeCount() {
-		return likeCount;
+	public int getIs_anonym() {
+		return is_anonym;
 	}
-	public void setLikeCount(int likeCount) {
-		this.likeCount = likeCount;
+	public void setIs_anonym(int is_anonym) {
+		this.is_anonym = is_anonym;
 	}
-	public int getBoardId() {
-		return boardId;
+	public int getLike_count() {
+		return like_count;
 	}
-	public void setBoardId(int boardId) {
-		this.boardId = boardId;
+	public void setLike_count(int like_count) {
+		this.like_count = like_count;
 	}
-	public String getUserId() {
-		return userId;
+	public int getBoard_id() {
+		return board_id;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setBoard_id(int board_id) {
+		this.board_id = board_id;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 	public String getTitle() {
 		return title;
@@ -40,18 +51,68 @@ public class PostDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getIsAnonym() {
-		return isAnonym;
+	public String getCreate_date() {
+		return create_date;
 	}
-	public void setIsAnonym(int isAnonym) {
-		this.isAnonym = isAnonym;
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
 	}
-	public String getCreateDate() {
-		return createDate;
+	public int getScrap_count() {
+		return scrap_count;
 	}
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
+	public void setScrap_count(int scrap_count) {
+		this.scrap_count = scrap_count;
 	}
+	
+	
+	public int getPost_id() {
+		return id;
+	}
+	public void setPost_id(int id) {
+		this.id = id;
+	}
+	public int getComment_count() {
+		return comment_count;
+	}
+	public void setComment_count(int comment_count) {
+		this.comment_count = comment_count;
+	}
+	
+	public int getStart_num() {
+		return start_num;
+	}
+	public void setStart_num(int start_num) {
+		this.start_num = start_num;
+	}
+	public int getSearch_type() {
+		return search_type;
+	}
+	public void setSearch_type(int search_type) {
+		this.search_type = search_type;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	public String getBoard_name() {
+		return board_name;
+	}
+	public void setBoard_name(String board_name) {
+		this.board_name = board_name;
+	}
+	public String getBoard_title() {
+		return board_title;
+	}
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

@@ -50,15 +50,12 @@ public class ChatController {
 	// 채팅 리스트 보기 - 최신 채팅 보여주기, 안읽은 메세지 표시
 	@ResponseBody
 	@PostMapping("/message/find/list")
-	public String findMessage() throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
-
+	public Map<String, Object> findMessage() throws JsonProcessingException {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		ArrayList<ChatListDTO> chatList = chatService.getChatAllList();
 		result.put("data", chatList);
-		System.out.println(chatList.get(0).getCreateDate());
-		return mapper.writeValueAsString(result);
+		return result;
 	}
 
 	// 게시글, 댓글에서 쪽지보내기
@@ -85,17 +82,15 @@ public class ChatController {
 	// 채팅방 접속 -> 웹소켓 접속 -> 그동안의 채팅 내용 보여주기
 	@ResponseBody
 	@PostMapping("chat/list")
-	public String getChatList(@RequestParam int roomId) throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+	public Map<String, Object> getChatList(@RequestParam int roomId) throws JsonProcessingException {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		System.out.println("roomId: " + roomId);
 		ArrayList<ChatDTO> chatList = chatService.getChatList(roomId);
 		result.put("data", chatList);
-		System.out.println(chatList.get(0).getCreateDate());
 
-		return mapper.writeValueAsString(result);
+		return result;
 	}
 
 	// 채팅방 접속 -> 웹소켓 접속 -> 그동안의 채팅 내용 보여주기

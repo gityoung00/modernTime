@@ -135,34 +135,34 @@ $().ready(function() {
 				url: 'lecture/list',
 				type: 'POST',
 				success: function(data) {
-					//										alert('asd');
-					//					console.log(data)
-					var jsonDatas = data;//JSON.parse(data);
+					console.log(data)
+					var jsonDatas = data.data;//JSON.parse(data);
 					var list = "";
 					var list2 = "";
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						//						var lectureid = jsonDatas.cd[i].lecture_id;
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list = list + "<a class='lecture' href='evalview?id=" + jsonDatas.cd[i].lectureId + "'>";
-						list = list + "<h3><span class='name'>" + jsonDatas.cd[i].name + "</span> : ";
-//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";
-						list = list + "<span class='professor'>" + jsonDatas.cd[i].teacher + "</span></h3>";
-						//						console.log(jsonDatas.cd[i].userEval)
-						if (jsonDatas.cd[i].userEval == 0) {
-							list = list + "<span class= 'button'><span class='button write' >평가하기</span></span></a>";
-//							list2 = list2 + "<span><a href = 'evaluation?id=" + jsonDatas.cd[i].lectureId + "'><button>평가하기</button></a></span></h3></th></tr>";
-						} else {
-							list = list + "<span class= 'button'><span class='button completed' >평가완료</span></span></a>";
-//							 style='float; font-weight: bold; right; height: 22.67px; box-sizing: border-box;  border-radius: 12px;' 
+					if (jsonDatas.length > 0){
+						for (i = 0; i < jsonDatas.length; i++) {
+							//						var lectureid = jsonDatas.cd[i].lecture_id;
+							var percent = jsonDatas[i].score / 5 * 100 + '%'
+							list = list + "<a class='lecture' href='evalview?id=" + jsonDatas[i].lecture_id + "'>";
+							list = list + "<h3><span class='name'>" + jsonDatas[i].name + "</span> : ";
+							list = list + "<span class='professor'>" + jsonDatas[i].teacher + "</span></h3>";
+							if (jsonDatas[i].userEval == 0) {
+								list = list + "<span class= 'button'><span class='button write' >평가하기</span></span></a>";
+							} else {
+								list = list + "<span class= 'button'><span class='button completed' >평가완료</span></span></a>";
+							}
 						}
+						$(".mylectures").html(list);
+						
+					} else {
+						$emptyDiv = $("<div></div>").addClass("empty").appendTo($(".mylectures"));
+						$("<p></p>").text("아직 확인할 수 있는 과목이 없습니다.").appendTo($emptyDiv);
 					}
-					$(".mylectures").html(list);
-//					$("#bodys3").html(list2);
-					//					callback(data);
 					_fn.ajaxnewLectures();
 				},
 
-				error: function() {
+				error: function(err) {
+					console.log(err)
 					console.log("에러")
 				}
 			});
@@ -173,27 +173,29 @@ $().ready(function() {
 				url: 'lecture/alllist',
 				type: 'POST',
 				success: function(data) {
-					//										alert('asd');
-					//					console.log(data)
-					var jsonDatas = data;//JSON.parse(data);
+					console.log(data)
+					
+					$articles = $(".articles");
+					var jsonDatas = data.data;
 					var list = "";
-					for (i = 0; i < jsonDatas.cd.length; i++) {
-						//						var lectureid = jsonDatas.cd[i].lecture_id;
-						var percent = jsonDatas.cd[i].score / 5 * 100 + '%'
-						list = list + "<a class='article' href = 'evalview?id=" + jsonDatas.cd[i].lecture_id + "'><h2><tr>"
-						list = list + "<th>" + jsonDatas.cd[i].name + " : </th>";
-						list = list + "<td>" + jsonDatas.cd[i].teacher + "</td></tr></h2>";
-						list = list + "<tr><p class='rate'><span class='star'><span class='on' style='width:" + percent + "'></span></span></p></tr>";
-						//						list = list + "<td><a class='star'><span class='on' style='width:" + percent + "'></span></a></td>";
-						list = list + "<p class='info'><span class='semester'>" + jsonDatas.cd[i].listen_date + " </span></p>";
-						list = list + "<p class='text'>" + jsonDatas.cd[i].comment + " </p>";
-						list = list + "</tr></a>"
-					}				//"<a href = 'evaluation?id=" + jsonDatas.cd[i].lectureId + "'><button style='float: right;' >평가하기</button></a>"
-					$(".articles").html(list);
-					//					callback(data);
-//					_fn.ajaxesearch();
+					for (i = 0; i < jsonDatas.length; i++) {
+						
+						var percent = jsonDatas[i].score / 5 * 100 + '%'
+						
+						$article = $("<a></a>").addClass("article").attr("href", `evalview?id=${jsonDatas[i].lecture_id}`).appendTo($articles);
+						// 과목명, 교수명
+						$("<h3></h3>").text(`${jsonDatas[i].name} : ${jsonDatas[i].teacher}`).appendTo($article);
+						// 별점
+						$pStar = $("<p></p>").addClass("rate").appendTo($article);
+						$spanStar = $("<span></span>").addClass("star").appendTo($pStar);						
+						$("<span></span>").addClass("on").css("width", percent).appendTo($spanStar);
+						// 강의평						
+						$("<p></p>").addClass("text").text(jsonDatas[i].comment).appendTo($article);
+
+					}
 				},
-				error: function() {
+				error: function(err) {
+					console.log(err);
 					console.log("에러")
 				}
 			});

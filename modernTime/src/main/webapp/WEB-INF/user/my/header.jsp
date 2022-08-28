@@ -8,7 +8,7 @@
 				<a data-v-5dfb409d="" href="/"><figure data-v-5dfb409d="" class="logoimage"></figure></a>
 				<h1 data-v-5dfb409d="">
 					<p data-v-5dfb409d="" class="subname">에브리타임</p>
-					<p data-v-5dfb409d="" class="name">경북대</p>
+					<p data-v-5dfb409d="" class="name">KG IT대</p>
 				</h1>
 			</div>
 			<nav data-v-5dfb409d="">
@@ -25,13 +25,7 @@
 					<a data-v-5dfb409d="" href="/calculator"> 학점계산기 </a>
 				</div>
 				<div data-v-5dfb409d="" class="">
-					<a data-v-5dfb409d="" href="/friend"> 친구 </a>
-				</div>
-				<div data-v-5dfb409d="" class="">
-					<a data-v-5dfb409d="" href="https://bookstore.everytime.kr"> 책방 </a>
-				</div>
-				<div data-v-5dfb409d="" class="">
-					<a data-v-5dfb409d="" href="https://www.campuspick.com"> 캠퍼스픽 </a>
+					<a data-v-5dfb409d="" href="/bookstore"> 책방 </a>
 				</div>
 			</nav>
 			<div data-v-5dfb409d="" class="account">

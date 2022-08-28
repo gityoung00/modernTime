@@ -6,7 +6,19 @@ $().ready(function () {
 		requiredCredit: 0,
 		gradeType: '',
 		roundingType: 'round',
-		grades: [],
+		grades: [
+			{name: 'A+', value: 4.5},
+			{name: 'A', value:  4.0},
+			{name: 'B+', value: 3.5},
+			{name: 'B', value: 3.0},
+			{name: 'C+', value: 2.5},
+			{name: 'C', value: 2.0},
+			{name: 'D+', value: 1.5},
+			{name: 'D', value: 1.0},
+			{name: 'F', value: 0},
+			{name: 'P', value: 'P'},
+			{name: 'NP', value: 'NP'},
+		],
 		gradeSelectTemplete: $('<select></select>'),
 		reports: [],
 		optionsForSemesterPlot: {
@@ -70,21 +82,25 @@ $().ready(function () {
 			_set.user = Number($('#userId').val()) ? true : false;
 			_set.requiredCredit = Number($('#userRequiredCredit').val());
 			_set.gradeType = $('#userGradeType').val();
+			
+			// 시작
 			_fn.loadReports();
+			
 			//시간표 학기 선택
 			$menu.on('click', 'ol > li', function () {
 				var $li = $(this);
-//				if ($li.data('id')) {
+				if ($li.data('id')) {
 					//선택한 li에 active를 넣고 원래 있었던 것엔 active 지움
 					$li.addClass('active').siblings().removeClass('active');
-					//클릭 시 과목 보여줌
 					_fn.showSubjects($li.data('id'));
-//				}
+				}
 				_fn.scrollToActiveMenu();
 			});
+			//시간표 불러오기 버튼 
 			$container.find('table.subjects > caption > a.import').on('click', function () {
 				_fn.loadPrimaryTableList();
 			});
+			// 학점 변경
 			$container.find('table.subjects > tbody').on('change', 'input, select', function () {
 				_fn.updateReports();
 				_fn.createSubjectsInformation();
@@ -105,9 +121,9 @@ $().ready(function () {
 			$container.find('article.overview > div.gpa p.total').on('click', function () {
 				_fn.changeGradeType();
 			});
-			$container.find('article.overview > div.acquisition p.total').on('click', function () {
-				_fn.showRequiredCreditForm();
-			});
+//			$container.find('article.overview > div.acquisition p.total').on('click', function () {
+//				_fn.showRequiredCreditForm();
+//			});
 			$('#requiredCreditForm').on('submit', function () {
 				_fn.saveRequiredCredit();
 				return false;
@@ -128,56 +144,43 @@ $().ready(function () {
 		},
 		ajaxReports: function (callback) {
 			var parameters = {};
-			if (_set.gradeType !== '') {
-				parameters.grade_type = _set.gradeType;
-			}
-//			$.ajax({
-//				url: _apiServerUrl + '/find/calculator/report/list',
-//				xhrFields: {withCredentials: true},
-//				type: 'POST',
-//				data: parameters,
-//				success: function (data) {
-//					callback(data);
-//				}
-//			});
+			$.ajax({
+				url: '/calculator/find/report/list',
+				xhrFields: {withCredentials: true},
+				type: 'GET',
+				success: function (data) {
+					console.log(data);
+					callback(data);
+				}
+			});
 		},
 		createReports: function (data) {
-			var $school_id = $(data).find('school').attr('id');
-			var $rounding_type = $(data).find('school').attr('roundingType');
-			var $grades = $(data).find('grades');
 			var $reports = $(data).find('reports');
-			_set.roundingType = $rounding_type;
-			$grades.find('grade').each(function () {
-				var $grade = $(this);
-				var value = $grade.attr('value');
-				_set.grades.push({
-					name: $grade.attr('name'),
-					value: (isNaN(Number(value)) ? value : Number(value) / 10)
-				});
-			});
-			$reports.find('report').each(function () {
+			_set.roundingType = "round";
+
+			$(data.data).each(function (_, report) {
 				var $report = $(this);
 				var subjects = [];
-				$report.find('subject').each(function () {
-					var $subject = $(this);
+				$(report.subjects).each(function (_, subject) {
 					subjects.push({
-						name: $subject.attr('name'),
-						credit: Number($subject.attr('credit')),
-						grade: $subject.attr('grade'),
-						isMajor: $subject.attr('is_major') === 'true'
+						name: subject.name,
+						credit: Number(subject.credit),
+						grade: subject.grade,
+						isMajor: subject.is_major === 1
 					});
 				});
 				_set.reports.push({
-					id: $report.attr('id'),
-					semester: $report.attr('semester'),
-					credit_calc: Number($report.attr('credit_calc')), // 수강 학점 (평균 계산용, P/NP 제외)
-					credit: Number($report.attr('credit')), // 취득 학점 (F, NP 제외)
-					sum: Number($report.attr('sum')) / 10, // 취득 성적 합계
-					credit_major_calc: Number($report.attr('credit_major_calc')),
-					credit_major: Number($report.attr('credit_major')),
-					sum_major: Number($report.attr('sum_major')) / 10,
+					id: report.id,
+					// 1학년1학기...
+					semester: report.semester,
+					// 총학점
+					credit_calc: Number(report.credit_calc), // 수강 학점 (평균 계산용, P/NP 제외)
+					credit: Number(report.credit), // 취득 학점 (F, NP 제외)
+					sum: Number(report.sum) / 10, // 취득 성적 합계
+					credit_major_calc: Number(report.credit_major_calc),
+					credit_major: Number(report.credit_major),
+					sum_major: Number(report.sum_major) / 10,
 					subjects: subjects,
-					school_id: Number($school_id)
 				});
 			});
 			_fn.setGradeSelectTemplete();
@@ -191,6 +194,7 @@ $().ready(function () {
 			var $subjects = $container.find('table.subjects');
 			var $tbody = $subjects.find('tbody');
 			var report = _.findWhere(_set.reports, { id: $tbody.data('id') });
+			console.log(report)
 			report.subjects = [];
 			$tbody.find('tr').each(function () {
 				var $tr = $(this);
@@ -233,9 +237,10 @@ $().ready(function () {
 			_fn.createSemester();
 		},
 		saveReports: function () {
-			if (!_set.user) {
-				return false;
-			}
+			console.log("saveReports")
+//			if (!_set.user) {
+//				return false;
+//			}
 			var $subjects = $container.find('table.subjects');
 			var $tbody = $subjects.find('tbody');
 			var report = _.findWhere(_set.reports, { id: $tbody.data('id') });
@@ -253,11 +258,13 @@ $().ready(function () {
 				credits: _.pluck(report.subjects, 'credit'),
 				is_majors: _.pluck(report.subjects, 'isMajor'),
 			};
+			console.log(data);
 			$.ajax({
-				url: _apiServerUrl + '/save/calculator/report/list',
+				url: '/calculator/save/report/list',
 				xhrFields: {withCredentials: true},
 				type: 'POST',
-				data: data
+				contentType: 'application/json; charset=UTF-8',
+				data: JSON.stringify(data)
 			});
 		},
 		setGradeSelectTemplete: function () {
@@ -295,9 +302,9 @@ $().ready(function () {
 			var data = _fn.calculateOverview();
 			$gpa.find('p.value').text(data.gpa);
 			$gpa.find('p.total').text('/ ' + data.perfectGrade);
-			if (_set.gradeType !== '') {
-				$('<span></span>').text('변경').addClass('button').appendTo($gpa.find('p.total'));
-			}
+//			if (_set.gradeType !== '') {
+//				$('<span></span>').text('변경').addClass('button').appendTo($gpa.find('p.total'));
+//			}
 			$major.find('p.value').text(data.gpaMajor);
 			$major.find('p.total').text('/ ' + data.perfectGrade);
 			$acquisition.find('p.value').text(data.acquiredCredit);

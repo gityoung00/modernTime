@@ -4,19 +4,24 @@
 <mapper namespace="com.care.moderntime.post.repository.IPostDAO">
 
    <insert id="writeProc" useGeneratedKeys="true" keyProperty="id" parameterType="com.care.moderntime.post.dto.PostDTO">
-      INSERT INTO post (`user_id`, `title`, `content`, `is_anonym`, `create_date`, `like_count`, `board_id`) VALUES(#{userId}, #{title}, #{content}, #{isAnonym}, #{createDate}, #{likeCount}, #{boardId})
+      INSERT INTO post (`user_id`, `title`, `content`, `is_anonym`, `create_date`, `like_count`, `board_id`, `scrap_count`) VALUES(#{user_id}, #{title}, #{content}, #{is_anonym}, #{create_date}, #{like_count}, #{board_id}, #{scrap_count})
    </insert>
    
    <select id="listProc" resultType="com.care.moderntime.post.dto.PostDTO">
-		SELECT * FROM post ORDER BY id DESC
+		SELECT * FROM post WHERE board_id = (select id as board_id from board where name=#{name}) ORDER BY id DESC limit #{start_num}, 10;
+	</select>
+	
+   <select id="hotArticleProc" resultType="com.care.moderntime.post.dto.PostDTO">
+		SELECT * FROM post WHERE like_count > 10 ORDER BY id DESC limit #{start_num}, 10;
 	</select>
 	
 	<select id="viewProc" resultType="com.care.moderntime.post.dto.PostDTO" parameterType="int">
-		SELECT * FROM post WHERE id=#{id}
+<!-- 		SELECT * FROM post WHERE id=#{id} -->
+		SELECT p.*, b.name as board_name, b.title as board_title  FROM post p join board b on p.board_id=b.id WHERE p.id=#{id};
 	</select>
 	
 	<update id="modifyProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
-		UPDATE post SET title=#{title}, content=#{content} WHERE id=#{id}
+		UPDATE post SET title=#{title}, content=#{content}, is_anonym=#{is_anonym} WHERE id=#{id}
 	</update>
 	
 	<delete id="deleteProc" parameterType="int">
@@ -26,18 +31,54 @@
 	<select id="searchProc" resultType="com.care.moderntime.post.dto.PostDTO">
 		SELECT * FROM post
 		<choose>
-			<!-- <when test="sel == '3'">WHERE hashtag LIKE '%'||#{search}||'%'</when> -->
-			<when test="sel == '2'">WHERE title LIKE "%",#{search},"%"</when>
-			<when test="sel == '1'">WHERE content LIKE "%",#{search},"%"</when>
+			<when test="search_type == 4">WHERE title LIKE CONCAT('%',#{keyword},'%') OR content LIKE CONCAT('%',#{keyword},'%')</when>
+			<!-- <when test="sel == '3'">WHERE hashtag LIKE '%',#{search},'%'</when> -->
+			<when test="search_type == 2">WHERE title LIKE CONCAT('%',#{keyword},'%')</when>
+			<when test="search_type == 1">WHERE content LIKE CONCAT('%',#{keyword},'%')</when>
 		</choose>
 		 ORDER BY id DESC 
 	</select>
 	
+	<!-- 공감 -->
 	<update id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO" >
-		UPDATE post SET like_count=#{likeCount} WHERE id=#{id}
+		UPDATE post SET like_count=like_count+1 WHERE id=#{id}
 	</update>
-	<!-- <insert id="likeProc" parameterType="com.care.moderntime.post.dto.PostDTO">
-      INSERT INTO user_post_like VALUES(#{userId}, #{postId})
-   </insert> -->
+	
+	<insert id="insertLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO">
+      INSERT INTO user_post_like VALUES(#{user_id}, #{post_id})
+   </insert>
    
+   <select id="countLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_post_like WHERE user_id=#{user_id} AND post_id=#{post_id}
+	</select>
+	<!-- 공감 카운트 -->
+	<select id="tableCountLike" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_post_like WHERE post_id=#{post_id}
+	</select>
+	
+	<!-- 스크랩 -->
+	<update id="scrapProc" parameterType="int" >
+		UPDATE post SET scrap_count=scrap_count+1 WHERE id=#{id}
+	</update>
+	
+	<insert id="insertScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO">
+      INSERT INTO user_scrap VALUES(#{user_id}, #{post_id})
+   </insert>
+   
+   <select id="countScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_scrap WHERE user_id=#{user_id} AND post_id=#{post_id}
+	</select>
+	<!-- 스크랩 카운트 -->
+	<select id="tableCountScrap" parameterType="com.care.moderntime.post.dto.PostLikeDTO" resultType="int">
+		SELECT count(*) FROM user_scrap WHERE post_id=#{post_id}
+	</select>
+	
+   <!-- 댓글 수 -->
+	<select id="commentCount" parameterType="com.care.moderntime.post.dto.PostDTO" resultType="int">
+		SELECT count(*) FROM comment WHERE post_id=#{id}
+	</select>
+	<update id="commentCnt" parameterType="com.care.moderntime.post.dto.PostDTO" >
+		UPDATE post SET comment_count=#{comment_count} WHERE id=#{id}
+	</update>
+	
 </mapper>

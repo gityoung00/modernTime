@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.care.moderntime.admin.dao.IALectureDAO">
+
+	<select id="isLecture" resultType="int">
+		SELECT count(*) FROM lecture WHERE lecture_id=#{id}
+	</select>
+
+	<insert id="lectureRegist" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		INSERT INTO lecture(lecture_id, type, name, teacher, place, credit, lecture_time, max_student, week1,
+		starttime1, endtime1, week2, starttime2, endtime2)
+		VALUES(#{lecture_id}, #{type}, #{name}, #{teacher}, #{place}, #{credit}, #{lecture_time}, #{max_student},
+		#{week1}, #{starttime1}, #{endtime1}, #{week2}, #{starttime2}, #{endtime2})
+	</insert>
+
+	<select id="lectureList" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture
+	</select>
+
+	<select id="lectureSel" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture WHERE lecture_id=${id}
+	</select>
+
+	<select id="lectureFilter" resultType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		SELECT * FROM lecture WHERE
+		<!-- 검색어 -->
+		<if test='keywordType.equals("name")'>
+			 name like CONCAT('%', #{keyword}, '%') 
+		</if>
+		<if test='keywordType.equals("professor")'>
+			teacher like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test='keywordType.equals("place")'>
+			place like CONCAT('%', #{keyword}, '%')
+		</if>
+		
+		<if test="!keywordType.equals('')">and</if>
+		
+		<!-- 타입 -->
+		<foreach collection="type" item="num" index="index" separator="," open="type in (" close=") ">#{num}</foreach>
+
+		<!-- 학점 -->
+		<foreach collection="credit" item="num" index="index" separator="," open="and credit in (" close=") ">#{num}</foreach>
+		
+		<!-- 정렬 -->
+		<if test='order.equals("name")'>
+			order by name
+		</if>
+		<if test='order.equals("rateDesc")'>
+			order by score desc
+		</if>
+		<if test='order.equals("rateAsc")'>
+			order by score
+		</if>
+		<if test='order.equals("popularDesc")'>
+			order by listen_student desc
+		</if>
+		<if test='order.equals("popularAsc")'>
+			order by listen_student
+		</if>
+		
+	</select>
+
+	<delete id="lectureDelete">
+		DELETE FROM lecture WHERE lecture_id = #{id}
+	</delete>
+
+	<update id="lectureUpdate" parameterType="com.care.moderntime.admin.dto.LectureRegistDTO">
+		UPDATE lecture
+		SET
+		type=#{type},name=#{name},teacher=#{teacher},place=#{place},credit=#{credit},lecture_time=#{lecture_time},max_student=#{max_student},score=#{score},
+		week1=#{week1},starttime1=#{starttime1},endtime1=#{endtime1},week2=#{week2},starttime2=#{starttime2},endtime2=#{endtime2}
+		
+		WHERE lecture_id =${lecture_id}
+	</update>
+
+</mapper>
