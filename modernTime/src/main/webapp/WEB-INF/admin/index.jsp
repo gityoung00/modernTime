@@ -72,7 +72,7 @@
 			</section>
 			<section data-v-cd48e290="">
 				<h2 data-v-cd48e290="">이용 관리</h2>
-				<a data-v-cd48e290="" href="/admin/notice" class="item">공지사항 관리</a> <a data-v-cd48e290="" href="/lecture/regist" class="item">강의 관리</a>
+				<a data-v-cd48e290="" href="/admin/notice" class="item">공지사항 관리</a> <a data-v-cd48e290="" href="/admin/lecture/regist" class="item">강의 관리</a>
 			</section>
 			<section data-v-cd48e290="">
 				<h2 data-v-cd48e290="">계정 관리</h2>

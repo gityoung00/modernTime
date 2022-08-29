@@ -41,7 +41,6 @@
 	</div>
 	<div class="wrap articles">
 
-		<a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a>
 	<div id="noticeList">	
 	<!-- 공지리스트 -->
 

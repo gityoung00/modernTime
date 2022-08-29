@@ -22,7 +22,7 @@
 	</select>
 	
 	<select id="findEvaluation" resultType="com.care.moderntime.dto.AsideEvalDTO">
-		 select id, score, comment, 
+		 select e.lecture_lecture_id as id, score, comment, 
 		 (select name from lecture where e.lecture_lecture_id=lecture.lecture_id) as lectureName 
 		 from evaluation e order by id desc limit 4
 	</select>

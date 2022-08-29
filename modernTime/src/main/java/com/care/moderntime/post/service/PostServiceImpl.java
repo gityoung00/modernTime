@@ -72,7 +72,7 @@ public class PostServiceImpl implements IPostService{
 	@Override
 	public Map<String, Object> listProc(int start_num, String name) {
 		System.out.println("\n(ser)start_num : " + start_num);
-		System.out.println("(ser)board_id : " + name);
+		System.out.println("(ser)name : " + name);
 		
 		PostDTO post = new PostDTO();
 		post.setStart_num(start_num);

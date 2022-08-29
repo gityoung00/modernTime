@@ -2,10 +2,12 @@ if (!_gfn) var _gfn = {};
 _gfn = _.extend(_gfn, {
 	createArticleItem: function ($target, data) {
 		var $a = $('<a></a>').addClass('article').appendTo($target);
-		if (data.id && data.board_name) {
-			$a.attr('href', '/' + data.board_name + '/content?id=' + data.id);
+		console.log(data)
+		if (data.id) {
+			$a.attr('href', `freedomContent?id=${data.id}`);
 		} else if (data.lectureName) {
-			$a.attr('href', '/lecture/view/' + data.id);
+			console.log(data)
+			$a.attr('href', '/evalview?id=' + data.id);
 			var rate = Number(data.score) / 5 * 100 + '%';
 			var $star = $('<span></span>').addClass('star').appendTo($a);
 			$('<span></span>').addClass('on').width(rate).appendTo($star);
@@ -33,7 +35,7 @@ _gfn = _.extend(_gfn, {
 	},
 	createListItem: function ($target, data, boardName) {
 		var $a = $('<a></a>').addClass('list').appendTo($target);
-		if (boardName && data.id) {
+		if (data.id) {
 			$a.attr('href', '/freedomContent?id=' + data.id);
 		}
 		console.log("time", _gfn.formatRelativeDate(data.create_date))

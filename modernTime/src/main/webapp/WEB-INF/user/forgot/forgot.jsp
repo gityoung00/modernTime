@@ -34,7 +34,7 @@
 <script type="text/javascript" src="/js/extensions.underscore-min.js"></script>
 <script src="/js/forgot/forgot.id.js"></script>
 </head>
-<body>
+<body style="background-color:#fff">
 
 	<div data-v-6935f461="">
 		<div data-v-6935f461="" class="container">
