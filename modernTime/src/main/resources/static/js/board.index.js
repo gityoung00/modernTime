@@ -748,7 +748,7 @@ $().ready(function () {
 				start_num: _set.startNum,
 				search_type: _set.searchType,
 				keyword: _set.keyword,
-				board_id: 1
+				board_id: 'freedom'
 			};
 			console.log(_set.startNum)
 			if (_set.moiminfo) {

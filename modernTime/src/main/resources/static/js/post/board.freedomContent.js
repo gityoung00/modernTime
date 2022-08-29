@@ -344,6 +344,7 @@ $().ready(function () {
 						type: 'POST',
 						contentType: "application/json; charset=UTF-8",
 						data: JSON.stringify({
+							id: _set.boardId,
 							title: $freedomModifyTitle.val(),
 							content: $freedomModifyContent.val(),
 							is_anonym: isAnonym
