@@ -13,6 +13,6 @@
 		SELECT * FROM examinfo WHERE user_id=#{userId} AND lecture_lecture_id=#{lectureId}
 	</select>
 	<select id="examList" resultType="com.care.moderntime.lecture.dto.ExamDTO">
-		SELECT * FROM examinfo WHERE lecture_lecture_id=#{lectureId}
+		SELECT * FROM examinfo WHERE lecture_lecture_id=#{lectureId} ORDER BY id DESC
 	</select>
 </mapper>
