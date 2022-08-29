@@ -12,6 +12,6 @@
 	</select>
 	
 	<update id="schoolAuthCheck">
-		UPDATE user SET is_certificate=1 WHERE id = '${id}'
+		UPDATE user SET is_certificate=1 WHERE id =#{id}
 	</update>
 </mapper>

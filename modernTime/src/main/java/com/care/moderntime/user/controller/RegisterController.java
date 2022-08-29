@@ -49,7 +49,7 @@ public class RegisterController {
 		}
 
 		// token이 double이면(5분이내로 동일한 이메일에 링크를 보냈으면) ->
-		token = emailService.makeToken(email);
+		token = emailService.makeToken(email, "register");
 		if (token == null) {
 			return "tokendouble";
 		}

@@ -28,6 +28,7 @@ public class SchoolAuthService {
 		return view;
 	}
 	public String schoolAuthCheck(String id) {
+		System.out.println("schoolAuthCheck id: " + id);
 		authDao.schoolAuthCheck(id);
 		return "인증 완료";
 	}

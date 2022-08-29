@@ -41,12 +41,13 @@ public class EmailService {
 		}
 		return true;
 	}
-
-	public String makeToken(String email) {
+	
+	// 토큰 생성
+	public String makeToken(String email, String type) {
 		String token = null;
 
 		// 이미 보낸 토큰이 있다면
-		int tokenDoubleCheck = emailDao.getTokenCount(email);
+		int tokenDoubleCheck = emailDao.getTokenCount(email, type);
 		if (tokenDoubleCheck > 0) {
 			return null;
 		}
@@ -54,6 +55,7 @@ public class EmailService {
 		// 이메일 토큰 객체 생성
 		EmailTokenDTO dto = new EmailTokenDTO();
 		dto.setEmail(email);
+		dto.setType(type);
 
 		// 토큰 생성
 		token = UUID.randomUUID().toString();
@@ -74,6 +76,7 @@ public class EmailService {
 		return token;
 	}
 
+	// 이메일 보내기
 	public void sendMail(String pageName, String email, String titleName, Map<String, Object> variables) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true);

@@ -9,7 +9,7 @@
 </select>
 
 <select id="getTokenCount" parameterType="String" resultType="Integer">
-	select count(*) from email_token where email=#{email} and is_expired=0 and NOW() <![CDATA[ < ]]> expired_date
+	select count(*) from email_token where email=#{email} and type=#{type} and is_expired=0 and NOW() <![CDATA[ < ]]> expired_date
 </select>
 
 <select id="getEmail" parameterType="String" resultType="com.care.moderntime.user.dto.EmailTokenDTO">
@@ -21,7 +21,7 @@
 </update>
 
 <insert id="setToken" parameterType="com.care.moderntime.user.dto.EmailTokenDTO">
-	insert into email_token(email, token, is_expired, expired_date) values(#{email}, #{token}, #{isExpired}, #{expiredDate})
+	insert into email_token(email, token, type, is_expired, expired_date) values(#{email}, #{token}, #{type}, #{isExpired}, #{expiredDate})
 </insert>
 
 

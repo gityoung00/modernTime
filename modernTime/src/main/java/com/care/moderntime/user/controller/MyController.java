@@ -152,7 +152,7 @@ public class MyController {
 		}
 
 		// token이 double이면(5분이내로 동일한 이메일에 링크를 보냈으면) ->
-		String token = emailService.makeToken(email);
+		String token = emailService.makeToken(email, "findEmail");
 		if (token == null) {
 			return "이미 해당 메일로 인증 링크를 전송하였습니다. 메일함을 확인해주세요.";
 		}

@@ -92,7 +92,7 @@ public class ForgotController {
 			return "이메일이 일치하지 않습니다.";
 		}
 		// 토큰 생성
-		String token = emailService.makeToken(email);
+		String token = emailService.makeToken(email, "findPw");
 
 		// token이 빈 값이면 -> 이미 보낸 메일이면
 		if (token == null)

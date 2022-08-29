@@ -3,9 +3,15 @@ package com.care.moderntime.user.dto;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class EmailTokenDTO {
 	private String email;
 	private String token;
+	private String type;
 	private int isExpired;
 	private LocalDateTime expiredDate;
 	
@@ -19,41 +25,6 @@ public class EmailTokenDTO {
 		this.expiredDate = expiredDate;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public int getIsExpired() {
-		return isExpired;
-	}
-
-	public void setIsExpired(int isExpired) {
-		this.isExpired = isExpired;
-	}
-
-	public LocalDateTime getExpiredDate() {
-		return expiredDate;
-	}
-
-	public void setExpiredDate(LocalDateTime expiredDate) {
-		this.expiredDate = expiredDate;
-	}
-	
-	
-	
-	
 	
 	
 }

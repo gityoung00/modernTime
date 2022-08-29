@@ -49,6 +49,7 @@ public class MyService {
 			return "login";
 		}
 		int count = certDao.checkCertification(id);
+		System.out.println("count: " + count);
 		if (count > 0) {
 			return "submit";
 		}
@@ -58,7 +59,7 @@ public class MyService {
 	public boolean isCertificate() {
 		String id = (String) session.getAttribute("id");
 		int result = certDao.isCertificate(id);
-		return (result == 1) ? true : false;
+		return (result > 0) ? true : false;
 	}
 	
 	// 닉네임 설정 기간 비교
