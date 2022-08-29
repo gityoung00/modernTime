@@ -40,13 +40,13 @@
 			</h1>
 		</div>
 	</aside>
-	<div class="wrap title" style="margin: auto; margin-top: 25px;">
+	<div class="wrap title">
 		<h1>
 			<a href="/notice">공지사항</a>
 		</h1>
 		<hr>
 	</div>
-	<div class="wrap articles" style="margin: auto; margin-top: 25px;">
+	<div class="wrap articles">
 
 		<a id="writeArticleButton" style="display: block;">새 글을 작성해주세요!</a>
 	<div id="noticeList">	

@@ -23,6 +23,7 @@ import com.care.moderntime.bookstore.service.BookStoreService;
 @Controller
 public class BookStoreController {
 	@Autowired BookStoreService bss;
+	@Autowired HttpSession session;
 	
 	@RequestMapping("bookstore")
 	public String bookstore() {
@@ -80,7 +81,8 @@ public class BookStoreController {
 	@ResponseBody
 	@PostMapping("bookSellListMy")
 	public String bookSellListMy(@RequestParam(required=false)String id) {
-		String data = bss.bookSellListMy(id);
+		String userId = (String)session.getAttribute("id");
+		String data = bss.bookSellListMy(userId);
 		System.out.println("BookStoreController : " + data);
 		return data;
 	}
